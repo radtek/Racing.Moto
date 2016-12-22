@@ -8,15 +8,15 @@ namespace Racing.Moto.Data
 {
     public abstract class BaseServcice : IDisposable
     {
-        protected TransportationDbContext _context = null;
-        protected TransportationDbContext db
+        protected RacingDbContext _context = null;
+        protected RacingDbContext db
         {
             get { return _context; }
         }
 
         public BaseServcice()
         {
-            _context = new TransportationDbContext();
+            _context = new RacingDbContext();
         }
 
         public void Dispose()

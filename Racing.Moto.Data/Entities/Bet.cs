@@ -9,23 +9,27 @@ using System.Threading.Tasks;
 namespace Racing.Moto.Data.Entities
 {
     /// <summary>
-    /// PK: 每10分钟一场PK
+    /// 下注表: 计算时使用
     /// </summary>
-    [Table(nameof(Racing))]
-    public partial class Racing
+    [Table(nameof(Bet))]
+    public partial class Bet
     {
         [Key]
-        public long RacingId { get; set; }
-        
-        /// <summary>
-        /// 开始时间
-        /// </summary>
-        public DateTime BeginTime { get; set; }
+        public int BetId { get; set; }
 
         /// <summary>
-        /// 结束时间
+        /// 名次: 行
         /// </summary>
-        public DateTime EndTime { get; set; }
+        public int Rank { get; set; }
 
+        /// <summary>
+        /// 第几号/单/双: 列
+        /// </summary>
+        public int Num { get; set; }
+
+        /// <summary>
+        /// 倍率
+        /// </summary>
+        public decimal RateVal { get; set; }
     }
 }

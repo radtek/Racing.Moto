@@ -16,7 +16,12 @@ namespace Racing.Moto.Data.Entities
     {
         [Key]
         public int RateId { get; set; }
-        
+
+        /// <summary>
+        /// 名次
+        /// </summary>
+        public int Rank { get; set; }
+
         /// <summary>
         /// 1号
         /// </summary>
