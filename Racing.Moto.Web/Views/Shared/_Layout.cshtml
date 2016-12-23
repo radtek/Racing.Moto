@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <title>@ViewBag.Title - PK拾</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="@ViewBag.Description">
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+        @*<link href="~/RacingMotoCss" rel="stylesheet" />*@
+        <script src="~/RacingMotoJs"></script>
+    </head>
+    <body>
+        <!-- Page Content -->
+        <div class="container">
+
+            @RenderBody()
+
+            <!-- Footer -->
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>Copyright &copy; PK拾 2015 - @DateTime.Now.Year</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        @Scripts.Render("~/jQuery")
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

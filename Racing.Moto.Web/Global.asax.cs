@@ -7,6 +7,8 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
 using System.Web.Http;
+using Racing.Moto.Web.Jobs;
+using System.Web.Optimization;
 
 namespace Racing.Moto.Web
 {
@@ -17,7 +19,13 @@ namespace Racing.Moto.Web
             // 在应用程序启动时运行的代码
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);            
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            MvcHandler.DisableMvcResponseHeader = true;
+
+            //启动定时任务
+            JobScheduler.Start();
         }
     }
 }
