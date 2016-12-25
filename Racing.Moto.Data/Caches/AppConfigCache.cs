@@ -36,6 +36,8 @@ namespace Racing.Moto.Data.Caches
 
         #region Static
 
+        #region 比赛时段设置
+
         /// <summary>
         /// 开盘时长, 按秒记录
         /// </summary>
@@ -67,6 +69,45 @@ namespace Racing.Moto.Data.Caches
         {
             get { return GetAppConfig("Racing_Lottery_Seconds") != null ? int.Parse(GetAppConfig("Racing_Lottery_Seconds").Value) : 0; }
         }
+
+        #endregion
+
+
+        #region 奖金分配比率
+
+        /// <summary>
+        /// 管理员利润比率
+        /// </summary>
+        public static decimal Rate_Admin
+        {
+            get { return GetAppConfig("Rate_Admin") != null ? decimal.Parse(GetAppConfig("Rate_Admin").Value) : 0; }
+        }
+
+        /// <summary>
+        /// 总代理利润比率
+        /// </summary>
+        public static decimal Rate_Main_Agent
+        {
+            get { return GetAppConfig("Rate_Main_Agent") != null ? decimal.Parse(GetAppConfig("Rate_Main_Agent").Value) : 0; }
+        }
+
+        /// <summary>
+        /// 代理利润比率
+        /// </summary>
+        public static decimal Rate_Agent
+        {
+            get { return GetAppConfig("Rate_Agent") != null ? decimal.Parse(GetAppConfig("Rate_Agent").Value) : 0; }
+        }
+
+        /// <summary>
+        /// 会员利润比率
+        /// </summary>
+        public static decimal Rate_Member
+        {
+            get { return GetAppConfig("Rate_Member") != null ? decimal.Parse(GetAppConfig("Rate_Member").Value) : 0; }
+        }
+
+        #endregion
 
         #endregion
     }

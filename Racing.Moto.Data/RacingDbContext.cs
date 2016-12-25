@@ -42,8 +42,10 @@ namespace Racing.Moto.Data
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
-        public virtual DbSet<PK> PK { get; set; }
         public virtual DbSet<Rate> Rate { get; set; }
+        public virtual DbSet<PK> PK { get; set; }
+        public virtual DbSet<PKUser> PKUser { get; set; }
+        public virtual DbSet<Bet> Bet { get; set; }
         #endregion
     }
 }

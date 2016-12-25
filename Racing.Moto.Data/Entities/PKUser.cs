@@ -11,11 +11,11 @@ namespace Racing.Moto.Data.Entities
     /// <summary>
     /// 用户下注表
     /// </summary>
-    [Table(nameof(UserPK))]
-    public partial class UserPK
+    [Table(nameof(PKUser))]
+    public partial class PKUser
     {
         [Key]
-        public int UserPKId { get; set; }
+        public int PKUserId { get; set; }
 
         /// <summary>
         /// 用户下注信息Json: 10行 14列

@@ -18,18 +18,25 @@ namespace Racing.Moto.Data.Entities
         public int BetId { get; set; }
 
         /// <summary>
-        /// 名次: 行
+        /// 名次: 行(1-10名)
         /// </summary>
         public int Rank { get; set; }
 
         /// <summary>
-        /// 第几号/单/双: 列
+        /// 押注的车号/大小/单双: 列(1-14, 1-10为第几号, 11-12为大小,13-14为单双)
         /// </summary>
         public int Num { get; set; }
+        
+        /// <summary>
+        /// 金额
+        /// </summary>
+        public decimal Amount { get; set; }
 
         /// <summary>
-        /// 倍率
+        /// 用户下注表
         /// </summary>
-        public decimal RateVal { get; set; }
+        [ForeignKey(nameof(PKUser))]
+        public int PKUserId { get; set; }
+        public PKUser PKUser { get; set; }
     }
 }

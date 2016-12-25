@@ -56,5 +56,9 @@ namespace Racing.Moto.Data.Entities
         /// 开奖时长, 按秒记录
         /// </summary>
         public int LotterySeconds { get; set; }
+
+        /// <summary>
+        /// 当前期倍率
+        public virtual ICollection<PKRate> PKRates { get; set; }
     }
 }
