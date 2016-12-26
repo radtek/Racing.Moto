@@ -56,7 +56,7 @@
     <Compile Include="BaseServcice.cs" />
     <Compile Include="Caches\RateCache.cs" />
     <Compile Include="Caches\AppConfigCache.cs" />
-    <Compile Include="Constants\RateConst.cs" />
+    <Compile Include="Constants\BetConst.cs" />
     <Compile Include="Entities\Bet.cs" />
     <Compile Include="Entities\AppConfig.cs" />
     <Compile Include="Entities\PKRate.cs" />

@@ -9,6 +9,7 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
         @*<link href="~/RacingMotoCss" rel="stylesheet" />*@
+        @Scripts.Render("~/jQuery")
         <script src="~/RacingMotoJs"></script>
     </head>
     <body>
@@ -27,7 +28,6 @@
             </footer>
         </div>
 
-        @Scripts.Render("~/jQuery")
         @RenderSection("scripts", required: false)
     </body>
 </html>

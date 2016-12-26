@@ -47,7 +47,7 @@ namespace Racing.Moto.Data.Services
             // 按押注金额升序排列既最小的奖金支出(不包括大小单双)
             motoOrders = motoAmounts.OrderBy(m => m.Amount).Select(m => m.MotoNo).ToList();
             var bonus = betAmount;
-            var position = -1;
+            var position = 0;
             while (bonus > betAmount * 0.68M)
             {
                 bonus = CalculateBonus(pk, motoOrders);
@@ -131,11 +131,13 @@ namespace Racing.Moto.Data.Services
         /// 重新排序
         /// 第一名向下冒泡
         /// </summary>
-        /// <param name="orders">[2,5,1,3,4,7,8,6,,10,9]</param>
+        /// <param name="orders">[2,5,1,3,4,7,8,6,10,9]</param>
         /// <param name="position">当前位置</param>
         /// <returns></returns>
         private List<int> ReOrder(List<int> orders, int position)
         {
+            position = position % (orders.Count - 1);
+
             var temp = orders[position];
             orders[position] = orders[position + 1];
             orders[position + 1] = temp;
