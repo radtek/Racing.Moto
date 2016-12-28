@@ -179,6 +179,7 @@
     <Content Include="Scripts\AngularJs\angular.js" />
     <Content Include="Scripts\AngularJs\angular.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\PK\Racing.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -189,11 +190,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="SignalR\Hubs\PkTickerHub.cs" />
+    <Compile Include="SignalR\Hubs\PKTickerHub.cs" />
     <Compile Include="Jobs\JobScheduler.cs" />
     <Compile Include="Jobs\PkJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SignalR\PkTicker.cs" />
+    <Compile Include="SignalR\PKTicker.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +221,12 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Racing.Moto.Data\Racing.Moto.Data.csproj">
+      <Project>{87286C96-6A07-49D0-B162-225195DAD6F5}</Project>
+      <Name>Racing.Moto.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

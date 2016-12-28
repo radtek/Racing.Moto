@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using Racing.Moto.Data.Models;
+using Racing.Moto.Data.Services;
 using Racing.Moto.Web.SignalR.Hubs;
 using System;
 using System.Collections.Concurrent;
@@ -10,22 +12,22 @@ using System.Web;
 
 namespace Racing.Moto.Web.SignalR
 {
-    public class PkTicker
+    public class PKTicker
     {
         // Singleton instance
-        private readonly static Lazy<PkTicker> _instance = new Lazy<PkTicker>(() => new PkTicker(GlobalHost.ConnectionManager.GetHubContext<PkTickerHub>().Clients));
+        private readonly static Lazy<PKTicker> _instance = new Lazy<PKTicker>(() => new PKTicker(GlobalHost.ConnectionManager.GetHubContext<PKTickerHub>().Clients));
         //private readonly ConcurrentDictionary<string, Stock> _pkInfo = new ConcurrentDictionary<string, Stock>();
-        private List<int> _pkInfo = new List<int>();
+        private PKModel _pkInfo = new PKModel();
 
         private readonly object _updatePkInfoLock = new object();
 
 
-        private readonly TimeSpan _updateInterval = TimeSpan.FromSeconds(5);
+        private readonly TimeSpan _updateInterval = TimeSpan.FromSeconds(5);//每5秒钟推送一次
         private readonly Timer _timer;
         private volatile bool _updatingPkInfo = false;
 
         #region property
-        public static PkTicker Instance
+        public static PKTicker Instance
         {
             get
             {
@@ -39,33 +41,21 @@ namespace Racing.Moto.Web.SignalR
         }
         #endregion
 
-        private PkTicker(IHubConnectionContext<dynamic> clients)
+        private PKTicker(IHubConnectionContext<dynamic> clients)
         {
             Clients = clients;
 
-            _pkInfo.Clear();
-
-            _pkInfo = GetRandomPkInfo(10);
-
-            //_stocks.Clear();
-            //var stocks = new List<Stock>
-            //{
-            //    new Stock { Symbol = "MSFT", Price = 30.31m },
-            //    new Stock { Symbol = "APPL", Price = 578.18m },
-            //    new Stock { Symbol = "GOOG", Price = 570.30m }
-            //};
-            //stocks.ForEach(stock => _stocks.TryAdd(stock.Symbol, stock));
-
-            _timer = new Timer(UpdatePkInfo, null, _updateInterval, _updateInterval);
-
+            _pkInfo = GetCurrentPKInfo();
+            
+            _timer = new Timer(UpdatePKInfo, null, _updateInterval, _updateInterval);
         }
 
-        public List<int> GetPkInfo()
+        public PKModel GetPKInfo()
         {
             return _pkInfo;
         }
 
-        public void UpdatePkInfo(object state)
+        public void UpdatePKInfo(object state)
         {
             lock (_updatePkInfoLock)
             {
@@ -74,7 +64,7 @@ namespace Racing.Moto.Web.SignalR
                     _updatingPkInfo = true;
 
                     // 获取最新数据
-                    _pkInfo = GetRandomPkInfo(10);
+                    _pkInfo = GetCurrentPKInfo();
 
                     BroadcastPkInfo(_pkInfo);
 
@@ -83,28 +73,49 @@ namespace Racing.Moto.Web.SignalR
             }
         }
 
-        private List<int> GetRandomPkInfo(int len)
+        private PKModel GetCurrentPKInfo()
         {
-            var info = new List<int>();
+            //var pkService = new PKService();
 
-            int rep = 1;
-            int num = 0;
-            long num2 = DateTime.Now.Ticks + rep;
-            rep++;
-            Random random = new Random(((int)(((ulong)num2) & 0xffffffffL)) | ((int)(num2 >> rep)));
-            for (int i = 0; i < len; i++)
-            {
-                num = Convert.ToInt32((char)(0x30 + ((ushort)(random.Next() % 10))));
+            //var info = pkService.GetCurrentPKModel();
 
-                info.Add(num);
-            }
+            //// 不存在PK, 创新新的PK
+            //if (info == null)
+            //{
+            //    var pk = pkService.AddPK(DateTime.Now);
+            //    info = new PKModel
+            //    {
+            //        PK = pk,
+            //        PassedSeconds = (DateTime.Now - pk.BeginTime).Seconds
+            //    };
+            //}
 
-            return info;
+            //return info;
+            return new PKModel();
         }
 
-        private void BroadcastPkInfo(List<int> order)
+        //private List<int> GetPkInfo(int len)
+        //{
+        //    var info = new List<int>();
+
+        //    int rep = 1;
+        //    int num = 0;
+        //    long num2 = DateTime.Now.Ticks + rep;
+        //    rep++;
+        //    Random random = new Random(((int)(((ulong)num2) & 0xffffffffL)) | ((int)(num2 >> rep)));
+        //    for (int i = 0; i < len; i++)
+        //    {
+        //        num = Convert.ToInt32((char)(0x30 + ((ushort)(random.Next() % 10))));
+
+        //        info.Add(num);
+        //    }
+
+        //    return info;
+        //}
+
+        private void BroadcastPkInfo(PKModel pkModel)
         {
-            Clients.All.updatePkInfo(order);
+            Clients.All.updatePkInfo(pkModel);
         }
     }
 }

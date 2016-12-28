@@ -12,7 +12,7 @@ namespace Racing.Moto.Data.Caches
     {
         private static List<Rate> _rates = null;
 
-        public static List<Rate> GetAllAppConfigs()
+        public static List<Rate> GetAllRates()
         {
             if (_rates == null)
             {
@@ -24,7 +24,7 @@ namespace Racing.Moto.Data.Caches
 
         public static Rate GetRate(int rank)
         {
-            var rate = GetAllAppConfigs().Where(a => a.Rank == rank).FirstOrDefault();
+            var rate = GetAllRates().Where(a => a.Rank == rank).FirstOrDefault();
 
             return rate;
         }

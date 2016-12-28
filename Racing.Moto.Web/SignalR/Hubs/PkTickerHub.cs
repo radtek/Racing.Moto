@@ -4,29 +4,30 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using Racing.Moto.Data.Models;
 
 namespace Racing.Moto.Web.SignalR.Hubs
 {
     //[HubName("PkTickerHub")]
-    public class PkTickerHub : Hub
+    public class PKTickerHub : Hub
     {
         //public void Send(string name, string message, string extention)
         //{
         //    // Call the addNewMessageToPage method to update clients.
         //    Clients.All.addNewMessageToPage(name, message, extention);
         //}
-        private readonly PkTicker _pkicker;
+        private readonly PKTicker _pkicker;
 
-        public PkTickerHub() : this(PkTicker.Instance) { }
+        public PKTickerHub() : this(PKTicker.Instance) { }
 
-        public PkTickerHub(PkTicker pkTicker)
+        public PKTickerHub(PKTicker pkTicker)
         {
             _pkicker = pkTicker;
         }
 
-        public List<int> GetPkInfo()
+        public PKModel GetPKInfo()
         {
-            return _pkicker.GetPkInfo();
+            return _pkicker.GetPKInfo();
         }
     }
 }

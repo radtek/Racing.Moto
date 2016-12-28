@@ -39,35 +39,43 @@ namespace Racing.Moto.Data.Caches
         #region 比赛时段设置
 
         /// <summary>
-        /// 开盘时长, 按秒记录
+        /// 开盘时长, 按秒记录, 默认8m
         /// </summary>
         public static int Racing_Opening_Seconds
         {
-            get { return GetAppConfig("Racing_Opening_Seconds") != null ? int.Parse(GetAppConfig("Racing_Opening_Seconds").Value) : 0; }
+            get { return GetAppConfig("Racing_Opening_Seconds") != null ? int.Parse(GetAppConfig("Racing_Opening_Seconds").Value) : 60 * 8; }
         }
 
         /// <summary>
-        /// 封盘时长, 按秒记录
+        /// 封盘时长, 按秒记录, 默认1m
         /// </summary>
         public static int Racing_Close_Seconds
         {
-            get { return GetAppConfig("Racing_Close_Seconds") != null ? int.Parse(GetAppConfig("Racing_Close_Seconds").Value) : 0; }
+            get { return GetAppConfig("Racing_Close_Seconds") != null ? int.Parse(GetAppConfig("Racing_Close_Seconds").Value) : 60; }
         }
 
         /// <summary>
-        /// 比赛时长, 按秒记录
+        /// 比赛时长, 按秒记录, 50s
         /// </summary>
         public static int Racing_Game_Seconds
         {
-            get { return GetAppConfig("Racing_Game_Seconds") != null ? int.Parse(GetAppConfig("Racing_Game_Seconds").Value) : 0; }
+            get { return GetAppConfig("Racing_Game_Seconds") != null ? int.Parse(GetAppConfig("Racing_Game_Seconds").Value) : 50; }
         }
 
         /// <summary>
-        /// 开奖时长, 按秒记录
+        /// 开奖时长, 按秒记录, 10s
         /// </summary>
         public static int Racing_Lottery_Seconds
         {
-            get { return GetAppConfig("Racing_Lottery_Seconds") != null ? int.Parse(GetAppConfig("Racing_Lottery_Seconds").Value) : 0; }
+            get { return GetAppConfig("Racing_Lottery_Seconds") != null ? int.Parse(GetAppConfig("Racing_Lottery_Seconds").Value) : 10; }
+        }
+
+        /// <summary>
+        /// 比赛总时长
+        /// </summary>
+        public static int Racing_Total_Seconds
+        {
+            get { return Racing_Opening_Seconds + Racing_Close_Seconds + Racing_Game_Seconds + Racing_Lottery_Seconds; }
         }
 
         #endregion

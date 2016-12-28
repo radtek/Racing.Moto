@@ -35,7 +35,7 @@ namespace Racing.Moto.Data.Entities
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime Createime { get; set; }
+        public DateTime CreateTime { get; set; }
 
         /// <summary>
         /// 开盘时长, 按秒记录
@@ -56,6 +56,11 @@ namespace Racing.Moto.Data.Entities
         /// 开奖时长, 按秒记录
         /// </summary>
         public int LotterySeconds { get; set; }
+
+        /// <summary>
+        /// 名次
+        /// </summary>
+        public List<int> Ranks { get; set; }
 
         /// <summary>
         /// 当前期倍率

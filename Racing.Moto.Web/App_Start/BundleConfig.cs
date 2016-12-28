@@ -18,6 +18,9 @@ namespace Racing.Moto.Web
             bundles.Add(new ScriptBundle("~/jQuery")
                 .Include("~/Scripts/jQuery/jquery-{version}.js")
             );
+            bundles.Add(new ScriptBundle("~/Racing")
+                .Include("~/Scripts/PK/Racing.js")
+            );
 
             //bundles.Add(new StyleBundle("~/RacingMotoCss")
             //    .Include("~/Contents/Site.css")
