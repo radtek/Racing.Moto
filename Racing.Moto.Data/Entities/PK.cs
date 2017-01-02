@@ -59,8 +59,10 @@ namespace Racing.Moto.Data.Entities
 
         /// <summary>
         /// 名次
+        /// 05,08,01,07,10,09,03,02,05,04
         /// </summary>
-        public List<int> Ranks { get; set; }
+        [StringLength(100)]
+        public string Ranks { get; set; }
 
         /// <summary>
         /// 当前期倍率

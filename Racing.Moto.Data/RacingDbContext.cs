@@ -27,7 +27,40 @@ namespace Racing.Moto.Data
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
-            //modelBuilder.Entity<Container>().Property(e => e.PlanTotalRecAmount).HasPrecision(18, 4);
+            #region Rate
+            modelBuilder.Entity<Rate>().Property(e => e.Number1).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Number2).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Number3).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Number4).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Number5).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Number6).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Number7).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Number8).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Number9).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Number10).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Big).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Small).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Odd).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Even).HasPrecision(18, 2);
+            #endregion
+            #region PKRate
+            modelBuilder.Entity<PKRate>().Property(e => e.Number1).HasPrecision(18, 2);
+            modelBuilder.Entity<PKRate>().Property(e => e.Number2).HasPrecision(18, 2);
+            modelBuilder.Entity<PKRate>().Property(e => e.Number3).HasPrecision(18, 2);
+            modelBuilder.Entity<PKRate>().Property(e => e.Number4).HasPrecision(18, 2);
+            modelBuilder.Entity<PKRate>().Property(e => e.Number5).HasPrecision(18, 2);
+            modelBuilder.Entity<PKRate>().Property(e => e.Number6).HasPrecision(18, 2);
+            modelBuilder.Entity<PKRate>().Property(e => e.Number7).HasPrecision(18, 2);
+            modelBuilder.Entity<PKRate>().Property(e => e.Number8).HasPrecision(18, 2);
+            modelBuilder.Entity<PKRate>().Property(e => e.Number9).HasPrecision(18, 2);
+            modelBuilder.Entity<PKRate>().Property(e => e.Number10).HasPrecision(18, 2);
+            modelBuilder.Entity<PKRate>().Property(e => e.Big).HasPrecision(18, 2);
+            modelBuilder.Entity<PKRate>().Property(e => e.Small).HasPrecision(18, 2);
+            modelBuilder.Entity<PKRate>().Property(e => e.Odd).HasPrecision(18, 2);
+            modelBuilder.Entity<PKRate>().Property(e => e.Even).HasPrecision(18, 2);
+            #endregion
+
+            modelBuilder.Entity<Bet>().Property(e => e.Amount).HasPrecision(18, 2);
         }
 
         #region Logging
@@ -44,8 +77,12 @@ namespace Racing.Moto.Data
         public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<Rate> Rate { get; set; }
         public virtual DbSet<PK> PK { get; set; }
+        public virtual DbSet<PKRate> PKRate { get; set; }
         public virtual DbSet<PKUser> PKUser { get; set; }
+        public virtual DbSet<PKUserBonus> PKUserBonus { get; set; }
         public virtual DbSet<Bet> Bet { get; set; }
+        public virtual DbSet<Post> Post { get; set; }
+        public virtual DbSet<Log> Log { get; set; }
         #endregion
     }
 }
