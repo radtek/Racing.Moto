@@ -31,4 +31,10 @@
     // Start the connection
     $.connection.hub.start().done(init);
 
+
+    // moto run
+    var motoRun = {
+        PKInfo: null,
+
+    };
 });
