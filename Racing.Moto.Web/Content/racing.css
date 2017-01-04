@@ -1,0 +1,80 @@
+﻿.board {
+    width:1200px;
+	height:480px;
+    position:relative;
+    margin: auto;
+    left: 0;
+    top: 0px;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+    border: #fff 5px solid;
+}
+
+.roadbed {
+    background: url(/images/road.png) repeat-x;
+    width: 2400px;
+    height: 480px;
+    position: absolute;
+    left: -1200px;
+    top: 0px;
+}
+
+.road {
+    width: 1200px;
+    height: 480px;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: -160px;
+}
+
+/*.roadRun {
+    -webkit-transform: translateZ(0);
+    -webkit-animation: roadRun 2s linear infinite;
+}
+
+@-webkit-keyframes roadRun {
+    100% {
+        -webkit-transform: translateX(1200px);
+    }
+}*/
+
+.hero {
+    -webkit-transition: -webkit-transform .5s ease;
+    width: 142px;
+    height: 162px;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    display: none;
+}
+
+    .hero .body {
+        background: url(../resource/hero.png) no-repeat 50% 0, url(../resource/heroDied.png) no-repeat -1000% 0, url(../resource/heroSuper.png) no-repeat -1000% 0;
+        height: 100%;
+    }
+
+    .hero .light {
+        -webkit-animation: light .6s ease infinite;
+        background: url(../resource/carLight.png) no-repeat 50% 0;
+        width: 142px;
+        height: 57px;
+        position: absolute;
+        top: -35px;
+        left: -4px;
+    }
+
+@-webkit-keyframes light {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

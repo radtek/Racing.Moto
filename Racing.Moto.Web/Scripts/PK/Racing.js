@@ -12,8 +12,8 @@
             //    var stock = formatStock(this);
             //    $stockTableBody.append(rowTemplate.supplant(stock));
             //});
-            console.log(pkInfo);
-            $stockTable.html(pkInfo);
+            //console.log(pkInfo);
+            $stockTable.append("aaa");
         });
     }
 
@@ -24,17 +24,28 @@
 
         //$stockTableBody.find('tr[data-symbol=' + stock.Symbol + ']')
         //    .replaceWith($row);
-        console.log(pkInfo);
-        $stockTable.html(pkInfo);
+        //console.log(pkInfo);
+        //$stockTable.html(pkInfo);
+        $stockTable.append("aaa");
     }
 
     // Start the connection
     $.connection.hub.start().done(init);
 
+    $("#roadBg").MyFloatingBg({ direction: 5, speed: 5 });
 
-    // moto run
-    var motoRun = {
+
+    // moto
+    var motoRacing = {
         PKInfo: null,
-
+        run: function (pkInfo) {
+            // new racing
+            if (pkInfo.PK.PKId != motoRacing.PKInfo.PK.PKId) {
+                motoRacing.PKInfo = pkInfo;
+            }
+        },
+        calculatSpeed: function () {
+        },
     };
+
 });

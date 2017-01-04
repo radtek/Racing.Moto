@@ -27,20 +27,19 @@ namespace Racing.Moto.Data.Services
         /// <returns></returns>
         public PKModel GetCurrentPKModel()
         {
-            var currentPk = db.PK.Where(pk => pk.BeginTime <= DateTime.Now && DateTime.Now <= pk.EndTime).FirstOrDefault();
+            var currentPK = db.PK.Where(pk => pk.BeginTime <= DateTime.Now && DateTime.Now <= pk.EndTime).FirstOrDefault();
 
-            if (currentPk != null)
+            // 不存在PK, 创新新的PK
+            if (currentPK == null)
             {
-                return new PKModel
-                {
-                    PK = currentPk,
-                    PassedSeconds = (DateTime.Now - currentPk.BeginTime).Seconds
-                };
+                currentPK = AddPK(DateTime.Now);
             }
-            else
+
+            return new PKModel
             {
-                return null;
-            }
+                PK = currentPK,
+                PassedSeconds = (DateTime.Now - currentPK.BeginTime).Seconds
+            };
         }
 
         public PK AddPK(DateTime beginTime)

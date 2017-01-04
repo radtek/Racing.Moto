@@ -13,7 +13,7 @@ namespace Racing.Moto.Data.Models
     public class PKModel
     {
         /// <summary>
-        /// 比赛开始时间
+        /// 比赛
         /// </summary>
         public PK PK { get; set; }
         

@@ -78,18 +78,7 @@ namespace Racing.Moto.Web.SignalR
             //var pkService = new PKService();
 
             //var info = pkService.GetCurrentPKModel();
-
-            //// 不存在PK, 创新新的PK
-            //if (info == null)
-            //{
-            //    var pk = pkService.AddPK(DateTime.Now);
-            //    info = new PKModel
-            //    {
-            //        PK = pk,
-            //        PassedSeconds = (DateTime.Now - pk.BeginTime).Seconds
-            //    };
-            //}
-
+            
             //return info;
             return new PKModel();
         }
