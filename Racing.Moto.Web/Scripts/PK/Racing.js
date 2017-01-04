@@ -32,7 +32,7 @@
     // Start the connection
     $.connection.hub.start().done(init);
 
-    $("#roadBg").MyFloatingBg({ direction: 5, speed: 5 });
+    $("#roadBg").FloatingBg({ direction: 5, speed: 5 });
 
 
     // moto
@@ -44,7 +44,13 @@
                 motoRacing.PKInfo = pkInfo;
             }
         },
-        calculatSpeed: function () {
+        calculateSpeed: function (ranks) {
+            var pk = motoRacing.PKInfo.PK;
+
+            //ranks: 3,2,5,6,8,7,10,1,9,4
+            var rankArr = pk.Ranks.split(',');
+            //var 
+
         },
     };
 
