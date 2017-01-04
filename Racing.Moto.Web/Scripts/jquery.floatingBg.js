@@ -12,10 +12,10 @@
             sign1 = "-";            sign2 = "";
         }        else if (direction == 5) {//right
             sign1 = "+";            sign2 = "";
-        }        else if (direction == 4) {//up
+        }        else if (direction == 6) {//up
             sign1 = "";            sign2 = "+";
-        }        else if (direction == 5) {//right
-            sign1 = "+";            sign2 = "-";
+        }        else if (direction == 7) {//right
+            sign1 = "";            sign2 = "-";
         }        $(this).each(function () {
             var bg = $(this).attr("bg");            $(this).css("background", "url('" + bg + "')");            $(this).attr("sign1", sign1);            $(this).attr("sign2", sign2);            $(this).attr("cnt", 1);            doShift($(this));
         });
