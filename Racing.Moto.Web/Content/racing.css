@@ -29,6 +29,10 @@
     margin-left: -160px;
 }
 
+.moto {
+    z-index:1000;height:20px;width:50px;position:absolute;right:10px;
+}
+
 /*.roadRun {
     -webkit-transform: translateZ(0);
     -webkit-animation: roadRun 2s linear infinite;
@@ -40,7 +44,7 @@
     }
 }*/
 
-.hero {
+/*.hero {
     -webkit-transition: -webkit-transform .5s ease;
     width: 142px;
     height: 162px;
@@ -77,4 +81,4 @@
     100% {
         opacity: 1;
     }
-}
+}*/
