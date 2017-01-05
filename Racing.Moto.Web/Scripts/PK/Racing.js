@@ -26,13 +26,16 @@
         //    .replaceWith($row);
         //console.log(pkInfo);
         //$stockTable.html(pkInfo);
-        $stockTable.append("aaa");
+
+        //$stockTable.append("aaa");
+
+        pkInfo.PK = { PKId: 1 };
+
+        motoRacing.run(pkInfo);
     }
 
     // Start the connection
     $.connection.hub.start().done(init);
-
-    $("#roadBg").FloatingBg({ direction: 5, speed: 5 });
 
 
     // moto
@@ -40,9 +43,19 @@
         PKInfo: null,
         run: function (pkInfo) {
             // new racing
-            if (pkInfo.PK.PKId != motoRacing.PKInfo.PK.PKId) {
+            if (motoRacing.PKInfo == null || pkInfo.PK.PKId != motoRacing.PKInfo.PK.PKId) {
                 motoRacing.PKInfo = pkInfo;
+
+                // road moving
+                $("#roadBg").floatingBg({ direction: 5, speed: 5 });
+
+                // moto moving
+
             }
+
+            //test
+            //$("#roadBg").floatingBg("destroy");
+            //$("#roadBg").floatingBg({ direction: 5, speed: 5 });
         },
         calculateSpeed: function (ranks) {
             var pk = motoRacing.PKInfo.PK;

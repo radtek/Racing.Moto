@@ -20,9 +20,12 @@
     <div class="board">
         <div id="roadBg" class="roadbed roadRun"  bg="/images/road.png"></div>
 
-        <div id="red" style="z-index:1000;height:50px;width:50px;background-color:red;position:absolute;right:10px;top:100px"></div>
-        <div id="blue" style="z-index:1000;height:50px;width:50px;background-color:blue;position:absolute;right:10px;top:150px"></div>
-        <div id="yellow" style="z-index:1000;height:50px;width:50px;background-color:yellow;position:absolute;right:10px;top:200px"></div>
+        <div id="motos">
+            <div id="red" style="z-index:1000;height:50px;width:50px;background-color:red;position:absolute;right:10px;top:100px"></div>
+            <div id="blue" style="z-index:1000;height:50px;width:50px;background-color:blue;position:absolute;right:10px;top:150px"></div>
+            <div id="yellow" style="z-index:1000;height:50px;width:50px;background-color:yellow;position:absolute;right:10px;top:200px"></div>
+        </div>
+
         <div class="road">
             @*<div class="left"></div>
             <div class="enemy"></div>*@
@@ -42,7 +45,7 @@
         $("#yellow").animate({ right: 1000 }, {
             duration: 24000, easing: 'easeInQuad',
             complete: function () {
-                $("#roadBg").FloatingBg.stop();
+                $("#roadBg").floatingBg("destroy");
             }
         });
         //$("#blue").animate({ left: 1500 }, 800);
