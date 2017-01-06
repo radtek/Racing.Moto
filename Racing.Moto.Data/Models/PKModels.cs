@@ -22,5 +22,11 @@ namespace Racing.Moto.Data.Models
         /// 新用户打开页面时, 计算赛车的位置
         /// </summary>
         public int PassedSeconds { get; set; }
+
+        /// <summary>
+        /// 比赛剩余的秒数: 当前时间 GameSeconds - PassedSeconds 的秒数
+        /// 新用户打开页面时, 计算赛车的位置
+        /// </summary>
+        public int RemainSeconds { get; set; }
     }
 }

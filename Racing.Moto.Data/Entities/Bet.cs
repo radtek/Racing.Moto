@@ -33,10 +33,17 @@ namespace Racing.Moto.Data.Entities
         public decimal Amount { get; set; }
 
         /// <summary>
-        /// 用户下注表
+        /// 用户
         /// </summary>
-        [ForeignKey(nameof(PKUser))]
-        public int PKUserId { get; set; }
-        public PKUser PKUser { get; set; }
+        [ForeignKey(nameof(User))]
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
+
+        /// <summary>
+        /// PK
+        /// </summary>
+        [ForeignKey(nameof(PK))]
+        public int PKId { get; set; }
+        public virtual PK PK { get; set; }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Racing.Moto.Data.Entities
 {
     /// <summary>
-    /// 用户下注表
+    /// 用户下注表: 绑定时使用
     /// </summary>
     [Table(nameof(PKUser))]
     public partial class PKUser

@@ -76,6 +76,7 @@
     <Compile Include="Membership\MembershipProvider.cs" />
     <Compile Include="Membership\SqlMembershipProvider.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BetModels.cs" />
     <Compile Include="Models\PKModels.cs" />
     <Compile Include="Models\RankModels.cs" />
     <Compile Include="RacingDbContext.cs" />

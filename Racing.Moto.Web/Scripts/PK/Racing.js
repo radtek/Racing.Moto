@@ -1,17 +1,9 @@
 ﻿$(function () {
 
-    var ticker = $.connection.pKTickerHub, // the generated client-side hub proxy
-        $stockTable = $('#stockTable'),
-        $stockTableBody = $stockTable.find('tbody'),
-        rowTemplate = '<tr data-symbol="{Symbol}"><td>{Symbol}</td><td>{Price}</td><td>{DayOpen}</td><td>{Direction} {Change}</td><td>{PercentChange}</td></tr>';
+    var ticker = $.connection.pKTickerHub;
 
     function init() {
         ticker.server.getPKInfo().done(function (pkInfo) {
-            //$stockTableBody.empty();
-            //$.each(stocks, function () {
-            //    var stock = formatStock(this);
-            //    $stockTableBody.append(rowTemplate.supplant(stock));
-            //});
             //console.log(pkInfo);
             $stockTable.append("aaa");
         });
@@ -19,16 +11,8 @@
 
     // Add a client-side hub method that the server will call
     ticker.client.updatePKInfo = function (pkInfo) {
-        //var displayStock = formatStock(stock),
-        //    $row = $(rowTemplate.supplant(displayStock));
-
-        //$stockTableBody.find('tr[data-symbol=' + stock.Symbol + ']')
-        //    .replaceWith($row);
-        //console.log(pkInfo);
-        //$stockTable.html(pkInfo);
-
-        //$stockTable.append("aaa");
-
+        // test
+        pkInfo.RemainSeconds = 25;
         pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 30 };
 
         motoRacing.run(pkInfo);
@@ -37,10 +21,10 @@
     // Start the connection
     $.connection.hub.start().done(init);
 
-
     // moto
     var motoRacing = {
         PKInfo: null,
+        RoadLength: 1000,
         Colors: ['red', 'blue', 'yellow', 'green', 'gray', 'aqua', 'blueviolet', 'brown', 'Highlight', 'aquamarine', 'teal'],
         //Easings: ['easeInQuad', 'easeInQuart', 'easeInOutSine', 'easeOutSine', 'easeOutQuad', 'linear', 'easeInCirc', 'easeInOutQuad', 'easeOutCubic', 'easeInOutCubic'],
         Easings: ['easeInOutSine', 'easeOutSine', 'linear', 'swing', 'easeInOutSine', 'easeInOutQuad', 'swing', 'easeInOutSine', 'easeOutSine', 'easeInOutQuad'],
@@ -50,7 +34,7 @@
                 motoRacing.PKInfo = pkInfo;
 
                 // road moving
-                $("#roadBg").floatingBg({ direction: 5, speed: 5, backgroud: '/images/road.png', });
+                $('#roadBg').floatingBg({ direction: 5, speed: 5, backgroud: '/images/road.png', });
 
                 // moto append
                 motoRacing.append();
@@ -75,27 +59,31 @@
                     ? { duration: speeds[i].Duration, easing: speeds[i].Easing }
                     : {
                         duration: speeds[i].Duration, easing: speeds[i].Easing, complete: function () {
-                            $("#roadBg").floatingBg("destroy");
+                            $('#roadBg').floatingBg('destroy');
                         }
                     };
 
-                $('#moto' + (i + 1)).animate({ right: 1000 }, param);
+                $('#moto' + (i + 1)).animate({ right: motoRacing.RoadLength }, param);
             }
         },
         calculateSpeeds: function () {
             var speeds = [];
-
-            var pk = motoRacing.PKInfo.PK;
+            var pkInfo = motoRacing.PKInfo;
 
             //ranks: 3,2,5,6,8,7,10,1,9,4
-            var rankArr = pk.Ranks.split(',');
+            var rankArr = pkInfo.PK.Ranks.split(',');
 
             // speeds
             for (var i = 0; i < rankArr.length; i++) {
                 var num = motoRacing.getRandomNum(0, 9);
+
+                var duration = (pkInfo.RemainSeconds > 10)
+                    ? (pkInfo.PK.GameSeconds - 10 + parseInt(rankArr[i])) * 1000
+                    : (pkInfo.RemainSeconds / 10) * parseInt(rankArr[i]) * 1000;
+
                 speeds.push({
                     'Rank': rankArr[i],
-                    'Duration': (pk.GameSeconds - 10 + parseInt(rankArr[i])) * 1000,
+                    'Duration': duration,
                     'Easing': motoRacing.Easings[num]
                 });
             }

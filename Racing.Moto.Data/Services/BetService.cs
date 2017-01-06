@@ -11,6 +11,7 @@ namespace Racing.Moto.Data.Services
 {
     public class BetService : BaseServcice
     {
+        #region old
         /// <summary>
         /// 计算名次车号
         /// 既第一名是几号车, 第二名是几号车...
@@ -25,7 +26,7 @@ namespace Racing.Moto.Data.Services
             var pk = db.PK.Include(nameof(PK.PKRates)).First();
 
             //押注的金额
-            var betAmount = db.Bet.Where(b => b.PKUser.PKId == pkId).Sum(b => b.Amount);
+            var betAmount = db.Bet.Where(b => b.PKId == pkId).Sum(b => b.Amount);
 
             // 10个车号押注的奖金
             var motoAmounts = GetMotoAmounts(pkId);
@@ -76,7 +77,7 @@ namespace Racing.Moto.Data.Services
                 motoAmounts.Add(new MotoAmountModel
                 {
                     MotoNo = i,
-                    Amount = db.Bet.Where(b => b.PKUser.PKId == pkId && b.Num == i).Sum(b => b.Amount)
+                    Amount = db.Bet.Where(b => b.PKId == pkId && b.Num == i).Sum(b => b.Amount)
                 });
             }
             return motoAmounts;
@@ -96,7 +97,7 @@ namespace Racing.Moto.Data.Services
             {
                 var rank = i + 1;//名次
                 //var motoAmount = motoAmounts.Where(m => m.MotoNo == motoOrders[i]).FirstOrDefault().Amount;
-                var pkRate = pk.PKRates.Where(r => r.Rank == rank).First(); //本期倍率
+                var pkRate = pk.PKRates.Where(r => r.Rank == rank).First(); //本期倍率 [TODO]
 
                 // 按车号计算
                 for (var j = 0; j < motoOrders.Count; j++)
@@ -143,6 +144,28 @@ namespace Racing.Moto.Data.Services
             orders[position + 1] = temp;
 
             return orders;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// 下注金额求和
+        /// </summary>
+        public List<BetAmountModel> GetBetAmounts(int pkId)
+        {
+            var sql = new StringBuilder();
+            sql.AppendLine("SELECT [Rank],[Num], SUM(Amount) Amount");
+            sql.AppendLine("FROM (");
+            sql.AppendLine("	SELECT [B].*, [PR].[Rate]");
+            sql.AppendLine("	FROM [dbo].[Bet] AS [B]");
+            sql.AppendLine("	INNER JOIN [dbo].[PKRate] AS [PR] ON [B].[PKId] = [PR].[PKId] AND [B].[Rank] = [PR].[Rank] AND [B].[Num] = [PR].[Num]");
+            sql.AppendLine("	WHERE [B].[PKId] = " + pkId);
+            sql.AppendLine(") AS TEMP");
+            sql.AppendLine("GROUP BY [Rank],[Num]");
+
+            var amounts = db.Database.SqlQuery<BetAmountModel>(sql.ToString()).ToList();
+
+            return amounts;
         }
     }
 }

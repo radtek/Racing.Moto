@@ -35,15 +35,28 @@ namespace Racing.Moto.Data.Services
                 currentPK = AddPK(DateTime.Now);
             }
 
+            var passedSeconds = (DateTime.Now - currentPK.BeginTime).Seconds;
+            var remainSeconds = currentPK.GameSeconds - passedSeconds;
             return new PKModel
             {
                 PK = currentPK,
-                PassedSeconds = (DateTime.Now - currentPK.BeginTime).Seconds
+                PassedSeconds = passedSeconds,
+                RemainSeconds = remainSeconds
             };
         }
 
         public PK AddPK(DateTime beginTime)
         {
+            var pkRates = new List<PKRate>();
+
+            foreach (var rate in RateCache.GetAllRates())
+            {
+                for (var num = 1; num <= 14; num++)
+                {
+                    pkRates.Add(new PKRate { Rank = rate.Rank, Num = num, Rate = RateService.GetRate(rate, num) });
+                }
+            }
+
             var pk = new PK
             {
                 CreateTime = DateTime.Now,
@@ -53,24 +66,7 @@ namespace Racing.Moto.Data.Services
                 CloseSeconds = AppConfigCache.Racing_Close_Seconds,
                 GameSeconds = AppConfigCache.Racing_Game_Seconds,
                 LotterySeconds = AppConfigCache.Racing_Lottery_Seconds,
-                PKRates = RateCache.GetAllRates().Select(r => new PKRate
-                {
-                    Rank = r.Rank,
-                    Number1 = r.Number1,
-                    Number2 = r.Number2,
-                    Number3 = r.Number3,
-                    Number4 = r.Number4,
-                    Number5 = r.Number5,
-                    Number6 = r.Number6,
-                    Number7 = r.Number7,
-                    Number8 = r.Number8,
-                    Number9 = r.Number9,
-                    Number10 = r.Number10,
-                    Big = r.Big,
-                    Small = r.Small,
-                    Odd = r.Odd,
-                    Even = r.Even
-                }).ToList()
+                PKRates = pkRates
             };
 
             return pk;
