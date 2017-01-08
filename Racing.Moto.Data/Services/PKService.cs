@@ -29,7 +29,7 @@ namespace Racing.Moto.Data.Services
         {
             var currentPK = db.PK.Where(pk => pk.BeginTime <= DateTime.Now && DateTime.Now <= pk.EndTime).FirstOrDefault();
 
-            // 不存在PK, 创新新的PK
+            // 不存在PK, 创建新的PK
             if (currentPK == null)
             {
                 currentPK = AddPK(DateTime.Now);

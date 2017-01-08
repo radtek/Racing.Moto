@@ -9,23 +9,71 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
         @*<link href="~/RacingMotoCss" rel="stylesheet" />*@
+        <link href="~/Content/site.css" rel="stylesheet" />
+
         @Scripts.Render("~/jQuery")
         <script src="~/RacingMotoJs"></script>
     </head>
     <body>
         <!-- Page Content -->
-        <div class="container">
+        <div class="dating-wrap">
+            <span class="gonggao">网站广告：消费30%即可提现! 祝你游戏愉快！</span>
+            <div class="user">
+                <img src="/img/user.jpg">
+            </div>
+            <div class="userName">hello Andy</div>
+            <img src="/img/jinbi.png" class="jinbi">
+            <div class="count">3300</div>
+            <img src="/img/jinbi-jia.png" class="jinbi-jia">
+            <a href="javascript:;" class="jinbi-jia"><img src="/img/jinbi-jia.png"></a>
 
-            @RenderBody()
+            <ul class="menu">
+                <li>wordless</li>
+                <li>我的账号户</li>
+                <li>余额：77777</li>
+                <li><a href="">充值</a></li>
+                <li><a href="">提现</a></li>
+                <li><a href="">退出</a></li>
+            </ul>
+            <ul class="menu-sub">
+                <li class="souye">
+                    <a href="">网站首页</a>
+                </li>
+                <li class="caipiao">
+                    <a href="">彩票游戏</a>
+                </li>
+                <li class="huiyuan">
+                    <a href="">会员中心</a>
+                </li>
+                <li class="daili">
+                    <a href="">代理中心</a>
+                </li>
+                <li class="youhui">
+                    <a href="">优惠活动</a>
+                </li>
+                <li class="xitong">
+                    <a href="">系统公告</a>
+                </li>
+                <li class="shouji">
+                    <a href="">手机端下载</a>
+                </li>
+                <li class="kefu">
+                    <a href="">在线客服</a>
+                </li>
+            </ul>
+
+            <div style="padding-top:90px;">
+                @RenderBody()
+            </div>
 
             <!-- Footer -->
-            <footer>
+            @*<footer>
                 <div class="row">
                     <div class="col-lg-12">
                         <p>Copyright &copy; PK拾 2015 - @DateTime.Now.Year</p>
                     </div>
                 </div>
-            </footer>
+            </footer>*@
         </div>
 
         @RenderSection("scripts", required: false)

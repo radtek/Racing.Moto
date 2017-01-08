@@ -84,35 +84,19 @@ namespace Racing.Moto.Data.Caches
         #region 奖金分配比率
 
         /// <summary>
-        /// 管理员利润比率
+        /// 管理员利润比率,吃二出八
         /// </summary>
         public static decimal Rate_Admin
         {
-            get { return GetAppConfig("Rate_Admin") != null ? decimal.Parse(GetAppConfig("Rate_Admin").Value) : 0; }
+            get { return GetAppConfig("Rate_Admin") != null ? decimal.Parse(GetAppConfig("Rate_Admin").Value) : 0.2M; }
         }
 
         /// <summary>
-        /// 总代理利润比率
+        /// 退水，总代理+代理+会员=4%
         /// </summary>
-        public static decimal Rate_Main_Agent
+        public static decimal Rate_Return
         {
-            get { return GetAppConfig("Rate_Main_Agent") != null ? decimal.Parse(GetAppConfig("Rate_Main_Agent").Value) : 0; }
-        }
-
-        /// <summary>
-        /// 代理利润比率
-        /// </summary>
-        public static decimal Rate_Agent
-        {
-            get { return GetAppConfig("Rate_Agent") != null ? decimal.Parse(GetAppConfig("Rate_Agent").Value) : 0; }
-        }
-
-        /// <summary>
-        /// 会员利润比率
-        /// </summary>
-        public static decimal Rate_Member
-        {
-            get { return GetAppConfig("Rate_Member") != null ? decimal.Parse(GetAppConfig("Rate_Member").Value) : 0; }
+            get { return GetAppConfig("Rate_Return") != null ? decimal.Parse(GetAppConfig("Rate_Return").Value) : 0.04M; }
         }
 
         #endregion

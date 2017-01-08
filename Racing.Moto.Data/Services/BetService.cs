@@ -1,4 +1,5 @@
-﻿using Racing.Moto.Data.Constants;
+﻿using Racing.Moto.Data.Caches;
+using Racing.Moto.Data.Constants;
 using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Models;
 using System;
@@ -17,7 +18,7 @@ namespace Racing.Moto.Data.Services
         /// 既第一名是几号车, 第二名是几号车...
         /// </summary>
         /// <param name="pkId">期号</param>
-        public List<int> CalculateRanks(int pkId)
+        public List<int> CalculateRanksOld(int pkId)
         {
             // 比赛结果:车号顺序
             var motoOrders = new List<int>();
@@ -148,10 +149,32 @@ namespace Racing.Moto.Data.Services
 
         #endregion
 
+        #region 计算名次
+        /// <summary>
+        /// 计算名次车号
+        /// 既第一名是几号车, 第二名是几号车...
+        /// </summary>
+        /// <param name="pkId">期号</param>
+        public List<int> CalculateRanks(int pkId)
+        {
+            // 比赛结果:车号顺序
+            var motoOrders = new List<int>();
+
+            // 下注金额求和
+            var betAmounts = GetBetAmounts(pkId);
+            // 计算奖池百分比
+            var betRates = CalculateBetRates(betAmounts);
+
+
+            return motoOrders;
+        }
+
+        #region Private Methods
         /// <summary>
         /// 下注金额求和
+        /// 10行14列(10个车号+大小单双)数据: 10行名次, 14列(10个车号+大小单双)下注, 用于计算 奖池百分比（奖池占有率）
         /// </summary>
-        public List<BetAmountModel> GetBetAmounts(int pkId)
+        private List<BetAmountModel> GetBetAmounts(int pkId)
         {
             var sql = new StringBuilder();
             sql.AppendLine("SELECT [Rank],[Num], SUM(Amount) Amount");
@@ -167,5 +190,51 @@ namespace Racing.Moto.Data.Services
 
             return amounts;
         }
+
+        /// <summary>
+        /// 计算奖池百分比
+        /// 大于1的为必不中
+        /// </summary>
+        /// <returns></returns>
+        private List<BetRateModel> CalculateBetRates(List<BetAmountModel> betAmounts)
+        {
+            var betRates = new List<BetRateModel>();
+
+            var totalAmount = betAmounts.Sum(ba => ba.Amount);//押注总额
+            var bonusAmount = totalAmount * (1 - AppConfigCache.Rate_Admin - AppConfigCache.Rate_Return);// 1- 吃二出八 - 退水
+
+            for (var rank = 1; rank <= 10; rank++)// 10个名次
+            {
+                for (var num = 1; num <= 10; num++)// 10个车号
+                {
+                    var bet = betAmounts.Where(ba => ba.Rank == rank && ba.Num == num).FirstOrDefault();// 第n名选m号车的
+                    var big = betAmounts.Where(ba => ba.Rank == rank && ba.Num == BetNumConst.Big).FirstOrDefault();//第n名选大
+                    var small = betAmounts.Where(ba => ba.Rank == rank && ba.Num == BetNumConst.Small).FirstOrDefault();//第n名选小
+                    var odd = betAmounts.Where(ba => ba.Rank == rank && ba.Num == BetNumConst.Odd).FirstOrDefault();//第n名选单
+                    var even = betAmounts.Where(ba => ba.Rank == rank && ba.Num == BetNumConst.Even).FirstOrDefault();//第n名选双
+
+                    var amount = GetAmount(bet) + GetAmount(big) + GetAmount(small) + GetAmount(odd) + GetAmount(even);
+
+                    var rate = Math.Round(amount / bonusAmount, 4);//保留四位小数
+                    betRates.Add(new BetRateModel
+                    {
+                        Rank = rank,
+                        Num = num,
+                        Rate = rate,
+                        IsValid = rate < 1  //大于1的为必不中
+                    });
+                }
+            }
+
+            return betRates;
+        }
+
+        private decimal GetAmount(BetAmountModel model)
+        {
+            return model != null ? model.Amount : 0;
+        }
+        #endregion
+
+        #endregion
     }
 }

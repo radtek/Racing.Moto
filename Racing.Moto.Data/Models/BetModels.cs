@@ -28,4 +28,30 @@ namespace Racing.Moto.Data.Models
         /// </summary>
         public decimal Amount { get; set; }
     }
+    /// <summary>
+    /// 奖池百分比（奖池占有率）
+    /// 名次+车号(1-10)的 奖池百分比
+    /// </summary>
+    public class BetRateModel
+    {
+        /// <summary>
+        /// 名次
+        /// </summary>
+        public int Rank { get; set; }
+
+        /// <summary>
+        /// 车号: 10个车号
+        /// </summary>
+        public int Num { get; set; }
+
+        /// <summary>
+        /// 奖池百分比: 保留四位小数
+        /// </summary>
+        public decimal Rate { get; set; }
+
+        /// <summary>
+        /// 是否有效
+        /// </summary>
+        public bool IsValid { get; set; }
+    }
 }

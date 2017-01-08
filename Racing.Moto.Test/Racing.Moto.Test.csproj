@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CoreTest.cs" />
     <Compile Include="WebTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -64,6 +65,16 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Racing.Moto.Core\Racing.Moto.Core.csproj">
+      <Project>{5920a931-7cd3-45b7-a71b-e3754b3babf0}</Project>
+      <Name>Racing.Moto.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Racing.Moto.Data\Racing.Moto.Data.csproj">
+      <Project>{87286c96-6a07-49d0-b162-225195dad6f5}</Project>
+      <Name>Racing.Moto.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -1,0 +1,386 @@
+html {margin:0;padding:0;border:0;}
+body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}
+article, aside, details, figcaption, figure, dialog, footer, header, hgroup, menu, nav, section {display:block;}
+body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-color: #000;}
+
+.hide{display:none;}
+
+/*game 倒计时*/
+.game-wrap{
+    width: 1366px;
+    height: 768px;
+    background: #000;
+    margin:0 auto;
+}
+.game-wrap .bg-top{
+    background: url(../img/bg_top.jpg) no-repeat;
+    width: 1366px;
+    height: 200px;
+    overflow: hidden;
+}
+.game-wrap .saidao{
+    background: url(../img/bg_saidao.jpg) no-repeat;
+    width: 1366px;
+    height: 483px;
+    position: relative;
+}
+.game-wrap .saidao-end{
+    background: url(../img/bg_saidao_end.jpg) no-repeat;
+    width: 1366px;
+    height: 483px;
+    position: relative;
+}
+.game-wrap .saidao .time-run{
+    width: 1004px;
+    height: 241px;
+    background: url(../img/time_run.png) no-repeat;
+    position: absolute;
+    left: 180px;
+    top: 24px;
+}
+.game-wrap .saidao .time-run #num{
+    margin-left: 423px;
+    margin-top: 7px; 
+}
+.zhu-a{
+    position: absolute;
+    right: 280px;
+    top:-135px;
+}
+.zhu-b{
+    position: absolute;
+    right: 160px;
+    bottom:3px;
+    z-index: 1001;
+}
+.wang{
+    position: absolute;
+    right: 165px;
+    top:-101px;
+    z-index: 1000;
+}
+.car-list{
+    width: 200px;
+    height: 483px;
+    position: absolute;
+    right: 150px;
+}  
+.car-list .car-10{
+    position: absolute;
+    right: -1px;
+    top:-95px;
+}
+.car-list .car-9{
+    position: absolute;
+    right: -28px;
+    top:-56px;
+}
+.car-list .car-8{
+    position: absolute;
+    right: -36px;
+    top:-7px;
+}
+.car-list .car-7{
+    position: absolute;
+    right: -48px;
+    top:38px;
+}
+.car-list .car-6{
+    position: absolute;
+    right: -60px;
+    top:90px;
+}
+.car-list .car-5{
+    position: absolute;
+    right: -65px;
+    top:140px;
+}
+.car-list .car-4{
+    position: absolute;
+    right: -80px;
+    top:190px;
+}
+.car-list .car-3{
+    position: absolute;
+    right: -92px;
+    top:232px;
+}
+.car-list .car-2{
+    position: absolute;
+    right: -105px;
+    top:280px;
+}
+.car-list .car-1{
+    position: absolute;
+    right: -118px;
+    top:335px;
+}
+
+
+/*game 冲刺*/
+
+.game-wrap .saidao-end{
+    background: url(../img/bg_saidao_end.jpg) no-repeat;
+    width: 1366px;
+    height: 483px;
+    position: relative;
+}
+.saidao-end .end{
+    width: 220px;
+    height: 467px;
+    background: url(../img/end.png) no-repeat;
+    position: absolute;
+    left: 103px;
+    top:9px;
+}
+.saidao-end .end-wang{
+    position: absolute;
+    left: 139px;
+    top:-128px;
+    z-index: 10000;
+}
+.saiqi{
+    position: absolute;
+    bottom: 0;
+    right:50px;
+}
+.shishi{
+    width: 910px;
+    height: 89px;
+    background: url(../img/shishi.png) no-repeat;
+    margin: 0 auto;
+    margin-top: 5px;
+}
+.shishi div{
+    width: 51px;
+    height: 51px;
+    float: left;
+    margin-left: 5px;
+    margin-top: 15px;
+    color: #fff;
+    line-height: 51px;
+    text-align: center;
+    font-size: 26px;
+}
+.shishi .lv-se{
+   background: url(../img/lv-se.png) no-repeat;
+}
+.shishi .hong-se{
+   background: url(../img/hong-se.png) no-repeat;
+}
+.shishi .zi-se{
+   background: url(../img/zi-se.png) no-repeat;
+}
+.shishi .juhuang-se{
+   background: url(../img/juhuang-se.png) no-repeat;
+}
+.shishi .danhong-se{
+   background: url(../img/danhong-se.png) no-repeat;
+}
+.shishi .shenlan-se{
+   background: url(../img/shenlan-se.png) no-repeat;
+}
+.shishi .tianlan-se{
+   background: url(../img/tianlan-se.png) no-repeat;
+}
+.shishi .lan-se{
+   background: url(../img/lan-se.png) no-repeat;
+}
+.shishi .huang-se{
+   background: url(../img/huang-se.png) no-repeat;
+}
+.shishi .he-se{
+   background: url(../img/he-se.png) no-repeat;
+}
+
+
+/*game 大厅*/
+.dating-wrap{
+    width: 1366px;
+    height: 858px;
+    background: url(../img/bg_dating.jpg) no-repeat;
+    position: relative;
+    overflow: hidden;
+    font-family: "Microsoft YaHei","微软雅黑","SimSun","宋体";
+    margin: 0 auto;
+}
+.gonggao{
+    color: #cdaf06;
+    font-size: 16px;
+    padding-top: 3px;
+    display: block;
+    padding-left: 20px;
+}
+.user{
+    position: absolute;
+    left: 17px;
+    top: 34px;
+    width: 77px;
+    height:77px;
+    border: 2px solid #000;
+    border-radius: 14px;
+}
+.user img{
+    width: 100%;
+    border-radius: 14px;
+}
+.userName{
+    color: #cdaf06;
+    font-size: 16px;
+    position: absolute;
+    left: 136px;
+    top: 40px;
+}
+.count{
+     color: #ffcd00;
+    font-size: 20px;
+    position: absolute;
+    left: 340px;
+    top: 39px;
+}
+.jinbi{
+    font-size: 20px;
+    position: absolute;
+    left: 294px;
+    top: 40px;
+}
+.jinbi-jia{
+    position: absolute;
+    left: 441px;
+    top: 38px;
+}
+.chuji{
+        top: 189px;
+    right: 456px;
+    position: absolute;
+}
+.zhongji{
+    top: 189px;
+    right: 259px;
+    position: absolute;
+}
+.gaoji{
+        top: 189px;
+    right: 65px;
+    position: absolute;
+}
+a.dianji{
+        top: 670px;
+    right: 239px;
+    position: absolute;
+}
+ul.menu{
+    width: 500px;
+    position: absolute;
+    right: 0;
+    top: 5px;
+}
+ul.menu li{
+    float: left;
+    list-style: none;
+    margin-left: 20px;
+    color: #ffd800;
+}
+ul.menu li a{
+    color: #ffd800;
+    text-decoration: none;
+}
+.car-model{
+    width: 572px;
+    height: 444px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+.car-model{
+    width: 572px;
+    height: 444px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+.girl-model{
+    width: 129px;
+    height: 469px;
+    position: absolute;
+    left: 425px;
+    bottom: 60px;
+}
+.menu-sub{
+    float: right;
+    width: 700px;
+    margin-top: 10px;
+}
+.menu-sub li{
+    list-style: none;
+    width: 86px;
+    float: left;
+    text-align: center;
+}
+.menu-sub li a{
+    color: #ffd800;
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+    height: 80px;
+    line-height: 127px;
+}
+.menu-sub li a:hover{
+    color: #fff;
+}
+li.souye a{
+    background: url(../img/li-shouye.png) 22px 10px no-repeat;
+}
+li.souye a:hover{
+    background: url(../img/li-shouye-hover.png) 22px 10px no-repeat;
+}
+li.caipiao a{
+    background: url(../img/li-caipiao.png) 22px 10px no-repeat;
+}
+li.caipiao a:hover{
+    background: url(../img/li-caipiao-hover.png) 22px 10px no-repeat;
+}
+li.huiyuan a{
+    background: url(../img/li-huiyuan.png) 22px 10px no-repeat;
+}
+li.huiyuan a:hover{
+    background: url(../img/li-huiyuan-hover.png) 22px 10px no-repeat;
+}
+li.daili a{
+    background: url(../img/li-daili.png) 22px 10px no-repeat;
+}
+li.daili a:hover{
+    background: url(../img/li-daili-hover.png) 22px 10px no-repeat;
+}
+li.youhui a{
+    background: url(../img/li-youhui.png) 20px 10px no-repeat;
+    margin-left: 5px;
+}
+li.youhui a:hover{
+    background: url(../img/li-youhui-hover.png) 20px 10px no-repeat;
+    margin-left: 5px;
+}
+li.xitong a{
+    background: url(../img/li-xitong.png) 20px 10px no-repeat;
+    margin-left: 8px;
+}
+li.xitong a:hover{
+    background: url(../img/li-xitong-hover.png) 20px 10px no-repeat;
+    margin-left: 8px;
+}
+li.shouji a{
+    background: url(../img/li-shouji.png) 17px 10px no-repeat;
+    margin-left: 15px;
+}
+li.shouji a:hover{
+    background: url(../img/li-shouji-hover.png) 17px 10px no-repeat;
+    margin-left: 15px;
+}
+li.kefu a{
+    background: url(../img/li-kefu.png) 14px 10px no-repeat;
+    margin-left: 18px;
+}
+li.kefu a:hover{
+    background: url(../img/li-kefu-hover.png) 14px 10px no-repeat;
+    margin-left: 18px;
+}

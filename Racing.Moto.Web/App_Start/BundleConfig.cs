@@ -22,10 +22,9 @@ namespace Racing.Moto.Web
                 .Include("~/Scripts/PK/Racing.js")
             );
 
-            //bundles.Add(new StyleBundle("~/RacingMotoCss")
-            //    .Include("~/Contents/Site.css")
-            //    .Include("~/Scripts/Plugins/xtForm/xtFrom.css")
-            //);
+            bundles.Add(new StyleBundle("~/RacingMotoCss")
+                .Include("~/Content/Site.css")
+            );
         }
     }
 }

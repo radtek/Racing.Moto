@@ -5,7 +5,7 @@
     function init() {
         ticker.server.getPKInfo().done(function (pkInfo) {
             //console.log(pkInfo);
-            $stockTable.append("aaa");
+            //$stockTable.append("aaa");
         });
     }
 
@@ -34,7 +34,8 @@
                 motoRacing.PKInfo = pkInfo;
 
                 // road moving
-                $('#roadBg').floatingBg({ direction: 5, speed: 5, backgroud: '/images/road.png', });
+                $('.saidao').floatingBg({ direction: 5, speed: 5, backgroud: '/img/bg_saidao.jpg', });
+                $('bg-top').floatingBg({ direction: 5, speed: 5, backgroud: '/img/bg_saidao.jpg', });
 
                 // moto append
                 motoRacing.append();
@@ -44,14 +45,21 @@
         },
         append: function () {
             var html = '';
-            for (var i = 0; i < 10; i++) {
-                var top = (100 + 20 * i) + 'px;';
-                var bg = motoRacing.Colors[i];
-                html += '<div id="moto' + (i + 1) + '" class="moto" style="top:' + top + ' background-color:' + bg + '"></div>';
+            for (var i = 10; i > 0; i--) {
+                //var top = (100 + 20 * i) + 'px;';
+                //var bg = motoRacing.Colors[i];
+                //html += '<div id="moto' + (i + 1) + '" class="moto" style="top:' + top + ' background-color:' + bg + '"></div>';
+
+                html += '<img id="moto' + i + '" src="/img/car-' + i + '.png" class="car-' + i + '" alt="moto' + i + '" />';
             }
-            $('#motos').html(html);
+            $('.car-list').html(html);
         },
         motoRun: function () {
+            $('.time-run').addClass('hide');
+            $('.zhu-a').addClass('hide');
+            $('.zhu-b').addClass('hide');
+            $('.wang').addClass('hide');
+
             var speeds = motoRacing.calculateSpeeds();
             // run
             for (var i = 0; i < speeds.length; i++) {
@@ -59,7 +67,7 @@
                     ? { duration: speeds[i].Duration, easing: speeds[i].Easing }
                     : {
                         duration: speeds[i].Duration, easing: speeds[i].Easing, complete: function () {
-                            $('#roadBg').floatingBg('destroy');
+                            $('.saidao').floatingBg('destroy');
                         }
                     };
 

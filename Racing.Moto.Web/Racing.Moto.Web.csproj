@@ -165,12 +165,73 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\racing.css" />
+    <Content Include="Content\site.css" />
     <Content Include="Images\road.png" />
     <Content Include="Global.asax" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Scripts\jQuery\jquery-3.1.1.intellisense.js" />
+    <Content Include="Img\bg_dating.jpg" />
+    <Content Include="Img\bg_saidao_start.jpg" />
+    <Content Include="Img\bg_saidao.jpg" />
+    <Content Include="Img\bg_top.jpg" />
+    <Content Include="Img\car-1.png" />
+    <Content Include="Img\car-10.png" />
+    <Content Include="Img\car-2.png" />
+    <Content Include="Img\car-3.png" />
+    <Content Include="Img\car-4.png" />
+    <Content Include="Img\car-5.png" />
+    <Content Include="Img\car-6.png" />
+    <Content Include="Img\car-7.png" />
+    <Content Include="Img\car-8.png" />
+    <Content Include="Img\car-9.png" />
+    <Content Include="Img\car-model.png" />
+    <Content Include="Img\chuji.png" />
+    <Content Include="Img\danhong-se.png" />
+    <Content Include="Img\dianji.png" />
+    <Content Include="Img\end-wang.png" />
+    <Content Include="Img\end.png" />
+    <Content Include="Img\gaoji.png" />
+    <Content Include="Img\girl-model.png" />
+    <Content Include="Img\he-se.png" />
+    <Content Include="Img\hong-se.png" />
+    <Content Include="Img\huang-se.png" />
+    <Content Include="Img\jinbi-jia.png" />
+    <Content Include="Img\jinbi.png" />
+    <Content Include="Img\juhuang-se.png" />
+    <Content Include="Img\lan-se.png" />
+    <Content Include="Img\li-caipiao-hover.png" />
+    <Content Include="Img\li-caipiao.png" />
+    <Content Include="Img\li-daili-hover.png" />
+    <Content Include="Img\li-daili.png" />
+    <Content Include="Img\li-huiyuan-hover.png" />
+    <Content Include="Img\li-huiyuan.png" />
+    <Content Include="Img\li-kefu-hover.png" />
+    <Content Include="Img\li-kefu.png" />
+    <Content Include="Img\li-shouji-hover.png" />
+    <Content Include="Img\li-shouji.png" />
+    <Content Include="Img\li-shouye-hover.png" />
+    <Content Include="Img\li-shouye.png" />
+    <Content Include="Img\li-xitong-hover.png" />
+    <Content Include="Img\li-xitong.png" />
+    <Content Include="Img\li-youhui-hover.png" />
+    <Content Include="Img\li-youhui.png" />
+    <Content Include="Img\lv-se.png" />
+    <Content Include="Img\saiqi.png" />
+    <Content Include="Img\shenlan-se.png" />
+    <Content Include="Img\shishi.png" />
+    <Content Include="Img\tianlan-se.png" />
+    <Content Include="Img\time-1.png" />
+    <Content Include="Img\time-2.png" />
+    <Content Include="Img\time-3.png" />
+    <Content Include="Img\time_run.png" />
+    <Content Include="Img\user.jpg" />
+    <Content Include="Img\wang.png" />
+    <Content Include="Img\zhongji.png" />
+    <Content Include="Img\zhu-a.png" />
+    <Content Include="Img\zhu-b.png" />
+    <Content Include="Img\zi-se.png" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\jquery.floatingBg.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
@@ -190,6 +251,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MotoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -214,6 +276,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Moto\Arena.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
