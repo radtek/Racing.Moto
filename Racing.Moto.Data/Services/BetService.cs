@@ -233,6 +233,28 @@ namespace Racing.Moto.Data.Services
         {
             return model != null ? model.Amount : 0;
         }
+
+        /// <summary>
+        /// 计算奖池百分比 转换成 矩阵, 用于计算最小
+        /// decimal * 100 取整
+        /// </summary>
+        /// <param name="amounts"></param>
+        /// <returns></returns>
+        private int[,] GetMatrix(List<BetRateModel> betRates)
+        {
+            var matrix = new int[10, 10];
+
+            for (var rank = 1; rank <= 10; rank++)// 10个名次
+            {
+                for (var num = 1; num <= 10; num++)// 10个车号
+                {
+                    var rate = betRates.Where(r => r.Rank == rank && r.Num == num).FirstOrDefault();
+                    matrix[rank - 1, num - 1] = rate != null ? Decimal.ToInt32(rate.Rate * 100) : 0;
+                }
+            }
+
+            return matrix;
+        }
         #endregion
 
         #endregion

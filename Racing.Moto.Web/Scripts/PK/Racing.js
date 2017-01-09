@@ -35,7 +35,7 @@
 
                 // road moving
                 $('.saidao').floatingBg({ direction: 5, speed: 5, backgroud: '/img/bg_saidao.jpg', });
-                $('bg-top').floatingBg({ direction: 5, speed: 5, backgroud: '/img/bg_saidao.jpg', });
+                $('.bg-top').floatingBg({ direction: 5, speed: 5, backgroud: '/img/bg_top.jpg', });
 
                 // moto append
                 motoRacing.append();
@@ -68,6 +68,7 @@
                     : {
                         duration: speeds[i].Duration, easing: speeds[i].Easing, complete: function () {
                             $('.saidao').floatingBg('destroy');
+                            $('.bg-top').floatingBg('destroy');
                         }
                     };
 
