@@ -1,4 +1,5 @@
-﻿using Racing.Moto.Data.Caches;
+﻿using Racing.Moto.Core.GraphAlgorithms;
+using Racing.Moto.Data.Caches;
 using Racing.Moto.Data.Constants;
 using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Models;
@@ -157,16 +158,27 @@ namespace Racing.Moto.Data.Services
         /// <param name="pkId">期号</param>
         public List<int> CalculateRanks(int pkId)
         {
-            // 比赛结果:车号顺序
-            var motoOrders = new List<int>();
-
             // 下注金额求和
             var betAmounts = GetBetAmounts(pkId);
             // 计算奖池百分比
             var betRates = CalculateBetRates(betAmounts);
+            // 奖池百分比 转换成 矩阵, 用于计算最小中奖名次
+            var matrix = GetMatrix(betRates);
+            // 计算最小中奖名次
+            var minCostMatrix = new HungarianAlgorithm(matrix).Run();
 
+            // 验证最小中奖名次的 [奖池百分比] 之和 是否小于 100%, 小于则返回, 否则返回null
+            if (IsValidRanks(matrix, minCostMatrix))
+            {
+                // 计算名次:比赛结果:车号顺序
+                var motoOrders = GetRanks(minCostMatrix);
 
-            return motoOrders;
+                return motoOrders;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         #region Private Methods
@@ -235,11 +247,9 @@ namespace Racing.Moto.Data.Services
         }
 
         /// <summary>
-        /// 计算奖池百分比 转换成 矩阵, 用于计算最小
+        /// 奖池百分比 转换成 矩阵, 用于计算最小中奖名次
         /// decimal * 100 取整
         /// </summary>
-        /// <param name="amounts"></param>
-        /// <returns></returns>
         private int[,] GetMatrix(List<BetRateModel> betRates)
         {
             var matrix = new int[10, 10];
@@ -254,6 +264,44 @@ namespace Racing.Moto.Data.Services
             }
 
             return matrix;
+        }
+
+        /// <summary>
+        /// 验证最小中奖名次的 [奖池百分比] 之和 是否小于 100%
+        /// </summary>
+        private bool IsValidRanks(int[,] matrix, int[] minCostMatrix)
+        {
+            /*
+             Matrix:
+                0     40    0     10    30
+                10    0     30    20    30
+                0     40    20    10    30
+                40    10    40    30    0
+                30    40    30    40    10
+             Array:
+                0    1    3    4    2 
+
+                第0行第0列, 第1行第1列, 第2行第3列, 第3行第4列, 第4行第2列
+                0 + 0 + 10 + 0 + 40 = 50 
+             */
+
+            var rate = 0;
+            for (var i = 0; i < minCostMatrix.Length; i++)
+            {
+                rate += matrix[i, minCostMatrix[i]];
+            }
+
+            return rate < 100;
+        }
+
+        /// <summary>
+        /// 计算名次
+        /// minCostMatrix 的计数从0开始, 加1返回
+        /// </summary>
+        /// <returns></returns>
+        private List<int> GetRanks(int[] minCostMatrix)
+        {
+            return minCostMatrix.Select(m => m + 1).ToList();
         }
         #endregion
 

@@ -14,11 +14,12 @@ namespace Racing.Moto.Web.Jobs
             IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
             scheduler.Start();
 
-            // 每10秒执行一次
+            // 每5秒执行一次
+            var interval = 5;
             IJobDetail job = JobBuilder.Create<PkJob>().Build();
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity("PkJobTrigger", "PkJobGroup")
-                .WithSimpleSchedule(t => t.WithIntervalInSeconds(10).RepeatForever())
+                .WithSimpleSchedule(t => t.WithIntervalInSeconds(interval).RepeatForever())
                 .Build();
 
             scheduler.ScheduleJob(job, trigger);

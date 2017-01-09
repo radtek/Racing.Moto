@@ -46,10 +46,6 @@
         append: function () {
             var html = '';
             for (var i = 10; i > 0; i--) {
-                //var top = (100 + 20 * i) + 'px;';
-                //var bg = motoRacing.Colors[i];
-                //html += '<div id="moto' + (i + 1) + '" class="moto" style="top:' + top + ' background-color:' + bg + '"></div>';
-
                 html += '<img id="moto' + i + '" src="/img/car-' + i + '.png" class="car-' + i + '" alt="moto' + i + '" />';
             }
             $('.car-list').html(html);

@@ -16,9 +16,9 @@ namespace Racing.Moto.Data.Services
         /// 取最后一个PK
         /// </summary>
         /// <returns></returns>
-        public PK GetLastPK()
+        public PK GetCurrentPK()
         {
-            return db.PK.OrderByDescending(pk => pk.PKId).FirstOrDefault();
+            return db.PK.Where(pk => pk.BeginTime <= DateTime.Now && DateTime.Now <= pk.EndTime).FirstOrDefault();
         }
 
         /// <summary>
@@ -70,6 +70,29 @@ namespace Racing.Moto.Data.Services
             };
 
             return pk;
+        }
+
+
+        /// <summary>
+        /// 判断是否处于封盘期
+        /// </summary>
+        public bool IsClosedTime(PK pk)
+        {
+            return pk.BeginTime.AddSeconds(pk.OpeningSeconds) <= DateTime.Now && DateTime.Now <= pk.BeginTime.AddSeconds(pk.CloseSeconds);
+        }
+
+        /// <summary>
+        /// 更新名次
+        /// </summary>
+        public void UpdateRanks(int pkId, string ranks)
+        {
+            var dbPK = db.PK.Where(pk => pk.PKId == pkId).FirstOrDefault();
+            if (dbPK != null)
+            {
+                dbPK.Ranks = ranks;
+
+                db.SaveChanges();
+            }
         }
     }
 }
