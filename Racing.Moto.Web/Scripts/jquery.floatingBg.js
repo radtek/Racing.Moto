@@ -50,11 +50,12 @@
             var timeId = setTimeout(function () {
                 var cnt = $this.attr("cnt") != null ? $this.attr("cnt") : 0;
 
-                if (cnt > 1000) {
-                    cnt = 0;
-                } else {
-                    cnt = eval(cnt) + 1;
-                }
+                //if (cnt > 1000) {
+                //    cnt = 0;
+                //} else {
+                //    cnt = eval(cnt) + 1;
+                //}
+                cnt = eval(cnt) + 1;
 
                 $this.attr("cnt", cnt);
 

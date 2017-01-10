@@ -24,7 +24,7 @@
     // moto
     var motoRacing = {
         PKInfo: null,
-        RoadLength: 1000,
+        RoadLength: 800,
         Colors: ['red', 'blue', 'yellow', 'green', 'gray', 'aqua', 'blueviolet', 'brown', 'Highlight', 'aquamarine', 'teal'],
         //Easings: ['easeInQuad', 'easeInQuart', 'easeInOutSine', 'easeOutSine', 'easeOutQuad', 'linear', 'easeInCirc', 'easeInOutQuad', 'easeOutCubic', 'easeInOutCubic'],
         Easings: ['easeInOutSine', 'easeOutSine', 'linear', 'swing', 'easeInOutSine', 'easeInOutQuad', 'swing', 'easeInOutSine', 'easeOutSine', 'easeInOutQuad'],
@@ -36,6 +36,7 @@
                 // road moving
                 $('.saidao').floatingBg({ direction: 5, speed: 5, backgroud: '/img/bg_saidao.jpg', });
                 $('.bg-top').floatingBg({ direction: 5, speed: 5, backgroud: '/img/bg_top.jpg', });
+                $('.start-flag').floating({ direction: 'right', speed: 5 });
 
                 // moto append
                 motoRacing.append();
@@ -51,10 +52,8 @@
             $('.car-list').html(html);
         },
         motoRun: function () {
-            $('.time-run').addClass('hide');
-            $('.zhu-a').addClass('hide');
-            $('.zhu-b').addClass('hide');
-            $('.wang').addClass('hide');
+            //$('.start-flag').addClass('hide');
+            //$('.end-flag').removeClass('hide');
 
             var speeds = motoRacing.calculateSpeeds();
             // run
@@ -65,6 +64,7 @@
                         duration: speeds[i].Duration, easing: speeds[i].Easing, complete: function () {
                             $('.saidao').floatingBg('destroy');
                             $('.bg-top').floatingBg('destroy');
+                            $('.start-flag').floatingBg('destroy');
                         }
                     };
 

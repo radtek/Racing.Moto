@@ -5,6 +5,9 @@ body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-c
 
 .hide{display:none;}
 
+.start-flag{position:relative;}
+.end-flag{position:relative; left:-400px;}
+
 /*game 倒计时*/
 .game-wrap{
     width: 1366px;
@@ -50,7 +53,7 @@ body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-c
 .zhu-b{
     position: absolute;
     right: 160px;
-    bottom:3px;
+    bottom:-480px;
     z-index: 1001;
 }
 .wang{
@@ -116,16 +119,14 @@ body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-c
     top:335px;
 }
 
-
-/*game 冲刺*/
-
-.game-wrap .saidao-end{
+/*game*/
+/*.game-wrap .saidao-end{
     background: url(../img/bg_saidao_end.jpg) no-repeat;
     width: 1366px;
     height: 483px;
     position: relative;
-}
-.saidao-end .end{
+}*/
+.saidao .end{
     width: 220px;
     height: 467px;
     background: url(../img/end.png) no-repeat;
@@ -133,7 +134,7 @@ body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-c
     left: 103px;
     top:9px;
 }
-.saidao-end .end-wang{
+.saidao .end-wang{
     position: absolute;
     left: 139px;
     top:-128px;
@@ -199,6 +200,15 @@ body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-c
     width: 1366px;
     height: 858px;
     background: url(../img/bg_dating.jpg) no-repeat;
+    position: relative;
+    overflow: hidden;
+    font-family: "Microsoft YaHei","微软雅黑","SimSun","宋体";
+    margin: 0 auto;
+}
+.dating-wrap-b{
+    width: 1366px;
+    height: 911px;
+    background: url(../img/bg_dating_b.jpg) #06080d no-repeat;
     position: relative;
     overflow: hidden;
     font-family: "Microsoft YaHei","微软雅黑","SimSun","宋体";
@@ -383,4 +393,211 @@ li.kefu a{
 li.kefu a:hover{
     background: url(../img/li-kefu-hover.png) 14px 10px no-repeat;
     margin-left: 18px;
+}
+/*--中奖情况--*/
+.dialog-wrap{
+    width: 708px;
+    height: 492px;
+    background: url(../img/dialog-zhongjiang.png) 14px 10px no-repeat;
+    position: absolute;
+    left: 50%;
+    margin-left:-354px;
+    right: 50%;
+    margin-right:-354px;
+    top: 80px;
+    color: #fff;
+}
+.dialog-wrap .close{
+        position: absolute;
+    right: -25px;
+    top: 10px;
+}
+.dialog-wrap .queding{
+        position: absolute;
+    right: 34px;
+    bottom: 10px;
+}
+.dialog-wrap .huodejiangjin{
+       position: absolute;
+    left: 82px;
+    bottom: 26px;
+    font-size: 25px;
+}
+.dialog-wrap .jieguo{
+        position: absolute;
+    left: 70px;
+    top: 89px;
+    width: 603px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 20px;
+}
+.dialog-wrap .jieguo-2{
+        position: absolute;
+    left: 70px;
+    top: 165px;
+    width: 603px;
+    height: 60px;
+    line-height: 60px;
+    font-size: 20px;
+}
+.dialog-wrap .jieguo .text{
+        padding-left: 18px;
+    float: left;
+    padding-right: 5px;
+}
+.dialog-wrap .jieguo .z-shishi{
+    width: auto;
+    height: auto;
+    background: none;
+    margin: 0 ;
+    margin-top: 0;
+}
+.dialog-wrap .jieguo .z-shishi div{
+    margin-top: 6px;
+    margin-left: 2px;
+}
+
+
+/*----*/
+.wrap-sub{
+    width: 1366px;
+    height: 744px;
+    background: url(../img/saidao10-wrap.png) no-repeat;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    color: #fff;
+}
+.wrap-sub .dijiqi{
+    position: absolute;
+    left: 601px;
+    top: 133px;
+}
+.wrap-sub .dijiqi span{
+    color: #ffe23b;
+    padding: 0 8px;
+}
+.wrap-sub .qiulist{
+    position: absolute;
+    left: 55px;
+    top: 194px;
+}
+.wrap-sub .qiulist .qiu{
+    width: 76px;
+    height: 76px;
+    background: url(../img/hongqiu.png) no-repeat;
+    text-align: center;
+    line-height: 76px;
+    float: left;
+    margin-right: 2px;
+    font-size: 34px;
+}
+.wrap-sub .jishi{
+    position: absolute;
+    right: 402px;
+    top: 171px;
+}
+.wrap-sub .jishi span{
+    color: #ffd800;
+    padding: 0 5px;
+}
+.wrap-sub .timerun{
+       position: absolute;
+    right: 187px;
+    top: 170px;
+    color: #ffd800;
+    font-size: 37px;
+}
+.wrap-sub .daojishi{
+    position: absolute;
+    right: 52px;
+    top: 182px;
+    background: #ff0f00;
+    width: 85px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+}
+.wrap-sub table.shuzhi{
+    width: 100%;
+    border-collapse: collapse; 
+}
+
+.wrap-sub .shuzhi-box{
+    position: absolute;
+    right: 55px;
+    width: 438px;
+    top: 282px;
+    height: 400px;
+    overflow-y: scroll;
+}
+.wrap-sub table.shuzhi tr td{
+    border: 2px solid #1e154c;
+    padding: 7px 0;
+    text-align: center;
+}
+.wrap-sub .carlist{
+        width: 775px;
+    height: 414px;
+    position: absolute;
+    left: 60px;
+    top: 320px;
+}
+.wrap-sub .carlist li{
+    list-style: none;
+    border-bottom: 5px solid #1e154c;
+    height: 70px;
+}
+.wrap-sub .carlist li.last{
+    border-bottom: none;
+}
+.wrap-sub .carlist li div.left{
+    width: 55%;
+    float: left;
+}
+.wrap-sub .carlist li div.left .jiangpai{
+    margin-left: 50px;
+}
+.wrap-sub .carlist li div.left .text1{
+    margin-left: 43px;
+}
+.wrap-sub .carlist li div.right{
+    width: 45%;
+    float: left;
+}
+.red-font{
+    color: #fe0002;
+}
+.box1{
+    width: 100px;
+    float: left;
+}
+.car1{
+    float: left;
+    margin-top: -30px;
+}
+.car2{
+    float: left;
+    margin-top: -30px;
+    margin-left: 20px;
+}
+.car3{
+    float: left;
+    margin-top: -42px;
+    margin-left: 40px;
+}
+.car4{
+    float: left;
+    margin-top: -42px;
+    margin-left: 60px;
+}
+.car5{
+    float: left;
+    margin-top: -42px;
+    margin-left: 80px;
+}
+.right .box1{
+    width: 60px;
+    margin-top: 46px;
 }
