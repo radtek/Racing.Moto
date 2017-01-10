@@ -171,6 +171,8 @@
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Scripts\jquery.easing.1.3.js" />
+    <Content Include="Scripts\jquery.timer.js" />
     <None Include="Scripts\jQuery\jquery-3.1.1.intellisense.js" />
     <Content Include="Img\1.png" />
     <Content Include="Img\10.png" />
@@ -261,9 +263,9 @@
     <Content Include="Img\shenlan-se.png" />
     <Content Include="Img\shishi.png" />
     <Content Include="Img\tianlan-se.png" />
-    <Content Include="Img\time-1.png" />
-    <Content Include="Img\time-2.png" />
     <Content Include="Img\time-3.png" />
+    <Content Include="Img\time-2.png" />
+    <Content Include="Img\time-1.png" />
     <Content Include="Img\time_run.png" />
     <Content Include="Img\user.jpg" />
     <Content Include="Img\wang.png" />

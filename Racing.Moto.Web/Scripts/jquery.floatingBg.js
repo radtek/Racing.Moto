@@ -12,7 +12,7 @@
                     var defaults = {
                         backgroud: '/images/road.png',
                         direction: 0,
-                        speed: 50
+                        millisec: 50
                     }
 
                     settings = $.extend({}, defaults, options);
@@ -70,7 +70,7 @@
                 }
 
                 floatingBg.move($this);
-            }, opt.speed);
+            }, opt.millisec);
 
             return timeId;
         },

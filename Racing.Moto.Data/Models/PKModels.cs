@@ -13,20 +13,35 @@ namespace Racing.Moto.Data.Models
     public class PKModel
     {
         /// <summary>
-        /// 比赛
+        /// 盘
         /// </summary>
         public PK PK { get; set; }
-        
+
+        /// <summary>
+        /// 开盘的秒数: 当前时间 - 开盘开始时间 的秒数
+        /// </summary>
+        public int PassedSeconds { get; set; }
+
+        /// <summary>
+        /// 盘剩余的秒数: 当前时间 总开盘秒数 - PassedSeconds 的秒数
+        /// </summary>
+        public int RemainSeconds { get; set; }
+
         /// <summary>
         /// 比赛已经开始的秒数: 当前时间 - 比赛开始时间 的秒数
         /// 新用户打开页面时, 计算赛车的位置
         /// </summary>
-        public int PassedSeconds { get; set; }
+        public int GamePassedSeconds { get; set; }
 
         /// <summary>
         /// 比赛剩余的秒数: 当前时间 GameSeconds - PassedSeconds 的秒数
         /// 新用户打开页面时, 计算赛车的位置
         /// </summary>
-        public int RemainSeconds { get; set; }
+        public int GameRemainSeconds { get; set; }
+
+        /// <summary>
+        /// 距离比赛开始的秒数, 负:未开始, 正:已开始
+        /// </summary>
+        public int GamingSeconds { get; set; }
     }
 }

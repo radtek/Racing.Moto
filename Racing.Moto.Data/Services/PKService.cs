@@ -36,12 +36,23 @@ namespace Racing.Moto.Data.Services
             }
 
             var passedSeconds = (DateTime.Now - currentPK.BeginTime).Seconds;
-            var remainSeconds = currentPK.GameSeconds - passedSeconds;
+            var remainSeconds = (currentPK.EndTime - currentPK.BeginTime).Seconds - passedSeconds;
+            // 距离比赛开始的秒数, 负:未开始, 正:已开始
+            var gamingSeconds = (DateTime.Now - currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds + currentPK.CloseSeconds)).Seconds;
+            // 比赛已经开始n秒
+            var gamePassedSeconds = gamingSeconds > 0 ? gamingSeconds : 0;
+            // 比赛剩余n秒
+            var gameRemainSeconds = currentPK.GameSeconds - gamePassedSeconds;
+            gameRemainSeconds = gameRemainSeconds > 0 ? gameRemainSeconds : 0;
+
             return new PKModel
             {
                 PK = currentPK,
                 PassedSeconds = passedSeconds,
-                RemainSeconds = remainSeconds
+                RemainSeconds = remainSeconds,
+                GamingSeconds = gamingSeconds,
+                GamePassedSeconds = gamePassedSeconds,
+                GameRemainSeconds = gameRemainSeconds
             };
         }
 

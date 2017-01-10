@@ -41,7 +41,7 @@ body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-c
     left: 180px;
     top: 24px;
 }
-.game-wrap .saidao .time-run #num{
+.game-wrap .saidao .time-run #countdown{
     margin-left: 423px;
     margin-top: 7px; 
 }

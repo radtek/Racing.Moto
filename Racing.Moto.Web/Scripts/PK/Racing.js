@@ -12,8 +12,10 @@
     // Add a client-side hub method that the server will call
     ticker.client.updatePKInfo = function (pkInfo) {
         // test
-        pkInfo.RemainSeconds = 25;
-        pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 30 };
+        pkInfo.GamingSeconds = -5;
+        pkInfo.GamePassedSeconds = 0;
+        pkInfo.GameRemainSeconds = 20;
+        pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
         motoRacing.run(pkInfo);
     }
@@ -24,7 +26,7 @@
     // moto
     var motoRacing = {
         PKInfo: null,
-        RoadLength: 800,
+        RoadLength: 920,
         Colors: ['red', 'blue', 'yellow', 'green', 'gray', 'aqua', 'blueviolet', 'brown', 'Highlight', 'aquamarine', 'teal'],
         //Easings: ['easeInQuad', 'easeInQuart', 'easeInOutSine', 'easeOutSine', 'easeOutQuad', 'linear', 'easeInCirc', 'easeInOutQuad', 'easeOutCubic', 'easeInOutCubic'],
         Easings: ['easeInOutSine', 'easeOutSine', 'linear', 'swing', 'easeInOutSine', 'easeInOutQuad', 'swing', 'easeInOutSine', 'easeOutSine', 'easeInOutQuad'],
@@ -33,15 +35,47 @@
             if (motoRacing.PKInfo == null || pkInfo.PK.PKId != motoRacing.PKInfo.PK.PKId) {
                 motoRacing.PKInfo = pkInfo;
 
-                // road moving
-                $('.saidao').floatingBg({ direction: 5, speed: 5, backgroud: '/img/bg_saidao.jpg', });
-                $('.bg-top').floatingBg({ direction: 5, speed: 5, backgroud: '/img/bg_top.jpg', });
-                $('.start-flag').floating({ direction: 'right', speed: 5 });
-
-                // moto append
+                // append moto
                 motoRacing.append();
-                // moto moving
-                motoRacing.motoRun();
+                // countdown
+                motoRacing.countdown(pkInfo);
+                // move Road
+                motoRacing.moveRoad(pkInfo);
+                // run moto
+                motoRacing.runMoto(pkInfo);
+                // move end-flag
+                motoRacing.moveEndFlag(pkInfo);
+            }
+        },
+        countdown: function (pkInfo) {
+            var seconds = pkInfo.GamingSeconds < -4 ? Math.abs(pkInfo.GamingSeconds + 4) : 0;
+            if (pkInfo.GamingSeconds < -4) {
+                var seconds = Math.abs(pkInfo.GamingSeconds + 4) + 's';
+                $('body').oneTime(seconds, function () {
+                    $('.time-run').show();
+                    var index = 3;
+                    $('body').everyTime('1s', 'countdown', function () {
+                        //var name = 'time-' + (index >= 0 ? index : 0);
+                        var name = 'time-' + (index >= 1 ? index : 1);
+                        document.getElementById("countdown").src = '/img/' + name + ".png";
+                        index--;
+                        if (index < 0) {
+                            $('.time-run').hide();
+                        }
+                    }, 5);
+                });
+            } else if (-4 < pkInfo.GamingSeconds && pkInfo.GamingSeconds < 0) {
+                $('.time-run').show();
+                var seconds = Math.abs(pkInfo.GamingSeconds);
+                var index = seconds;
+                $('body').everyTime('1s', 'countdown', function () {
+                    var name = 'time-' + (index >= 1 ? index : 1);
+                    document.getElementById("countdown").src = '/img/' + name + ".png";
+                    index--;
+                    if (index < 0) {
+                        $('.time-run').hide();
+                    }
+                }, seconds + 1);
             }
         },
         append: function () {
@@ -51,25 +85,52 @@
             }
             $('.car-list').html(html);
         },
-        motoRun: function () {
+        moveRoad: function (pkInfo) {
+            var seconds = (pkInfo.GamingSeconds < 0 ? Math.abs(pkInfo.GamingSeconds) : 0) + 's';
+            $('body').oneTime(seconds, function () {
+                // road moving
+                $('.saidao').floatingBg({ direction: 5, millisec: 5, backgroud: '/img/bg_saidao.jpg', });
+                $('.bg-top').floatingBg({ direction: 5, millisec: 5, backgroud: '/img/bg_top.jpg', });
+                $('.start-flag').floating({ direction: 'right', millisec: 5 });
+            });
+        },
+        runMoto: function (pkInfo) {
             //$('.start-flag').addClass('hide');
             //$('.end-flag').removeClass('hide');
 
-            var speeds = motoRacing.calculateSpeeds();
-            // run
-            for (var i = 0; i < speeds.length; i++) {
-                var param = speeds[i].Rank != 10
-                    ? { duration: speeds[i].Duration, easing: speeds[i].Easing }
-                    : {
-                        duration: speeds[i].Duration, easing: speeds[i].Easing, complete: function () {
-                            $('.saidao').floatingBg('destroy');
-                            $('.bg-top').floatingBg('destroy');
-                            $('.start-flag').floatingBg('destroy');
-                        }
-                    };
+            var seconds = (pkInfo.GamingSeconds < 0 ? Math.abs(pkInfo.GamingSeconds) : 0) + 's';
 
-                $('#moto' + (i + 1)).animate({ right: motoRacing.RoadLength }, param);
-            }
+            $('body').oneTime(seconds, function () {
+                var speeds = motoRacing.calculateSpeeds();
+                // run
+                for (var i = 0; i < speeds.length; i++) {
+                    var param = speeds[i].Rank != 10
+                        ? { duration: speeds[i].Duration, easing: speeds[i].Easing }
+                        : {
+                            duration: speeds[i].Duration, easing: speeds[i].Easing, complete: function () {
+                                motoRacing.clear();
+                            }
+                        };
+
+                    var $moto = $('#moto' + (i + 1));
+                    var right = parseInt($moto.css('right'), 10);
+                    $moto.animate({ right: motoRacing.RoadLength + right }, param);
+                }
+            });
+        },
+        moveEndFlag: function (pkInfo) {
+            // run end-flag floating when half of GameSeconds left
+            var seconds = (pkInfo.PK.GameSeconds / 2) + 's';
+            $('body').oneTime(seconds, function () {
+                $('.end-flag').floating({ direction: 'right', millisec: 5 });//move 100px
+
+                // stop floating after 100/5 ms later
+                var ms = (100 / 5) + 'ms';
+                //var ms = '5s';
+                $('body').oneTime(ms, function () {
+                    $('.end-flag').floating('destroy');
+                });
+            });
         },
         calculateSpeeds: function () {
             var speeds = [];
@@ -82,9 +143,9 @@
             for (var i = 0; i < rankArr.length; i++) {
                 var num = motoRacing.getRandomNum(0, 9);
 
-                var duration = (pkInfo.RemainSeconds > 10)
+                var duration = (pkInfo.GameRemainSeconds > 10)
                     ? (pkInfo.PK.GameSeconds - 10 + parseInt(rankArr[i])) * 1000
-                    : (pkInfo.RemainSeconds / 10) * parseInt(rankArr[i]) * 1000;
+                    : (pkInfo.GameRemainSeconds / 10) * parseInt(rankArr[i]) * 1000;
 
                 speeds.push({
                     'Rank': rankArr[i],
@@ -99,7 +160,12 @@
             var range = max - min;
             var rand = Math.random();
             return (min + Math.round(rand * range));
-        }
+        },
+        clear: function () {
+            $('.saidao').floatingBg('destroy');
+            $('.bg-top').floatingBg('destroy');
+            $('.start-flag').floatingBg('destroy');
+        },
     };
 
 });

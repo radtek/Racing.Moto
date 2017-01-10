@@ -11,7 +11,7 @@
 
                     var defaults = {
                         direction: 'right',
-                        speed: 50
+                        millisec: 50
                     }
 
                     settings = $.extend({}, defaults, options);
@@ -58,7 +58,7 @@
                 }
 
                 floating.move($this);
-            }, opt.speed);
+            }, opt.millisec);
 
             return timeId;
         },
