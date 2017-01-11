@@ -171,6 +171,16 @@
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Img\moto-1.png" />
+    <Content Include="Img\moto-10.png" />
+    <Content Include="Img\moto-2.png" />
+    <Content Include="Img\moto-3.png" />
+    <Content Include="Img\moto-4.png" />
+    <Content Include="Img\moto-5.png" />
+    <Content Include="Img\moto-6.png" />
+    <Content Include="Img\moto-7.png" />
+    <Content Include="Img\moto-8.png" />
+    <Content Include="Img\moto-9.png" />
     <Content Include="Scripts\jquery.easing.1.3.js" />
     <Content Include="Scripts\jquery.timer.js" />
     <None Include="Scripts\jQuery\jquery-3.1.1.intellisense.js" />

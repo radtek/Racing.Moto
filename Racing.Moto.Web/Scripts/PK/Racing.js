@@ -26,10 +26,11 @@
     // moto
     var motoRacing = {
         PKInfo: null,
-        RoadLength: 920,
+        RoadLength: 910,
         Colors: ['red', 'blue', 'yellow', 'green', 'gray', 'aqua', 'blueviolet', 'brown', 'Highlight', 'aquamarine', 'teal'],
         //Easings: ['easeInQuad', 'easeInQuart', 'easeInOutSine', 'easeOutSine', 'easeOutQuad', 'linear', 'easeInCirc', 'easeInOutQuad', 'easeOutCubic', 'easeInOutCubic'],
         Easings: ['easeInOutSine', 'easeOutSine', 'linear', 'swing', 'easeInOutSine', 'easeInOutQuad', 'swing', 'easeInOutSine', 'easeOutSine', 'easeInOutQuad'],
+        MotoInitPosition: [],
         run: function (pkInfo) {
             // new racing
             if (motoRacing.PKInfo == null || pkInfo.PK.PKId != motoRacing.PKInfo.PK.PKId) {
@@ -43,8 +44,6 @@
                 motoRacing.moveRoad(pkInfo);
                 // run moto
                 motoRacing.runMoto(pkInfo);
-                // move end-flag
-                motoRacing.moveEndFlag(pkInfo);
             }
         },
         countdown: function (pkInfo) {
@@ -81,7 +80,7 @@
         append: function () {
             var html = '';
             for (var i = 10; i > 0; i--) {
-                html += '<img id="moto' + i + '" src="/img/car-' + i + '.png" class="car-' + i + '" alt="moto' + i + '" />';
+                html += '<img id="moto' + i + '" src="/img/moto-' + i + '.png" class="car-' + i + '" alt="moto' + i + '" />';
             }
             $('.car-list').html(html);
         },
@@ -102,35 +101,44 @@
 
             $('body').oneTime(seconds, function () {
                 var speeds = motoRacing.calculateSpeeds();
+                // moto init position
+                motoRacing.MotoInitPosition = [];
                 // run
                 for (var i = 0; i < speeds.length; i++) {
                     var param = speeds[i].Rank != 10
                         ? { duration: speeds[i].Duration, easing: speeds[i].Easing }
                         : {
                             duration: speeds[i].Duration, easing: speeds[i].Easing, complete: function () {
+                                motoRacing.moveEndFlag(pkInfo);
+                                motoRacing.showFinalRanks(pkInfo);
                                 motoRacing.clear();
                             }
                         };
 
                     var $moto = $('#moto' + (i + 1));
                     var right = parseInt($moto.css('right'), 10);
-                    $moto.animate({ right: motoRacing.RoadLength + right }, param);
+                    $moto.animate({ right: motoRacing.RoadLength }, param);
+
+                    // moto init position
+                    motoRacing.MotoInitPosition.push(right - speeds[i].Rank);
                 }
+
+                // show ranks
+                $('body').everyTime('1s', 'showRanks', function () {
+                    motoRacing.showRanks();
+                });
             });
         },
         moveEndFlag: function (pkInfo) {
-            // run end-flag floating when half of GameSeconds left
-            var seconds = (pkInfo.PK.GameSeconds / 2) + 's';
-            $('body').oneTime(seconds, function () {
-                $('.end-flag').floating({ direction: 'right', millisec: 5 });//move 100px
+            // run end-flag floating when 1 secondes left            
+            //var seconds = (pkInfo.PK.GameSeconds - 1 > 0) ? (pkInfo.PK.GameSeconds - 1) * 1000 + 500 + 'ms' : '500ms';
+            //var duration = (pkInfo.PK.GameSeconds - 1 > 0) ? 1000 : 500;
+            //var seconds = '1s';
 
-                // stop floating after 100/5 ms later
-                var ms = (100 / 5) + 'ms';
-                //var ms = '5s';
-                $('body').oneTime(ms, function () {
-                    $('.end-flag').floating('destroy');
-                });
-            });
+            //$('body').oneTime(seconds, function () {
+            //});
+            // move 400px
+            $('.end-flag').animate({ left: 0 }, { duration: 1000, easing: 'linear' });
         },
         calculateSpeeds: function () {
             var speeds = [];
@@ -161,10 +169,61 @@
             var rand = Math.random();
             return (min + Math.round(rand * range));
         },
+        calculateRanks: function () {
+            var ranks = [];
+            for (var i = 0; i < 10; i++) {
+                var $moto = $('#moto' + (i + 1));
+                var pos = motoRacing.MotoInitPosition[i];
+                var right = parseInt($moto.css('right'), 10);
+
+                ranks.push({
+                    Num: i + 1,
+                    Right: right - pos
+                });
+            }
+            console.log(ranks);
+
+            //desc order
+            ranks.sort(function (a, b) {
+                return b.Right - a.Right
+            });
+
+            console.log(ranks);
+
+            return ranks;
+        },
+        showRanks: function () {
+            var ranks = motoRacing.calculateRanks();
+
+            motoRacing.appendRanks(ranks);
+        },
+        appendRanks: function (ranks) {
+            var html = '<div style="margin-left:184px; ">&nbsp;</div>';
+            for (var i = 0; i < ranks.length; i++) {
+                html += '<div class="shishi-' + ranks[i].Num + ' color-' + ranks[i].Num + '">' + ranks[i].Num + '</div>';
+            }
+            $('#ranks').html(html);
+        },
+        showFinalRanks: function (pkInfo) {
+            //ranks: 3,2,5,6,8,7,10,1,9,4
+            var rankArr = pkInfo.PK.Ranks.split(',');
+
+            var ranks = [];
+            for (var i = 0; i < rankArr.length; i++) {
+                ranks.push({
+                    Num: rankArr[i],
+                    Right: 0
+                });
+            }
+
+            motoRacing.appendRanks(ranks);
+        },
         clear: function () {
             $('.saidao').floatingBg('destroy');
             $('.bg-top').floatingBg('destroy');
             $('.start-flag').floatingBg('destroy');
+
+            $('body').stopTime();
         },
     };
 

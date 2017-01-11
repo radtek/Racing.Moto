@@ -45,23 +45,59 @@ body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-c
     margin-left: 423px;
     margin-top: 7px; 
 }
-.zhu-a{
+/* start-flag */
+.start-flag .zhu-a{
     position: absolute;
     right: 280px;
     top:-135px;
 }
-.zhu-b{
+.start-flag .zhu-b{
     position: absolute;
     right: 160px;
     bottom:-480px;
     z-index: 1001;
 }
-.wang{
+.start-flag .wang{
     position: absolute;
     right: 165px;
     top:-101px;
     z-index: 1000;
 }
+.start-flag .start{
+    width: 220px;
+    height: 467px;
+    background: url(../img/end.png) no-repeat;
+    position: absolute;
+    right: 125px;
+    top:9px;
+}
+/* end-flag */
+.end-flag .zhu-a{
+    position: absolute;
+    left: 143px;
+    top:-125px;
+}
+.end-flag .zhu-b{
+    position: absolute;
+    left: 256px;
+    bottom:-480px;
+    z-index: 1001;
+}
+.end-flag .wang{
+    position: absolute;
+    left: 148px;
+    top:-101px;
+    z-index: 1000;
+}
+.end-flag .end{
+    width: 220px;
+    height: 467px;
+    background: url(../img/end.png) no-repeat;
+    position: absolute;
+    left: 103px;
+    top:9px;
+}
+
 .car-list{
     width: 200px;
     height: 483px;
@@ -70,62 +106,88 @@ body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-c
 }  
 .car-list .car-10{
     position: absolute;
-    right: -1px;
+    right: 5px;
     top:-95px;
+    width:192px;
 }
 .car-list .car-9{
     position: absolute;
-    right: -28px;
+    right: -8px;
     top:-56px;
+    width:194px;
 }
 .car-list .car-8{
     position: absolute;
-    right: -36px;
+    right: -22px;
     top:-7px;
+    width:196px;
 }
 .car-list .car-7{
     position: absolute;
-    right: -48px;
+    right: -34px;
     top:38px;
+    width:198px;
 }
 .car-list .car-6{
     position: absolute;
-    right: -60px;
+    right: -45px;
     top:90px;
+    width:200px;
 }
 .car-list .car-5{
     position: absolute;
-    right: -65px;
+    right: -56px;
     top:140px;
+    width:202px;
 }
 .car-list .car-4{
     position: absolute;
-    right: -80px;
+    right: -76px;
     top:190px;
+    width:204px;
 }
 .car-list .car-3{
     position: absolute;
-    right: -92px;
+    right: -88px;
     top:232px;
+    width:206px;
 }
 .car-list .car-2{
     position: absolute;
-    right: -105px;
+    right: -102px;
     top:280px;
+    width:208px;
 }
 .car-list .car-1{
     position: absolute;
-    right: -118px;
+    right: -116px;
     top:335px;
+    width:210px;
 }
 
 /*game*/
-/*.game-wrap .saidao-end{
+/*
+
+.game-wrap .saidao-end{
     background: url(../img/bg_saidao_end.jpg) no-repeat;
     width: 1366px;
     height: 483px;
     position: relative;
-}*/
+}
+.saidao .start{
+    width: 220px;
+    height: 467px;
+    background: url(../img/end.png) no-repeat;
+    position: absolute;
+    right: 125px;
+    top:9px;
+}
+.saidao .start-wang{
+    position: absolute;
+    right: 165px;
+    top:-128px;
+    z-index: 10000;
+}
 .saidao .end{
     width: 220px;
     height: 467px;
@@ -140,6 +202,9 @@ body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-c
     top:-128px;
     z-index: 10000;
 }
+
+*/
+
 .saiqi{
     position: absolute;
     bottom: 0;
@@ -163,34 +228,34 @@ body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-c
     text-align: center;
     font-size: 26px;
 }
-.shishi .lv-se{
+.shishi .color-1{
    background: url(../img/lv-se.png) no-repeat;
 }
-.shishi .hong-se{
+.shishi .color-2{
    background: url(../img/hong-se.png) no-repeat;
 }
-.shishi .zi-se{
+.shishi .color-3{
    background: url(../img/zi-se.png) no-repeat;
 }
-.shishi .juhuang-se{
+.shishi .color-4{
    background: url(../img/juhuang-se.png) no-repeat;
 }
-.shishi .danhong-se{
+.shishi .color-5{
    background: url(../img/danhong-se.png) no-repeat;
 }
-.shishi .shenlan-se{
+.shishi .color-6{
    background: url(../img/shenlan-se.png) no-repeat;
 }
-.shishi .tianlan-se{
+.shishi .color-7{
    background: url(../img/tianlan-se.png) no-repeat;
 }
-.shishi .lan-se{
+.shishi .color-8{
    background: url(../img/lan-se.png) no-repeat;
 }
-.shishi .huang-se{
+.shishi .color-9{
    background: url(../img/huang-se.png) no-repeat;
 }
-.shishi .he-se{
+.shishi .color-10{
    background: url(../img/he-se.png) no-repeat;
 }
 
