@@ -106,22 +106,31 @@
                 // run
                 for (var i = 0; i < speeds.length; i++) {
                     var param = speeds[i].Rank != 10
-                        ? { duration: speeds[i].Duration, easing: speeds[i].Easing }
+                        ? {
+                            duration: speeds[i].Duration, easing: speeds[i].Easing, complete: function () {
+                                // when the first moto at the end, moveEndFlag
+                                motoRacing.moveEndFlag(pkInfo);
+
+                                $('body').oneTime('1s', function () {
+                                    motoRacing.clear();
+                                });
+                            }
+                        }
                         : {
                             duration: speeds[i].Duration, easing: speeds[i].Easing, complete: function () {
-                                motoRacing.moveEndFlag(pkInfo);
                                 motoRacing.showFinalRanks(pkInfo);
                                 motoRacing.clear();
                             }
                         };
 
                     var $moto = $('#moto' + (i + 1));
-                    var right = parseInt($moto.css('right'), 10);
-                    $moto.animate({ right: motoRacing.RoadLength }, param);
+                    var pos = parseInt($moto.css('right'), 10);
+                    $moto.animate({ right: motoRacing.RoadLength + pos }, param);
 
                     // moto init position
-                    motoRacing.MotoInitPosition.push(right - speeds[i].Rank);
+                    motoRacing.MotoInitPosition.push(pos);
                 }
+                console.log(motoRacing.MotoInitPosition);
 
                 // show ranks
                 $('body').everyTime('1s', 'showRanks', function () {
@@ -130,15 +139,22 @@
             });
         },
         moveEndFlag: function (pkInfo) {
-            // run end-flag floating when 1 secondes left            
-            //var seconds = (pkInfo.PK.GameSeconds - 1 > 0) ? (pkInfo.PK.GameSeconds - 1) * 1000 + 500 + 'ms' : '500ms';
-            //var duration = (pkInfo.PK.GameSeconds - 1 > 0) ? 1000 : 500;
-            //var seconds = '1s';
+            var $startFlag = $('.end-flag');
 
-            //$('body').oneTime(seconds, function () {
-            //});
-            // move 400px
-            $('.end-flag').animate({ left: 0 }, { duration: 1000, easing: 'linear' });
+            //// run end-flag floating 
+            //var duration = pkInfo.GameRemainSeconds - pkInfo.GamingSeconds - 1;
+            ////var duration = 3;
+            //if (duration > 0) {
+            //    var seconds = '1s';
+
+            //    $('body').oneTime(seconds, function () {
+            //        $startFlag.floating({ direction: 'right', millisec: 5, position: 0 });
+            //    });
+            //} else {
+            //    $startFlag.css('left', '0px');
+            //}
+
+            $startFlag.floating({ direction: 'right', millisec: 5, position: 0 });
         },
         calculateSpeeds: function () {
             var speeds = [];
@@ -161,7 +177,6 @@
                     'Easing': motoRacing.Easings[num]
                 });
             }
-            console.log(speeds);
             return speeds;
         },
         getRandomNum: function (min, max) {
@@ -175,17 +190,22 @@
                 var $moto = $('#moto' + (i + 1));
                 var pos = motoRacing.MotoInitPosition[i];
                 var right = parseInt($moto.css('right'), 10);
+                var currentDistance = right - pos;
+                var length = motoRacing.RoadLength + pos;//length that moto need to run
+                var distance = currentDistance == length    // at the end
+                            ? currentDistance * 2
+                            : currentDistance;
 
                 ranks.push({
                     Num: i + 1,
-                    Right: right - pos
+                    Distance: distance
                 });
             }
             console.log(ranks);
 
             //desc order
             ranks.sort(function (a, b) {
-                return b.Right - a.Right
+                return b.Distance - a.Distance
             });
 
             console.log(ranks);
@@ -212,7 +232,7 @@
             for (var i = 0; i < rankArr.length; i++) {
                 ranks.push({
                     Num: rankArr[i],
-                    Right: 0
+                    Distance: 0
                 });
             }
 

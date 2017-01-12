@@ -11,13 +11,14 @@
 
                     var defaults = {
                         direction: 'right',
-                        millisec: 50
+                        millisec: 50,
+                        position: null
                     }
 
                     settings = $.extend({}, defaults, options);
 
                     $this.data('options', settings);
-                    $this.data('pos', 0);
+                    $this.data('pos', floating.getInitPos(settings, $this));
                 } else {
                     settings = $.extend({}, settings, options);
                 }
@@ -30,14 +31,25 @@
             return $(this).each(function () {
                 var $this = $(this);
 
-                var timeId = $this.data('timeId');
-                clearTimeout(timeId);
+                //var timeId = $this.data('timeId');
+                //clearTimeout(timeId);
 
-                // 删除元素对应的数据
-                $this.removeData('options');
-                $this.removeData('timeId');
-                $this.removeData('pos');
+                //// 删除元素对应的数据
+                //$this.removeData('options');
+                //$this.removeData('timeId');
+                //$this.removeData('pos');
+
+                floating.clear($this);
             });
+        },
+        clear: function ($this) {
+            var timeId = $this.data('timeId');
+            clearTimeout(timeId);
+
+            // 删除元素对应的数据
+            $this.removeData('options');
+            $this.removeData('timeId');
+            $this.removeData('pos');
         },
         move: function ($this) {
             var opt = $this.data('options');
@@ -45,8 +57,15 @@
                 return;
             }
 
+            var position = opt.position;//位置
+            var pos = parseInt($this.data('pos'), 10);
+
+            if (position != null && position == pos) {
+                floating.clear($this);
+                return;
+            }
+
             var timeId = setTimeout(function () {
-                var pos = parseInt($this.data('pos'), 10);
                 pos = pos + 1;
                 $this.data('pos', pos);
 
@@ -62,6 +81,16 @@
 
             return timeId;
         },
+        getInitPos: function (opt, $this) {
+            var pos = 0;
+            switch (opt.direction) {
+                case 'left': pos = $this.css("right"); break;
+                case 'right': pos = $this.css("left"); break;
+                case 'top': pos = $this.css("bottom"); break;
+                case 'bottom': pos = $this.css("top"); break;
+            }
+            return pos;
+        }
     };
 
     $.fn.floating = function () {
