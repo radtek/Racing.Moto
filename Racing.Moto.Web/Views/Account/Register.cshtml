@@ -1,0 +1,87 @@
+﻿@model Racing.Moto.Data.Models.RegisterModel
+@{
+    ViewBag.Title = "注册";
+}
+
+<div>
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { style = "display:none;" })
+        <table style="width:600px;">
+            <tr>
+                <td style="width:150px;">账号：</td>
+                <td style="width:300px;">
+                    @Html.TextBoxFor(m => m.UserName, new { maxlength="18", placeholder="由5-18位字母,数字或下划线组成" })
+                </td>
+            </tr>
+            <tr>
+                <td>密码：</td>
+                <td>@Html.PasswordFor(m => m.Password, new { maxlength = "32", placeholder = "由6-32位字符组成(区分大小写)" })</td>
+            </tr>
+            <tr>
+                <td>重复密码：</td>
+                <td>@Html.PasswordFor(m => m.ConfirmPassword, new { maxlength = "32", placeholder = "再次输入登录密码" })</td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" id="btnSubmit" value="注册" style="width:30%;" /></td>
+            </tr>
+        </table>
+    }
+</div>
+<script type="text/javascript">
+        $(function () {
+            $('#btnSubmit').click(function (event) {
+                var msg = Check();
+                if(msg != ''){
+                    alert(msg);
+                    event.preventDefault();
+                }
+            });
+            function Check() {
+                var msg = '';
+
+                var un = $.trim($('#UserName').val());
+                var pwd = $.trim($('#Password').val());
+                var pwd2 = $.trim($('#ConfirmPassword').val());
+                if (un == '' || pwd == '' || pwd2 == '') {
+                    msg = '请输入用户名,密码,重复密码.';
+                    return msg;
+                }
+                if (un.length < 5) {
+                    msg = '用户名长度不能少于5位.';
+                    return msg;
+                }
+                if (pwd != pwd2) {
+                    msg = '两次输入的密码不一致.';
+                    return msg;
+                }
+                if (pwd.length < 6) {
+                    msg = '密码长度不能少于6位.';
+                    return msg;
+                }
+                var unPattern = /^[a-zA-Z0-9_]{1,}$/;
+                if (!un.value.match(unPattern)) {
+                    msg = '用户名只能包含字母,数字,下划线.';
+                    return msg;
+                }
+
+                return msg;
+            }
+
+            function getValidationMessages() {
+                var messages = [];
+
+                $('.validation-summary-errors > ul > li').each(function (index, ele) {
+                    messages.push($(this).text());
+                });
+
+                return messages;
+            }
+
+            var messages = racingMotoWeb.getValidationMessages();
+            if (messages.length > 0) {
+                alert(messages[0]);
+            }
+        });
+</script>

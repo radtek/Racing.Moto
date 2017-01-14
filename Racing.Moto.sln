@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Racing.Moto.Web", "Racing.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Racing.Moto.Test", "Racing.Moto.Test\Racing.Moto.Test.csproj", "{3776584B-3228-479B-AFA2-BF9D0FDCC69F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Racing.Moto.Services", "Racing.Moto.Services\Racing.Moto.Services.csproj", "{5F9F188A-EC4C-4E77-BB5B-ADFE3A32587C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{3776584B-3228-479B-AFA2-BF9D0FDCC69F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3776584B-3228-479B-AFA2-BF9D0FDCC69F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3776584B-3228-479B-AFA2-BF9D0FDCC69F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F9F188A-EC4C-4E77-BB5B-ADFE3A32587C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F9F188A-EC4C-4E77-BB5B-ADFE3A32587C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F9F188A-EC4C-4E77-BB5B-ADFE3A32587C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F9F188A-EC4C-4E77-BB5B-ADFE3A32587C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

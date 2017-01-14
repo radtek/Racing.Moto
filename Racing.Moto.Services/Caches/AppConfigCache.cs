@@ -1,12 +1,11 @@
 ﻿using Racing.Moto.Data.Entities;
-using Racing.Moto.Data.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Racing.Moto.Data.Caches
+namespace Racing.Moto.Services.Caches
 {
     public class AppConfigCache
     {

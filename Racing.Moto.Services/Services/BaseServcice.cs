@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Racing.Moto.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Racing.Moto.Data
+namespace Racing.Moto.Services
 {
     public abstract class BaseServcice : IDisposable
     {

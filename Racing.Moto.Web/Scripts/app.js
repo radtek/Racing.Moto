@@ -1,4 +1,11 @@
 ﻿var racingMotoWeb = {
+    getValidationMessages: function () {
+        var messages = [];
+        $('.validation-summary-errors > ul > li').each(function (index, ele) {
+            messages.push($(this).text());
+        });
+        return messages;
+    },
     convertToDate: function (dateString) {
         dateString = dateString.replace('T', ' ').replace(/-/g, "/");
         var reggie1 = /(\d{2,4})\/(\d{1,2})\/(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})/;

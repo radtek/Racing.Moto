@@ -1,6 +1,6 @@
 ﻿using NLog;
 using Quartz;
-using Racing.Moto.Data.Services;
+using Racing.Moto.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

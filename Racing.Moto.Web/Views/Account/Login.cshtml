@@ -1,0 +1,60 @@
+﻿@model Racing.Moto.Data.Models.LoginModel
+@{
+    ViewBag.Title = "登录";
+}
+<div>
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { style = "display:none;" })
+        <table style="width:450px;">
+            <tr>
+                <td style="width:150px;">账号：</td>
+                <td style="width:300px;">
+                    @Html.TextBoxFor(m => m.UserName)
+                </td>
+            </tr>
+            <tr>
+                <td>密码：</td>
+                <td>@Html.PasswordFor(m => m.Password)</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <a href="#" style="width:50%;">注册</a>
+                    <a href="#" style="width:50%;">忘记密码?</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="submit" id="btnSubmit" value="登录" style="width:30%;" /></td>
+            </tr>
+        </table>
+    }
+</div>
+<script type="text/javascript">
+        $(function () {
+            $('#btnSubmit').click(function (event) {
+                var un = $.trim($('#UserName').val());
+                var pwd = $.trim($('#Password').val());
+                if (un == '' || pwd == '') {
+                    alert('请输入用户名,密码.');
+                    event.preventDefault();
+                }
+            });
+
+            function getValidationMessages() {
+                var messages = [];
+
+                $('.validation-summary-errors > ul > li').each(function (index, ele) {
+                    messages.push($(this).text());
+                });
+
+                return messages;
+            }
+
+            var messages = racingMotoWeb.getValidationMessages();
+            if (messages.length > 0) {
+                alert(messages[0]);
+            }
+        });
+</script>

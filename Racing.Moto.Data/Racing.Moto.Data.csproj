@@ -55,10 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseServcice.cs" />
-    <Compile Include="Caches\RateCache.cs" />
-    <Compile Include="Caches\AppConfigCache.cs" />
-    <Compile Include="Constants\BetConst.cs" />
     <Compile Include="Entities\Bet.cs" />
     <Compile Include="Entities\AppConfig.cs" />
     <Compile Include="Entities\Log.cs" />
@@ -76,16 +72,13 @@
     <Compile Include="Membership\MembershipProvider.cs" />
     <Compile Include="Membership\SqlMembershipProvider.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountModelscs.cs" />
     <Compile Include="Models\BetModels.cs" />
     <Compile Include="Models\PKModels.cs" />
     <Compile Include="Models\RankModels.cs" />
+    <Compile Include="Models\ResponseResult.cs" />
     <Compile Include="RacingDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\PKService.cs" />
-    <Compile Include="Services\BetService.cs" />
-    <Compile Include="Services\PKRateService.cs" />
-    <Compile Include="Services\RateService.cs" />
-    <Compile Include="Services\AppConfigService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

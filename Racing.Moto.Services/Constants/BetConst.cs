@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Racing.Moto.Data.Constants
+namespace Racing.Moto.Services.Constants
 {
     public class BetNumConst
     {

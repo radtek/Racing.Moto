@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Racing.Moto.Data.Services
+namespace Racing.Moto.Services
 {
     public class RateService : BaseServcice
     {

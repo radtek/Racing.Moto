@@ -1,5 +1,5 @@
-﻿using Racing.Moto.Data.Caches;
-using Racing.Moto.Data.Constants;
+﻿using Racing.Moto.Services.Caches;
+using Racing.Moto.Services.Constants;
 using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Models;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Racing.Moto.Data.Services
+namespace Racing.Moto.Services
 {
     public class PKService : BaseServcice
     {

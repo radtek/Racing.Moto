@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Racing.Moto.Data.Models;
-using Racing.Moto.Data.Services;
+using Racing.Moto.Services;
 using Racing.Moto.Web.SignalR.Hubs;
 using System;
 using System.Collections.Concurrent;

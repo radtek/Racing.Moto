@@ -66,9 +66,17 @@ body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-c
 .start-flag .start{
     width: 220px;
     height: 467px;
-    background: url(../img/end.png) no-repeat;
+    background: url(../img/start-line.png) no-repeat;
     position: absolute;
-    right: 125px;
+    right: 185px;
+    top:9px;
+}
+.start-flag .road-num{
+    width: 180px;
+    height: 467px;
+    background: url(../img/road-num.png) no-repeat;
+    position: absolute;
+    right: 300px;
     top:9px;
 }
 /* end-flag */
@@ -166,44 +174,6 @@ body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-c
 }
 
 /*game*/
-/*
-
-.game-wrap .saidao-end{
-    background: url(../img/bg_saidao_end.jpg) no-repeat;
-    width: 1366px;
-    height: 483px;
-    position: relative;
-}
-.saidao .start{
-    width: 220px;
-    height: 467px;
-    background: url(../img/end.png) no-repeat;
-    position: absolute;
-    right: 125px;
-    top:9px;
-}
-.saidao .start-wang{
-    position: absolute;
-    right: 165px;
-    top:-128px;
-    z-index: 10000;
-}
-.saidao .end{
-    width: 220px;
-    height: 467px;
-    background: url(../img/end.png) no-repeat;
-    position: absolute;
-    left: 103px;
-    top:9px;
-}
-.saidao .end-wang{
-    position: absolute;
-    left: 139px;
-    top:-128px;
-    z-index: 10000;
-}
-
-*/
 
 .saiqi{
     position: absolute;

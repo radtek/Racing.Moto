@@ -1,6 +1,6 @@
 ﻿using Racing.Moto.Core.GraphAlgorithms;
-using Racing.Moto.Data.Caches;
-using Racing.Moto.Data.Constants;
+using Racing.Moto.Services.Caches;
+using Racing.Moto.Services.Constants;
 using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Models;
 using System;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Racing.Moto.Data.Services
+namespace Racing.Moto.Services
 {
     public class BetService : BaseServcice
     {
@@ -162,7 +162,7 @@ namespace Racing.Moto.Data.Services
             var betAmounts = GetBetAmounts(pkId);
             // 计算奖池百分比
             var betRates = CalculateBetRates(betAmounts);
-            // 奖池百分比 转换成 矩阵, 用于计算最小中奖名次
+            // 奖池百分比 转换成 矩阵, 用于计算最小中奖名次 [TODO]大于1必不中
             var matrix = GetMatrix(betRates);
             // 计算最小中奖名次
             var minCostMatrix = new HungarianAlgorithm(matrix).Run();
