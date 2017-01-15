@@ -1,0 +1,617 @@
+﻿html {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, dialog, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "microsoft Yahei" !important;
+}
+
+.user-top {
+    width: 100%;
+    height: 36px;
+}
+
+    .user-top .box {
+        width: 370px;
+        float: right;
+    }
+
+        .user-top .box .user {
+            margin-top: 5px;
+            float: left;
+        }
+
+        .user-top .box .name {
+            margin-top: 7px;
+            margin-left: 5px;
+            float: left;
+            color: #36a3ff;
+        }
+
+        .user-top .box .edu {
+            margin-top: 7px;
+            margin-left: 45px;
+            float: left;
+            color: #000;
+        }
+
+        .user-top .box .jia {
+            margin-top: 4px;
+            margin-left: 12px;
+            float: left;
+            color: #000;
+        }
+
+.nav {
+    width: 100%;
+    height: 118px;
+    background: #383737;
+    position: relative;
+}
+
+    .nav .logo {
+        margin-left: 50px;
+        float: left;
+    }
+
+    .nav .jishiqi {
+        float: left;
+        margin-top: 75px;
+        margin-left: 65px;
+    }
+
+    .nav .shijian {
+        float: left;
+        margin-top: 81px;
+        margin-left: 11px;
+        color: #fff;
+        font-size: 18px;
+    }
+
+    .nav ul {
+        width: 285px;
+        height: 75px;
+        position: absolute;
+        right: 0;
+        top: 20px;
+    }
+
+        .nav ul li {
+            float: left;
+            list-style: none;
+            margin-left: 15px;
+        }
+
+.main-wrap {
+    width: 1326px;
+    background: #d4d4d4;
+    min-height: 500px;
+    margin: 0 auto;
+}
+
+    .main-wrap .left {
+        width: 282px;
+        padding: 0 10px;
+        float: left;
+        height: 100px;
+    }
+
+    .main-wrap .right {
+        width: 978px;
+        padding: 0 21px;
+        float: right;
+        background: #383737;
+    }
+
+.guanggao img {
+    width: 100%;
+}
+
+.main-wrap .left .jilu {
+    width: 100%;
+    height: 110px;
+    background: #fff;
+}
+
+    .main-wrap .left .jilu .top {
+        width: 100%;
+        height: 55px;
+        line-height: 55px;
+        text-align: center;
+        font-size: 18px;
+        border-bottom: 2px solid #fbfbfb;
+    }
+
+    .main-wrap .left .jilu .bottom {
+        width: 100%;
+        height: 55px;
+    }
+
+        .main-wrap .left .jilu .bottom .tab1 {
+            width: 50%;
+            float: left;
+            height: 55px;
+            line-height: 55px;
+            text-align: center;
+        }
+
+        .main-wrap .left .jilu .bottom .tab2 {
+            width: 50%;
+            float: left;
+            height: 55px;
+            line-height: 55px;
+            text-align: center;
+        }
+
+        .main-wrap .left .jilu .bottom .active {
+            background: #9f9f9f;
+            color: #e6ce2f;
+        }
+
+.main-wrap .left .dijiqi {
+    width: 248px;
+    height: 48px;
+    color: #b8524e;
+    background: #fff;
+    line-height: 48px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.main-wrap .left .list {
+    background: #fff;
+}
+
+    .main-wrap .left .list li {
+        list-style: none;
+        height: 36px;
+        line-height: 36px;
+        border-bottom: 2px solid #e6e6e6;
+    }
+
+        .main-wrap .left .list li span.a {
+            color: #4880b0;
+            margin-left: 20px;
+            display: inline-block;
+            width: 65px;
+        }
+
+        .main-wrap .left .list li span.b {
+            color: #4880b0;
+            margin-left: 30px;
+        }
+
+        .main-wrap .left .list li span.c {
+            color: #333;
+            margin-left: 105px;
+        }
+
+.guanggao {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.main-wrap .right .top {
+    height: 44px;
+    line-height: 44px;
+    background: #d4d4d4;
+    margin-left: -21px;
+    margin-right: -21px;
+    position: relative;
+}
+
+    .main-wrap .right .top .pk {
+        margin-left: 20px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .main-wrap .right .top .rightB {
+        width: 345px;
+        float: right;
+        right: 0;
+        height: 44px;
+        line-height: 44px;
+    }
+
+        .main-wrap .right .top .rightB .num {
+            float: left;
+        }
+
+        .main-wrap .right .top .rightB .shalou {
+            margin-left: 99px;
+            margin-top: 4px;
+            display: inline-block;
+            float: left;
+        }
+
+        .main-wrap .right .top .rightB .time {
+            margin-left: 29px;
+            display: inline-block;
+            float: left;
+        }
+
+.main-wrap .right .tab {
+    width: 600px;
+    margin-top: 15px;
+    margin-left: 252px;
+    margin-bottom: 15px;
+}
+
+    .main-wrap .right .tab li {
+        float: left;
+        list-style: none;
+        margin-right: 90px;
+    }
+
+        .main-wrap .right .tab li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+.clear {
+    clear: both;
+}
+
+.main-wrap .right .tab li a.on {
+    color: #333;
+    background: #fff;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+.main-wrap .right .thead {
+    background: #d5d5d5;
+    width: 100%;
+    height: 46px;
+    line-height: 46px;
+    text-align: center;
+    font-size: 18px;
+}
+
+    .main-wrap .right .thead a {
+        text-decoration: none;
+        margin-top: 5px;
+    }
+
+.main-wrap .right .z-table {
+    background: #fff;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .main-wrap .right .z-table tr td.bg-gray {
+        background: #d5d5d5;
+        color: #414141;
+        width: 74px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .main-wrap .right .z-table tr td {
+        border: 1px solid #e4e4e4;
+        padding: 8px;
+        vertical-align: middle;
+    }
+
+        .main-wrap .right .z-table tr td div, .main-wrap .right .z-table tr td input {
+            float: left;
+        }
+
+        .main-wrap .right .z-table tr td .mingci {
+            width: 22px;
+            height: 22px;
+            text-align: center;
+            line-height: 22px;
+            color: #fff;
+            border-radius: 3px;
+            margin-left: 10px;
+        }
+
+        .main-wrap .right .z-table tr td .value {
+            color: #cf3c42;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .main-wrap .right .z-table tr td .shuru {
+            width: 56px;
+            padding: 2px;
+            border-radius: 3px;
+            border: 1px solid #cecece;
+            margin-left: 8px;
+        }
+
+.bg-huang {
+    background: #fcd54a;
+}
+
+.bg-lan {
+    background: #0187fc;
+}
+
+.bg-juhuang {
+    background: #fd6e00;
+}
+
+.bg-lv {
+    background: #23c400;
+}
+
+.bg-zi {
+    background: #5b34a1;
+}
+
+.bg-qianzi {
+    background: #a94ac9;
+}
+
+.bg-danhong {
+    background: #dc3b29;
+}
+
+.bg-tianlan {
+    background: #53c5e7;
+}
+
+.bg-hei {
+    background: #636363;
+}
+
+.bg-hong {
+    background: #720201;
+}
+
+.bg-da {
+    background: #1dd3b0;
+}
+
+.main-wrap .right .touzhu-1 {
+    color: #fff;
+    padding: 10px 0;
+}
+
+    .main-wrap .right .touzhu-1 div {
+        margin-left: 10px;
+        margin-top: 8px;
+        float: left;
+    }
+
+        .main-wrap .right .touzhu-1 div span, .main-wrap .right .touzhu-2 div span {
+            padding: 0 5px;
+            font-size: 22px;
+        }
+
+.main-wrap .right .z-list {
+    list-style: none;
+    background: #fff;
+    margin-bottom: 15px;
+    height: 185px;
+    overflow-y: scroll;
+}
+
+    .main-wrap .right .z-list li {
+        height: 36px;
+        line-height: 36px;
+        border-bottom: 1px solid #eaeaea;
+    }
+
+.main-wrap .right .touzhu-2 {
+    text-align: right;
+    float: right;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+    .main-wrap .right .touzhu-2 div {
+        float: left;
+    }
+
+.main-wrap .right .z-list .a {
+    margin-left: 15px;
+}
+
+.main-wrap .right .z-list .b {
+    margin-left: 15px;
+    width: 80px;
+    display: inline-block;
+}
+
+.main-wrap .right .z-list .c {
+    margin-left: 85px;
+    width: 100px;
+    display: inline-block;
+}
+
+.main-wrap .right .z-list .d {
+    margin-left: 15px;
+    width: 180px;
+    display: inline-block;
+}
+
+.main-wrap .right .z-list .e {
+    margin-left: 15px;
+    width: 200px;
+    display: inline-block;
+}
+
+.main-wrap .right .z-list .f {
+    margin-left: 15px;
+    width: 50px;
+    display: inline-block;
+}
+
+.main-wrap .right ul.top {
+    list-style: none;
+}
+
+    .main-wrap .right ul.top li {
+        float: left;
+        padding: 0 20px;
+        border-right: 1px solid #000;
+    }
+
+        .main-wrap .right ul.top li a {
+            color: #2a2c35;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .main-wrap .right ul.top li.on {
+            background: #fbd64a;
+        }
+
+.main-wrap .right ul.tab-new {
+    height: 36px;
+    line-height: 36px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+    .main-wrap .right ul.tab-new li {
+        float: left;
+        padding: 0 20px;
+        list-style: none;
+        border: 1px solid #994c04;
+    }
+
+        .main-wrap .right ul.tab-new li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .main-wrap .right ul.tab-new li.on {
+            background: #fcd54a;
+        }
+
+            .main-wrap .right ul.tab-new li.on a {
+                color: #333;
+                font-weight: bold;
+            }
+
+.text-center td {
+    text-align: center;
+}
+
+.xiugai {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+    .xiugai .a {
+        float: left;
+    }
+
+    .xiugai .b {
+        float: left;
+        padding: 5px;
+        border: 1px solid #333;
+        margin-left: 15px;
+    }
+
+    .xiugai .c {
+        float: left;
+        padding: 6px;
+        border: 1px solid #333;
+        margin-left: 15px;
+        width: 100px;
+    }
+
+    .xiugai .d {
+        float: left;
+        border: 1px solid #333;
+        margin-left: 15px;
+        width: 100px;
+    }
+
+    .xiugai .e {
+        float: left;
+        margin-left: 175px;
+        margin-right: 20px;
+    }
+
+
+.hide {
+    display: none;
+}
+
+/*----------------------------------------
+    Loader
+------------------------------------------*/
+#loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    opacity: 0.9;
+}
+
+    #loader-wrapper .loader-with-bgimg {
+        display: block;
+        position: relative;
+        left: 50%;
+        top: 50%;
+        width: 440px;
+        height: 277px;
+        margin: -220px 0 0 -138px;
+        z-index: 1001;
+        background-size: cover;
+        background-position: center;
+        background-image: url('../img/loading.gif');
+    }
+
+    #loader-wrapper .loader-section {
+        position: fixed;
+        top: 0;
+        width: 51%;
+        height: 100%;
+        /*background: #262626;*/
+        background:rgba(48, 48, 48, 1);
+        z-index: 1000;
+        -webkit-transform: translateX(0);
+        /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: translateX(0);
+        /* IE 9 */
+        transform: translateX(0);
+        /* Firefox 16+, IE 10+, Opera */
+    }
+
+        #loader-wrapper .loader-section.section-left {
+            left: 0;
+        }
+
+        #loader-wrapper .loader-section.section-right {
+            right: 0;
+        }
+
+
+.no-js #loader-wrapper {
+    display: none;
+}
+
+/*----------------------------------------
+    Loader
+------------------------------------------*/

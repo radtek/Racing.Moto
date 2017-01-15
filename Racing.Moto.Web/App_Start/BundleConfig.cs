@@ -10,20 +10,34 @@ namespace Racing.Moto.Web
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
+            // js
             bundles.Add(new ScriptBundle("~/RacingMotoJs")
-                .Include("~/Scripts/AngularJs/angular.js")
+                .Include("~/Scripts/jQuery/jquery-{version}.js")
                 .Include("~/Scripts/modernizr-{version}.js")
                 .Include("~/Scripts/app.js")
             );
-            bundles.Add(new ScriptBundle("~/jQuery")
-                .Include("~/Scripts/jQuery/jquery-{version}.js")
-            );
             bundles.Add(new ScriptBundle("~/Racing")
+                .Include("~/Scripts/jquery.easing.1.3.js")
+                .Include("~/Scripts/jquery.timer.js")
+                .Include("~/Scripts/jquery.floatingBg.js")
+                .Include("~/Scripts/jquery.floating.js")
                 .Include("~/Scripts/PK/Racing.js")
             );
+            bundles.Add(new ScriptBundle("~/RacingMotoBetJs")
+                .Include("~/Scripts/AngularJs/angular.js")
+                .Include("~/Scripts/AngularJs/angular-filter-{version}.js")
+                .Include("~/Scripts/jQuery/jquery-{version}.js")
+                .Include("~/Scripts/modernizr-{version}.js")
+                .Include("~/Scripts/ngApp.js")
+            );
 
+
+            // css
             bundles.Add(new StyleBundle("~/RacingMotoCss")
                 .Include("~/Content/Site.css")
+            );
+            bundles.Add(new StyleBundle("~/RacingMotoBetCss")
+                .Include("~/Content/bet.css")
             );
         }
     }

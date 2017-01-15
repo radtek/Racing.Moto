@@ -1,15 +1,11 @@
 ﻿@{
     ViewBag.Title = "竞技场";
 }
-<script src="/Scripts/jquery.signalR-2.2.1.js"></script>
-<script src="/signalr/hubs"></script>
-<script src="~/Scripts/jquery.easing.1.3.js"></script>
-<script src="~/Scripts/jquery.timer.js"></script>
-<script src="~/Scripts/jquery.floatingBg.js"></script>
-<script src="~/Scripts/jquery.floating.js"></script>
-<link href="~/Content/racing.css" rel="stylesheet" />
-
-@Scripts.Render("~/Racing")
+@section headScripts {
+    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="/signalr/hubs"></script>
+    @Scripts.Render("~/Racing")
+}
 
 <div class="game-wrap">
     <div class="bg-top">

@@ -30,10 +30,17 @@ namespace Racing.Moto.Services.Mvc
 
             if (HttpContext.User.Identity.IsAuthenticated && _loginUser == null)
             {
-                // LoginUser session
-                System.Web.HttpContext.Current.Session[nameof(LoginUser)] = SqlMembershipProvider.Provider.GetUser(HttpContext.User.Identity.Name, true);
+                if (System.Web.HttpContext.Current.Session[nameof(LoginUser)] == null)
+                {
+                    _loginUser = SqlMembershipProvider.Provider.GetUser(HttpContext.User.Identity.Name, true);
 
-                _loginUser = System.Web.HttpContext.Current.Session[nameof(LoginUser)] as User;
+                    // LoginUser session
+                    System.Web.HttpContext.Current.Session[nameof(LoginUser)] = _loginUser;
+                }
+                else
+                {
+                    _loginUser = System.Web.HttpContext.Current.Session[nameof(LoginUser)] as User;
+                }
             }
             else
             {

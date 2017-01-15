@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <title>@ViewBag.Title - PK拾</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="@ViewBag.Description">
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        @*<link href="~/RacingMotoBetCss" rel="stylesheet" />*@
+        <link href="~/Content/bet.css" rel="stylesheet" />
+
+        <script src="~/RacingMotoBetJs"></script>
+        <script src="~/Scripts/ngApp.js"></script>
+        @RenderSection("headScripts", required: false)
+    </head>
+    <body ng-app="RacingMotoNgApp">
+        <div class="user-top">
+            <div class="box">
+                <img src="/img/houtai/user.png" class="user">
+                <div class="name">andy</div>
+                <div class="edu">快开额度：0.00</div>
+                <a href="#" class="jia">
+                    <img src="/img/houtai/jia.png">
+                </a>
+            </div>
+        </div>
+        <div class="nav">
+            <a class="logo">
+                <img src="/img/houtai/logo.png">
+            </a>
+            <div class="jishiqi">
+                <img src="/img/houtai/jishiqi.png">
+            </div>
+            <div class="shijian">2016-09-29  13：25：45</div>
+            <ul class="hide">
+                <li>
+                    <a href="">
+                        <img src="/img/houtai/nav-1.png">
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="/img/houtai/nav-2.png">
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="/img/houtai/nav-3.png">
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="main-wrap">
+            <div class="left">
+                <img src="/img/houtai/guanggao.png" class="guanggao">
+                <div class="jilu">
+                    <div class="top">
+                        历史中奖纪录
+                    </div>
+                    <div class="bottom">
+                        <div class="tab1 active">上期纪录</div>
+                        <div class="tab2">历史纪录</div>
+                    </div>
+                </div>
+                <div class="dijiqi">
+                    统计至第557175期
+                </div>
+                <ul class="list">
+                    <li>
+                        <span class="a">冠军</span>
+                        <span class="b">单</span>
+                        <span class="c">5</span>
+                    </li>
+                    <li>
+                        <span class="a">冠军</span>
+                        <span class="b">单</span>
+                        <span class="c">5</span>
+                    </li>
+                    <li>
+                        <span class="a">冠军</span>
+                        <span class="b">单</span>
+                        <span class="c">5</span>
+                    </li>
+                    <li>
+                        <span class="a">冠军</span>
+                        <span class="b">单</span>
+                        <span class="c">5</span>
+                    </li>
+                    <li>
+                        <span class="a">冠军</span>
+                        <span class="b">单</span>
+                        <span class="c">5</span>
+                    </li>
+                    <li>
+                        <span class="a">冠军</span>
+                        <span class="b">单</span>
+                        <span class="c">5</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="right">
+                @RenderBody()
+            </div>
+            <div class="clear"></div>
+        </div>
+        
+        <div id="loader-wrapper" ng-show="RequestCount > 0 && Loading">
+            <div class="loader-with-bgimg long"></div>
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+        </div>
+
+        @RenderSection("footerScripts", required: false)
+    </body>
+</html>

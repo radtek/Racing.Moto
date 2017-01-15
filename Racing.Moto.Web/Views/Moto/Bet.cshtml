@@ -1,0 +1,281 @@
+﻿@{
+    ViewBag.Title = "投注";
+    Layout = "~/Views/Shared/_BetLayout.cshtml";
+}
+@section headScripts {
+    <script src="~/Scripts/Controllers/betController.js"></script>
+}
+<div ng-controller="betController" ng-init="init()">
+    <div class="top">
+        <span class="pk">全民PK拾</span>
+        <div class="rightB">
+            <span class="num">第555555期</span>
+            <span class="shalou">
+                <img src="/img/houtai/sahlou.png">
+            </span>
+            <span class="time">00:02:46</span>
+        </div>
+    </div>
+    <ul class="tab">
+        <li>
+            <a href="" class="on">猜名次(前五名)</a>
+        </li>
+        <li>
+            <a href="">猜名次(后五名)</a>
+        </li>
+        <li>
+            <a href="">猜大小单双</a>
+        </li>
+        <div class="clear"></div>
+    </ul>
+    <div class="thead">{{bet.CurrentTab.Name}}</div>
+
+    <table class="z-table">
+        <tr>
+            <td class="bg-gray" rowspan='2'>第一名</td>
+            <td>
+                <div class="mingci bg-huang">1</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-lan">2</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-juhuang">3</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-lv">4</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-zi">5</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="mingci bg-qianzi">6</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-danhong">7</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-tianlan">8</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-hei">9</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-hong">10</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+        </tr>
+    </table>
+    <table class="z-table">
+        <tr>
+            <td class="bg-gray" rowspan='2'>第一名</td>
+            <td>
+                <div class="mingci bg-huang">1</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-lan">2</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-juhuang">3</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-lv">4</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-zi">5</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="mingci bg-qianzi">6</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-danhong">7</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-tianlan">8</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-hei">9</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-hong">10</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+        </tr>
+    </table>
+    <table class="z-table">
+        <tr>
+            <td class="bg-gray" rowspan='2'>第一名</td>
+            <td>
+                <div class="mingci bg-huang">1</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-lan">2</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-juhuang">3</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-lv">4</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-zi">5</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="mingci bg-qianzi">6</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-danhong">7</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-tianlan">8</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-hei">9</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+            <td>
+                <div class="mingci bg-hong">10</div>
+                <div class="value">9.7</div>
+                <input type="text" name="" class="shuru">
+            </td>
+        </tr>
+    </table>
+
+    <div class="touzhu-1">
+        <div style="margin-left: 250px;">未投注方案<span>3</span>注</div>
+        <div style="margin-left: 100px; margin-right: 80px;">投注金额<span>125.00</span></div>
+        <a href="">
+            <img src="/img/houtai/lijitouzhu.png" class="lijitouzhu">
+        </a>
+    </div>
+    <ul class="z-list">
+        <li>
+            <span>【前五名】</span>
+            <span class="a">第四名</span>
+            <span class="b">【6号】</span>
+            <span class="c">赔率：9.7</span>
+            <span class="d">下注金额：5.00</span>
+            <span class="e">获胜奖金：45.00</span>
+            <span class="f">未下注</span>
+            <a href=""><img src="/img/houtai/del.png"></a>
+        </li>
+        <li>
+            <span>【前五名】</span>
+            <span class="a">第四名</span>
+            <span class="b">【16号】</span>
+            <span class="c">赔率：19.7</span>
+            <span class="d">下注金额：115.00</span>
+            <span class="e">获胜奖金：45555.00</span>
+            <span class="f">已下注</span>
+            <a href=""><img src="/img/houtai/del.png"></a>
+        </li>
+        <li>
+            <span>【前五名】</span>
+            <span class="a">第四名</span>
+            <span class="b">【6号】</span>
+            <span class="c">赔率：9.7</span>
+            <span class="d">下注金额：5.00</span>
+            <span class="e">获胜奖金：45.00</span>
+            <span class="f">未下注</span>
+            <a href=""></a>
+        </li>
+        <li>
+            <span>【前五名】</span>
+            <span class="a">第四名</span>
+            <span class="b">【16号】</span>
+            <span class="c">赔率：19.7</span>
+            <span class="d">下注金额：115.00</span>
+            <span class="e">获胜奖金：45555.00</span>
+            <span class="f">已下注</span>
+            <a href=""></a>
+        </li>
+        <li>
+            <span>【前五名】</span>
+            <span class="a">第四名</span>
+            <span class="b">【6号】</span>
+            <span class="c">赔率：9.7</span>
+            <span class="d">下注金额：5.00</span>
+            <span class="e">获胜奖金：45.00</span>
+            <span class="f">未下注</span>
+            <a href=""></a>
+        </li>
+        <li>
+            <span>【前五名】</span>
+            <span class="a">第四名</span>
+            <span class="b">【16号】</span>
+            <span class="c">赔率：19.7</span>
+            <span class="d">下注金额：115.00</span>
+            <span class="e">获胜奖金：45555.00</span>
+            <span class="f">已下注</span>
+            <a href=""></a>
+        </li>
+    </ul>
+    <div class="touzhu-2">
+        <div>
+            已投注方案<span>2</span>注
+        </div>
+        <div style="margin-left: 70px;">投注金额：<span>60.00</span></div>
+    </div>
+
+</div>

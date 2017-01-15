@@ -17,5 +17,12 @@ namespace Racing.Moto.Web.Controllers
         {
             return View();
         }
+
+
+        // 下注
+        public ActionResult Bet()
+        {
+            return View();
+        }
     }
 }

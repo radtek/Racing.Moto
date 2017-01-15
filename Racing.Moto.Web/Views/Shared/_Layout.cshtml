@@ -7,12 +7,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="@ViewBag.Description">
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-
-        @*<link href="~/RacingMotoCss" rel="stylesheet" />*@
-        <link href="~/Content/site.css" rel="stylesheet" />
-
-        @Scripts.Render("~/jQuery")
+        <link href="~/RacingMotoCss" rel="stylesheet" />
+        @*<link href="~/Content/site.css" rel="stylesheet" />*@
         <script src="~/RacingMotoJs"></script>
+        @RenderSection("headScripts", required: false)
     </head>
     <body>
         <!-- Page Content -->
@@ -76,6 +74,6 @@
             </footer>*@
         </div>
 
-        @RenderSection("scripts", required: false)
+        @RenderSection("footerScripts", required: false)
     </body>
 </html>
