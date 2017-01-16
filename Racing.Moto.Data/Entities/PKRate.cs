@@ -19,7 +19,7 @@ namespace Racing.Moto.Data.Entities
         public int PKRateId { get; set; }
 
         /// <summary>
-        /// 名次
+        /// 名次: 1-10
         /// </summary>
         public int Rank { get; set; }
 
