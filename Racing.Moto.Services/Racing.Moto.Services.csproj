@@ -86,6 +86,7 @@
     <Compile Include="Caches\AppConfigCache.cs" />
     <Compile Include="Caches\RateCache.cs" />
     <Compile Include="Constants\BetConst.cs" />
+    <Compile Include="Constants\DateFormatConst.cs" />
     <Compile Include="Constants\MessageConst.cs" />
     <Compile Include="Services\BaseServcice.cs" />
     <Compile Include="Mvc\BaseController.cs" />

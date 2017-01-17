@@ -75,12 +75,12 @@ namespace Racing.Moto.Web.SignalR
 
         private PKModel GetCurrentPKInfo()
         {
-            //var pkService = new PKService();
+            var pkService = new PKService();
 
-            //var info = pkService.GetCurrentPKModel();
-            
-            //return info;
-            return new PKModel();
+            var info = pkService.GetCurrentPKModel();
+
+            return info;
+            //return new PKModel();
         }
 
         //private List<int> GetPkInfo(int len)

@@ -27,18 +27,13 @@ namespace Racing.Moto.Services
         /// <returns></returns>
         public PKModel GetCurrentPKModel()
         {
-            var currentPK = db.PK.Where(pk => pk.BeginTime <= DateTime.Now && DateTime.Now <= pk.EndTime).FirstOrDefault();
+            var now = DateTime.Now;
+            var currentPK = SavePK(DateTime.Now);
 
-            // 不存在PK, 创建新的PK
-            if (currentPK == null)
-            {
-                currentPK = AddPK(DateTime.Now);
-            }
-
-            var passedSeconds = (DateTime.Now - currentPK.BeginTime).Seconds;
+            var passedSeconds = (now - currentPK.BeginTime).Seconds;
             var remainSeconds = (currentPK.EndTime - currentPK.BeginTime).Seconds - passedSeconds;
             // 距离比赛开始的秒数, 负:未开始, 正:已开始
-            var gamingSeconds = (DateTime.Now - currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds + currentPK.CloseSeconds)).Seconds;
+            var gamingSeconds = (now - currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds + currentPK.CloseSeconds)).Seconds;
             // 比赛已经开始n秒
             var gamePassedSeconds = gamingSeconds > 0 ? gamingSeconds : 0;
             // 比赛剩余n秒
@@ -80,9 +75,29 @@ namespace Racing.Moto.Services
                 PKRates = pkRates
             };
 
+            db.PK.Add(pk);
+            db.SaveChanges();
+
             return pk;
         }
 
+        public PK SavePK(DateTime dt)
+        {
+            var currentPK = db.PK.Where(pk => pk.BeginTime <= dt && dt <= pk.EndTime).FirstOrDefault();
+
+            // 不存在PK, 创建新的PK
+            if (currentPK == null)
+            {
+                currentPK = AddPK(dt);
+            }
+
+            return currentPK;
+        }
+
+        public bool ExistPK(DateTime dt)
+        {
+            return db.PK.Where(pk => pk.BeginTime <= dt && dt <= pk.EndTime).Any();
+        }
 
         /// <summary>
         /// 判断是否处于封盘期

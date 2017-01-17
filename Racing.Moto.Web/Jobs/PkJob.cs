@@ -1,6 +1,7 @@
 ﻿using NLog;
 using Quartz;
 using Racing.Moto.Services;
+using Racing.Moto.Services.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,23 +18,17 @@ namespace Racing.Moto.Web.Jobs
         {
             try
             {
-                _logger.Info(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-
-                // 每隔5秒查看一下是否已经封盘, 封盘后计算名次
                 var pkService = new PKService();
-                var currentPK = pkService.GetCurrentPK();
-                if (currentPK != null)
+
+                // 每隔5秒查看一下, 生成PK
+                var now = DateTime.Now;
+
+                if (!pkService.ExistPK(now))
                 {
-                    // 封盘期 && 名次未更新过
-                    if (pkService.IsClosedTime(currentPK) && string.IsNullOrEmpty(currentPK.Ranks))
-                    {
-                        // 计算名次
-                        var ranks = new BetService().CalculateRanks(currentPK.PKId);
-                        if (ranks != null)
-                        {
-                            pkService.UpdateRanks(currentPK.PKId, string.Join(",", ranks));
-                        }
-                    }
+                    var pk = new PKService().AddPK(now);
+
+                    var msg = string.Format("Add new PK - PKId : {0} - Time : {1}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
+                    _logger.Info(msg);
                 }
             }
             catch (Exception ex)

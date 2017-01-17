@@ -354,6 +354,10 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Racing.Moto.Core\Racing.Moto.Core.csproj">
+      <Project>{5920a931-7cd3-45b7-a71b-e3754b3babf0}</Project>
+      <Name>Racing.Moto.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Racing.Moto.Data\Racing.Moto.Data.csproj">
       <Project>{87286C96-6A07-49D0-B162-225195DAD6F5}</Project>
       <Name>Racing.Moto.Data</Name>
