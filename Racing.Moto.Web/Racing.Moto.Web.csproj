@@ -170,7 +170,10 @@
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Img\btn-login.png" />
+    <Content Include="Img\denglu.png" />
     <Content Include="Img\loading.gif" />
+    <Content Include="Img\loginwrap.jpg" />
     <Content Include="Img\moto-1.png" />
     <Content Include="Img\moto-10.png" />
     <Content Include="Img\moto-2.png" />

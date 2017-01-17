@@ -1,4 +1,4 @@
-﻿var racingMotoWeb = {
+﻿var $app = {
     getValidationMessages: function () {
         var messages = [];
         $('.validation-summary-errors > ul > li').each(function (index, ele) {
@@ -38,9 +38,16 @@
     },
     formatDateString: function (dateStr, fmt) {
         if (dateStr == null || dateStr == '') return '';
-        var date = racingMotoWeb.convertToDate(dateStr);
-        var result = racingMotoWeb.formatDate(date, fmt);
+        var date = $app.convertToDate(dateStr);
+        var result = $app.formatDate(date, fmt);
 
         return result;
+    },
+    submitOnEnterKey: function (txtId, targetId) {
+        $('#' + txtId).keypress(function (event) {
+            if (event.keyCode == 13) {
+                $("#" + targetId).focus().click();
+            }
+        });
     },
 };

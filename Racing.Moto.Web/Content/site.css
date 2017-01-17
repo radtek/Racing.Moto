@@ -3,7 +3,7 @@ body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, 
 article, aside, details, figcaption, figure, dialog, footer, header, hgroup, menu, nav, section {display:block;}
 body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-color: #000;}
 
-.hide{display:none;}
+.hide{display:none !important;}
 
 .start-flag{position:relative;}
 .end-flag{position:relative; left:-400px;}
@@ -635,4 +635,95 @@ li.kefu a:hover{
 .right .box1{
     width: 60px;
     margin-top: 46px;
+}
+
+
+/**登录**/
+.loginPanel{
+    background: url(../img/loginwrap.jpg) no-repeat;
+    width: 1366px;
+    height: 711px;
+    position: relative;
+}
+.loginbox{
+    width: 752px;
+    height: 522px;
+    background: url(../img/denglu.png) no-repeat;
+    position: absolute;
+    left: 50%;
+    margin-left: -376px;
+    top: 100px;
+}
+.loginbox .del{
+    width: 57px;
+    height: 57px;
+    background: url(../img/del.png) no-repeat;
+    position: absolute;
+    right: 101px;
+    top: 72px;
+    display: block;
+}
+.loginbox .btn{
+    position: absolute;
+    width: 185px;
+    height: 70px;
+    background: url(../img/btn-login.png) no-repeat;
+        right: 274px;
+    top: 325px;
+    display: block;
+}
+.loginbox .username{
+    position: absolute;
+    right: 158px;
+    top: 154px;
+    padding: 10px;
+    width: 218px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #fff;
+}
+.loginbox .psw{
+    position: absolute;
+    right: 158px;
+    top: 216px;
+    padding: 10px;
+    width: 218px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #fff;
+}
+.loginbox .link1{
+    color: #ffca00;
+    position: absolute;
+    right: 307px;
+    top: 288px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    text-shadow: 5px 5px 10px #000;
+}
+.loginbox .link2{
+    color: #ffca00;
+    position: absolute;
+    right:195px;
+    top: 288px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    text-shadow: 5px 5px 10px #000;
+}
+
+
+.loginbox .psw2{
+    position: absolute;
+    right: 158px;
+    top: 276px;
+    padding: 10px;
+    width: 218px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #fff;
 }

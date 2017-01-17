@@ -2,43 +2,49 @@
 @{
     ViewBag.Title = "注册";
 }
-
-<div>
+<div class="loginPanel">
     @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { style = "display:none;" })
-        <table style="width:600px;">
-            <tr>
-                <td style="width:150px;">账号：</td>
-                <td style="width:300px;">
-                    @Html.TextBoxFor(m => m.UserName, new { maxlength="18", placeholder="由5-18位字母,数字或下划线组成" })
-                </td>
-            </tr>
-            <tr>
-                <td>密码：</td>
-                <td>@Html.PasswordFor(m => m.Password, new { maxlength = "32", placeholder = "由6-32位字符组成(区分大小写)" })</td>
-            </tr>
-            <tr>
-                <td>重复密码：</td>
-                <td>@Html.PasswordFor(m => m.ConfirmPassword, new { maxlength = "32", placeholder = "再次输入登录密码" })</td>
-            </tr>
-            <tr>
-                <td colspan="2"><input type="submit" id="btnSubmit" value="注册" style="width:30%;" /></td>
-            </tr>
-        </table>
+
+        <div class="loginbox">
+            <a href="/" class="del"></a>
+            @Html.TextBoxFor(m => m.UserName, new { @class = "username", maxlength = "18", placeholder = "由5-18位字母,数字或下划线组成" })
+            @Html.PasswordFor(m => m.Password, new { @class = "psw", maxlength = "32", placeholder = "由6-32位字符组成(区分大小写)" })
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "psw2", maxlength = "32", placeholder = "再次输入登录密码" })
+            <a href="javascript:;" class="btn" id="btnSubmit"></a>
+        </div>
     }
 </div>
 <script type="text/javascript">
         $(function () {
             $('#btnSubmit').click(function (event) {
-                var msg = Check();
+                var msg = opt.check();
                 if(msg != ''){
                     alert(msg);
                     event.preventDefault();
+                    return;
                 }
+                $("form").submit();
             });
-            function Check() {
+
+            //init
+            opt.init();
+        });
+        var opt = {
+            init: function () {
+                //focus
+                $('#UserName').focus()
+                //enterKey
+                $app.submitOnEnterKey('ConfirmPassword', 'btnSubmit');
+                //msg
+                var messages = $app.getValidationMessages();
+                if (messages.length > 0) {
+                    alert(messages[0]);
+                }
+            },
+            check: function () {
                 var msg = '';
 
                 var un = $.trim($('#UserName').val());
@@ -61,27 +67,12 @@
                     return msg;
                 }
                 var unPattern = /^[a-zA-Z0-9_]{1,}$/;
-                if (!un.value.match(unPattern)) {
+                if (!un.match(unPattern)) {
                     msg = '用户名只能包含字母,数字,下划线.';
                     return msg;
                 }
 
                 return msg;
-            }
-
-            function getValidationMessages() {
-                var messages = [];
-
-                $('.validation-summary-errors > ul > li').each(function (index, ele) {
-                    messages.push($(this).text());
-                });
-
-                return messages;
-            }
-
-            var messages = racingMotoWeb.getValidationMessages();
-            if (messages.length > 0) {
-                alert(messages[0]);
-            }
-        });
+            },
+        };
 </script>
