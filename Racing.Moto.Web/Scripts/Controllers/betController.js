@@ -9,31 +9,45 @@
         TopFive: [],
         LastFive: [],
         BSOE: [],
-        Charaters: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'],
+        ChineseNums: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'],
         Tabs: [
-            { ID: 1, Name: '选号(前五名)' },
-            { ID: 2, Name: '选号(后五名)' },
-            { ID: 3, Name: '双面' }
+            { ID: 1, Name: '猜名次(前五名)' },
+            { ID: 2, Name: '猜名次(后五名)' },
+            { ID: 3, Name: '猜大小单双' }
         ],
         CurrentTab: 1,
         init: function () {
-            $scope.bet.CurrentTab = $scope.bet.Tabs[0];
+            $scope.bet.CurrentTab = $scope.bet.Tabs[0].ID;
 
-            $http.post('/api/PKRate/GetCurrentPKRates').success(function (res) {
+            $http.get('/api/PKRate/GetCurrentPKRates').then(function (res) {
                 console.log(res);
-                if (res.Success) {
-                    $scope.bet.PKRates = res.Data;
+                if (res.data.Success) {
+                    $scope.bet.PKRates = res.data.Data;
+
+                    $scope.bet.initPKRates($scope.bet.PKRates);
                 }
             });
         },
-        getTopFive: function (rate) {
-            return rate.Rank <= 5;
+        initPKRates: function (pkRates) {
+            $scope.bet.TopFive = [];
+            $scope.bet.BSOE = [];
+            $scope.bet.TopFive = [];
+
+            angular.forEach(pkRates, function (item, index, arr) {
+                if (item.Rank <= 5) {
+                    $scope.bet.TopFive.push(item);
+                } else if (item.Rank > 5 && item.Rank <= 10) {
+                    $scope.bet.LastFive.push(item);
+                }
+                $scope.bet.BSOE.push(item);
+            });
         },
-        getLastFive: function (rate) {
-            return rate.Rank > 5 && ran.Rank <= 10;
+        save: function () {
+            console.log($scope.bet.PKRates);
+            var bets = [];
+            angular.forEach($scope.bet.PKRates, function (item, index, arr) {
+                //if(item.Amount1 != null && )
+            });
         },
-        getBSOE: function (rate) {
-            return rate.Rank > 10;
-        }
     };
 }]);

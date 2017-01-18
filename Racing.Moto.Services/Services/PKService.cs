@@ -18,7 +18,8 @@ namespace Racing.Moto.Services
         /// <returns></returns>
         public PK GetCurrentPK()
         {
-            return db.PK.Where(pk => pk.BeginTime <= DateTime.Now && DateTime.Now <= pk.EndTime).FirstOrDefault();
+            var current = Convert.ToDateTime(DateTime.Now.ToString(DateFormatConst.yMd_Hms));// remove millisecond
+            return db.PK.Where(pk => pk.BeginTime <= current && current <= pk.EndTime).FirstOrDefault();
         }
 
         /// <summary>
@@ -28,7 +29,7 @@ namespace Racing.Moto.Services
         public PKModel GetCurrentPKModel()
         {
             var now = DateTime.Now;
-            var currentPK = SavePK(DateTime.Now);
+            var currentPK = GetCurrentPK();
 
             var passedSeconds = (now - currentPK.BeginTime).Seconds;
             var remainSeconds = (currentPK.EndTime - currentPK.BeginTime).Seconds - passedSeconds;
@@ -67,7 +68,7 @@ namespace Racing.Moto.Services
             {
                 CreateTime = DateTime.Now,
                 BeginTime = beginTime,
-                EndTime = DateTime.Now.AddMinutes(AppConfigCache.Racing_Total_Seconds),
+                EndTime = DateTime.Now.AddSeconds(AppConfigCache.Racing_Total_Seconds),
                 OpeningSeconds = AppConfigCache.Racing_Opening_Seconds,
                 CloseSeconds = AppConfigCache.Racing_Close_Seconds,
                 GameSeconds = AppConfigCache.Racing_Game_Seconds,

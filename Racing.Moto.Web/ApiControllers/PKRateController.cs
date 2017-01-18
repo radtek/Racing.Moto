@@ -19,6 +19,8 @@ namespace Racing.Moto.Web.ApiControllers
         /// <summary>
         /// 取当前期的倍率
         /// </summary>
+        /// 
+        [HttpGet]
         public ResponseResult GetCurrentPKRates()
         {
             var result = new ResponseResult();

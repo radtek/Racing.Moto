@@ -21,11 +21,11 @@ namespace Racing.Moto.Services
 
             var allPKRates = GetCurrentPKRates();
 
-            if(allPKRates.Count > 0)
+            if (allPKRates.Count > 0)
             {
                 for (var i = 1; i <= 10; i++)//名次
                 {
-                    var pkRates = allPKRates.Where(r => r.Rate == i).ToList();
+                    var pkRates = allPKRates.Where(r => r.Rank == i).ToList();
                     var model = ConvertToPKRateModel(i, pkRates);
                     pkRateModels.Add(model);
                 }
