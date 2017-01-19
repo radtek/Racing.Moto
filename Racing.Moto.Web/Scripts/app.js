@@ -50,4 +50,79 @@
             }
         });
     },
+    isNum: function (txt) {
+        if (txt == null || txt == '') {
+            return false;
+        } else {
+            txt = txt.replace(/\s/g, "");
+            return !isNaN(txt);
+        }
+    },
+    add: function (arg1, arg2) {
+        var r1, r2, m, n;
+        try { r1 = arg1.toString().split(".")[1].length } catch (e) { r1 = 0 }
+        try { r2 = arg2.toString().split(".")[1].length } catch (e) { r2 = 0 }
+        m = Math.pow(10, Math.max(r1, r2));
+        n = (r1 >= r2) ? r1 : r2;
+        var r = ((arg1 * m + arg2 * m) / m).toFixed(n);
+        return Number(r);
+    },
+    sub: function (arg1, arg2) {
+        var r1, r2, m, n;
+        try { r1 = arg1.toString().split(".")[1].length } catch (e) { r1 = 0 }
+        try { r2 = arg2.toString().split(".")[1].length } catch (e) { r2 = 0 }
+        m = Math.pow(10, Math.max(r1, r2));
+        n = (r1 >= r2) ? r1 : r2;
+        var r = ((arg2 * m - arg1 * m) / m).toFixed(n);
+        return Number(r);
+    },
+    mul: function (arg1, arg2) {
+        var m = 0, s1 = arg1.toString(), s2 = arg2.toString();
+        try { m += s1.split(".")[1].length } catch (e) { }
+        try { m += s2.split(".")[1].length } catch (e) { }
+        return Number(s1.replace(".", "")) * Number(s2.replace(".", "")) / Math.pow(10, m);
+    },
+    div: function (arg1, arg2) {
+        var t1 = 0, t2 = 0, r1, r2;
+        try { t1 = arg1.toString().split(".")[1].length } catch (e) { }
+        try { t2 = arg2.toString().split(".")[1].length } catch (e) { }
+        with (Math) {
+            r1 = Number(arg1.toString().replace(".", ""));
+            r2 = Number(arg2.toString().replace(".", ""));
+            console.log(r2 / r1);
+            return (r2 / r1) * pow(10, t1 - t2);
+        }
+    },
+    round: function (d, decimals) {
+        if (d == null) { return ''; }
+        with (Math) {
+            return round(d * pow(10, decimals)) / pow(10, decimals);
+        }
+    },
 };
+Number.prototype.add = function (arg) {
+    return $app.add(arg, this);
+}
+Number.prototype.sub = function (arg) {
+    return $app.sub(arg, this);
+}
+Number.prototype.mul = function (arg) {
+    return $app.mul(arg, this);
+}
+Number.prototype.div = function (arg) {
+    return $app.div(arg, this);
+}
+String.prototype.startWith = function (str) {
+    var reg = new RegExp("^" + str);
+    return reg.test(this);
+}
+
+String.prototype.endWith = function (str) {
+    var reg = new RegExp(str + "$");
+    return reg.test(this);
+}
+
+Date.prototype.addDays = Date.prototype.addDays || function (n) {
+    this.setDate(this.getDate() + n);
+    return this;
+}

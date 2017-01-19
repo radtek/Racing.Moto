@@ -10,16 +10,36 @@ namespace Racing.Moto.Services
 {
     public class PKRateService : BaseServcice
     {
-        public List<PKRate> GetCurrentPKRates()
-        {
-            return db.PKRate.Where(r => r.PK.BeginTime <= DateTime.Now && DateTime.Now <= r.PK.EndTime).ToList();
-        }
+        //public List<PKRate> GetCurrentPKRates()
+        //{
+        //    return db.PKRate.Where(r => r.PK.BeginTime <= DateTime.Now && DateTime.Now <= r.PK.EndTime).ToList();
+        //}
 
-        public List<PKRateModel> GetCurrentPKRateModels()
+        //public List<PKRateModel> GetCurrentPKRateModels()
+        //{
+        //    var pkRateModels = new List<PKRateModel>();
+
+        //    var allPKRates = GetCurrentPKRates();
+
+        //    if (allPKRates.Count > 0)
+        //    {
+        //        for (var i = 1; i <= 10; i++)//名次
+        //        {
+        //            var pkRates = allPKRates.Where(r => r.Rank == i).ToList();
+        //            var model = ConvertToPKRateModel(i, pkRates);
+        //            pkRateModels.Add(model);
+        //        }
+        //    }
+
+        //    return pkRateModels;
+        //}
+
+
+        public List<PKRateModel> GetPKRateModels(int pkId)
         {
             var pkRateModels = new List<PKRateModel>();
 
-            var allPKRates = GetCurrentPKRates();
+            var allPKRates = db.PKRate.Where(r => r.PKId == pkId).ToList();
 
             if (allPKRates.Count > 0)
             {
@@ -33,6 +53,8 @@ namespace Racing.Moto.Services
 
             return pkRateModels;
         }
+
+
         private PKRateModel ConvertToPKRateModel(int rank, List<PKRate> pkRates)
         {
             return new PKRateModel

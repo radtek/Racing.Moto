@@ -12,7 +12,7 @@ using System.Web.Http;
 
 namespace Racing.Moto.Web.ApiControllers
 {
-    public class PKRateController : ApiController
+    public class PKController : ApiController
     {
         private ILogger _logger = LogManager.GetCurrentClassLogger();
 
@@ -21,13 +21,19 @@ namespace Racing.Moto.Web.ApiControllers
         /// </summary>
         /// 
         [HttpGet]
-        public ResponseResult GetCurrentPKRates()
+        public ResponseResult GetCurrentPK()
         {
             var result = new ResponseResult();
 
             try
             {
-                result.Data = new PKRateService().GetCurrentPKRateModels();
+                var pk = new PKService().GetCurrentPK();
+                var pkRates = new PKRateService().GetPKRateModels(pk.PKId);
+                result.Data = new
+                {
+                    PK = pk,
+                    PKRates = pkRates
+                };
             }
             catch (Exception ex)
             {

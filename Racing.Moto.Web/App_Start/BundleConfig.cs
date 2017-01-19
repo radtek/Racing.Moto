@@ -28,6 +28,7 @@ namespace Racing.Moto.Web
                 .Include("~/Scripts/AngularJs/angular-filter-{version}.js")
                 .Include("~/Scripts/jQuery/jquery-{version}.js")
                 .Include("~/Scripts/modernizr-{version}.js")
+                .Include("~/Scripts/app.js")
                 .Include("~/Scripts/ngApp.js")
             );
 

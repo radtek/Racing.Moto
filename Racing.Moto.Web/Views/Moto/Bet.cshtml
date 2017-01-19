@@ -177,73 +177,36 @@
             <img src="/img/houtai/lijitouzhu.png" class="lijitouzhu">
         </a>
     </div>
-    <ul class="z-list">
-        <li>
-            <span>【前五名】</span>
-            <span class="a">第四名</span>
-            <span class="b">【6号】</span>
-            <span class="c">赔率：9.7</span>
-            <span class="d">下注金额：5.00</span>
-            <span class="e">获胜奖金：45.00</span>
-            <span class="f">未下注</span>
-            <a href=""><img src="/img/houtai/del.png"></a>
-        </li>
-        <li>
-            <span>【前五名】</span>
-            <span class="a">第四名</span>
-            <span class="b">【16号】</span>
-            <span class="c">赔率：19.7</span>
-            <span class="d">下注金额：115.00</span>
-            <span class="e">获胜奖金：45555.00</span>
-            <span class="f">已下注</span>
-            <a href=""><img src="/img/houtai/del.png"></a>
-        </li>
-        <li>
-            <span>【前五名】</span>
-            <span class="a">第四名</span>
-            <span class="b">【6号】</span>
-            <span class="c">赔率：9.7</span>
-            <span class="d">下注金额：5.00</span>
-            <span class="e">获胜奖金：45.00</span>
-            <span class="f">未下注</span>
-            <a href=""></a>
-        </li>
-        <li>
-            <span>【前五名】</span>
-            <span class="a">第四名</span>
-            <span class="b">【16号】</span>
-            <span class="c">赔率：19.7</span>
-            <span class="d">下注金额：115.00</span>
-            <span class="e">获胜奖金：45555.00</span>
-            <span class="f">已下注</span>
-            <a href=""></a>
-        </li>
-        <li>
-            <span>【前五名】</span>
-            <span class="a">第四名</span>
-            <span class="b">【6号】</span>
-            <span class="c">赔率：9.7</span>
-            <span class="d">下注金额：5.00</span>
-            <span class="e">获胜奖金：45.00</span>
-            <span class="f">未下注</span>
-            <a href=""></a>
-        </li>
-        <li>
-            <span>【前五名】</span>
-            <span class="a">第四名</span>
-            <span class="b">【16号】</span>
-            <span class="c">赔率：19.7</span>
-            <span class="d">下注金额：115.00</span>
-            <span class="e">获胜奖金：45555.00</span>
-            <span class="f">已下注</span>
-            <a href=""></a>
-        </li>
-    </ul>
-    <div class="touzhu-2">
-        <div>
-            已投注方案<span>2</span>注
+
+    <div ng-show="bet.Bets.length > 0">
+        <ul class="z-list">
+            <li ng-repeat="item in bet.Bets">
+                <span ng-bind="item.ShortName">【前五名】</span>
+                <span class="a" ng-bind="item.ChineseRank">第四名</span>
+                <span class="b">【{{item.Num}}号】</span>
+                <span class="c">赔率：{{item.Rate}}</span>
+                <span class="d">下注金额：{{item.Amount}}</span>
+                <span class="e">获胜奖金：{{item.Bonus}}</span>
+                <span class="f">已下注</span>
+                <a href="javascript:;"></a>
+            </li>
+            <li class="hide">
+                <span>【前五名】</span>
+                <span class="a">第四名</span>
+                <span class="b">【6号】</span>
+                <span class="c">赔率：9.7</span>
+                <span class="d">下注金额：5.00</span>
+                <span class="e">获胜奖金：45.00</span>
+                <span class="f">未下注</span>
+                <a href="javascript:;"><img src="/img/houtai/del.png" class="hide"></a>
+            </li>
+        </ul>
+        <div class="touzhu-2">
+            <div>
+                已投注方案<span>2</span>注
+            </div>
+            <div style="margin-left: 70px;">投注金额：<span>60.00</span></div>
         </div>
-        <div style="margin-left: 70px;">投注金额：<span>60.00</span></div>
     </div>
 
 </div>

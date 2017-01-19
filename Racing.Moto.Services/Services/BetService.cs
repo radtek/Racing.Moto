@@ -13,6 +13,12 @@ namespace Racing.Moto.Services
 {
     public class BetService : BaseServcice
     {
+        public void AddBets(List<Bet> bets)
+        {
+            db.Bet.AddRange(bets);
+            db.SaveChanges();
+        }
+
         #region 计算名次
         /// <summary>
         /// 计算名次车号
