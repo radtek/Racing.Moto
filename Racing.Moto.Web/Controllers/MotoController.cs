@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace Racing.Moto.Web.Controllers
 {
+    [Authorize]
     public class MotoController : BaseController
     {
         private ILogger _logger = LogManager.GetCurrentClassLogger();
@@ -31,21 +32,56 @@ namespace Racing.Moto.Web.Controllers
         }
 
         [HttpPost]
+        public JsonResult GetCurrentPKInfo()
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                var pk = new PKService().GetCurrentPK();
+                var pkRates = new PKRateService().GetPKRateModels(pk.PKId);
+                var bets = new BetService().GetBets(pk.PKId);
+                result.Data = new
+                {
+                    PK = pk,
+                    PKRates = pkRates,
+                    Bets = bets
+                };
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+                _logger.Info(ex);
+            }
+
+            return Json(result);
+        }
+
+        [HttpPost]
         public JsonResult SaveBets(int pkId, List<Bet> bets)
         {
             var result = new ResponseResult();
 
             try
             {
-                // 验证下注时间是否合法, 超过当前PK的开盘时期则非法, 提示已封盘[TODO]
-
-                // 下注
-                bets.ForEach(b =>
+                // 验证下注时间是否合法, 超过当前PK的开盘时期则非法, 提示已封盘
+                var isOpening = new PKService().IsOpening(pkId);
+                if (!isOpening)
                 {
-                    b.PKId = pkId;
-                    b.UserId = LoginUser.UserId;
-                });
-                new BetService().AddBets(bets);
+                    result.Success = false;
+                    result.Message = MessageConst.PK_IS_NOT_OPEN;
+                }
+                else
+                {
+                    // 下注
+                    bets.ForEach(b =>
+                    {
+                        b.PKId = pkId;
+                        b.UserId = LoginUser.UserId;
+                    });
+                    new BetService().AddBets(bets);
+                }
             }
             catch (Exception ex)
             {
@@ -58,7 +94,6 @@ namespace Racing.Moto.Web.Controllers
         }
 
         #endregion
-
 
         public JsonResult Sample()
         {

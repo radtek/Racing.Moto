@@ -31,6 +31,11 @@ namespace Racing.Moto.Data.Entities
         /// 金额
         /// </summary>
         public decimal Amount { get; set; }
+        
+        /// <summary>
+        /// 倍率
+        /// </summary>
+        public decimal Rate { get; set; }
 
         /// <summary>
         /// 用户

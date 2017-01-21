@@ -101,14 +101,6 @@ namespace Racing.Moto.Services
         }
 
         /// <summary>
-        /// 判断是否处于封盘期
-        /// </summary>
-        public bool IsClosedTime(PK pk)
-        {
-            return pk.BeginTime.AddSeconds(pk.OpeningSeconds) <= DateTime.Now && DateTime.Now <= pk.BeginTime.AddSeconds(pk.CloseSeconds);
-        }
-
-        /// <summary>
         /// 更新名次
         /// </summary>
         public void UpdateRanks(int pkId, string ranks)
@@ -119,6 +111,32 @@ namespace Racing.Moto.Services
                 dbPK.Ranks = ranks;
 
                 db.SaveChanges();
+            }
+        }
+
+
+        /// <summary>
+        /// 判断是否处于封盘期
+        /// </summary>
+        public bool IsClosed(PK pk)
+        {
+            return pk.BeginTime.AddSeconds(pk.OpeningSeconds) <= DateTime.Now && DateTime.Now <= pk.BeginTime.AddSeconds(pk.OpeningSeconds + pk.CloseSeconds);
+        }
+
+        /// <summary>
+        /// 验证PK是否仍在开盘期
+        /// </summary>
+        public bool IsOpening(int pkId)
+        {
+            var dbPK = db.PK.Where(pk => pk.PKId == pkId).FirstOrDefault();
+
+            if (dbPK != null && dbPK.BeginTime.AddSeconds(dbPK.OpeningSeconds) > DateTime.Now)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

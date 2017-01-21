@@ -19,6 +19,11 @@ namespace Racing.Moto.Services
             db.SaveChanges();
         }
 
+        public List<Bet> GetBets(int pkId)
+        {
+            return db.Bet.Where(b => b.PKId == pkId).ToList();
+        }
+
         #region 计算名次
         /// <summary>
         /// 计算名次车号

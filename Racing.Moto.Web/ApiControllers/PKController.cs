@@ -19,31 +19,30 @@ namespace Racing.Moto.Web.ApiControllers
         /// <summary>
         /// 取当前期的倍率
         /// </summary>
-        /// 
-        [HttpGet]
-        public ResponseResult GetCurrentPK()
-        {
-            var result = new ResponseResult();
+        //[HttpGet]
+        //public ResponseResult GetCurrentPKInfo()
+        //{
+        //    var result = new ResponseResult();
 
-            try
-            {
-                var pk = new PKService().GetCurrentPK();
-                var pkRates = new PKRateService().GetPKRateModels(pk.PKId);
-                result.Data = new
-                {
-                    PK = pk,
-                    PKRates = pkRates
-                };
-            }
-            catch (Exception ex)
-            {
-                _logger.Info(ex.Message);
+        //    try
+        //    {
+        //        var pk = new PKService().GetCurrentPK();
+        //        var pkRates = new PKRateService().GetPKRateModels(pk.PKId);
+        //        result.Data = new
+        //        {
+        //            PK = pk,
+        //            PKRates = pkRates
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.Info(ex.Message);
 
-                result.Success = false;
-                result.Message = MessageConst.System_Error;
-            }
+        //        result.Success = false;
+        //        result.Message = MessageConst.System_Error;
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
     }
 }

@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "投注";
-    Layout = "~/Views/Shared/_BetLayout.cshtml";
+    Layout = "~/Views/Shared/_NgLayout.cshtml";
 }
 @section headScripts {
     <script src="~/Scripts/Controllers/betController.js"></script>
@@ -171,8 +171,8 @@
     </div>
 
     <div class="touzhu-1">
-        <div style="margin-left: 250px;">未投注方案<span>3</span>注</div>
-        <div style="margin-left: 100px; margin-right: 80px;">投注金额<span>125.00</span></div>
+        <div style="margin-left: 250px;">未投注方案<span ng-bind="140 - bet.Bets.length">3</span>注</div>
+        <div style="margin-left: 100px; margin-right: 80px;">投注金额<span ng-bind="">125.00</span></div>
         <a href="javascript:;" ng-click="bet.save()">
             <img src="/img/houtai/lijitouzhu.png" class="lijitouzhu">
         </a>
