@@ -82,6 +82,7 @@ namespace Racing.Moto.Data
         public virtual DbSet<PKUser> PKUser { get; set; }
         public virtual DbSet<PKUserBonus> PKUserBonus { get; set; }
         public virtual DbSet<Bet> Bet { get; set; }
+        public virtual DbSet<BetItem> BetItem { get; set; }
         public virtual DbSet<Post> Post { get; set; }
         public virtual DbSet<Log> Log { get; set; }
         #endregion

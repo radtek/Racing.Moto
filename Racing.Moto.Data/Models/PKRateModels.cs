@@ -20,71 +20,71 @@ namespace Racing.Moto.Data.Models
         /// <summary>
         /// 1号
         /// </summary>
-        public decimal Number1 { get; set; }
+        public decimal Rate1 { get; set; }
 
         /// <summary>
         /// 2号
         /// </summary>
-        public decimal Number2 { get; set; }
+        public decimal Rate2 { get; set; }
 
         /// <summary>
         /// 3号
         /// </summary>
-        public decimal Number3 { get; set; }
+        public decimal Rate3 { get; set; }
 
         /// <summary>
         /// 4号
         /// </summary>
-        public decimal Number4 { get; set; }
+        public decimal Rate4 { get; set; }
 
         /// <summary>
         /// 5号
         /// </summary>
-        public decimal Number5 { get; set; }
+        public decimal Rate5 { get; set; }
 
         /// <summary>
         /// 6号
         /// </summary>
-        public decimal Number6 { get; set; }
+        public decimal Rate6 { get; set; }
 
         /// <summary>
         /// 7号
         /// </summary>
-        public decimal Number7 { get; set; }
+        public decimal Rate7 { get; set; }
 
         /// <summary>
         /// 8号
         /// </summary>
-        public decimal Number8 { get; set; }
+        public decimal Rate8 { get; set; }
 
         /// <summary>
         /// 9号
         /// </summary>
-        public decimal Number9 { get; set; }
+        public decimal Rate9 { get; set; }
 
         /// <summary>
         /// 10号
         /// </summary>
-        public decimal Number10 { get; set; }
+        public decimal Rate10 { get; set; }
 
         /// <summary>
         /// 大
         /// </summary>
-        public decimal Big { get; set; }
+        public decimal RateBig { get; set; }
 
         /// <summary>
         /// 小
         /// </summary>
-        public decimal Small { get; set; }
+        public decimal RateSmall { get; set; }
 
         /// <summary>
         /// 单
         /// </summary>
-        public decimal Odd { get; set; }
+        public decimal RateOdd { get; set; }
 
         /// <summary>
         /// 双
         /// </summary>
-        public decimal Even { get; set; }
+        public decimal RateEven { get; set; }
     }
 }

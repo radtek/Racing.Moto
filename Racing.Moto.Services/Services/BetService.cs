@@ -13,15 +13,74 @@ namespace Racing.Moto.Services
 {
     public class BetService : BaseServcice
     {
-        public void AddBets(List<Bet> bets)
+        /// <summary>
+        /// 同一个PK,可以多次下注
+        /// </summary>
+        public void SaveBets(int pkId, int userId, List<Bet> bets)
         {
-            db.Bet.AddRange(bets);
+            bets.ForEach(b =>
+            {
+                b.PKId = pkId;
+                b.UserId = userId;
+                b.BetItems = new List<BetItem>
+                {
+                    new BetItem
+                    {
+                        Rank = b.Rank,
+                        Num = b.Num,
+                        Amount = b.Amount,
+                        CreateTime = DateTime.Now
+                    }
+                };
+            });
+
+            var dbBets = db.Bet.Where(b => b.PKId == pkId).ToList();
+            if (dbBets.Count == 0)
+            {
+                // 第一次添加
+                db.Bet.AddRange(bets);
+            }
+            else
+            {
+                // 追加投注
+                foreach (var dbBet in dbBets)
+                {
+                    var newBet = bets.Where(b => b.Rank == dbBet.Rank && b.Num == dbBet.Num).FirstOrDefault();
+                    if (newBet != null)
+                    {
+                        // 追加投注
+                        dbBet.Amount += newBet.Amount;
+
+                        // 追加投注条目
+                        var betItem = new BetItem
+                        {
+                            BetId = dbBet.BetId,
+                            Rank = newBet.Rank,
+                            Num = newBet.Num,
+                            Amount = newBet.Amount,
+                            CreateTime = DateTime.Now
+                        };
+                        db.BetItem.Add(betItem);
+                    }
+                }
+
+                // 新投注
+                foreach (var bet in bets)
+                {
+                    var dbBet = dbBets.Where(b => b.Rank == bet.Rank && b.Num == bet.Num).FirstOrDefault();
+                    if (dbBet == null)
+                    {
+                        db.Bet.Add(bet);// 新投注
+                    }
+                }
+            }
+
             db.SaveChanges();
         }
 
         public List<Bet> GetBets(int pkId)
         {
-            return db.Bet.Where(b => b.PKId == pkId).ToList();
+            return db.Bet.Include(nameof(Bet.BetItems)).Where(b => b.PKId == pkId).ToList();
         }
 
         #region 计算名次

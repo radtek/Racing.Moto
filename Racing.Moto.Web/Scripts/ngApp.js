@@ -64,3 +64,12 @@ app.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.headers.common["If-Modified-Since"] = "0";
 
 }]);
+
+app.directive('inputMask', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            element.inputmask();
+        }
+    };
+});

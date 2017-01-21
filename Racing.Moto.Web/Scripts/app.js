@@ -116,13 +116,17 @@ String.prototype.startWith = function (str) {
     var reg = new RegExp("^" + str);
     return reg.test(this);
 }
-
 String.prototype.endWith = function (str) {
     var reg = new RegExp(str + "$");
     return reg.test(this);
 }
-
 Date.prototype.addDays = Date.prototype.addDays || function (n) {
     this.setDate(this.getDate() + n);
     return this;
 }
+Array.prototype.insert = function (index, item) {
+    this.splice(index, 0, item);
+};
+Array.prototype.remove = function (index) {
+    this.splice(index, 1);
+};

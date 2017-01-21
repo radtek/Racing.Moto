@@ -189,10 +189,11 @@
     <Content Include="Scripts\AngularJs\angular-filter-0.5.7.js" />
     <Content Include="Scripts\AngularJs\angular-filter-0.5.7.min.js" />
     <Content Include="Scripts\Controllers\betController.js" />
+    <Content Include="Scripts\Jquery.inputmask\jquery.inputmask.bundle-3.2.7.js" />
     <Content Include="Scripts\ngApp.js" />
     <Content Include="Scripts\jquery.easing.1.3.js" />
     <Content Include="Scripts\jquery.timer.js" />
-    <None Include="Scripts\jQuery\jquery-3.1.1.intellisense.js" />
+    <None Include="Scripts\Jquery\jquery-3.1.1.intellisense.js" />
     <Content Include="Img\1.png" />
     <Content Include="Img\10.png" />
     <Content Include="Img\2.png" />
@@ -297,10 +298,10 @@
     <Content Include="Scripts\jquery.floatingBg.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
-    <Content Include="Scripts\jQuery\jquery-3.1.1.js" />
-    <Content Include="Scripts\jQuery\jquery-3.1.1.min.js" />
-    <Content Include="Scripts\jQuery\jquery-3.1.1.slim.js" />
-    <Content Include="Scripts\jQuery\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\Jquery\jquery-3.1.1.js" />
+    <Content Include="Scripts\Jquery\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\Jquery\jquery-3.1.1.slim.js" />
+    <Content Include="Scripts\Jquery\jquery-3.1.1.slim.min.js" />
     <Content Include="Scripts\AngularJs\angular.js" />
     <Content Include="Scripts\AngularJs\angular.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -335,15 +336,15 @@
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Scripts\jQuery\jquery-3.1.1.slim.min.map" />
-    <Content Include="Scripts\jQuery\jquery-3.1.1.min.map" />
+    <Content Include="Scripts\Jquery\jquery-3.1.1.slim.min.map" />
+    <Content Include="Scripts\Jquery\jquery-3.1.1.min.map" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Moto\Arena.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Shared\_BetLayout.cshtml" />
+    <Content Include="Views\Shared\_NgLayout.cshtml" />
     <Content Include="Views\Moto\Bet.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

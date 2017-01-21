@@ -426,6 +426,9 @@ body {
         float: left;
     }
 
+.main-wrap .right .z-list .tab-name {
+    width: 100px;
+}
 .main-wrap .right .z-list .a {
     margin-left: 15px;
 }
@@ -437,7 +440,7 @@ body {
 }
 
 .main-wrap .right .z-list .c {
-    margin-left: 85px;
+    margin-left: 65px;
     width: 100px;
     display: inline-block;
 }

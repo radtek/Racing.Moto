@@ -11,7 +11,7 @@
         <div class="rightB">
             <span class="num">第555555期</span>
             <span class="shalou">
-                <img src="/img/houtai/sahlou.png">
+                <img src="/img/houtai/sahlou.png" />
             </span>
             <span class="time">00:02:46</span>
         </div>
@@ -30,55 +30,65 @@
                 <td class="bg-gray" rowspan='2'>第{{bet.ChineseNums[item.Rank - 1]}}名</td>
                 <td>
                     <div class="mingci bg-huang">1</div>
-                    <div class="value" ng-bind="item.Number1">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount1">
+                    <div class="value" ng-bind="item.Rate1">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount1" ng-change="bet.betOnChange(item, 1, item.Amount1)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-lan">2</div>
-                    <div class="value" ng-bind="item.Number2">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount2">
+                    <div class="value" ng-bind="item.Rate2">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount2" ng-change="bet.betOnChange(item, 2, item.Amount2)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-juhuang">3</div>
-                    <div class="value" ng-bind="item.Number3">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount3">
+                    <div class="value" ng-bind="item.Rate3">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount3" ng-change="bet.betOnChange(item, 3, item.Amount3)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-lv">4</div>
-                    <div class="value" ng-bind="item.Number4">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount4">
+                    <div class="value" ng-bind="item.Rate4">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount4" ng-change="bet.betOnChange(item, 4, item.Amount4)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-zi">5</div>
-                    <div class="value" ng-bind="item.Number5">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount5">
+                    <div class="value" ng-bind="item.Rate5">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount5" ng-change="bet.betOnChange(item, 5, item.Amount5)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
             </tr>
             <tr>
                 <td>
                     <div class="mingci bg-qianzi">6</div>
-                    <div class="value" ng-bind="item.Number6">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount6">
+                    <div class="value" ng-bind="item.Rate6">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount6" ng-change="bet.betOnChange(item, 6, item.Amount6)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-danhong">7</div>
-                    <div class="value" ng-bind="item.Number7">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount7">
+                    <div class="value" ng-bind="item.Rate7">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount7" ng-change="bet.betOnChange(item, 7, item.Amount7)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-tianlan">8</div>
-                    <div class="value" ng-bind="item.Number8">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount8">
+                    <div class="value" ng-bind="item.Rate8">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount8" ng-change="bet.betOnChange(item, 8, item.Amount8)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-hei">9</div>
-                    <div class="value" ng-bind="item.Number9">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount9">
+                    <div class="value" ng-bind="item.Rate9">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount9" ng-change="bet.betOnChange(item, 9, item.Amount9)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-hong">10</div>
-                    <div class="value" ng-bind="item.Number10">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount10">
+                    <div class="value" ng-bind="item.Rate10">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount10" ng-change="bet.betOnChange(item, 10, item.Amount10)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
             </tr>
         </table>
@@ -89,55 +99,65 @@
                 <td class="bg-gray" rowspan='2'>第{{bet.ChineseNums[item.Rank - 1]}}名</td>
                 <td>
                     <div class="mingci bg-huang">1</div>
-                    <div class="value" ng-bind="item.Number1">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount1">
+                    <div class="value" ng-bind="item.Rate1">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount1" ng-change="bet.betOnChange(item, 1, item.Amount1)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-lan">2</div>
-                    <div class="value" ng-bind="item.Number2">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount2">
+                    <div class="value" ng-bind="item.Rate2">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount2" ng-change="bet.betOnChange(item, 2, item.Amount2)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-juhuang">3</div>
-                    <div class="value" ng-bind="item.Number3">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount3">
+                    <div class="value" ng-bind="item.Rate3">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount3" ng-change="bet.betOnChange(item, 3, item.Amount3)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-lv">4</div>
-                    <div class="value" ng-bind="item.Number4">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount4">
+                    <div class="value" ng-bind="item.Rate4">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount4" ng-change="bet.betOnChange(item, 4, item.Amount4)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-zi">5</div>
-                    <div class="value" ng-bind="item.Number5">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount5">
+                    <div class="value" ng-bind="item.Rate5">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount5" ng-change="bet.betOnChange(item, 5, item.Amount5)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
             </tr>
             <tr>
                 <td>
                     <div class="mingci bg-qianzi">6</div>
-                    <div class="value" ng-bind="item.Number6">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount6">
+                    <div class="value" ng-bind="item.Rate6">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount6" ng-change="bet.betOnChange(item, 6, item.Amount6)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-danhong">7</div>
-                    <div class="value" ng-bind="item.Number7">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount7">
+                    <div class="value" ng-bind="item.Rate7">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount7" ng-change="bet.betOnChange(item, 7, item.Amount7)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-tianlan">8</div>
-                    <div class="value" ng-bind="item.Number8">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount8">
+                    <div class="value" ng-bind="item.Rate8">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount8" ng-change="bet.betOnChange(item, 8, item.Amount8)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-hei">9</div>
-                    <div class="value" ng-bind="item.Number9">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount9">
+                    <div class="value" ng-bind="item.Rate9">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount9" ng-change="bet.betOnChange(item, 9, item.Amount9)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-hong">10</div>
-                    <div class="value" ng-bind="item.Number10">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.Amount10">
+                    <div class="value" ng-bind="item.Rate10">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.Amount10" ng-change="bet.betOnChange(item, 10, item.Amount10)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
             </tr>
         </table>
@@ -148,64 +168,70 @@
                 <td class="bg-gray" rowspan='2'>第{{bet.ChineseNums[item.Rank - 1]}}名</td>
                 <td>
                     <div class="mingci bg-huang">大</div>
-                    <div class="value" ng-bind="item.Big">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.BigAmount">
+                    <div class="value" ng-bind="item.RateBig">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.AmountBig" ng-change="bet.betOnChange(item, 11, item.AmountBig)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-lan">小</div>
-                    <div class="value" ng-bind="item.Small">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.SmallAmount">
+                    <div class="value" ng-bind="item.RateSmall">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.AmountSmall" ng-change="bet.betOnChange(item, 12, item.AmountSmall)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-juhuang">单</div>
-                    <div class="value" ng-bind="item.Odd">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.OddAmount">
+                    <div class="value" ng-bind="item.RateOdd">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.AmountOdd" ng-change="bet.betOnChange(item, 13, item.AmountOdd)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
                 <td>
                     <div class="mingci bg-lv">双</div>
-                    <div class="value" ng-bind="item.Even">9.7</div>
-                    <input type="text" class="shuru" ng-model="item.EvenAmount">
+                    <div class="value" ng-bind="item.RateEven">9.7</div>
+                    <input type="text" class="shuru" ng-model="item.AmountEven" ng-change="bet.betOnChange(item, 14, item.AmountEven)" 
+                           input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
                 </td>
             </tr>
         </table>
     </div>
 
     <div class="touzhu-1">
-        <div style="margin-left: 250px;">未投注方案<span ng-bind="140 - bet.Bets.length">3</span>注</div>
-        <div style="margin-left: 100px; margin-right: 80px;">投注金额<span ng-bind="">125.00</span></div>
+        <div style="margin-left: 250px;">未投注方案<span ng-bind="bet.NotSavedBetItems.length">3</span>注</div>
+        <div style="margin-left: 100px; margin-right: 80px;">投注金额<span ng-bind="bet.NotSavedAoumt">125.00</span></div>
         <a href="javascript:;" ng-click="bet.save()">
             <img src="/img/houtai/lijitouzhu.png" class="lijitouzhu">
         </a>
     </div>
 
-    <div ng-show="bet.Bets.length > 0">
-        <ul class="z-list">
-            <li ng-repeat="item in bet.Bets">
-                <span ng-bind="item.ShortName">【前五名】</span>
-                <span class="a" ng-bind="item.ChineseRank">第四名</span>
-                <span class="b">【{{item.Num}}号】</span>
+    <div ng-show="bet.NotSavedBetItems.length > 0 || bet.SavedBetItems.length > 0 ">
+        <ul class="z-list" ng-show="bet.NotSavedBetItems.length > 0">
+            <li ng-repeat="item in bet.NotSavedBetItems">
+                <span class="tab-name">【{{item.TabName}}】</span>
+                <span class="a">第{{item.ChineseRank}}名</span>
+                <span class="b">【{{item.NumName}}】</span>
+                <span class="c">赔率：{{item.Rate}}</span>
+                <span class="d">下注金额：{{item.Amount}}</span>
+                <span class="e">获胜奖金：{{item.Bonus}}</span>
+                <span class="f">未下注</span>
+                <a href="javascript:;"><img src="/img/houtai/del.png"></a>
+            </li>
+        </ul>
+        <ul class="z-list" ng-show="bet.SavedBetItems.length > 0">
+            <li ng-repeat="item in bet.SavedBetItems">
+                <span class="tab-name">【{{item.TabName}}】</span>
+                <span class="a">[第{{item.ChineseRank}}名]</span>
+                <span class="b">【{{item.NumName}}】</span>
                 <span class="c">赔率：{{item.Rate}}</span>
                 <span class="d">下注金额：{{item.Amount}}</span>
                 <span class="e">获胜奖金：{{item.Bonus}}</span>
                 <span class="f">已下注</span>
                 <a href="javascript:;"></a>
             </li>
-            <li class="hide">
-                <span>【前五名】</span>
-                <span class="a">第四名</span>
-                <span class="b">【6号】</span>
-                <span class="c">赔率：9.7</span>
-                <span class="d">下注金额：5.00</span>
-                <span class="e">获胜奖金：45.00</span>
-                <span class="f">未下注</span>
-                <a href="javascript:;"><img src="/img/houtai/del.png" class="hide"></a>
-            </li>
         </ul>
         <div class="touzhu-2">
             <div>
-                已投注方案<span>2</span>注
+                已投注方案<span ng-bind="bet.SavedBetItems.length">2</span>注
             </div>
-            <div style="margin-left: 70px;">投注金额：<span>60.00</span></div>
+            <div style="margin-left: 70px;">投注金额：<span ng-bind="bet.SavedAoumt">60.00</span></div>
         </div>
     </div>
 

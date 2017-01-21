@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\BetItem.cs" />
     <Compile Include="Entities\Bet.cs" />
     <Compile Include="Entities\AppConfig.cs" />
     <Compile Include="Entities\Log.cs" />

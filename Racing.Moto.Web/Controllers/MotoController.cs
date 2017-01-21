@@ -75,12 +75,7 @@ namespace Racing.Moto.Web.Controllers
                 else
                 {
                     // 下注
-                    bets.ForEach(b =>
-                    {
-                        b.PKId = pkId;
-                        b.UserId = LoginUser.UserId;
-                    });
-                    new BetService().AddBets(bets);
+                    new BetService().SaveBets(pkId, LoginUser.UserId, bets);
                 }
             }
             catch (Exception ex)

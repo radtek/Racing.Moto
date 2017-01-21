@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 namespace Racing.Moto.Data.Entities
 {
     /// <summary>
-    /// 下注表: 计算时使用
+    /// 下注表条目: 每次PK同一个人可以多次下注, Bet.Amount = Sum(BetItem.Amount)
     /// </summary>
-    [Table(nameof(Bet))]
-    public partial class Bet
+    [Table(nameof(BetItem))]
+    public partial class BetItem
     {
         [Key]
-        public int BetId { get; set; }
+        public int BetItemId { get; set; }
 
         /// <summary>
         /// 名次: 行(1-10名)
@@ -33,28 +33,15 @@ namespace Racing.Moto.Data.Entities
         public decimal Amount { get; set; }
 
         /// <summary>
-        /// 倍率
+        /// 创建时间
         /// </summary>
-        public decimal Rate { get; set; }
+        public DateTime CreateTime { get; set; }
 
         /// <summary>
-        /// 用户
+        /// Bet
         /// </summary>
-        [ForeignKey(nameof(User))]
-        public int UserId { get; set; }
-        public virtual User User { get; set; }
-
-        /// <summary>
-        /// PK
-        /// </summary>
-        [ForeignKey(nameof(PK))]
-        public int PKId { get; set; }
-        public virtual PK PK { get; set; }
-
-        /// <summary>
-        /// 下注条目
-        /// </summary>
-        [InverseProperty(nameof(Bet))]
-        public virtual ICollection<BetItem> BetItems { get; set; }
+        [ForeignKey(nameof(Bet))]
+        public int BetId { get; set; }
+        public virtual Bet Bet { get; set; }
     }
 }
