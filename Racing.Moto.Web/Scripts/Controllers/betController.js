@@ -1,4 +1,4 @@
-﻿app.controller('betController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', function ($scope, $rootScope, $http, $compile, $timeout, $q) {
+﻿app.controller('betController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
 
     $scope.init = function () {
         $scope.bet.init();
@@ -38,13 +38,16 @@
                     $scope.bet.initPKRates($scope.bet.PKRates);
                     $scope.bet.initBetItems($scope.bet.Bets);
                     $scope.bet.setBets($scope.bet.PKRates, $scope.bet.Bets);
+
+                    // 重置输入框背景色
+                    $scope.bet.resetBgColor();
                 }
             });
         },
         initPKRates: function (pkRates) {
             $scope.bet.TopFive = [];
             $scope.bet.BSOE = [];
-            $scope.bet.TopFive = [];
+            $scope.bet.LastFive = [];
 
             angular.forEach(pkRates, function (item, index, arr) {
                 if (item.Rank <= 5) {
@@ -55,7 +58,7 @@
                 $scope.bet.BSOE.push(item);
             });
         },
-        initBetItems: function (bets) {            
+        initBetItems: function (bets) {
             $scope.bet.NotSavedBetItems = [];//未投注
             $scope.bet.SavedBetItems = [];//已投注
 
@@ -73,7 +76,7 @@
             betItem.TabName = $scope.bet.getTabName(betItem.Num, betItem.Rank);
             betItem.NumName = $scope.bet.getNumName(betItem.Num),
             betItem.ChineseRank = $scope.bet.getChineseRank(betItem.Rank);
-            betItem.Bonus = $app.round(betItem.Amount.mul(rate), 2);
+            betItem.Bonus = betItem.Amount != null ? $app.round(betItem.Amount.mul(rate), 2) : 0;
             betItem.Rate = rate;
         },
         getTab: function (id) {
@@ -100,19 +103,108 @@
             return $scope.bet.ChineseNums[rank - 1];
         },
 
+        /* Popover for quick bet */
+        CurrentPKRate: null,
+        CurrentPKRateNum: null,
+        showPopover: function (pkRate, num) {
+            $scope.bet.resetPopoverIsOpen(pkRate, num, true);
+            $scope.bet.CurrentPKRate = pkRate;
+            $scope.bet.CurrentPKRateNum = num;
+        },
+        hideAllPopover: function () {
+            for (var i = 0; i < $scope.bet.PKRates.length; i++) {
+                for (var j = 1; j <= 14; j++) {
+                    $scope.bet.setPopoverIsOpen($scope.bet.PKRates[i], j, false);
+                }
+            }
+        },
+        quickBet: function (amount) {
+            //console.log(amount);
+            $scope.bet.setPKRateAmount($scope.bet.CurrentPKRate, $scope.bet.CurrentPKRateNum, amount);
+            $scope.bet.resetPopoverIsOpen($scope.bet.CurrentPKRate, $scope.bet.CurrentPKRateNum, false);
+            $scope.bet.betOnChange($scope.bet.CurrentPKRate, $scope.bet.CurrentPKRateNum, amount);
+            // 重置输入框背景色
+            if (amount == null || amount == '') {
+                $scope.bet.setBgColor($scope.bet.CurrentPKRate, $scope.bet.CurrentPKRateNum, 'bg-color-white');
+            } else {
+                $scope.bet.resetBgColor();
+            }
+
+            //$scope.bet.CurrentPKRateNum = 0;
+            //console.log($scope.bet.CurrentPKRate);
+        },
+        setPKRateAmount: function (pkRate, num, amount) {
+            switch (num) {
+                case 1: pkRate.Amount1 = amount; break;
+                case 2: pkRate.Amount2 = amount; break;
+                case 3: pkRate.Amount3 = amount; break;
+                case 4: pkRate.Amount4 = amount; break;
+                case 5: pkRate.Amount5 = amount; break;
+                case 6: pkRate.Amount6 = amount; break;
+                case 7: pkRate.Amount7 = amount; break;
+                case 8: pkRate.Amount8 = amount; break;
+                case 9: rpkRate.Amount9 = amount; break;
+                case 10: pkRate.Amount10 = amount; break;
+                case 11: pkRate.Amount11 = amount; break;
+                case 12: pkRate.Amount12 = amount; break;
+                case 13: pkRate.Amount13 = amount; break;
+                case 14: pkRate.Amount14 = amount; break;
+            }
+        },
+        resetPopoverIsOpen: function (pkRate, num, isOpen) {
+            // hide all first
+            $scope.bet.hideAllPopover();
+            // show
+            $scope.bet.setPopoverIsOpen(pkRate, num, isOpen);
+        },
+        setPopoverIsOpen: function (pkRate, num, isOpen) {
+            switch (num) {
+                case 1: pkRate.PopoverIsOpen1 = isOpen; break;
+                case 2: pkRate.PopoverIsOpen2 = isOpen; break;
+                case 3: pkRate.PopoverIsOpen3 = isOpen; break;
+                case 4: pkRate.PopoverIsOpen4 = isOpen; break;
+                case 5: pkRate.PopoverIsOpen5 = isOpen; break;
+                case 6: pkRate.PopoverIsOpen6 = isOpen; break;
+                case 7: pkRate.PopoverIsOpen7 = isOpen; break;
+                case 8: pkRate.PopoverIsOpen8 = isOpen; break;
+                case 9: pkRate.PopoverIsOpen9 = isOpen; break;
+                case 10: pkRate.PopoverIsOpen10 = isOpen; break;
+                case 11: pkRate.PopoverIsOpen11 = isOpen; break;
+                case 12: pkRate.PopoverIsOpen12 = isOpen; break;
+                case 13: pkRate.PopoverIsOpen13 = isOpen; break;
+                case 14: pkRate.PopoverIsOpen14 = isOpen; break;
+            }
+        },
+
         /* 未投注 */
         betOnChange: function (pkRateModel, num, amount) {
             var pkRate = $scope.bet.getPKRateFromModel(pkRateModel, num);
 
             var betItem = $scope.bet.getNotSaveBetItem(pkRate.Rank, num);
-            if (betItem == null) {
+            if (betItem == null && amount != null && amount > 0) {
+                // add
                 $scope.bet.addNotSavedBetItem(pkRate, num, amount);
+                // 重置输入框背景色
+                $scope.bet.resetBgColor(pkRate, num, 'bg-color-pink');
             } else {
-                betItem.Amount = parseFloat(amount);
-                $scope.bet.setBetItem(betItem, pkRate.Rate);
+                if (amount == null || amount == 0) {
+                    // remove
+                    $scope.bet.removeNotSaveBetItem(pkRate.Rank, num);
+                    // 重置输入框背景色
+                    $scope.bet.resetBgColor(pkRate, num, 'bg-color-white');
+                } else {
+                    // edit
+                    betItem.Amount = amount != null ? parseFloat(amount) : null;
+                    $scope.bet.setBetItem(betItem, pkRate.Rate);
+                    // 重置输入框背景色
+                    $scope.bet.resetBgColor(pkRate, num, 'bg-color-red');
+                }
             }
             //未投注.投注金额
             $scope.bet.NotSavedAoumt = $scope.bet.sumBetAmount($scope.bet.NotSavedBetItems);
+
+            // 重置输入框背景色
+            $scope.bet.resetBgColor();
         },
         getPKRateFromModel: function (model, num) {
             var rate;
@@ -128,10 +220,10 @@
                 case 8: rate = model.Rate8; break;
                 case 9: rate = model.Rate9; break;
                 case 10: rate = model.Rate10; break;
-                case 11: rate = model.RateBig; break;
-                case 12: rate = model.RateSmall; break;
-                case 13: rate = model.RateOdd; break;
-                case 14: rate = model.RateEven; break;
+                case 11: rate = model.Rate11; break;
+                case 12: rate = model.Rate12; break;
+                case 13: rate = model.Rate13; break;
+                case 14: rate = model.Rate14; break;
             }
 
             return {
@@ -175,11 +267,105 @@
             for (var i = 0; i < $scope.bet.NotSavedBetItems.length; i++) {
                 if ($scope.bet.NotSavedBetItems[i].Rank == rank && $scope.bet.NotSavedBetItems[i].Num == num) {
                     item = $scope.bet.NotSavedBetItems[i];
+                    break;
                 }
             }
             return item;
         },
+        removeNotSaveBetItem: function (rank, num) {
+            var index = null;
+            for (var i = 0; i < $scope.bet.NotSavedBetItems.length; i++) {
+                if ($scope.bet.NotSavedBetItems[i].Rank == rank && $scope.bet.NotSavedBetItems[i].Num == num) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index != null) {
+                $scope.bet.NotSavedBetItems.remove(index);
+            }
+            // 重置输入框背景色
+            $scope.bet.resetBgColor();
+        },
+        removeNotSaveBetItem2: function (index) {
+            //删除输入/选择的金额
+            var betItem = $scope.bet.NotSavedBetItems[index];
+            $scope.bet.removeEnteredAmount(betItem.Rank, betItem.Num);
+            //删除未下注
+            $scope.bet.NotSavedBetItems.remove(index);
+            // 重置输入框背景色
+            $scope.bet.resetBgColor();
+        },
+        removeEnteredAmount: function (rank, num) {
+            //删除输入/选择的金额
+            var pkRate = null;
+            for (var i = 0; i < $scope.bet.PKRates.length; i++) {
+                if ($scope.bet.PKRates[i].Rank == rank) {
+                    pkRate = $scope.bet.PKRates[i];
+                    break;
+                }
+            }
+            if (pkRate != null) {
+                $scope.bet.setPKRateAmount(pkRate, num, null);
 
+                // 重置输入框背景色
+                $scope.bet.resetBgColor(pkRate, num, 'bg-color-white');
+            }
+        },
+        //重置输入框背景色
+        resetBgColor: function () {
+            for (var i = 0; i < $scope.bet.PKRates.length; i++) {
+                var rank = i + 1;
+                for (var j = 1; j <= 14; j++) {
+                    if ($scope.bet.existInNotSavedBetItems(rank, j)) {
+                        $scope.bet.setBgColor($scope.bet.PKRates[i], j, 'bg-color-pink');
+                    } else if ($scope.bet.existInSavedBetItems(rank, j)) {
+                        $scope.bet.setBgColor($scope.bet.PKRates[i], j, 'bg-color-red');
+                    } else {
+                        $scope.bet.setBgColor($scope.bet.PKRates[i], j, 'bg-color-white');
+                    }
+                }
+            }
+        },
+        setBgColor: function (pkRate, num, color) {
+            switch (num) {
+                case 1: pkRate.BgColor1 = color; break;
+                case 2: pkRate.BgColor2 = color; break;
+                case 3: pkRate.BgColor3 = color; break;
+                case 4: pkRate.BgColor4 = color; break;
+                case 5: pkRate.BgColor5 = color; break;
+                case 6: pkRate.BgColor6 = color; break;
+                case 7: pkRate.BgColor7 = color; break;
+                case 8: pkRate.BgColor8 = color; break;
+                case 9: pkRate.BgColor9 = color; break;
+                case 10: pkRate.BgColor10 = color; break;
+                case 11: pkRate.BgColor11 = color; break;
+                case 12: pkRate.BgColor12 = color; break;
+                case 13: pkRate.BgColor13 = color; break;
+                case 14: pkRate.BgColor14 = color; break;
+            }
+        },
+        existInSavedBetItems: function (rank, num) {
+            var exist = false;
+            for (var i = 0; i < $scope.bet.SavedBetItems.length; i++) {
+                if ($scope.bet.SavedBetItems[i].Rank == rank && $scope.bet.SavedBetItems[i].Num == num) {
+                    exist = true;
+                    break;
+                }
+            }
+            return exist;
+        },
+        existInNotSavedBetItems: function (rank, num) {
+            var exist = false;
+            for (var i = 0; i < $scope.bet.NotSavedBetItems.length; i++) {
+                if ($scope.bet.NotSavedBetItems[i].Rank == rank && $scope.bet.NotSavedBetItems[i].Num == num) {
+                    exist = true;
+                    break;
+                }
+            }
+            return exist;
+        },
+
+        //计算投注金额
         sumBetAmount: function (betItems) {
             var amount = 0;
             angular.forEach(betItems, function (item, index, arr) {
@@ -212,13 +398,13 @@
                 item.Amount10 = bet10 != null ? bet10.Amount : null;
 
                 var bet11 = $scope.bet.getBet(bets, item.Rank, 11);
-                item.BigAmount = bet11 != null ? bet11.Amount : null;
+                item.Amount11 = bet11 != null ? bet11.Amount : null;
                 var bet12 = $scope.bet.getBet(bets, item.Rank, 12);
-                item.SmallAmount = bet12 != null ? bet12.Amount : null;
+                item.Amount12 = bet12 != null ? bet12.Amount : null;
                 var bet13 = $scope.bet.getBet(bets, item.Rank, 13);
-                item.OddAmount = bet13 != null ? bet13.Amount : null;
+                item.Amount13 = bet13 != null ? bet13.Amount : null;
                 var bet14 = $scope.bet.getBet(bets, item.Rank, 14);
-                item.EvenAmount = bet14 != null ? bet14.Amount : null;
+                item.Amount14 = bet14 != null ? bet14.Amount : null;
             });
         },
         getBet: function (bets, rank, num) {
@@ -233,22 +419,6 @@
         save: function () {
             //console.log($scope.bet.PKRates);
             var bets = [];
-            //angular.forEach($scope.bet.PKRates, function (item, index, arr) {
-            //    $scope.bet.addBet(bets, item.Rank, 1, item.Amount1, item.Rate1);
-            //    $scope.bet.addBet(bets, item.Rank, 2, item.Amount2, item.Rate2);
-            //    $scope.bet.addBet(bets, item.Rank, 3, item.Amount3, item.Rate3);
-            //    $scope.bet.addBet(bets, item.Rank, 4, item.Amount4, item.Rate4);
-            //    $scope.bet.addBet(bets, item.Rank, 5, item.Amount5, item.Rate5);
-            //    $scope.bet.addBet(bets, item.Rank, 6, item.Amount6, item.Rate6);
-            //    $scope.bet.addBet(bets, item.Rank, 7, item.Amount7, item.Rate7);
-            //    $scope.bet.addBet(bets, item.Rank, 8, item.Amount8, item.Rate8);
-            //    $scope.bet.addBet(bets, item.Rank, 9, item.Amount9, item.Rate9);
-            //    $scope.bet.addBet(bets, item.Rank, 10, item.Amount10, item.Rate10);
-            //    $scope.bet.addBet(bets, item.Rank, 11, item.AmountBig, item.RateBig);
-            //    $scope.bet.addBet(bets, item.Rank, 12, item.AmountSmall, item.RateSmall);
-            //    $scope.bet.addBet(bets, item.Rank, 13, item.AmountOdd, item.RateOdd);
-            //    $scope.bet.addBet(bets, item.Rank, 14, item.AmountEven, item.RateEven);
-            //});
             angular.forEach($scope.bet.NotSavedBetItems, function (item, index, arr) {
                 $scope.bet.addBet(bets, item.Rank, item.Num, item.Amount, item.Rate);
             });
@@ -274,9 +444,6 @@
             });
         },
         addBet: function (bets, rank, num, amount, rate) {
-            //if ($app.isNum(amount)) {
-                
-            //}
             var newBet = $scope.bet.newBet(rank, num, parseFloat(amount), rate);
             bets.push(newBet);
         },

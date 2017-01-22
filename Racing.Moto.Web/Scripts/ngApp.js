@@ -1,5 +1,6 @@
 ﻿var app = angular.module('RacingMotoNgApp', [
-    'angular.filter'
+    'angular.filter',
+    'ui.bootstrap'
 ]).run(function ($rootScope) {
     $rootScope.RequestCount = 0;
     $rootScope.HideCount = 0;

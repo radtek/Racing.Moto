@@ -1,7 +1,9 @@
 namespace Racing.Moto.Data.Migrations
 {
+    using Core.Crypto;
     using Entities;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -27,7 +29,20 @@ namespace Racing.Moto.Data.Migrations
             //      new Person { FullName = "Brice Lambson" },
             //      new Person { FullName = "Rowan Miller" }
             //    );
-            //
+
+
+            context.Role.AddOrUpdate(
+              p => p.RoleName,
+              new Role { RoleName = "管理员" },
+              new Role { RoleName = "总代理" },
+              new Role { RoleName = "代理" },
+              new Role { RoleName = "会员" }
+            );
+
+            context.User.AddOrUpdate(
+              p => p.UserName,
+              new User { UserName = "Admin", Password = CryptoUtils.Encrypt("Admin001"), Enabled = true, IsLocked = false, CreateDate = DateTime.Now, FailedPasswordAttemptWindowStart = DateTime.Now }
+            );
 
             context.AppConfig.AddOrUpdate(
               p => p.Name,

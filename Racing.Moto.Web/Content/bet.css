@@ -618,3 +618,25 @@ body {
 /*----------------------------------------
     Loader
 ------------------------------------------*/
+
+/*------------------popover---------------------*/
+.popover-menu {
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+}
+.popover-menu .divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
+/*------------------popover---------------------*/
+
+.bg-color-red{background-color:red}
+.bg-color-pink{background-color:pink}
+.bg-color-white{background-color:white}

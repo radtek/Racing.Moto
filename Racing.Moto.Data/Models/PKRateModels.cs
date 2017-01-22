@@ -70,21 +70,21 @@ namespace Racing.Moto.Data.Models
         /// <summary>
         /// 大
         /// </summary>
-        public decimal RateBig { get; set; }
+        public decimal Rate11 { get; set; }
 
         /// <summary>
         /// 小
         /// </summary>
-        public decimal RateSmall { get; set; }
+        public decimal Rate12 { get; set; }
 
         /// <summary>
         /// 单
         /// </summary>
-        public decimal RateOdd { get; set; }
+        public decimal Rate13{ get; set; }
 
         /// <summary>
         /// 双
         /// </summary>
-        public decimal RateEven { get; set; }
+        public decimal Rate14 { get; set; }
     }
 }

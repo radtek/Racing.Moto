@@ -70,10 +70,10 @@ namespace Racing.Moto.Services
                 Rate8 = pkRates.Where(r => r.Num == 8).First().Rate,
                 Rate9 = pkRates.Where(r => r.Num == 9).First().Rate,
                 Rate10 = pkRates.Where(r => r.Num == 10).First().Rate,
-                RateBig = pkRates.Where(r => r.Num == 11).First().Rate,
-                RateSmall = pkRates.Where(r => r.Num == 12).First().Rate,
-                RateOdd = pkRates.Where(r => r.Num == 13).First().Rate,
-                RateEven = pkRates.Where(r => r.Num == 14).First().Rate
+                Rate11 = pkRates.Where(r => r.Num == 11).First().Rate,
+                Rate12 = pkRates.Where(r => r.Num == 12).First().Rate,
+                Rate13 = pkRates.Where(r => r.Num == 13).First().Rate,
+                Rate14 = pkRates.Where(r => r.Num == 14).First().Rate
             };
         }
     }
