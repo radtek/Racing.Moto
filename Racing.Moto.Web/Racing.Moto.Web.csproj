@@ -312,6 +312,7 @@
     <Content Include="Scripts\AngularJs\angular.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\PK\Racing.js" />
+    <Content Include="Scripts\timeCountDown.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

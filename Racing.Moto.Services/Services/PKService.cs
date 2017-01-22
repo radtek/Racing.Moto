@@ -28,11 +28,13 @@ namespace Racing.Moto.Services
         /// <returns></returns>
         public PKModel GetCurrentPKModel()
         {
-            var now = DateTime.Now;
             var currentPK = GetCurrentPK();
+            var now = DateTime.Now;
 
             var passedSeconds = (now - currentPK.BeginTime).Seconds;
             var remainSeconds = (currentPK.EndTime - currentPK.BeginTime).Seconds - passedSeconds;
+            // 距离封盘的秒数, 负:已封盘, 正:距离封盘的秒数
+            var openingRemainSeconds = (currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds) - now).Seconds;
             // 距离比赛开始的秒数, 负:未开始, 正:已开始
             var gamingSeconds = (now - currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds + currentPK.CloseSeconds)).Seconds;
             // 比赛已经开始n秒
@@ -46,6 +48,8 @@ namespace Racing.Moto.Services
                 PK = currentPK,
                 PassedSeconds = passedSeconds,
                 RemainSeconds = remainSeconds,
+                OpeningRemainSeconds = openingRemainSeconds,
+                CloseBeginTime = currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds),
                 GamingSeconds = gamingSeconds,
                 GamePassedSeconds = gamePassedSeconds,
                 GameRemainSeconds = gameRemainSeconds

@@ -3,17 +3,20 @@
     Layout = "~/Views/Shared/_NgLayout.cshtml";
 }
 @section headScripts {
+    <script src="~/Scripts/timeCountDown.js"></script>
     <script src="~/Scripts/Controllers/betController.js"></script>
 }
 <div ng-controller="betController" ng-init="init()">
     <div class="top">
         <span class="pk">全民PK拾</span>
         <div class="rightB">
-            <span class="num">第555555期</span>
+            <span class="num">第{{bet.PKModel.PK.PKId}}期</span>
             <span class="shalou">
                 <img src="/img/houtai/sahlou.png" />
             </span>
-            <span class="time">00:02:46</span>
+            <span class="time">
+                <span id="hour"></span>:<span id="minute"></span>:<span id="second"></span>
+            </span>
         </div>
     </div>
     <ul class="tab">
@@ -287,13 +290,15 @@
 <script type="text/ng-template" id="popover.html">
     <div>
         <ul class="popover-menu">
-            <li ng-click="bet.quickBet(5)">5</li>
+            <li ng-click="bet.quickBet(10)">下注10元</li>
             <li class="divider"></li>
-            <li ng-click="bet.quickBet(50)">50</li>
+            <li ng-click="bet.quickBet(20)">下注20元</li>
             <li class="divider"></li>
-            <li ng-click="bet.quickBet(100)">100</li>
+            <li ng-click="bet.quickBet(50)">下注50元</li>
             <li class="divider"></li>
-            <li ng-click="bet.quickBet(null)">取消</li>
+            <li ng-click="bet.quickBet(100)">下注100元</li>
+            <li class="divider"></li>
+            <li ng-click="bet.quickBet(null)">停用</li>
         </ul>
     </div>
 </script>

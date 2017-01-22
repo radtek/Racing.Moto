@@ -27,6 +27,7 @@ namespace Racing.Moto.Web
                 .Include("~/Scripts/AngularJs/angular.js")
                 .Include("~/Scripts/AngularJs/angular-filter-{version}.js")
                 .Include("~/Scripts/Jquery/jquery-{version}.js")
+                .Include("~/Scripts/jquery.timer.js")
                 .Include("~/Scripts/Jquery.inputmask/jquery.inputmask.bundle-{version}.js")
                 .Include("~/Scripts/modernizr-{version}.js")
                 //.Include("~/Scripts/app.js")

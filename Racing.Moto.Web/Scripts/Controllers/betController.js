@@ -5,7 +5,7 @@
     };
 
     $scope.bet = {
-        PK: null,
+        PKModel: null,
         PKRates: [],
         Bets: [],//投注
 
@@ -31,7 +31,7 @@
             $http.post('/Moto/GetCurrentPKInfo').then(function (res) {
                 console.log(res);
                 if (res.data.Success) {
-                    $scope.bet.PK = res.data.Data.PK;
+                    $scope.bet.PKModel = res.data.Data.PKModel;
                     $scope.bet.PKRates = res.data.Data.PKRates;
                     $scope.bet.Bets = res.data.Data.Bets;
 
@@ -41,6 +41,8 @@
 
                     // 重置输入框背景色
                     $scope.bet.resetBgColor();
+
+                    $scope.countdown.init($scope.bet.PKModel);
                 }
             });
         },
@@ -429,7 +431,7 @@
                 return;
             }
             var data = {
-                pkId: $scope.bet.PK.PKId,
+                pkId: $scope.bet.PKModel.PK.PKId,
                 bets: bets
             };
             $http.post('/Moto/SaveBets', data).then(function (res) {
@@ -454,6 +456,37 @@
                 Amount: amount,
                 Rate: rate
             };
+        },
+    };
+
+    $scope.countdown = {
+        init: function (pkModel) {
+            var eleHour = document.getElementById('hour');
+            var eleMinute = document.getElementById('minute');
+            var eleSecond = document.getElementById('second');
+
+            if (pkModel.OpeningRemainSeconds <= 0) {
+                eleHour.innerHTML = '00';
+                eleMinute.innerHTML = '00';
+                eleSecond.innerHTML = '00';
+            } else {
+                var closeBeginTime = $app.convertToDate(pkModel.CloseBeginTime);
+                var year = closeBeginTime.getFullYear();
+                var month = closeBeginTime.getMonth();
+                var day = closeBeginTime.getDate();
+                var hour = closeBeginTime.getHours();
+                var minute = closeBeginTime.getMinutes();
+                var second = closeBeginTime.getSeconds();
+
+
+                var d = Date.UTC(year, month, day, hour, minute, second);
+                var obj = {
+                    sec: eleSecond,
+                    mini: eleMinute,
+                    hour: eleHour
+                }
+                fnTimeCountDown(d, obj);
+            }
         },
     };
 }]);

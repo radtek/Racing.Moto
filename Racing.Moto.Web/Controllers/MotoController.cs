@@ -38,12 +38,12 @@ namespace Racing.Moto.Web.Controllers
 
             try
             {
-                var pk = new PKService().GetCurrentPK();
-                var pkRates = new PKRateService().GetPKRateModels(pk.PKId);
-                var bets = new BetService().GetBets(pk.PKId);
+                var pkModel = new PKService().GetCurrentPKModel();
+                var pkRates = new PKRateService().GetPKRateModels(pkModel.PK.PKId);
+                var bets = new BetService().GetBets(pkModel.PK.PKId);
                 result.Data = new
                 {
-                    PK = pk,
+                    PKModel = pkModel,
                     PKRates = pkRates,
                     Bets = bets
                 };

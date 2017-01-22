@@ -23,6 +23,15 @@ namespace Racing.Moto.Data.Models
         public int PassedSeconds { get; set; }
 
         /// <summary>
+        /// 距离封盘的秒数, 负:已封盘, 正:距离封盘的秒数
+        /// </summary>
+        public int OpeningRemainSeconds { get; set; }
+        /// <summary>
+        /// 封盘开始时间
+        /// </summary>
+        public DateTime CloseBeginTime { get; set; }
+
+        /// <summary>
         /// 盘剩余的秒数: 当前时间 总开盘秒数 - PassedSeconds 的秒数
         /// </summary>
         public int RemainSeconds { get; set; }
