@@ -29,6 +29,13 @@ namespace Racing.Moto.Services
         public PKModel GetCurrentPKModel()
         {
             var currentPK = GetCurrentPK();
+
+            // job 设置5秒启动一次, 两次PK之间会有时间差, 故取不到PK数据
+            if (currentPK == null)
+            {
+                return null;
+            }
+
             var now = DateTime.Now;
 
             var passedSeconds = (now - currentPK.BeginTime).Seconds;
@@ -58,16 +65,6 @@ namespace Racing.Moto.Services
 
         public PK AddPK(DateTime beginTime)
         {
-            var pkRates = new List<PKRate>();
-
-            foreach (var rate in RateCache.GetAllRates())
-            {
-                for (var num = 1; num <= 14; num++)
-                {
-                    pkRates.Add(new PKRate { Rank = rate.Rank, Num = num, Rate = RateService.GetRate(rate, num) });
-                }
-            }
-
             var pk = new PK
             {
                 CreateTime = DateTime.Now,
@@ -77,10 +74,22 @@ namespace Racing.Moto.Services
                 CloseSeconds = AppConfigCache.Racing_Close_Seconds,
                 GameSeconds = AppConfigCache.Racing_Game_Seconds,
                 LotterySeconds = AppConfigCache.Racing_Lottery_Seconds,
-                PKRates = pkRates
+                //PKRates = pkRates //pkRates 过多, 插入时间很长, 必须和PK新增分开
             };
 
             db.PK.Add(pk);
+            db.SaveChanges();
+
+            // pkRates 过多, 插入时间很长, 必须和PK新增分开
+            var pkRates = new List<PKRate>();
+            foreach (var rate in RateCache.GetAllRates())
+            {
+                for (var num = 1; num <= 14; num++)
+                {
+                    pkRates.Add(new PKRate { PKId = pk.PKId, Rank = rate.Rank, Num = num, Rate = RateService.GetRate(rate, num) });
+                }
+            }
+            db.PKRate.AddRange(pkRates);
             db.SaveChanges();
 
             return pk;

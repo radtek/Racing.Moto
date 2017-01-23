@@ -313,7 +313,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\PK\Racing.js" />
     <Content Include="Scripts\timeCountDown.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\PKController.cs" />
@@ -327,6 +329,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Jobs\RankJob.cs" />
     <Compile Include="SignalR\Hubs\PKTickerHub.cs" />
     <Compile Include="Jobs\JobScheduler.cs" />
     <Compile Include="Jobs\PkJob.cs" />

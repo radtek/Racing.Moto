@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NLog;
+using Racing.Moto.Core.Utils;
 
 namespace Racing.Moto.Test
 {
@@ -61,5 +62,17 @@ namespace Racing.Moto.Test
             Console.WriteLine();
         }
         #endregion
+
+        [TestMethod]
+        public void RandomUtilTest()
+        {
+            var randoms1 = RandomUtil.GetRandomList(1, 10);
+            var randoms2 = RandomUtil.GetRandomList(1, 10);
+
+            var str1 = string.Join(",", randoms1);
+            var str2 = string.Join(",", randoms2);
+
+            Assert.AreNotEqual(str1, str2);
+        }
     }
 }

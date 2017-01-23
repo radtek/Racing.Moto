@@ -62,6 +62,7 @@ namespace Racing.Moto.Data
             #endregion
 
             modelBuilder.Entity<Bet>().Property(e => e.Amount).HasPrecision(18, 2);
+            modelBuilder.Entity<PKBonus>().Property(e => e.Amount).HasPrecision(18, 2);
         }
 
         #region Logging
@@ -83,6 +84,7 @@ namespace Racing.Moto.Data
         public virtual DbSet<PKUserBonus> PKUserBonus { get; set; }
         public virtual DbSet<Bet> Bet { get; set; }
         public virtual DbSet<BetItem> BetItem { get; set; }
+        public virtual DbSet<PKBonus> PKBonus { get; set; }
         public virtual DbSet<Post> Post { get; set; }
         public virtual DbSet<Log> Log { get; set; }
         #endregion

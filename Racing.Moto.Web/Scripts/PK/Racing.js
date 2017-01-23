@@ -1,28 +1,41 @@
 ﻿$(function () {
 
+    var $racingResult = $("#racingResult");
+    var $bonusResult = $("#bonusResult");
+
     var ticker = $.connection.pKTickerHub;
 
     function init() {
         ticker.server.getPKInfo().done(function (pkInfo) {
-            //console.log(pkInfo);
+            console.log(pkInfo);
             //$stockTable.append("aaa");
             // test
-            pkInfo.GamingSeconds = -5;
-            pkInfo.GamePassedSeconds = 0;
-            pkInfo.GameRemainSeconds = 20;
-            pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
+            //pkInfo.GamingSeconds = -5;
+            //pkInfo.GamePassedSeconds = 0;
+            //pkInfo.GameRemainSeconds = 20;
+            //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
             motoRacing.run(pkInfo);
+        });
+
+        $racingResult.dialog({ autoOpen: false, modal: true, position: "center", width: 600, minHeight: 300, resizable: false, });
+        $bonusResult.dialog({
+            autoOpen: false, modal: true, position: "center", width: 600, minHeight: 300, resizable: false,
+            buttons: {
+                "确定": function () { $(this).dialog("close"); }
+            }
         });
     }
 
     // Add a client-side hub method that the server will call
     ticker.client.updatePKInfo = function (pkInfo) {
+        console.log(pkInfo);
+
         // test
-        pkInfo.GamingSeconds = -5;
-        pkInfo.GamePassedSeconds = 0;
-        pkInfo.GameRemainSeconds = 20;
-        pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
+        //pkInfo.GamingSeconds = -5;
+        //pkInfo.GamePassedSeconds = 0;
+        //pkInfo.GameRemainSeconds = 20;
+        //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
         motoRacing.run(pkInfo);
     }
@@ -41,10 +54,16 @@
         MotoInitPosition: [],
         EndMotos: [],// motos that at the end 
         run: function (pkInfo) {
+            if (pkInfo == null || pkInfo.PK.Ranks == null) {
+                return;
+            }
             // new racing
             if (motoRacing.PKInfo == null || pkInfo.PK.PKId != motoRacing.PKInfo.PK.PKId) {
                 motoRacing.PKInfo = pkInfo;
                 motoRacing.EndMotos = [];
+
+                // result dialog
+                $racingResult.dialog("close");
 
                 // append moto
                 motoRacing.append();
@@ -130,6 +149,8 @@
                             duration: speeds[i].Duration, easing: speeds[i].Easing, complete: function () {
                                 motoRacing.showFinalRanks(pkInfo);
                                 motoRacing.clear();
+
+                                motoRacing.showResult();
                             }
                         };
 
@@ -215,7 +236,7 @@
             ranks.sort(function (a, b) {
                 return b.Distance - a.Distance
             });
-            
+
             return ranks;
         },
         getEndMoto: function (motoNum) {
@@ -261,6 +282,66 @@
 
             $('body').stopTime();
         },
-    };
+        showResult: function () {
+            var ranks = motoRacing.PKInfo.PK.Ranks;
 
+            var html = '';
+            var ranksArr = ranks.split(',');
+            for (var i = 0; i < ranksArr.length; i++) {
+                html += '<li>'
+                      + '   <span>第' + (i + 1) + '名</span>'
+                      + '   <span>' + ranksArr[i] + '号车</span>'
+                      + '</li>';
+            }
+            html = '<ul>' + html + '</ul>';
+
+            $(".ui-dialog-titlebar").addClass('hide');
+            $racingResult.html(html);
+            $racingResult.dialog("open");
+        },
+        showBonus: function () {
+            var html = '奖金 10000';
+            $dialog.html(html);
+            $dialog.dialog("open");
+        },
+    };
 });
+
+var racingOpt = {
+    showResult: function (ranks) {
+        ranks = '3,2,5,6,8,7,10,1,9,4';
+
+        var $dialog = $("#racingResult");
+
+        var html = '';
+        var ranksArr = ranks.split(',');
+        for (var i = 0; i < ranksArr.length; i++) {
+            html += '<li>'
+                  + '   <span>第' + (i + 1) + '名</span>'
+                  + '   <span>' + ranksArr[i] + '号车</span>'
+                  + '</li>';
+        }
+        html = '<ul>' + html + '</ul>';
+
+        //$(".ui-dialog-titlebar").addClass('hide');
+        $dialog.html(html);
+        $dialog.dialog("open");
+    },
+    showBonus: function () {
+        var html = '奖金 10000';
+        var $dialog = $("#bonusResult");
+
+        //var ranksArr = ranks.split(',');
+        //for (var i = 0; i < ranksArr.length; i++) {
+        //    html += '<li>'
+        //          + '   <span>第' + (i + 1) + '名</span>'
+        //          + '   <span>' + ranksArr[i] + '号车</span>'
+        //          + '</li>';
+        //}
+        //html = '<ul>' + html + '</ul>';
+
+        //$(".ui-dialog-titlebar").addClass('hide');
+        $dialog.html(html);
+        $dialog.dialog("open");
+    },
+};

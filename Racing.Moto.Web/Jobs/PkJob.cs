@@ -13,7 +13,9 @@ namespace Racing.Moto.Web.Jobs
     {
         private ILogger _logger = LogManager.GetCurrentClassLogger();
 
-
+        /// <summary>
+        /// PK
+        /// </summary>
         public void Execute(IJobExecutionContext context)
         {
             try

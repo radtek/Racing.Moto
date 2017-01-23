@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Racing.Moto.Core.Utils;
 
 namespace Racing.Moto.Services
 {
@@ -83,6 +84,7 @@ namespace Racing.Moto.Services
             return db.Bet.Include(nameof(Bet.BetItems)).Where(b => b.PKId == pkId).ToList();
         }
 
+
         #region 计算名次
         /// <summary>
         /// 计算名次车号
@@ -91,8 +93,16 @@ namespace Racing.Moto.Services
         /// <param name="pkId">期号</param>
         public List<int> CalculateRanks(int pkId)
         {
-            // 下注金额求和
+            // 下注金额按(名次+车号)求和
             var betAmounts = GetBetAmounts(pkId);
+            // 没有人下注, 返回随机名次
+            if (betAmounts.Sum(a => a.Amount) == 0)
+            {
+                var ranks = RandomUtil.GetRandomList(1, 10);
+
+                return ranks;
+            }
+
             // 计算奖池百分比
             var betRates = CalculateBetRates(betAmounts);
             // 奖池百分比 转换成 矩阵, 用于计算最小中奖名次 [TODO]大于1必不中
@@ -104,9 +114,9 @@ namespace Racing.Moto.Services
             if (IsValidRanks(matrix, minCostMatrix))
             {
                 // 计算名次:比赛结果:车号顺序
-                var motoOrders = GetRanks(minCostMatrix);
+                var ranks = GetRanks(minCostMatrix);
 
-                return motoOrders;
+                return ranks;
             }
             else
             {
@@ -122,9 +132,9 @@ namespace Racing.Moto.Services
         private List<BetAmountModel> GetBetAmounts(int pkId)
         {
             var sql = new StringBuilder();
-            sql.AppendLine("SELECT [Rank],[Num], SUM(Amount) Amount");
+            sql.AppendLine("SELECT [Rank], [Num], SUM(Amount) Amount");
             sql.AppendLine("FROM (");
-            sql.AppendLine("	SELECT [B].*, [PR].[Rate]");
+            sql.AppendLine("	SELECT [B].[Rank], [B].[Num], [B].[Amount], [PR].[Rate]");
             sql.AppendLine("	FROM [dbo].[Bet] AS [B]");
             sql.AppendLine("	INNER JOIN [dbo].[PKRate] AS [PR] ON [B].[PKId] = [PR].[PKId] AND [B].[Rank] = [PR].[Rank] AND [B].[Num] = [PR].[Num]");
             sql.AppendLine("	WHERE [B].[PKId] = " + pkId);

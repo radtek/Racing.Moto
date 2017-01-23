@@ -80,27 +80,7 @@ namespace Racing.Moto.Web.SignalR
             var info = pkService.GetCurrentPKModel();
 
             return info;
-            //return new PKModel();
         }
-
-        //private List<int> GetPkInfo(int len)
-        //{
-        //    var info = new List<int>();
-
-        //    int rep = 1;
-        //    int num = 0;
-        //    long num2 = DateTime.Now.Ticks + rep;
-        //    rep++;
-        //    Random random = new Random(((int)(((ulong)num2) & 0xffffffffL)) | ((int)(num2 >> rep)));
-        //    for (int i = 0; i < len; i++)
-        //    {
-        //        num = Convert.ToInt32((char)(0x30 + ((ushort)(random.Next() % 10))));
-
-        //        info.Add(num);
-        //    }
-
-        //    return info;
-        //}
 
         private void BroadcastPkInfo(PKModel pkModel)
         {

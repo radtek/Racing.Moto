@@ -2,12 +2,14 @@
     ViewBag.Title = "竞技场";
 }
 @section headScripts {
+    <link href="~/Scripts/JqueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/JqueryUI/jquery-ui.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="/signalr/hubs"></script>
     @Scripts.Render("~/Racing")
 }
 
-<div class="game-wrap">
+<div class="game-wrap hide">
     <div class="bg-top">
         <div class="shishi" id="ranks">
             <div style="margin-left:184px; ">&nbsp;</div>
@@ -63,4 +65,32 @@
             <img src="/img/saiqi.png">
         </div>
     </div>
+</div>
+
+<div>
+    <button onclick="racingOpt.showResult()">Racing Result</button>
+</div>
+<div id="racingResult" title="Dialog Title">
+    <ul>
+        <li>
+            <span>第一名</span>
+            <span>1</span>
+        </li>
+        <li>
+            <span>第一名</span>
+            <span>1</span>
+        </li>
+    </ul>
+</div>
+
+<div>
+    <button onclick="racingOpt.showBonus()">Bonus</button>
+</div>
+<div id="bonusResult" title="Dialog Title">
+    <ul>
+        <li>
+            <span>第一名</span>
+            <span>1</span>
+        </li>
+    </ul>
 </div>
