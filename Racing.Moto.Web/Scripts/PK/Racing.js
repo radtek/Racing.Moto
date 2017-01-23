@@ -1,5 +1,5 @@
 ﻿$(function () {
-
+    var $elememts = $('.game-wrap').html();
     var $racingResult = $("#racingResult");
     var $bonusResult = $("#bonusResult");
 
@@ -18,9 +18,10 @@
             motoRacing.run(pkInfo);
         });
 
-        $racingResult.dialog({ autoOpen: false, modal: true, position: "center", width: 600, minHeight: 300, resizable: false, });
+        $racingResult.dialog({ autoOpen: false, modal: true, width: 600, minHeight: 300, resizable: false, zIndex: 10000 });
         $bonusResult.dialog({
-            autoOpen: false, modal: true, position: "center", width: 600, minHeight: 300, resizable: false,
+            autoOpen: false, modal: true, width: 600, minHeight: 300, resizable: false, zIndex: 10000,
+            title: '您的中奖情况',
             buttons: {
                 "确定": function () { $(this).dialog("close"); }
             }
@@ -53,17 +54,22 @@
         Easings: ['easeInOutSine', 'easeOutSine', 'linear', 'swing', 'easeInOutSine', 'easeInOutQuad', 'swing', 'easeInOutSine', 'easeOutSine', 'easeInOutQuad'],
         MotoInitPosition: [],
         EndMotos: [],// motos that at the end 
+        resetElements: function () {
+            $('.game-wrap').html($elememts);
+        },
         run: function (pkInfo) {
             if (pkInfo == null || pkInfo.PK.Ranks == null) {
                 return;
             }
+
             // new racing
             if (motoRacing.PKInfo == null || pkInfo.PK.PKId != motoRacing.PKInfo.PK.PKId) {
                 motoRacing.PKInfo = pkInfo;
                 motoRacing.EndMotos = [];
 
-                // result dialog
-                $racingResult.dialog("close");
+                // dialog
+                //$racingResult.dialog("close");
+                //$bonusResult.dialog("close");
 
                 // append moto
                 motoRacing.append();
@@ -103,6 +109,8 @@
                         $('.time-run').hide();
                     }
                 }, seconds + 1);
+            } else {
+                $('.time-run').hide();
             }
         },
         append: function () {
@@ -295,14 +303,54 @@
             }
             html = '<ul>' + html + '</ul>';
 
-            $(".ui-dialog-titlebar").addClass('hide');
+            //$(".ui-dialog-titlebar").addClass('hide');
             $racingResult.html(html);
             $racingResult.dialog("open");
+
+            // close result dialog after 5 seconds, then open bonus dialog
+            $('body').oneTime('5s', function () {
+                // close
+                $racingResult.dialog("close");
+                // open
+                motoRacing.showBonus();
+            });
+
+            // close bonus dialog after 60 seconds
+            $('body').oneTime('60s', function () {
+                // close
+                $bonusResult.dialog("close");
+                // resetElements
+                motoRacing.resetElements();
+            });
         },
         showBonus: function () {
-            var html = '奖金 10000';
-            $dialog.html(html);
-            $dialog.dialog("open");
+            $.ajax({
+                type: 'POST',
+                url: '/api/bonus/getBonus',
+                data: { PKId: motoRacing.PKInfo.PK.PKId, UserId: $('#hidUserId').val() },
+                success: function (res) {
+                    if (res.Success) {
+                        var html = motoRacing.getBonusHtml(res.Data);
+
+                        $bonusResult.html(html);
+                        $bonusResult.dialog("open");
+                    }
+                },
+                //dataType: dataType
+            });
+        },
+        getBonusHtml: function (bonusArr) {
+            var html = '';
+            for (var i = 0; i < bonusArr.length; i++) {
+                html += '<li>'
+                      + '   <span>【第' + bonusArr[i].Rank + '名】</span>'
+                      + '   <span>(' + bonusArr[i].Num + '号)</span>'
+                      + '   <span>获胜奖金: ' + ranksArr[i].Bonus + '</span>'
+                      + '</li>';
+            }
+            html = '<ul>' + html + '</ul>';
+
+            return html;
         },
     };
 });

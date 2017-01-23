@@ -8,11 +8,12 @@
     <script src="/signalr/hubs"></script>
     @Scripts.Render("~/Racing")
 }
+<input type="hidden" id="hidUserId" value="@PKBag.LoginUser.UserId" />
 
-<div class="game-wrap hide">
+<div class="game-wrap">
     <div class="bg-top">
         <div class="shishi" id="ranks">
-            <div style="margin-left:184px; ">&nbsp;</div>
+            <div style="margin-left:184px;">&nbsp;</div>
             <div class="shishi-1 color-1">1</div>
             <div class="shishi-2 color-2">2</div>
             <div class="shishi-3 color-3">3</div>

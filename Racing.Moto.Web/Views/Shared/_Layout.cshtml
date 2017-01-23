@@ -32,37 +32,44 @@
             <a href="javascript:;" class="jinbi-jia"><img src="/img/jinbi-jia.png"></a>
 
             <ul class="menu">
-                <li>@userName</li>
-                <li>我的账号户</li>
-                <li>余额：77777</li>
-                <li><a href="#">充值</a></li>
-                <li><a href="#">提现</a></li>
-                <li><a href="/Account/LogOut">退出</a></li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li>@userName</li>
+                    <li>我的账号户</li>
+                    <li>余额：77777</li>
+                    <li><a href="#">充值</a></li>
+                    <li><a href="#">提现</a></li>
+                    <li><a href="/Account/LogOut">退出</a></li>
+                }
+                else
+                {
+                    <li style="float:right;padding-right:10px;"><a href="/Account/Login">登陆</a></li>
+                }
             </ul>
             <ul class="menu-sub">
                 <li class="souye">
-                    <a href="#">网站首页</a>
+                    <a href="/">网站首页</a>
                 </li>
                 <li class="caipiao">
-                    <a href="#">彩票游戏</a>
+                    <a href="/moto/bet" target="_blank">投注</a>
                 </li>
                 <li class="huiyuan">
-                    <a href="#">会员中心</a>
+                    <a href="#" style="color: gray;">会员中心</a>
                 </li>
                 <li class="daili">
-                    <a href="#">代理中心</a>
+                    <a href="#" style="color: gray;">代理中心</a>
                 </li>
                 <li class="youhui">
-                    <a href="#">优惠活动</a>
+                    <a href="#" style="color: gray;">优惠活动</a>
                 </li>
                 <li class="xitong">
-                    <a href="#">系统公告</a>
+                    <a href="#" style="color: gray;">系统公告</a>
                 </li>
                 <li class="shouji">
-                    <a href="#">手机端下载</a>
+                    <a href="#" style="color: gray;">手机端下载</a>
                 </li>
                 <li class="kefu">
-                    <a href="#">在线客服</a>
+                    <a href="#" style="color: gray;">在线客服</a>
                 </li>
             </ul>
 

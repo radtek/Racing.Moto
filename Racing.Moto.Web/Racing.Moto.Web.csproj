@@ -318,6 +318,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\BonusController.cs" />
     <Compile Include="ApiControllers\PKController.cs" />
     <Compile Include="ApiControllers\BetController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />

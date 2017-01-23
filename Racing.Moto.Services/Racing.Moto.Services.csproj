@@ -95,6 +95,7 @@
     <Compile Include="Services\BetService.cs" />
     <Compile Include="Services\PKRateService.cs" />
     <Compile Include="Services\PKService.cs" />
+    <Compile Include="Services\BonusService.cs" />
     <Compile Include="Services\RateService.cs" />
   </ItemGroup>
   <ItemGroup>

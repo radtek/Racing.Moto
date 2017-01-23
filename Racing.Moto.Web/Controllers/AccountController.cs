@@ -70,8 +70,8 @@ namespace Racing.Moto.Web.Controllers
 
         #region logout
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[AllowAnonymous]
+        [HttpGet]
         public ActionResult LogOut()
         {
             _memberProvider.SignOut();
