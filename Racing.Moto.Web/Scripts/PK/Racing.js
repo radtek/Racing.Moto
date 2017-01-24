@@ -8,7 +8,6 @@
     function init() {
         ticker.server.getPKInfo().done(function (pkInfo) {
             console.log(pkInfo);
-            //$stockTable.append("aaa");
             // test
             //pkInfo.GamingSeconds = -5;
             //pkInfo.GamePassedSeconds = 0;
@@ -19,13 +18,6 @@
         });
 
         $racingResult.dialog({ autoOpen: false, modal: true, width: 600, minHeight: 300, resizable: false, zIndex: 10000 });
-        $bonusResult.dialog({
-            autoOpen: false, modal: true, width: 600, minHeight: 300, resizable: false, zIndex: 10000,
-            title: '您的中奖情况',
-            buttons: {
-                "确定": function () { $(this).dialog("close"); }
-            }
-        });
     }
 
     // Add a client-side hub method that the server will call
@@ -66,11 +58,7 @@
             if (motoRacing.PKInfo == null || pkInfo.PK.PKId != motoRacing.PKInfo.PK.PKId) {
                 motoRacing.PKInfo = pkInfo;
                 motoRacing.EndMotos = [];
-
-                // dialog
-                //$racingResult.dialog("close");
-                //$bonusResult.dialog("close");
-
+                
                 // append moto
                 motoRacing.append();
                 // countdown
@@ -82,22 +70,23 @@
             }
         },
         countdown: function (pkInfo) {
-            var seconds = pkInfo.GamingSeconds < -4 ? Math.abs(pkInfo.GamingSeconds + 4) : 0;
-            if (pkInfo.GamingSeconds < -4) {
-                var seconds = Math.abs(pkInfo.GamingSeconds + 4) + 's';
+            var countdownSeconds = 4;
+            var seconds = pkInfo.GamingSeconds < -countdownSeconds ? Math.abs(pkInfo.GamingSeconds + countdownSeconds) : 0;
+            if (pkInfo.GamingSeconds < -countdownSeconds) {
+                var seconds = Math.abs(pkInfo.GamingSeconds + countdownSeconds) + 's';
                 $('body').oneTime(seconds, function () {
                     $('.time-run').show();
                     var index = 3;
                     $('body').everyTime('1s', 'countdown', function () {
-                        var name = 'time-' + (index >= 1 ? index : 1);
+                        var name = 'time-' + (index >= 0 ? index : 0);
                         document.getElementById("countdown").src = '/img/' + name + ".png";
                         index--;
-                        if (index < 0) {
+                        if (index < -1) {
                             $('.time-run').hide();
                         }
                     }, 5);
                 });
-            } else if (-4 < pkInfo.GamingSeconds && pkInfo.GamingSeconds < 0) {
+            } else if (-countdownSeconds < pkInfo.GamingSeconds && pkInfo.GamingSeconds < 0) {
                 $('.time-run').show();
                 var seconds = Math.abs(pkInfo.GamingSeconds);
                 var index = seconds;
@@ -270,6 +259,10 @@
             $('#ranks').html(html);
         },
         showFinalRanks: function (pkInfo) {
+            var ranks = motoRacing.getFinalRanks(pkInfo);
+            motoRacing.appendRanks(ranks);
+        },
+        getFinalRanks: function (pkInfo) {
             //ranks: 3,2,5,6,8,7,10,1,9,4
             var rankArr = pkInfo.PK.Ranks.split(',');
 
@@ -280,8 +273,7 @@
                     Distance: 0
                 });
             }
-
-            motoRacing.appendRanks(ranks);
+            return ranks;
         },
         clear: function () {
             $('.saidao').floatingBg('destroy');
@@ -318,7 +310,7 @@
             // close bonus dialog after 60 seconds
             $('body').oneTime('60s', function () {
                 // close
-                $bonusResult.dialog("close");
+                $bonusResult.addClass("hide");
                 // resetElements
                 motoRacing.resetElements();
             });
@@ -330,66 +322,63 @@
                 data: { PKId: motoRacing.PKInfo.PK.PKId, UserId: $('#hidUserId').val() },
                 success: function (res) {
                     if (res.Success) {
+                        // test
+                        //res.Data = [
+                        //    { Rank: 1, Num: 2, Amount: 100 },
+                        //    { Rank: 2, Num: 3, Amount: 200 },
+                        //    { Rank: 5, Num: 6, Amount: 500 }
+                        //];
                         var html = motoRacing.getBonusHtml(res.Data);
-
+                        console.log(html);
                         $bonusResult.html(html);
-                        $bonusResult.dialog("open");
+                        $bonusResult.removeClass("hide");
+
+                        $('.close-bonus').click(function () {
+                            $bonusResult.addClass("hide");
+                        });
                     }
                 },
                 //dataType: dataType
             });
         },
-        getBonusHtml: function (bonusArr) {
+        getBonusRanksHtml: function () {
+            var html = '';
+            var ranks = motoRacing.PKInfo.PK.Ranks.split(',');
+            for (var i = 0; i < ranks.length; i++) {
+                html += '<div class="shishi-' + ranks[i] + ' color-' + ranks[i] + '">' + ranks[i] + '</div>';
+            }
+            return html;
+        },
+        getBonusResultHtml: function (bonusArr) {
             var html = '';
             for (var i = 0; i < bonusArr.length; i++) {
                 html += '<li>'
                       + '   <span>【第' + bonusArr[i].Rank + '名】</span>'
-                      + '   <span>(' + bonusArr[i].Num + '号)</span>'
-                      + '   <span>获胜奖金: ' + ranksArr[i].Bonus + '</span>'
+                      + '   <span style="margin-left: 20px;">(' + bonusArr[i].Num + '号)</span>'
+                      + '   <span style="margin-left: 20px;">获胜奖金: ' + bonusArr[i].Amount + '</span>'
                       + '</li>';
             }
-            html = '<ul>' + html + '</ul>';
+            return html;
+        },
+        getBonusHtml: function (bonusArr) {
+            var totalBonus = 0;
+            for (var i = 0; i < bonusArr.length; i++) {
+                totalBonus += bonusArr[i].Amount;
+            }
+            var ranksHtml = motoRacing.getBonusRanksHtml();
+            var bonusResultHtml = motoRacing.getBonusResultHtml(bonusArr);
+            var html = '<a href="javacript:;" class="close close-bonus"><img src="/img/del.png"></a>'
+                     + '<a href="javacript:;" class="queding close-bonus"><img src="/img/btn-queding.png"></a>'
+                     + '<div class="huodejiangjin">获得奖金：' + totalBonus + '</div>'
+                     + '<div class="jieguo">'
+                     + '    <div class="text">结果</div>'
+                     + '    <div class="shishi z-shishi">' + ranksHtml + '</div>'
+                     + '</div>'
+                     + '<div class="jieguo-2">'
+                     + '    <ul>' + bonusResultHtml + '</ul>'
+                     + '</div>';
 
             return html;
         },
     };
 });
-
-var racingOpt = {
-    showResult: function (ranks) {
-        ranks = '3,2,5,6,8,7,10,1,9,4';
-
-        var $dialog = $("#racingResult");
-
-        var html = '';
-        var ranksArr = ranks.split(',');
-        for (var i = 0; i < ranksArr.length; i++) {
-            html += '<li>'
-                  + '   <span>第' + (i + 1) + '名</span>'
-                  + '   <span>' + ranksArr[i] + '号车</span>'
-                  + '</li>';
-        }
-        html = '<ul>' + html + '</ul>';
-
-        //$(".ui-dialog-titlebar").addClass('hide');
-        $dialog.html(html);
-        $dialog.dialog("open");
-    },
-    showBonus: function () {
-        var html = '奖金 10000';
-        var $dialog = $("#bonusResult");
-
-        //var ranksArr = ranks.split(',');
-        //for (var i = 0; i < ranksArr.length; i++) {
-        //    html += '<li>'
-        //          + '   <span>第' + (i + 1) + '名</span>'
-        //          + '   <span>' + ranksArr[i] + '号车</span>'
-        //          + '</li>';
-        //}
-        //html = '<ul>' + html + '</ul>';
-
-        //$(".ui-dialog-titlebar").addClass('hide');
-        $dialog.html(html);
-        $dialog.dialog("open");
-    },
-};

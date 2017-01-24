@@ -18,7 +18,7 @@
     <body>
         @{ 
             var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
-            var balance = PKBag.LoginUser != null ? PKBag.LoginUser.UserExtend.Amount : 0;
+            var balance = PKBag.LoginUser != null ? Math.Round(PKBag.LoginUser.UserExtend.Amount) : 0;
         }
         <!-- Page Content -->
         <div class="dating-wrap">
