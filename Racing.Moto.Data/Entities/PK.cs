@@ -65,6 +65,11 @@ namespace Racing.Moto.Data.Entities
         public string Ranks { get; set; }
 
         /// <summary>
+        /// 奖金已生成标志
+        /// </summary>
+        public bool IsBonused { get; set; }
+
+        /// <summary>
         /// 当前期倍率
         public virtual ICollection<PKRate> PKRates { get; set; }
     }

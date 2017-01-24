@@ -40,7 +40,7 @@ namespace Racing.Moto.Web.Controllers
             {
                 var pkModel = new PKService().GetCurrentPKModel();
                 var pkRates = new PKRateService().GetPKRateModels(pkModel.PK.PKId);
-                var bets = new BetService().GetBets(pkModel.PK.PKId);
+                var bets = new BetService().GetBets(pkModel.PK.PKId, LoginUser.UserId);
                 result.Data = new
                 {
                     PKModel = pkModel,
@@ -74,8 +74,28 @@ namespace Racing.Moto.Web.Controllers
                 }
                 else
                 {
-                    // 下注
-                    new BetService().SaveBets(pkId, LoginUser.UserId, bets);
+                    var userService = new UserService();
+
+                    // 查验余额
+                    var userExtend = userService.GetUserExtend(LoginUser.UserId);
+                    var betAmount = bets.Sum(b => b.Amount);
+                    if (betAmount > userExtend.Amount)
+                    {
+                        result.Success = false;
+                        result.Message = MessageConst.USER_BALANCE_IS_NOT_ENOUGH + " 当前余额 : " + userExtend.Amount;
+                    }
+                    else
+                    {
+                        // 下注
+                        new BetService().SaveBets(pkId, LoginUser.UserId, bets);
+
+                        // 更新余额
+                        userService.MinusAmount(LoginUser.UserId, betAmount);
+                        LoginUser.UserExtend.Amount = LoginUser.UserExtend.Amount - betAmount;
+
+                        // 回传给前台, 更新余额
+                        result.Data = LoginUser.UserExtend.Amount;
+                    }
                 }
             }
             catch (Exception ex)

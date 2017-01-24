@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace Racing.Moto.Data.Entities
 {
     /// <summary>
+    /// 弃用, 用Bet + BetItem + Bonus代替
     /// 用户中奖信息表
     /// </summary>
     [Table(nameof(PKUserBonus))]

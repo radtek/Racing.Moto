@@ -436,14 +436,22 @@
             };
             $http.post('/Moto/SaveBets', data).then(function (res) {
                 if (!res.data.Success) {
+                    if (res.data.Data != null && res.data.Data != '') {
+                        // 更新余额
+
+                    }
                     alert(res.data.Message);
                     return;
                 }
 
-                //$scope.bet.Bets.push.apply($scope.bet.Bets, bets);
+                // 更新余额
+                $scope.bet.updateBalance(res.data.Data);
                 $scope.bet.init();
                 alert('投注成功!');
             });
+        },
+        updateBalance: function (balance) {
+            $('#balance').text(balance);
         },
         addBet: function (bets, rank, num, amount, rate) {
             var newBet = $scope.bet.newBet(rank, num, parseFloat(amount), rate);

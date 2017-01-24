@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace Racing.Moto.Data.Entities
 {
     /// <summary>
+    /// 弃用, 用Bet+BetItem + Bonus代替
     /// 用户下注表: 绑定时使用
     /// </summary>
     [Table(nameof(PKUser))]

@@ -18,6 +18,7 @@
     <body>
         @{ 
             var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
+            var balance = PKBag.LoginUser != null ? PKBag.LoginUser.UserExtend.Amount : 0;
         }
         <!-- Page Content -->
         <div class="dating-wrap">
@@ -27,7 +28,7 @@
             </div>
             <div class="userName">hello @userName</div>
             <img src="/img/jinbi.png" class="jinbi">
-            <div class="count">3300</div>
+            <div class="count">@balance</div>
             <img src="/img/jinbi-jia.png" class="jinbi-jia">
             <a href="javascript:;" class="jinbi-jia"><img src="/img/jinbi-jia.png"></a>
 
@@ -36,7 +37,7 @@
                 {
                     <li>@userName</li>
                     <li>我的账号户</li>
-                    <li>余额：77777</li>
+                    <li>余额：@balance</li>
                     <li><a href="#">充值</a></li>
                     <li><a href="#">提现</a></li>
                     <li><a href="/Account/LogOut">退出</a></li>

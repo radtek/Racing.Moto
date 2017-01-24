@@ -127,6 +127,18 @@ namespace Racing.Moto.Services
             }
         }
 
+        /// <summary>
+        /// 更新 奖金生成标志, 防止多次计算
+        /// </summary>
+        public void UpdateIsBonused(int pkId, bool isBonused)
+        {
+            var pk = db.PK.Where(p => p.PKId == pkId).FirstOrDefault();
+            if(pk != null)
+            {
+                pk.IsBonused = isBonused;
+                db.SaveChanges();
+            }
+        }
 
         /// <summary>
         /// 判断是否处于封盘期

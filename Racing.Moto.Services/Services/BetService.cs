@@ -79,11 +79,82 @@ namespace Racing.Moto.Services
             db.SaveChanges();
         }
 
-        public List<Bet> GetBets(int pkId)
+        /// <summary>
+        /// 取当前用户的投注
+        /// </summary>
+        public List<Bet> GetBets(int pkId, int userId)
         {
-            return db.Bet.Include(nameof(Bet.BetItems)).Where(b => b.PKId == pkId).ToList();
+            return db.Bet.Include(nameof(Bet.BetItems))
+                .Where(b => b.PKId == pkId && b.UserId == userId).ToList();
         }
 
+        /// <summary>
+        /// 取投注, 计算奖金使用
+        /// </summary>
+        public List<Bet> GetBets(int pkId, int rank, int num)
+        {
+            return db.Bet.Where(b => b.PKId == pkId && b.Rank == rank && b.Num == num).ToList();
+        }
+
+        #region 转换PK表中Ranks
+
+        /// <summary>
+        /// 转换PK表中Ranks(字符串名次)为Bet, 用于计算奖金
+        /// </summary>
+        public List<Bet> ConvertRanksToBets(string ranks)
+        {
+            var bets = new List<Bet>();
+
+            var rankList = ranks.Split(',');
+            for (var i = 0; i < rankList.Length; i++)
+            {
+                var rank = i + 1;
+                var num = Convert.ToInt32(rankList[i]);
+
+                bets.Add(new Bet
+                {
+                    Rank = rank,
+                    Num = num
+                });
+
+                bets.AddRange(GetBSOEBets(rank, num));
+            }
+
+            return bets;
+        }
+
+        /// <summary>
+        /// 大小单双
+        /// 名次+车号 计算大小单双
+        /// 如: 第一名是5号车, 则第一名是小和单
+        /// </summary>
+        /// <param name="rank">名次</param>
+        /// <param name="num">车号 1-10</param>
+        /// <returns></returns>
+        private List<Bet> GetBSOEBets(int rank, int num)
+        {
+            var bets = new List<Bet>();
+
+            // 大小
+            var bSNum = (num > 5) ? BetNumConst.Big : BetNumConst.Small;
+            bets.Add(new Bet
+            {
+                Rank = rank,
+                Num = bSNum
+            });
+
+            // 单双
+            var oENum = (num % 2 != 0) ? BetNumConst.Odd : BetNumConst.Even;
+            bets.Add(new Bet
+            {
+                Rank = rank,
+                Num = bSNum
+            });
+
+            return bets;
+        }
+
+        #endregion
 
         #region 计算名次
         /// <summary>

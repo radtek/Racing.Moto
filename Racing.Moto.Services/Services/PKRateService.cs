@@ -34,6 +34,11 @@ namespace Racing.Moto.Services
         //    return pkRateModels;
         //}
 
+        public List<PKRate> GetPKRates(int pkId)
+        {
+            return db.PKRate.Where(r => r.PKId == pkId).ToList();
+        }
+
 
         public List<PKRateModel> GetPKRateModels(int pkId)
         {

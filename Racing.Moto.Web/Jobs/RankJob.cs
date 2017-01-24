@@ -14,7 +14,7 @@ namespace Racing.Moto.Web.Jobs
         private ILogger _logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
-        /// 计算名次, 奖金
+        /// 计算名次, 生成奖金
         /// 每隔3秒执行一次
         /// </summary>
         public void Execute(IJobExecutionContext context)
@@ -37,8 +37,14 @@ namespace Racing.Moto.Web.Jobs
                         var msg = string.Format("Calculate Rankd - PKId : {0} - Ranks : {1} - Time : {2}", pk.PKId, ranks, now.ToString(DateFormatConst.yMd_Hms));
                         _logger.Info(msg);
 
-                        // 计算奖金
-
+                        // 生成奖金
+                        if (!pk.IsBonused)
+                        {
+                            // 更新 奖金生成标志, 防止多次计算
+                            pkService.UpdateIsBonused(pk.PKId, true);
+                            // 生成奖金
+                            new BonusService().GenerateBonus(pk);
+                        }
                     }
                 }
             }

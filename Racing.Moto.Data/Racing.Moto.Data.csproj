@@ -68,6 +68,7 @@
     <Compile Include="Entities\PKUser.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\UserExtend.cs" />
     <Compile Include="Entities\UserRole.cs" />
     <Compile Include="Enums\DbStatus.cs" />
     <Compile Include="Enums\Enums.cs" />

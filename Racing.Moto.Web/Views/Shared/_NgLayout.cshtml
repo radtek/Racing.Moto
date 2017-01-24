@@ -21,12 +21,13 @@
     <body ng-app="RacingMotoNgApp">
         @{
             var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
+            var balance = PKBag.LoginUser != null ? PKBag.LoginUser.UserExtend.Amount : 0;
         }
         <div class="user-top">
             <div class="box">
                 <img src="/img/houtai/user.png" class="user">
                 <div class="name">@userName</div>
-                <div class="edu">快开额度：0.00</div>
+                <div class="edu">余额：<span id="balance">@balance</span></div>
                 <a href="#" class="jia">
                     <img src="/img/houtai/jia.png">
                 </a>

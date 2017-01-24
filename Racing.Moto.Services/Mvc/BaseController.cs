@@ -33,6 +33,7 @@ namespace Racing.Moto.Services.Mvc
                 if (System.Web.HttpContext.Current.Session[nameof(LoginUser)] == null)
                 {
                     _loginUser = SqlMembershipProvider.Provider.GetUser(HttpContext.User.Identity.Name, true);
+                    _loginUser.UserExtend = new UserService().GetUserExtend(_loginUser.UserId);
 
                     // LoginUser session
                     System.Web.HttpContext.Current.Session[nameof(LoginUser)] = _loginUser;

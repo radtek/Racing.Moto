@@ -63,6 +63,7 @@ namespace Racing.Moto.Data
 
             modelBuilder.Entity<Bet>().Property(e => e.Amount).HasPrecision(18, 2);
             modelBuilder.Entity<PKBonus>().Property(e => e.Amount).HasPrecision(18, 2);
+            modelBuilder.Entity<UserExtend>().Property(e => e.Amount).HasPrecision(18, 2);
         }
 
         #region Logging
@@ -75,13 +76,14 @@ namespace Racing.Moto.Data
         #region Entities
         public virtual DbSet<AppConfig> AppConfig { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserExtend> UserExtend { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<Rate> Rate { get; set; }
         public virtual DbSet<PK> PK { get; set; }
         public virtual DbSet<PKRate> PKRate { get; set; }
-        public virtual DbSet<PKUser> PKUser { get; set; }
-        public virtual DbSet<PKUserBonus> PKUserBonus { get; set; }
+        //public virtual DbSet<PKUser> PKUser { get; set; }
+        //public virtual DbSet<PKUserBonus> PKUserBonus { get; set; }
         public virtual DbSet<Bet> Bet { get; set; }
         public virtual DbSet<BetItem> BetItem { get; set; }
         public virtual DbSet<PKBonus> PKBonus { get; set; }

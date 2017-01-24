@@ -41,7 +41,19 @@ namespace Racing.Moto.Data.Migrations
 
             context.User.AddOrUpdate(
               p => p.UserName,
-              new User { UserName = "Admin", Password = CryptoUtils.Encrypt("Admin001"), Enabled = true, IsLocked = false, CreateDate = DateTime.Now, FailedPasswordAttemptWindowStart = DateTime.Now }
+              new User
+              {
+                  UserName = "Admin",
+                  Password = CryptoUtils.Encrypt("Admin001"),
+                  Enabled = true,
+                  IsLocked = false,
+                  CreateDate = DateTime.Now,
+                  FailedPasswordAttemptWindowStart = DateTime.Now,
+                  UserExtend = new UserExtend
+                  {
+                      Amount = 100000000
+                  }
+              }
             );
 
             context.AppConfig.AddOrUpdate(
