@@ -6,6 +6,7 @@
     <script src="~/Scripts/JqueryUI/jquery-ui.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="/signalr/hubs"></script>
+    <script src="~/Scripts/timeCountDown.js"></script>
     @Scripts.Render("~/Racing")
 }
 <input type="hidden" id="hidUserId" value="@PKBag.LoginUser.UserId" />
@@ -28,6 +29,9 @@
     </div>
     <div class="saidao">
         <div class="time-run"><img id="countdown" /></div>
+        <div class="time-run">
+            <span id="hour"></span>:<span id="minute"></span>:<span id="second"></span>
+        </div>
         @*start flag*@
         <div class="start-flag">
             <div class="road-num"></div>

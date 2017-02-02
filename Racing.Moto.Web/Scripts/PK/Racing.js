@@ -50,6 +50,11 @@
             $('.game-wrap').html($elememts);
         },
         run: function (pkInfo) {
+            if (pkInfo != null) {
+                // countdown
+                motoRacing.countdownClock(pkInfo);
+            }
+
             if (pkInfo == null || pkInfo.PK.Ranks == null) {
                 return;
             }
@@ -67,6 +72,34 @@
                 motoRacing.moveRoad(pkInfo);
                 // run moto
                 motoRacing.runMoto(pkInfo);
+            }
+        },
+        countdownClock: function (pkInfo) {
+            var eleHour = document.getElementById('hour');
+            var eleMinute = document.getElementById('minute');
+            var eleSecond = document.getElementById('second');
+
+            if (pkInfo.OpeningRemainSeconds <= 0) {
+                eleHour.innerHTML = '00';
+                eleMinute.innerHTML = '00';
+                eleSecond.innerHTML = '00';
+            } else {
+                var closeBeginTime = $app.convertToDate(pkInfo.CloseBeginTime);
+                var year = closeBeginTime.getFullYear();
+                var month = closeBeginTime.getMonth();
+                var day = closeBeginTime.getDate();
+                var hour = closeBeginTime.getHours();
+                var minute = closeBeginTime.getMinutes();
+                var second = closeBeginTime.getSeconds();
+
+
+                var d = Date.UTC(year, month, day, hour, minute, second);
+                var obj = {
+                    sec: eleSecond,
+                    mini: eleMinute,
+                    hour: eleHour
+                }
+                fnTimeCountDown(d, obj);
             }
         },
         countdown: function (pkInfo) {
@@ -200,7 +233,7 @@
                     'Easing': motoRacing.Easings[random]
                 });
             }
-            console.log(speeds);
+            //console.log(speeds);
             return speeds;
         },
         getRandomNum: function (min, max) {
