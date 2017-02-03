@@ -34,7 +34,7 @@ namespace Racing.Moto.Web.Jobs
                         var ranks = string.Join(",", rankList);
                         pkService.UpdateRanks(pk.PKId, ranks);
 
-                        var msg = string.Format("Calculate Rankd - PKId : {0} - Ranks : {1} - Time : {2}", pk.PKId, ranks, now.ToString(DateFormatConst.yMd_Hms));
+                        var msg = string.Format("Calculate Ranks - PKId : {0} - Ranks : {1} - Time : {2}", pk.PKId, ranks, now.ToString(DateFormatConst.yMd_Hms));
                         _logger.Info(msg);
 
                         // 生成奖金

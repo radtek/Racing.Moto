@@ -58,7 +58,7 @@
     <Compile Include="Entities\BetItem.cs" />
     <Compile Include="Entities\Bet.cs" />
     <Compile Include="Entities\AppConfig.cs" />
-    <Compile Include="Entities\Log.cs" />
+    <Compile Include="Entities\PKLog.cs" />
     <Compile Include="Entities\PKBonus.cs" />
     <Compile Include="Entities\PKRate.cs" />
     <Compile Include="Entities\PKUserBonus.cs" />

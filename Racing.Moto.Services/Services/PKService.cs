@@ -38,12 +38,12 @@ namespace Racing.Moto.Services
 
             var now = DateTime.Now;
 
-            var passedSeconds = (now - currentPK.BeginTime).Seconds;
-            var remainSeconds = (currentPK.EndTime - currentPK.BeginTime).Seconds - passedSeconds;
+            var passedSeconds = (int)(now - currentPK.BeginTime).TotalSeconds;
+            var remainSeconds = (int)(currentPK.EndTime - currentPK.BeginTime).TotalSeconds - passedSeconds;
             // 距离封盘的秒数, 负:已封盘, 正:距离封盘的秒数
-            var openingRemainSeconds = (currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds) - now).Seconds;
+            var openingRemainSeconds = (int)(currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds) - now).TotalSeconds;
             // 距离比赛开始的秒数, 负:未开始, 正:已开始
-            var gamingSeconds = (now - currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds + currentPK.CloseSeconds)).Seconds;
+            var gamingSeconds = (int)(now - currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds + currentPK.CloseSeconds)).TotalSeconds;
             // 比赛已经开始n秒
             var gamePassedSeconds = gamingSeconds > 0 ? gamingSeconds : 0;
             // 比赛剩余n秒

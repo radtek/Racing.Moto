@@ -28,6 +28,12 @@ namespace Racing.Moto.Services.Mvc
         {
             base.OnAuthorization(filterContext);
 
+            // chrome浏览器设置 从上次停下的地方继续 时, 关闭浏览器不会删除cookie, 此处判断如果session失效则强制删除cookie
+            if (HttpContext.User.Identity.IsAuthenticated && System.Web.HttpContext.Current.Session[nameof(LoginUser)] == null)
+            {
+                System.Web.Security.FormsAuthentication.SignOut();
+            }
+
             if (HttpContext.User.Identity.IsAuthenticated && _loginUser == null)
             {
                 if (System.Web.HttpContext.Current.Session[nameof(LoginUser)] == null)

@@ -18,7 +18,7 @@
     <body>
         @{ 
             var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
-            var balance = PKBag.LoginUser != null ? PKBag.LoginUser.UserExtend.Amount : 0;
+            var balance = PKBag.LoginUser != null ? Math.Round(PKBag.LoginUser.UserExtend.Amount) : 0;
         }
         <!-- Page Content -->
         <div class="dating-wrap">
@@ -44,7 +44,7 @@
                 }
                 else
                 {
-                    <li style="float:right;padding-right:10px;"><a href="/Account/Login">登陆</a></li>
+                    <li style="float:right;padding-right:10px;"><a href="/Account/Login">登录</a></li>
                 }
             </ul>
             <ul class="menu-sub">

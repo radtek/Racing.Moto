@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Racing.Moto.Data.Entities
 {
-    [Table(nameof(Log))]
-    public class Log
+    [Table(nameof(PKLog))]
+    public class PKLog
     {
         [Key]
-        public int LogId { get; set; }
+        public int PKLogId { get; set; }
 
         public DateTime CreateTime { get; set; }
 
