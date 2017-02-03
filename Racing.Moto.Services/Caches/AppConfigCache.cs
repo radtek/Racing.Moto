@@ -79,7 +79,6 @@ namespace Racing.Moto.Services.Caches
 
         #endregion
 
-
         #region 奖金分配比率
 
         /// <summary>
@@ -96,6 +95,27 @@ namespace Racing.Moto.Services.Caches
         public static decimal Rate_Return
         {
             get { return GetAppConfig("Rate_Return") != null ? decimal.Parse(GetAppConfig("Rate_Return").Value) : 0.04M; }
+        }
+
+        #endregion
+
+
+        #region 站内消息
+
+        /// <summary>
+        /// 公告
+        /// </summary>
+        public static int News_Annocement
+        {
+            get { return GetAppConfig("News_Annocement") != null ? int.Parse(GetAppConfig("News_Annocement").Value) : 1; }
+        }
+
+        /// <summary>
+        /// 跑马灯
+        /// </summary>
+        public static int News_Marquee
+        {
+            get { return GetAppConfig("News_Marquee") != null ? int.Parse(GetAppConfig("News_Marquee").Value) : 2; }
         }
 
         #endregion

@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "公告管理";
+    Layout = "~/Views/Shared/_NgLayout.cshtml";
+}
+@section headScripts {
+    <script src="~/Scripts/Controllers/adminNewsController.js"></script>
+}
+
+<div ng-controller="annoucementController" ng-init="init()">
+    <div class="top">
+        <textarea rows="4" cols="10" style="width:960px; height:490px" ng-model="news.Data.PostContent"></textarea>
+        <button ng-click="news.save()">确定</button>
+    </div>
+</div>
+

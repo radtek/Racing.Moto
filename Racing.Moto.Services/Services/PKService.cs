@@ -63,6 +63,13 @@ namespace Racing.Moto.Services
             };
         }
 
+        public PK AddPK()
+        {
+            PK pk = db.Database.SqlQuery<PK>(string.Format("EXEC {0}", DBConst.SP_PK_GeneratePK)).First();
+
+            return pk;
+        }
+
         public PK AddPK(DateTime beginTime)
         {
             var pk = new PK
@@ -133,7 +140,7 @@ namespace Racing.Moto.Services
         public void UpdateIsBonused(int pkId, bool isBonused)
         {
             var pk = db.PK.Where(p => p.PKId == pkId).FirstOrDefault();
-            if(pk != null)
+            if (pk != null)
             {
                 pk.IsBonused = isBonused;
                 db.SaveChanges();

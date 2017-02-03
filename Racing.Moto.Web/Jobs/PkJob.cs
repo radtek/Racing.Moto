@@ -27,7 +27,7 @@ namespace Racing.Moto.Web.Jobs
 
                 if (!pkService.ExistPK(now))
                 {
-                    var pk = new PKService().AddPK(now);
+                    var pk = new PKService().AddPK();
 
                     var msg = string.Format("Add new PK - PKId : {0} - Time : {1}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
                     _logger.Info(msg);

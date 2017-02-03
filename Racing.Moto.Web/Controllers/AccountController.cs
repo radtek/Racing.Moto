@@ -3,6 +3,7 @@ using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Enums;
 using Racing.Moto.Data.Membership;
 using Racing.Moto.Data.Models;
+using Racing.Moto.Services;
 using Racing.Moto.Services.Constants;
 using Racing.Moto.Services.Mvc;
 using System;
@@ -30,7 +31,7 @@ namespace Racing.Moto.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
             try
@@ -39,6 +40,15 @@ namespace Racing.Moto.Web.Controllers
                 {
                     if (_memberProvider.SignIn(model.UserName, model.Password, model.RememberMe) == LoginStatus.Success)
                     {
+
+                        #region LoginUser session
+
+                        var loginUser = SqlMembershipProvider.Provider.GetUser(model.UserName, true);
+                        loginUser.UserExtend = new UserService().GetUserExtend(loginUser.UserId);
+                        System.Web.HttpContext.Current.Session[nameof(LoginUser)] = loginUser;
+
+                        #endregion
+
                         if (Url.IsLocalUrl(returnUrl))
                         {
                             return Redirect(returnUrl);
@@ -75,6 +85,7 @@ namespace Racing.Moto.Web.Controllers
         public ActionResult LogOut()
         {
             _memberProvider.SignOut();
+            System.Web.HttpContext.Current.Session.Remove(nameof(LoginUser));
 
             return RedirectToAction("Index", "Home");
         }

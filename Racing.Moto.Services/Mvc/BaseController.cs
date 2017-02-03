@@ -32,6 +32,7 @@ namespace Racing.Moto.Services.Mvc
             if (HttpContext.User.Identity.IsAuthenticated && System.Web.HttpContext.Current.Session[nameof(LoginUser)] == null)
             {
                 System.Web.Security.FormsAuthentication.SignOut();
+                System.Web.HttpContext.Current.Session.Remove(nameof(LoginUser));
             }
 
             if (HttpContext.User.Identity.IsAuthenticated && _loginUser == null)
