@@ -51,28 +51,28 @@ namespace Racing.Moto.Data.Migrations
               new AppConfig { Name = "Rate_Admin", Value = "0.2" },// 管理员利润比率,吃二出八
               new AppConfig { Name = "Rate_Return", Value = "0.04" }, // 退水，总代理+代理+会员=4%
 
-              new AppConfig { Name = "News_Annocement", Value = "1" },// 公告
+              new AppConfig { Name = "News_Announcement", Value = "1" },// 公告
               new AppConfig { Name = "News_Marquee", Value = "2" } // 跑马灯
             );
 
             //倍率
-            var num = 9.6M;
+            var rate = 9.6M;
             var big = 1.9M;
             var small = 1.9M;
             var odd = 1.9M;
             var even = 1.9M;
             context.Rate.AddOrUpdate(
               p => p.Rank,
-              new Rate { Rank = 1, Number1 = num, Number2 = num, Number3 = num, Number4 = num, Number5 = num, Number6 = num, Number7 = num, Number8 = num, Number9 = num, Number10 = num, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 2, Number1 = num, Number2 = num, Number3 = num, Number4 = num, Number5 = num, Number6 = num, Number7 = num, Number8 = num, Number9 = num, Number10 = num, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 3, Number1 = num, Number2 = num, Number3 = num, Number4 = num, Number5 = num, Number6 = num, Number7 = num, Number8 = num, Number9 = num, Number10 = num, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 4, Number1 = num, Number2 = num, Number3 = num, Number4 = num, Number5 = num, Number6 = num, Number7 = num, Number8 = num, Number9 = num, Number10 = num, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 5, Number1 = num, Number2 = num, Number3 = num, Number4 = num, Number5 = num, Number6 = num, Number7 = num, Number8 = num, Number9 = num, Number10 = num, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 6, Number1 = num, Number2 = num, Number3 = num, Number4 = num, Number5 = num, Number6 = num, Number7 = num, Number8 = num, Number9 = num, Number10 = num, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 7, Number1 = num, Number2 = num, Number3 = num, Number4 = num, Number5 = num, Number6 = num, Number7 = num, Number8 = num, Number9 = num, Number10 = num, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 8, Number1 = num, Number2 = num, Number3 = num, Number4 = num, Number5 = num, Number6 = num, Number7 = num, Number8 = num, Number9 = num, Number10 = num, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 9, Number1 = num, Number2 = num, Number3 = num, Number4 = num, Number5 = num, Number6 = num, Number7 = num, Number8 = num, Number9 = num, Number10 = num, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 10, Number1 = num, Number2 = num, Number3 = num, Number4 = num, Number5 = num, Number6 = num, Number7 = num, Number8 = num, Number9 = num, Number10 = num, Big = big, Small = small, Odd = odd, Even = even }
+              new Rate { Rank = 1, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { Rank = 2, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { Rank = 3, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { Rank = 4, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { Rank = 5, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { Rank = 6, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { Rank = 7, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { Rank = 8, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { Rank = 9, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { Rank = 10, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even }
             );
 
             #endregion

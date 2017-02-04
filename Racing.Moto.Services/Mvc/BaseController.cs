@@ -33,6 +33,10 @@ namespace Racing.Moto.Services.Mvc
             {
                 System.Web.Security.FormsAuthentication.SignOut();
                 System.Web.HttpContext.Current.Session.Remove(nameof(LoginUser));
+                var returnUrl = filterContext.RequestContext.HttpContext.Request.RawUrl;
+                var loginUrl = "/Account/Login";
+                var url = !string.IsNullOrEmpty(returnUrl) ? loginUrl + "?returnUrl=" + returnUrl : loginUrl;
+                filterContext.HttpContext.Response.Redirect(url);
             }
 
             if (HttpContext.User.Identity.IsAuthenticated && _loginUser == null)

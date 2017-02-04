@@ -105,9 +105,9 @@ namespace Racing.Moto.Services.Caches
         /// <summary>
         /// 公告
         /// </summary>
-        public static int News_Annocement
+        public static int News_Announcement
         {
-            get { return GetAppConfig("News_Annocement") != null ? int.Parse(GetAppConfig("News_Annocement").Value) : 1; }
+            get { return GetAppConfig("News_Announcement") != null ? int.Parse(GetAppConfig("News_Announcement").Value) : 1; }
         }
 
         /// <summary>

@@ -1,135 +1,196 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <title>@ViewBag.Title - PK拾</title>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="@ViewBag.Description">
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-        @*<link href="~/RacingMotoBetCss" rel="stylesheet" />*@
-        <link href="~/Content/bet.css" rel="stylesheet" />
+<head>
+    <title>@ViewBag.Title - PK拾</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="@ViewBag.Description">
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
+    @*<link href="~/RacingMotoBetCss" rel="stylesheet" />*@
+    <link href="~/Content/bet.css" rel="stylesheet" />
 
-        <script src="~/RacingMotoBetJs"></script>
-        <script src="~/Scripts/AngularJs/ui-bootstrap-tpls-2.4.0.min.js"></script>
+    <script src="~/RacingMotoBetJs"></script>
+    <script src="~/Scripts/AngularJs/ui-bootstrap-tpls-2.4.0.min.js"></script>
 
-        <script src="~/Scripts/app.js"></script>
-        <script src="~/Scripts/ngApp.js"></script>
-        @RenderSection("headScripts", required: false)
-    </head>
-    <body ng-app="RacingMotoNgApp">
-        @{
-            var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
-            var balance = PKBag.LoginUser != null ? PKBag.LoginUser.UserExtend.Amount : 0;
-        }
-        <div class="user-top">
-            <div class="box">
-                <img src="/img/houtai/user.png" class="user">
-                <div class="name">@userName</div>
-                <div class="edu">余额：<span id="balance">@balance</span></div>
-                <a href="#" class="jia">
-                    <img src="/img/houtai/jia.png">
-                </a>
-                <div class="name"><a href="/Account/Logout">退出</a></div>
-                
-            </div>
-        </div>
-        <div class="nav">
-            <a class="logo">
-                <img src="/img/houtai/logo.png">
+    <script src="~/Scripts/app.js"></script>
+    <script src="~/Scripts/ngApp.js"></script>
+    @RenderSection("headScripts", required: false)
+</head>
+<body ng-app="RacingMotoNgApp">
+    @{
+        var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
+        var balance = PKBag.LoginUser != null ? PKBag.LoginUser.UserExtend.Amount : 0;
+    }
+    <div class="user-top">
+        <div class="box">
+            <img src="/img/houtai/user.png" class="user">
+            <div class="name">@userName</div>
+            <div class="edu">余额：<span id="balance">@balance</span></div>
+            <a href="#" class="jia">
+                <img src="/img/houtai/jia.png">
             </a>
-            <div class="jishiqi">
-                <img src="/img/houtai/jishiqi.png">
+            <div class="name"><a href="/Account/Logout">退出</a></div>
+
+        </div>
+    </div>
+    <div class="nav">
+        <a class="logo">
+            <img src="/img/houtai/logo.png">
+        </a>
+        <div class="jishiqi">
+            <img src="/img/houtai/jishiqi.png">
+        </div>
+        <div class="shijian">2016-09-29 13：25：45</div>
+        <ul class="hide">
+            <li>
+                <a href="">
+                    <img src="/img/houtai/nav-1.png">
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <img src="/img/houtai/nav-2.png">
+                </a>
+            </li>
+            <li>
+                <a href="">
+                    <img src="/img/houtai/nav-3.png">
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="main-wrap">
+        <div class="left">
+            <img src="/img/houtai/guanggao.png" class="guanggao">
+            <div class="jilu">
+                <div class="top">
+                    历史中奖纪录
+                </div>
+                <div class="bottom">
+                    <div class="tab1 active">上期纪录</div>
+                    <div class="tab2">历史纪录</div>
+                </div>
             </div>
-            <div class="shijian">2016-09-29 13：25：45</div>
-            <ul class="hide">
+            <div class="dijiqi">
+                统计至第557175期
+            </div>
+            <ul class="list">
                 <li>
-                    <a href="">
-                        <img src="/img/houtai/nav-1.png">
-                    </a>
+                    <span class="a">冠军</span>
+                    <span class="b">单</span>
+                    <span class="c">5</span>
                 </li>
                 <li>
-                    <a href="">
-                        <img src="/img/houtai/nav-2.png">
-                    </a>
+                    <span class="a">冠军</span>
+                    <span class="b">单</span>
+                    <span class="c">5</span>
                 </li>
                 <li>
-                    <a href="">
-                        <img src="/img/houtai/nav-3.png">
-                    </a>
+                    <span class="a">冠军</span>
+                    <span class="b">单</span>
+                    <span class="c">5</span>
+                </li>
+                <li>
+                    <span class="a">冠军</span>
+                    <span class="b">单</span>
+                    <span class="c">5</span>
+                </li>
+                <li>
+                    <span class="a">冠军</span>
+                    <span class="b">单</span>
+                    <span class="c">5</span>
+                </li>
+                <li>
+                    <span class="a">冠军</span>
+                    <span class="b">单</span>
+                    <span class="c">5</span>
                 </li>
             </ul>
         </div>
-        <div class="main-wrap">
-            <div class="left">
-                <img src="/img/houtai/guanggao.png" class="guanggao">
-                <div class="jilu">
-                    <div class="top">
-                        历史中奖纪录
-                    </div>
-                    <div class="bottom">
-                        <div class="tab1 active">上期纪录</div>
-                        <div class="tab2">历史纪录</div>
-                    </div>
-                </div>
-                <div class="dijiqi">
-                    统计至第557175期
-                </div>
-                <ul class="list">
-                    <li>
-                        <span class="a">冠军</span>
-                        <span class="b">单</span>
-                        <span class="c">5</span>
-                    </li>
-                    <li>
-                        <span class="a">冠军</span>
-                        <span class="b">单</span>
-                        <span class="c">5</span>
-                    </li>
-                    <li>
-                        <span class="a">冠军</span>
-                        <span class="b">单</span>
-                        <span class="c">5</span>
-                    </li>
-                    <li>
-                        <span class="a">冠军</span>
-                        <span class="b">单</span>
-                        <span class="c">5</span>
-                    </li>
-                    <li>
-                        <span class="a">冠军</span>
-                        <span class="b">单</span>
-                        <span class="c">5</span>
-                    </li>
-                    <li>
-                        <span class="a">冠军</span>
-                        <span class="b">单</span>
-                        <span class="c">5</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="right">
-                @RenderBody()
-            </div>
-            <div class="clear"></div>
+        <div class="right">
+            <ul class="main-menu top">
+                <li class="menu-1"><a href="javascript:;">即时注单</a></li>
+                <li class="menu-2 on"><a href="javascript:;">游戏管理</a></li>
+                <li class="menu-3"><a href="javascript:;">用户管理</a></li>
+                <li class="menu-4"><a href="javascript:;">个人中心</a></li>
+            </ul>
+            <ul class="sub-menu-1 hide tab-new">
+                @*<li><a href="">&nbsp;</a></li>*@
+            </ul>
+            <ul class="sub-menu-2 tab-new">
+                <li><a href="/AdminGameManagement/Announcement">盘口设置</a></li>
+                <li><a href="">注单查询</a></li>
+                <li><a href="">历史开奖</a></li>
+                <li><a href="/AdminNews/Announcement">站内消息设置</a></li>
+            </ul>
+            <ul class="sub-menu-3 hide tab-new">
+                <li><a href="">所有用户</a></li>
+                <li><a href="">总代理</a></li>
+                <li><a href="">代理</a></li>
+                <li><a href="">会员</a></li>
+                <li><a href="">游客</a></li>
+            </ul>
+            <ul class="sub-menu-4 hide tab-new">
+                <li><a href="">用户信息</a></li>
+                <li><a href="">修改密码</a></li>
+                <li><a href="">历史注单</a></li>
+                <li><a href="">流水一览</a></li>
+            </ul>
+            @RenderBody()
         </div>
-        
-        <div id="loader-wrapper" ng-show="RequestCount > 0 && Loading">
-            <div class="loader-with-bgimg long"></div>
-            <div class="loader-section section-left"></div>
-            <div class="loader-section section-right"></div>
-        </div>
+        <div class="clear"></div>
+    </div>
 
-        <script type="text/javascript">
-            $(function () {
-                $('body').everyTime('1s', function () {
-                    var date = $app.formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss');
-                    $('.shijian').text(date);
+    <div id="loader-wrapper" ng-show="RequestCount > 0 && Loading">
+        <div class="loader-with-bgimg long"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $('body').everyTime('1s', function () {
+                var date = $app.formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss');
+                $('.shijian').text(date);
+            });
+
+            // menu: hover
+            $('.main-menu > li').hover(function (evt) {
+                $('.main-menu > li').each(function () {
+                    $(this).removeClass('on');
                 });
-            })
-        </script>
+                $(this).addClass('on');
 
-        @RenderSection("footerScripts", required: false)
-    </body>
+                // sub menu
+                var index = 0;
+                $('.main-menu > li').each(function () {
+                    index++;
+                    if ($(this).hasClass('on')) {
+                        $('.sub-menu-' + index).removeClass('hide');
+                    } else {
+                        $('.sub-menu-' + index).addClass('hide');
+                    }
+                });
+            },function () { 
+            });
+            // menu: current
+            var href = location.href.toLowerCase();
+            for (var i = 1; i <= 4; i++) {
+                $('.sub-menu-' + i + ' > li').each(function () {
+                    var aHref = $('a', $(this)).attr('href').toLowerCase();
+                    console.log(aHref);
+                    if (href.indexOf(aHref) > -1) {
+                        $(this).addClass('on');
+                    } else {
+                        $(this).removeClass('on');
+                    }
+                });
+            }
+        })
+    </script>
+
+    @RenderSection("footerScripts", required: false)
+</body>
 </html>

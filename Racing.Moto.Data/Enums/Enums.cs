@@ -28,4 +28,15 @@ namespace Racing.Moto.Data.Enums
         //     The user is disabled.
         Disabled = 4
     }
+
+    /// <summary>
+    /// 批量修改类型
+    /// </summary>
+    public enum BatchRateType
+    {
+        Rank = 1,
+        BigSmall = 2,
+        OddEven = 3,
+        All = 4
+    }
 }

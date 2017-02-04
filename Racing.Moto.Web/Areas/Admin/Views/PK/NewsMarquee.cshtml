@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "公告管理";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@section headScripts {
+    <script src="~/Scripts/Controllers/admin/NewsController.js"></script>
+}
+
+<div style="min-height:600px;" ng-controller="marqueeController" ng-init="init()">
+    <div class="xiugai">
+        <div class="a"><a href="/Admin/PK/NewsMarquee">公告</a></div>
+        <div class="b"><a href="javascript:;">跑马灯</a></div>
+        <div class="c">&nbsp;</div>
+        <div class="d">&nbsp;</div>
+        <a href="javascript:;" class="e" ng-click="news.revert()">
+            <img src="/img/houtai/huifuyuanlai.png">
+        </a>
+        <a href="javascript:;" class="f" ng-click="news.save()">
+            <img src="/img/houtai/querenxiugai.png">
+        </a>
+        <div class="clear"></div>
+    </div>
+    <div style="background: #d5d5d5;">
+        <textarea id = "PostContent" style="width:972px; height:490px" ng-model="news.Data.PostContent"></textarea>
+    </div>
+
+</div>
+

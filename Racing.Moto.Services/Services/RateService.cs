@@ -1,4 +1,5 @@
 ﻿using Racing.Moto.Data.Entities;
+using Racing.Moto.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,22 +15,78 @@ namespace Racing.Moto.Services
             return db.Rate.OrderBy(r => r.Rank).ToList();
         }
 
+        public void UpdateRates(List<Rate> rates)
+        {
+            var dbRates = db.Rate.OrderBy(r => r.Rank).ToList();
+            foreach(var dbRate in dbRates)
+            {
+                var rate = rates.Where(r => r.RateId == dbRate.RateId).FirstOrDefault();
+                if(rate!= null)
+                {
+                    dbRate.Rate1 = rate.Rate1;
+                    dbRate.Rate2 = rate.Rate2;
+                    dbRate.Rate3 = rate.Rate3;
+                    dbRate.Rate4 = rate.Rate4;
+                    dbRate.Rate5 = rate.Rate5;
+                    dbRate.Rate6 = rate.Rate6;
+                    dbRate.Rate7 = rate.Rate7;
+                    dbRate.Rate8 = rate.Rate8;
+                    dbRate.Rate9 = rate.Rate9;
+                    dbRate.Rate10 = rate.Rate10;
+                    dbRate.Big = rate.Big;
+                    dbRate.Small = rate.Small;
+                    dbRate.Odd = rate.Odd;
+                    dbRate.Even = rate.Even;
+                }
+            }
+            db.SaveChanges();
+        }
+
+        public void UpdateBatchRates(BatchRateType type, decimal rate)
+        {
+            var dbRates = db.Rate.OrderBy(r => r.Rank).ToList();
+            foreach (var dbRate in dbRates)
+            {
+                //var rate = rates.Where(r => r.RateId == dbRate.RateId).FirstOrDefault();
+                //if (rate != null)
+                //{
+                //    dbRate.Rate1 = rate.Rate1;
+                //    dbRate.Rate2 = rate.Rate2;
+                //    dbRate.Rate3 = rate.Rate3;
+                //    dbRate.Rate4 = rate.Rate4;
+                //    dbRate.Rate5 = rate.Rate5;
+                //    dbRate.Rate6 = rate.Rate6;
+                //    dbRate.Rate7 = rate.Rate7;
+                //    dbRate.Rate8 = rate.Rate8;
+                //    dbRate.Rate9 = rate.Rate9;
+                //    dbRate.Rate10 = rate.Rate10;
+                //    dbRate.Big = rate.Big;
+                //    dbRate.Small = rate.Small;
+                //    dbRate.Odd = rate.Odd;
+                //    dbRate.Even = rate.Even;
+                //}
+            }
+            db.SaveChanges();
+        }
+
+        #region static
+
         public static decimal GetRate(Rate rate, int num)
         {
             var rateVal = 0M;
 
             switch (num)
             {
-                case 1: rateVal = rate.Number1; break;
-                case 2: rateVal = rate.Number2; break;
-                case 3: rateVal = rate.Number3; break;
-                case 4: rateVal = rate.Number4; break;
-                case 5: rateVal = rate.Number5; break;
-                case 6: rateVal = rate.Number6; break;
-                case 7: rateVal = rate.Number7; break;
-                case 8: rateVal = rate.Number8; break;
-                case 9: rateVal = rate.Number9; break;
-                case 10: rateVal = rate.Number10; break;
+                case 1: rateVal = rate.Rate1; break;
+                case 2: rateVal = rate.Rate2; break;
+                case 3: rateVal = rate.Rate3; break;
+                case 4: rateVal = rate.Rate4; break;
+                case 5: rateVal = rate.Rate5; break;
+                case 6: rateVal = rate.Rate6; break;
+                case 7: rateVal = rate.Rate7; break;
+                case 8: rateVal = rate.Rate8; break;
+                case 9: rateVal = rate.Rate9; break;
+                case 10: rateVal = rate.Rate10; break;
                 case 11: rateVal = rate.Big; break;
                 case 12: rateVal = rate.Small; break;
                 case 13: rateVal = rate.Odd; break;
@@ -38,5 +95,7 @@ namespace Racing.Moto.Services
 
             return rateVal;
         }
+
+        #endregion
     }
 }

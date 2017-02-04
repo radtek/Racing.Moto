@@ -28,16 +28,16 @@ namespace Racing.Moto.Data
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             #region Rate
-            modelBuilder.Entity<Rate>().Property(e => e.Number1).HasPrecision(18, 2);
-            modelBuilder.Entity<Rate>().Property(e => e.Number2).HasPrecision(18, 2);
-            modelBuilder.Entity<Rate>().Property(e => e.Number3).HasPrecision(18, 2);
-            modelBuilder.Entity<Rate>().Property(e => e.Number4).HasPrecision(18, 2);
-            modelBuilder.Entity<Rate>().Property(e => e.Number5).HasPrecision(18, 2);
-            modelBuilder.Entity<Rate>().Property(e => e.Number6).HasPrecision(18, 2);
-            modelBuilder.Entity<Rate>().Property(e => e.Number7).HasPrecision(18, 2);
-            modelBuilder.Entity<Rate>().Property(e => e.Number8).HasPrecision(18, 2);
-            modelBuilder.Entity<Rate>().Property(e => e.Number9).HasPrecision(18, 2);
-            modelBuilder.Entity<Rate>().Property(e => e.Number10).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Rate1).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Rate2).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Rate3).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Rate4).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Rate5).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Rate6).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Rate7).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Rate8).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Rate9).HasPrecision(18, 2);
+            modelBuilder.Entity<Rate>().Property(e => e.Rate10).HasPrecision(18, 2);
             modelBuilder.Entity<Rate>().Property(e => e.Big).HasPrecision(18, 2);
             modelBuilder.Entity<Rate>().Property(e => e.Small).HasPrecision(18, 2);
             modelBuilder.Entity<Rate>().Property(e => e.Odd).HasPrecision(18, 2);
@@ -45,16 +45,16 @@ namespace Racing.Moto.Data
             #endregion
             #region PKRate
             modelBuilder.Entity<PKRate>().Property(e => e.Rate).HasPrecision(18, 2);
-            //modelBuilder.Entity<PKRate>().Property(e => e.Number1).HasPrecision(18, 2);
-            //modelBuilder.Entity<PKRate>().Property(e => e.Number2).HasPrecision(18, 2);
-            //modelBuilder.Entity<PKRate>().Property(e => e.Number3).HasPrecision(18, 2);
-            //modelBuilder.Entity<PKRate>().Property(e => e.Number4).HasPrecision(18, 2);
-            //modelBuilder.Entity<PKRate>().Property(e => e.Number5).HasPrecision(18, 2);
-            //modelBuilder.Entity<PKRate>().Property(e => e.Number6).HasPrecision(18, 2);
-            //modelBuilder.Entity<PKRate>().Property(e => e.Number7).HasPrecision(18, 2);
-            //modelBuilder.Entity<PKRate>().Property(e => e.Number8).HasPrecision(18, 2);
-            //modelBuilder.Entity<PKRate>().Property(e => e.Number9).HasPrecision(18, 2);
-            //modelBuilder.Entity<PKRate>().Property(e => e.Number10).HasPrecision(18, 2);
+            //modelBuilder.Entity<PKRate>().Property(e => e.Rate1).HasPrecision(18, 2);
+            //modelBuilder.Entity<PKRate>().Property(e => e.Rate2).HasPrecision(18, 2);
+            //modelBuilder.Entity<PKRate>().Property(e => e.Rate3).HasPrecision(18, 2);
+            //modelBuilder.Entity<PKRate>().Property(e => e.Rate4).HasPrecision(18, 2);
+            //modelBuilder.Entity<PKRate>().Property(e => e.Rate5).HasPrecision(18, 2);
+            //modelBuilder.Entity<PKRate>().Property(e => e.Rate6).HasPrecision(18, 2);
+            //modelBuilder.Entity<PKRate>().Property(e => e.Rate7).HasPrecision(18, 2);
+            //modelBuilder.Entity<PKRate>().Property(e => e.Rate8).HasPrecision(18, 2);
+            //modelBuilder.Entity<PKRate>().Property(e => e.Rate9).HasPrecision(18, 2);
+            //modelBuilder.Entity<PKRate>().Property(e => e.Rate10).HasPrecision(18, 2);
             //modelBuilder.Entity<PKRate>().Property(e => e.Big).HasPrecision(18, 2);
             //modelBuilder.Entity<PKRate>().Property(e => e.Small).HasPrecision(18, 2);
             //modelBuilder.Entity<PKRate>().Property(e => e.Odd).HasPrecision(18, 2);

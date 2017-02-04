@@ -312,6 +312,11 @@ body {
         padding: 8px;
         vertical-align: middle;
     }
+    .main-wrap .right .z-table tr.tr-input td {
+        border: 1px solid #e4e4e4;
+        padding: 0px;
+        vertical-align: middle;
+    }
 
         .main-wrap .right .z-table tr td div, .main-wrap .right .z-table tr td input {
             float: left;
@@ -326,11 +331,18 @@ body {
             border-radius: 3px;
             margin-left: 10px;
         }
-
-        .main-wrap .right .z-table tr td .value {
+        .main-wrap .right .z-table tr td div.value {
             color: #cf3c42;
             font-weight: bold;
             margin-left: 10px;
+        }
+        .main-wrap .right .z-table tr td input.value {
+            color: #cf3c42;
+            font-weight: bold;
+            /*margin-left: 10px;*/
+            /*border:thin;*/
+            width: 56px;
+            height: 30px;
         }
 
         .main-wrap .right .z-table tr td .shuru {

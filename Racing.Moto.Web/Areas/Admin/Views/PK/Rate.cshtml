@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.Title = "盘口设置";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@section headScripts {
+    <script src="~/Scripts/Controllers/admin/RateController.js"></script>
+}
+
+<div style="min-height:600px;" ng-controller="rateController" ng-init="init()">
+
+    <div class="thead" style="text-align: left;">
+        <a href="" style="margin-left: 40px;">
+            <img src="/img/houtai/bisai.png">
+        </a>
+        <a href="">
+            <img src="/img/houtai/yulea.png">
+        </a>
+        <a href="">
+            <img src="/img/houtai/yuleb.png">
+        </a>
+        <a href="">
+            <img src="/img/houtai/yulec.png">
+        </a>
+        <a href="javascript:;" style="margin-left: 340px;" ng-click="rate.edit()">
+            <img src="/img/houtai/xiugaibeilv.png">
+        </a>
+    </div>
+    <table class="z-table" ng-repeat="item in rate.Data">
+        <tr class="text-center">
+            <td class="bg-gray" rowspan='2'>第{{rate.ChineseNums[item.Rank - 1]}}名</td>
+            <td>
+                <div class="mingci bg-huang">1</div>
+            </td>
+            <td>
+                <div class="mingci bg-lan">2</div>
+            </td>
+            <td>
+                <div class="mingci bg-juhuang">3</div>
+            </td>
+            <td>
+                <div class="mingci bg-lv">4</div>
+            </td>
+            <td>
+                <div class="mingci bg-zi">5</div>
+            </td>
+            <td>
+                <div class="mingci bg-qianzi">6</div>
+            </td>
+            <td>
+                <div class="mingci bg-danhong">7</div>
+            </td>
+            <td>
+                <div class="mingci bg-tianlan">8</div>
+            </td>
+            <td>
+                <div class="mingci bg-hei">9</div>
+            </td>
+            <td>
+                <div class="mingci bg-hong">10</div>
+            </td>
+            <td>
+                <div class="mingci bg-da">大</div>
+            </td>
+            <td>
+                <div class="mingci bg-da">小</div>
+            </td>
+            <td>
+                <div class="mingci bg-da">单</div>
+            </td>
+            <td>
+                <div class="mingci bg-da">双</div>
+            </td>
+        </tr>
+        <tr class="text-center" ng-show="!rate.IsEdit">
+            <td><div class="value" ng-bind="item.Rate1">9.7</div></td>
+            <td><div class="value" ng-bind="item.Rate2">9.7</div></td>
+            <td><div class="value" ng-bind="item.Rate3">9.7</div></td>
+            <td><div class="value" ng-bind="item.Rate4">9.7</div></td>
+            <td><div class="value" ng-bind="item.Rate5">9.7</div></td>
+            <td><div class="value" ng-bind="item.Rate6">9.7</div></td>
+            <td><div class="value" ng-bind="item.Rate7">9.7</div></td>
+            <td><div class="value" ng-bind="item.Rate8">9.7</div></td>
+            <td><div class="value" ng-bind="item.Rate9">9.7</div></td>
+            <td><div class="value" ng-bind="item.Rate10">9.7</div></td>
+            <td><div class="value" ng-bind="item.Big">9.7</div></td>
+            <td><div class="value" ng-bind="item.Small">9.7</div></td>
+            <td><div class="value" ng-bind="item.Odd">9.7</div></td>
+            <td><div class="value" ng-bind="item.Even">9.7</div></td>
+        </tr>
+        <tr class="tr-input" ng-show="rate.IsEdit">
+            <td>
+                <input type="text" class="value" ng-model="item.Rate1" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+            </td>
+            <td>
+                <input type="text" class="value" ng-model="item.Rate2" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+            </td>
+            <td>
+                <input type="text" class="value" ng-model="item.Rate3" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+            </td>
+            <td>
+                <input type="text" class="value" ng-model="item.Rate4" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+            </td>
+            <td>
+                <input type="text" class="value" ng-model="item.Rate5" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+            </td>
+            <td>
+                <input type="text" class="value" ng-model="item.Rate6" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+            </td>
+            <td>
+                <input type="text" class="value" ng-model="item.Rate7" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+            </td>
+            <td>
+                <input type="text" class="value" ng-model="item.Rate8" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+            </td>
+            <td>
+                <input type="text" class="value" ng-model="item.Rate9" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+            </td>
+            <td>
+                <input type="text" class="value" ng-model="item.Rate10" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+            </td>
+            <td>
+                <input type="text" class="value" ng-model="item.Big" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+            </td>
+            <td>
+                <input type="text" class="value" ng-model="item.Small" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+            </td>
+            <td>
+                <input type="text" class="value" ng-model="item.Odd" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+            </td>
+            <td>
+                <input type="text" class="value" ng-model="item.Even" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+            </td>
+        </tr>
+    </table> 
+    <div>&nbsp;</div>
+    <div class="xiugai" ng-show="!rate.IsEdit">
+        <div class="a">批量修改:</div>
+        <select class="b" ng-model="batch.BatchType">
+            <option value="">选择类型</option>
+            <option value="1">名次</option>
+            <option value="2">大小</option>
+            <option value="3">单双</option>
+            <option value="4">全部</option>
+        </select>
+        <input type="text" class="c" ng-model="batch.BatchRate" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+        <a href="javascript:;" class="d" ng-click="batch.saveBatchRate()">
+            <img src="/img/houtai/piliangxiugai.png">
+        </a>
+        <a href="javascript:;" class="e" ng-click="rate.revert()">
+            <img src="/img/houtai/huifuyuanlai.png">
+        </a>
+        <a href="javascript:;" class="f" ng-click="rate.save()">
+            <img src="/img/houtai/querenxiugai.png">
+        </a>
+        <div class="clear"></div>
+    </div>
+</div>
+
