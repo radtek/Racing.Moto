@@ -89,7 +89,7 @@ namespace Racing.Moto.Services
 
             // pkRates 过多, 插入时间很长, 必须和PK新增分开
             var pkRates = new List<PKRate>();
-            foreach (var rate in RateCache.GetAllRates())
+            foreach (var rate in RateCache.GetRatesByType(Data.Enums.RateType.Arena))
             {
                 for (var num = 1; num <= 14; num++)
                 {

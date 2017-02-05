@@ -70,7 +70,7 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\UserExtend.cs" />
     <Compile Include="Entities\UserRole.cs" />
-    <Compile Include="Enums\DbStatus.cs" />
+    <Compile Include="Enums\DbEnums.cs" />
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="Membership\MembershipProvider.cs" />
     <Compile Include="Membership\SqlMembershipProvider.cs" />

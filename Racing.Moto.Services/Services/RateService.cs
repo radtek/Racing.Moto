@@ -12,16 +12,21 @@ namespace Racing.Moto.Services
     {
         public List<Rate> GetAll()
         {
-            return db.Rate.OrderBy(r => r.Rank).ToList();
+            return db.Rate.OrderBy(r => r.RateType).ThenBy(r => r.Rank).ToList();
         }
 
-        public void UpdateRates(List<Rate> rates)
+        public List<Rate> GetRatesByType(RateType type)
         {
-            var dbRates = db.Rate.OrderBy(r => r.Rank).ToList();
-            foreach(var dbRate in dbRates)
+            return db.Rate.Where(r => r.RateType == type).OrderBy(r => r.Rank).ToList();
+        }
+
+        public void UpdateRates(RateType type, List<Rate> rates)
+        {
+            var dbRates = db.Rate.Where(r => r.RateType == type).OrderBy(r => r.Rank).ToList();
+            foreach (var dbRate in dbRates)
             {
                 var rate = rates.Where(r => r.RateId == dbRate.RateId).FirstOrDefault();
-                if(rate!= null)
+                if (rate != null)
                 {
                     dbRate.Rate1 = rate.Rate1;
                     dbRate.Rate2 = rate.Rate2;
@@ -42,30 +47,51 @@ namespace Racing.Moto.Services
             db.SaveChanges();
         }
 
-        public void UpdateBatchRates(BatchRateType type, decimal rate)
+        /// <summary>
+        /// 批量修改赔率
+        /// </summary>
+        /// <param name="type">0:竞技场, 1: 娱乐场a, 2: 娱乐场b, 3: 娱乐场c</param>
+        /// <param name="batchType">1:名次，2:大小，3:单双，4:全部</param>
+        /// <param name="rate">赔率</param>
+        public void UpdateBatchRates(RateType type, BatchRateType batchType, decimal rate)
         {
-            var dbRates = db.Rate.OrderBy(r => r.Rank).ToList();
+            var dbRates = db.Rate.Where(r => r.RateType == type).OrderBy(r => r.Rank).ToList();
+
             foreach (var dbRate in dbRates)
             {
-                //var rate = rates.Where(r => r.RateId == dbRate.RateId).FirstOrDefault();
-                //if (rate != null)
-                //{
-                //    dbRate.Rate1 = rate.Rate1;
-                //    dbRate.Rate2 = rate.Rate2;
-                //    dbRate.Rate3 = rate.Rate3;
-                //    dbRate.Rate4 = rate.Rate4;
-                //    dbRate.Rate5 = rate.Rate5;
-                //    dbRate.Rate6 = rate.Rate6;
-                //    dbRate.Rate7 = rate.Rate7;
-                //    dbRate.Rate8 = rate.Rate8;
-                //    dbRate.Rate9 = rate.Rate9;
-                //    dbRate.Rate10 = rate.Rate10;
-                //    dbRate.Big = rate.Big;
-                //    dbRate.Small = rate.Small;
-                //    dbRate.Odd = rate.Odd;
-                //    dbRate.Even = rate.Even;
-                //}
+                #region 名次 or 全部
+                if (batchType == BatchRateType.Rank || batchType == BatchRateType.All)
+                {
+                    dbRate.Rate1 = rate;
+                    dbRate.Rate2 = rate;
+                    dbRate.Rate3 = rate;
+                    dbRate.Rate4 = rate;
+                    dbRate.Rate5 = rate;
+                    dbRate.Rate6 = rate;
+                    dbRate.Rate7 = rate;
+                    dbRate.Rate8 = rate;
+                    dbRate.Rate9 = rate;
+                    dbRate.Rate10 = rate;
+                }
+                #endregion
+
+                #region 大小 or 全部
+                if (batchType == BatchRateType.BigSmall || batchType == BatchRateType.All)
+                {
+                    dbRate.Big = rate;
+                    dbRate.Small = rate;
+                }
+                #endregion
+
+                #region 大小 or 全部
+                if (batchType == BatchRateType.OddEven || batchType == BatchRateType.All)
+                {
+                    dbRate.Odd = rate;
+                    dbRate.Even = rate;
+                }
+                #endregion
             }
+
             db.SaveChanges();
         }
 

@@ -1,4 +1,5 @@
 ﻿using Racing.Moto.Data.Entities;
+using Racing.Moto.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Racing.Moto.Services.Caches
     {
         private static List<Rate> _rates = null;
 
-        public static List<Rate> GetAllRates()
+        public static List<Rate> GetRatesByType(RateType type)
         {
             if (_rates == null)
             {
@@ -19,13 +20,6 @@ namespace Racing.Moto.Services.Caches
             }
 
             return _rates;
-        }
-
-        public static Rate GetRate(int rank)
-        {
-            var rate = GetAllRates().Where(a => a.Rank == rank).FirstOrDefault();
-
-            return rate;
         }
 
         public static void Update()

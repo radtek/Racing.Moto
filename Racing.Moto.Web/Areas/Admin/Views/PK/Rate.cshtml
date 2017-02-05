@@ -6,19 +6,19 @@
     <script src="~/Scripts/Controllers/admin/RateController.js"></script>
 }
 
-<div style="min-height:600px;" ng-controller="rateController" ng-init="init()">
+<div style="min-height:600px;" ng-controller="rateController" ng-init="init('@ViewBag.RateType')">
 
     <div class="thead" style="text-align: left;">
-        <a href="" style="margin-left: 40px;">
+        <a href="/Admin/PK/Rate" style="margin-left: 40px;">
             <img src="/img/houtai/bisai.png">
         </a>
-        <a href="">
+        <a href="/Admin/PK/Rate/1">
             <img src="/img/houtai/yulea.png">
         </a>
-        <a href="">
+        <a href="/Admin/PK/Rate/2">
             <img src="/img/houtai/yuleb.png">
         </a>
-        <a href="">
+        <a href="/Admin/PK/Rate/3">
             <img src="/img/houtai/yulec.png">
         </a>
         <a href="javascript:;" style="margin-left: 340px;" ng-click="rate.edit()">
@@ -133,7 +133,7 @@
         </tr>
     </table> 
     <div>&nbsp;</div>
-    <div class="xiugai" ng-show="!rate.IsEdit">
+    <div class="xiugai" ng-show="rate.IsEdit">
         <div class="a">批量修改:</div>
         <select class="b" ng-model="batch.BatchType">
             <option value="">选择类型</option>

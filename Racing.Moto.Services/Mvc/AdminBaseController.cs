@@ -22,8 +22,8 @@ namespace Racing.Moto.Services.Mvc
                 if (!userRoles.Where(r => adminRoleNames.Contains(r.Role.RoleName)).Any())
                 {
                     var returnUrl = filterContext.RequestContext.HttpContext.Request.RawUrl;
-                    var loginUrl = "/Account/Login";
-                    var url = !string.IsNullOrEmpty(returnUrl) ? loginUrl + "?returnUrl=" + returnUrl : loginUrl;
+                    var homeUrl = "/";
+                    var url = !string.IsNullOrEmpty(returnUrl.TrimEnd('/')) ? homeUrl + "?returnUrl=" + returnUrl : homeUrl;
                     filterContext.HttpContext.Response.Redirect(url);
                 }
             }

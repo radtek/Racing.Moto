@@ -2,6 +2,7 @@ namespace Racing.Moto.Data.Migrations
 {
     using Core.Crypto;
     using Entities;
+    using Enums;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -62,17 +63,50 @@ namespace Racing.Moto.Data.Migrations
             var odd = 1.9M;
             var even = 1.9M;
             context.Rate.AddOrUpdate(
-              p => p.Rank,
-              new Rate { Rank = 1, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 2, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 3, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 4, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 5, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 6, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 7, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 8, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 9, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
-              new Rate { Rank = 10, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even }
+              new Rate { RateType = RateType.Arena, Rank = 1, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Arena, Rank = 2, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Arena, Rank = 3, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Arena, Rank = 4, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Arena, Rank = 5, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Arena, Rank = 6, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Arena, Rank = 7, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Arena, Rank = 8, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Arena, Rank = 9, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Arena, Rank = 10, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+
+              new Rate { RateType = RateType.Casino1, Rank = 1, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino1, Rank = 2, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino1, Rank = 3, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino1, Rank = 4, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino1, Rank = 5, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino1, Rank = 6, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino1, Rank = 7, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino1, Rank = 8, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino1, Rank = 9, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino1, Rank = 10, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+
+              new Rate { RateType = RateType.Casino2, Rank = 1, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino2, Rank = 2, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino2, Rank = 3, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino2, Rank = 4, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino2, Rank = 5, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino2, Rank = 6, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino2, Rank = 7, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino2, Rank = 8, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino2, Rank = 9, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino2, Rank = 10, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+
+              new Rate { RateType = RateType.Casino3, Rank = 1, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino3, Rank = 2, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino3, Rank = 3, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino3, Rank = 4, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino3, Rank = 5, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino3, Rank = 6, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino3, Rank = 7, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino3, Rank = 8, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino3, Rank = 9, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even },
+              new Rate { RateType = RateType.Casino3, Rank = 10, Rate1 = rate, Rate2 = rate, Rate3 = rate, Rate4 = rate, Rate5 = rate, Rate6 = rate, Rate7 = rate, Rate8 = rate, Rate9 = rate, Rate10 = rate, Big = big, Small = small, Odd = odd, Even = even }
+
             );
 
             #endregion

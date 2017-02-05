@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Racing.Moto.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,6 +17,12 @@ namespace Racing.Moto.Data.Entities
     {
         [Key]
         public int RateId { get; set; }
+
+        /// <summary>
+        /// 赔率类型
+        /// 0:竞技场, 1: 娱乐场a, 2: 娱乐场b, 3: 娱乐场c
+        /// </summary>
+        public RateType RateType { get; set; }
 
         /// <summary>
         /// 名次

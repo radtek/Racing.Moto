@@ -172,6 +172,18 @@
     <Content Include="Areas\Admin\Views\PK\NewsAnnouncement.cshtml" />
     <Content Include="Areas\Admin\Views\PK\NewsMarquee.cshtml" />
     <Content Include="Areas\Admin\Views\PK\Rate.cshtml" />
+    <Content Include="Areas\Admin\Views\Bet\Raise.cshtml" />
+    <Content Include="Areas\Admin\Views\User\All.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Agent.cshtml" />
+    <Content Include="Areas\Admin\Views\User\GeneralAgent.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Member.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Vistor.cshtml" />
+    <Content Include="Areas\Admin\Views\MyCenter\UserInfo.cshtml" />
+    <Content Include="Areas\Admin\Views\MyCenter\ChangePwd.cshtml" />
+    <Content Include="Areas\Admin\Views\MyCenter\BetHistory.cshtml" />
+    <Content Include="Areas\Admin\Views\MyCenter\Bonus.cshtml" />
+    <Content Include="Areas\Admin\Views\PK\History.cshtml" />
+    <Content Include="Areas\Admin\Views\PK\Bet.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -603,7 +615,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BetController.cs" />
+    <Compile Include="Areas\Admin\Controllers\MyCenterController.cs" />
     <Compile Include="Areas\Admin\Controllers\PKController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MotoController.cs" />

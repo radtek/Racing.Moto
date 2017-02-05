@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="@ViewBag.Description">
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    @*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
     @*<link href="~/RacingMotoBetCss" rel="stylesheet" />*@
     <link href="~/Content/bet.css" rel="stylesheet" />
 
@@ -111,10 +110,10 @@
         </div>
         <div class="right">
             <ul class="main-menu top">
-                <li class="menu-1"><a href="javascript:;">即时注单</a></li>
-                <li class="menu-2 on"><a href="javascript:;">游戏管理</a></li>
-                <li class="menu-3"><a href="javascript:;">用户管理</a></li>
-                <li class="menu-4"><a href="javascript:;">个人中心</a></li>
+                <li class="menu-1"><a href="/Admin/Bet/Raise">即时注单</a></li>
+                <li class="menu-2 on"><a href="/Admin/PK/Rate">游戏管理</a></li>
+                <li class="menu-3"><a href="/Admin/User/All">用户管理</a></li>
+                <li class="menu-4"><a href="/Admin/MyCenter/UserInfo">个人中心</a></li>
             </ul>
             <ul class="sub-menu-1 hide tab-new">
                 @*<li><a href="">&nbsp;</a></li>*@
@@ -156,14 +155,8 @@
                 $('.shijian').text(date);
             });
 
-            // menu: hover
-            $('.main-menu > li').hover(function (evt) {
-                $('.main-menu > li').each(function () {
-                    $(this).removeClass('on');
-                });
-                $(this).addClass('on');
-
-                // sub menu
+            // reset SubMenu
+            function resetSubMenu() {
                 var index = 0;
                 $('.main-menu > li').each(function () {
                     index++;
@@ -173,25 +166,48 @@
                         $('.sub-menu-' + index).addClass('hide');
                     }
                 });
-            },function () { 
-            });
-            // menu: current
+            }
+            // menu: hover
+            //$('.main-menu > li').hover(function (evt) {
+            //    $('.main-menu > li').each(function () {
+            //        $(this).removeClass('on');
+            //    });
+            //    $(this).addClass('on');
+
+            //    // sub menu
+            //    resetSubMenu()
+            //},function () { 
+            //});
+
+            // menu: sub-menu: current
+            var mainMenuIndex = 0;
             var href = location.href.toLowerCase();
             for (var i = 1; i <= 4; i++) {
                 $('.sub-menu-' + i + ' > li').each(function () {
                     var aHref = $('a', $(this)).attr('href').toLowerCase();
                     if (href.indexOf(aHref) > -1) {
+                        mainMenuIndex = i;
                         $(this).addClass('on');
                     } else {
                         $(this).removeClass('on');
                     }
                 });
+
+                // menu: main-menu
+                if (i == mainMenuIndex) {
+                    $('.menu-' + i).addClass('on');
+                } else {
+                    $('.menu-' + i).removeClass('on');
+                }
             }
+            resetSubMenu();
+
             // menu: News
             $('#btnNews').click(function (evt) {
                 evt.preventDefault();
                 location.href = '/Admin/PK/NewsAnnouncement';
             });
+
         })
     </script>
 
