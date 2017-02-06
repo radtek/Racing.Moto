@@ -213,6 +213,7 @@
     <Content Include="Scripts\AngularJs\angular-filter-0.5.7.js" />
     <Content Include="Scripts\AngularJs\angular-filter-0.5.7.min.js" />
     <Content Include="Scripts\AngularJs\ui-bootstrap-tpls-2.4.0.min.js" />
+    <Content Include="Scripts\Controllers\Admin\UserController.js" />
     <Content Include="Scripts\Controllers\Admin\RateController.js" />
     <Content Include="Scripts\Controllers\Admin\NewsController.js" />
     <Content Include="Scripts\Controllers\betController.js" />
@@ -674,6 +675,7 @@
     <Content Include="Scripts\UEditor\third-party\video-js\font\vjs.eot" />
     <Content Include="Scripts\UEditor\third-party\video-js\font\vjs.ttf" />
     <Content Include="Scripts\UEditor\third-party\video-js\font\vjs.woff" />
+    <Content Include="Views\Shared\_Menu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

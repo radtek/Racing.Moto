@@ -1,4 +1,5 @@
-﻿using Racing.Moto.Services.Mvc;
+﻿using NLog;
+using Racing.Moto.Services.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,11 @@ using System.Web.Mvc;
 
 namespace Racing.Moto.Web.Areas.Admin.Controllers
 {
+    [Authorize]
     public class MyCenterController : AdminBaseController
     {
+        private ILogger _logger = LogManager.GetCurrentClassLogger();
+
         #region 用户信息
 
         // 用户信息

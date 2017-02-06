@@ -109,34 +109,7 @@
             </ul>
         </div>
         <div class="right">
-            <ul class="main-menu top">
-                <li class="menu-1"><a href="/Admin/Bet/Raise">即时注单</a></li>
-                <li class="menu-2 on"><a href="/Admin/PK/Rate">游戏管理</a></li>
-                <li class="menu-3"><a href="/Admin/User/All">用户管理</a></li>
-                <li class="menu-4"><a href="/Admin/MyCenter/UserInfo">个人中心</a></li>
-            </ul>
-            <ul class="sub-menu-1 hide tab-new">
-                @*<li><a href="">&nbsp;</a></li>*@
-            </ul>
-            <ul class="sub-menu-2 tab-new">
-                <li><a href="/Admin/PK/Rate">盘口设置</a></li>
-                <li><a href="/Admin/PK/Bet">注单查询</a></li>
-                <li><a href="/Admin/PK/History">历史开奖</a></li>
-                <li><a href="/Admin/PK/News" id="btnNews">站内消息设置</a></li>
-            </ul>
-            <ul class="sub-menu-3 hide tab-new">
-                <li><a href="/Admin/User/All">所有用户</a></li>
-                <li><a href="/Admin/User/GeneralAgent">总代理</a></li>
-                <li><a href="/Admin/User/Agent">代理</a></li>
-                <li><a href="/Admin/User/Member">会员</a></li>
-                <li><a href="/Admin/User/Vistor">游客</a></li>
-            </ul>
-            <ul class="sub-menu-4 hide tab-new">
-                <li><a href="/Admin/MyCenter/UserInfo">用户信息</a></li>
-                <li><a href="/Admin/MyCenter/ChangePwd">修改密码</a></li>
-                <li><a href="/Admin/MyCenter/BetHistory">历史注单</a></li>
-                <li><a href="/Admin/MyCenter/Bonus">流水一览</a></li>
-            </ul>
+            @Html.Partial("~/Views/Shared/_Menu.cshtml")
             @RenderBody()
         </div>
         <div class="clear"></div>

@@ -110,34 +110,7 @@
             </ul>
         </div>
         <div class="right">
-            <ul class="main-menu top">
-                <li class="menu-1"><a href="javascript:;">即时注单</a></li>
-                <li class="menu-2 on"><a href="javascript:;">游戏管理</a></li>
-                <li class="menu-3"><a href="javascript:;">用户管理</a></li>
-                <li class="menu-4"><a href="javascript:;">个人中心</a></li>
-            </ul>
-            <ul class="sub-menu-1 hide tab-new">
-                @*<li><a href="">&nbsp;</a></li>*@
-            </ul>
-            <ul class="sub-menu-2 tab-new">
-                <li><a href="/AdminGameManagement/Announcement">盘口设置</a></li>
-                <li><a href="">注单查询</a></li>
-                <li><a href="">历史开奖</a></li>
-                <li><a href="/AdminNews/Announcement">站内消息设置</a></li>
-            </ul>
-            <ul class="sub-menu-3 hide tab-new">
-                <li><a href="">所有用户</a></li>
-                <li><a href="">总代理</a></li>
-                <li><a href="">代理</a></li>
-                <li><a href="">会员</a></li>
-                <li><a href="">游客</a></li>
-            </ul>
-            <ul class="sub-menu-4 hide tab-new">
-                <li><a href="">用户信息</a></li>
-                <li><a href="">修改密码</a></li>
-                <li><a href="">历史注单</a></li>
-                <li><a href="">流水一览</a></li>
-            </ul>
+            @Html.Partial("_Menu")
             @RenderBody()
         </div>
         <div class="clear"></div>

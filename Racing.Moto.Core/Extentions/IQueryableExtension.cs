@@ -11,34 +11,27 @@ namespace Racing.Moto.Core.Extentions
         /// <summary>
         /// 分页
         /// </summary>
-        /// <typeparam name="TSource"></typeparam>
         /// <param name="source"></param>
         /// <param name="pageIndex">当前页 从1开始</param>
         /// <param name="pageSize">默认15</param>
         /// <returns></returns>
-        public static PagerResult<TSource> Pager<TSource>(this IQueryable<TSource> source, int pageIndex, int pageSize = 15) where TSource : class
+        public static PagerResult<T> Pager<T>(this IQueryable<T> source, int pageIndex, int pageSize = 15) where T : class
         {
-            PagerResult<TSource> result = new PagerResult<TSource>();
+            var result = new PagerResult<T>();
 
             result.RowCount = source.Count();
+            result.PageCount = (int)Math.Ceiling(result.RowCount * 1.0 / pageSize);
 
-            var pageCount = (int)Math.Ceiling(result.RowCount * 1.0 / pageSize);
-            if (pageIndex < 1)
+            if (pageIndex >= result.PageCount && result.PageCount > 0)
             {
-                pageIndex = 1;
+                pageIndex = result.PageCount - 1;
             }
-            if (pageIndex > pageCount)
+            else
             {
-                pageIndex = pageCount;
+                pageIndex = (pageIndex > 0) ? pageIndex - 1 : 0;
             }
-            if (pageCount == 0)
-            {
-                pageIndex = 1;
-                pageCount = 1;
-            }
-            result.PageCount = pageCount;
 
-            result.Data = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            result.Items = source.Skip(pageIndex * pageSize).Take(pageSize).ToList();
 
             return result;
         }
@@ -46,16 +39,8 @@ namespace Racing.Moto.Core.Extentions
 
     public class PagerResult<T> where T : class
     {
-        public bool Success { get; set; }
-        public string Message { get; set; }
-        public List<T> Data { get; set; }
+        public List<T> Items { get; set; }
         public int RowCount { get; set; }
         public int PageCount { get; set; }
-
-        public PagerResult(bool success = true, string message = null)
-        {
-            Success = success;
-            Message = message;
-        }
     }
 }

@@ -37,7 +37,7 @@ namespace Racing.Moto.Data.Enums
         All = 0,
         GeneralAgent = 1,
         Agent = 2,
-        User = 3,
+        Member = 3,
         Vistor = 4
     }
 

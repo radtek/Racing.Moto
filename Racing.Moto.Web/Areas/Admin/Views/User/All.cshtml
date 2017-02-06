@@ -2,8 +2,11 @@
     ViewBag.Title = "所有用户 - 用户管理";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
+@section headScripts {
+    <script src="~/Scripts/Controllers/admin/UserController.js"></script>
+}
 
-<div class="admin-wrapper">
+<div class="admin-wrapper" ng-controller="userController" ng-init="init('@ViewBag.UserType')">
     <div class="sousuo">
         <div class="leftA">
             筛选:
@@ -35,60 +38,16 @@
             <td>账户余额</td>
             <td colspan="5">操作</td>
         </tr>
-        <tr class="text-center">
+        <tr class="text-center" ng-repeat="item in pager.Results">
             <td>
                 <div class="online"></div>
+                @*<div class="offline"></div>*@
             </td>
-            <td>
-                用户名需要8个字
-            </td>
-            <td>
-                总代理
-            </td>
-            <td>
-                xyz001
-            </td>
-            <td>
-                4.00%
-            </td>
-            <td>
-                100.00.00
-            </td>
-            <td>
-                <a href="">修改信息</a>
-            </td>
-            <td>
-                <a href="">删除</a>
-            </td>
-            <td>
-                <a href="">注单</a>
-            </td>
-            <td>
-                <a href="">账目</a>
-            </td>
-            <td>
-                <a href="">日志</a>
-            </td>
-        </tr>
-        <tr class="text-center">
-            <td>
-                <div class="offline"></div>
-            </td>
-            <td>
-                用户名需要8个字
-            </td>
-            <td>
-                总代理
-            </td>
-            <td>
-                xyz001
-            </td>
-            <td>
-                4.00%
-            </td>
-            <td>
-                100.00.00
-            </td>
+            <td ng-bind="item.UserName">用户名</td>
+            <td ng-bind="item.UserRoles[0].Role.RoleName">总代理</td>
+            <td>xyz001</td>
+            <td>4.00%</td>
+            <td>100.00.00</td>
             <td>
                 <a href="">修改信息</a>
             </td>
@@ -133,7 +92,7 @@
         <div class="clear"></div>
     </div>
 
-    <div class="dialog">
+    <div class="dialog" ng-show="user.IsEdit">
         <div class="title">
             新增内部人员
         </div>
