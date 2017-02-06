@@ -3,5 +3,189 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>所有用户</h2>
+<div class="admin-wrapper">
+    <div class="sousuo">
+        <div class="leftA">
+            筛选:
+        </div>
+        <select class="select">
+            <option>请选择</option>
+        </select>
+        <div class="leftA" style="margin-left: 30px;">
+            搜索:
+        </div>
+        <select class="select">
+            <option>账号</option>
+        </select>
+        <input type="text" name="" class="floatB" placeholder="输入用户名或用户ID">
+        <button class="soushuoz"></button>
+        <div class="clear"></div>
+    </div>
+    <div class="sousuob">
+        <a href=""><img src="/img/houtai/btn-xinzheng.png" class="z"></a>
+        <a href="" style="margin-left: 10px;"><img src="/img/houtai/btn-xiugai2.png" class="z"></a>
+    </div>
+    <table class="z-table" style="margin-bottom: 15px;">
+        <tr class="thead">
+            <td>在线</td>
+            <td>用户名</td>
+            <td>用户类型</td>
+            <td>上级用户名</td>
+            <td>退水</td>
+            <td>账户余额</td>
+            <td colspan="5">操作</td>
+        </tr>
+        <tr class="text-center">
+            <td>
+                <div class="online"></div>
+            </td>
+            <td>
+                用户名需要8个字
+            </td>
+            <td>
+                总代理
+            </td>
+            <td>
+                xyz001
+            </td>
+            <td>
+                4.00%
+            </td>
+            <td>
+                100.00.00
+            </td>
+            <td>
+                <a href="">修改信息</a>
+            </td>
+            <td>
+                <a href="">删除</a>
+            </td>
+            <td>
+                <a href="">注单</a>
+            </td>
+            <td>
+                <a href="">账目</a>
+            </td>
+            <td>
+                <a href="">日志</a>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td>
+                <div class="offline"></div>
+            </td>
+            <td>
+                用户名需要8个字
+            </td>
+            <td>
+                总代理
+            </td>
+            <td>
+                xyz001
+            </td>
+            <td>
+                4.00%
+            </td>
+            <td>
+                100.00.00
+            </td>
+            <td>
+                <a href="">修改信息</a>
+            </td>
+            <td>
+                <a href="">删除</a>
+            </td>
+            <td>
+                <a href="">注单</a>
+            </td>
+            <td>
+                <a href="">账目</a>
+            </td>
+            <td>
+                <a href="">日志</a>
+            </td>
+        </tr>
+    </table>
+    <div class="fenye">
+        <div class="text" style="margin-right: 20px;">
+            查到600页纪录
+        </div>
+        <div class="text">
+            共40页
+        </div>
+        <div class="fenye-num text">
+            <a href="">首页</a>
+            <a href="">上一页</a>
+            <a href="" class="on">2</a>
+            <a href="">3</a>
+            <a href="">4</a>
+            <a href="">5</a>
+            <a href="">6</a>
+            <a href="">7</a>
+            <a href="">8</a>
+            <a href="">下一页</a>
+            <a href="">末页</a>
+        </div>
+        <input type="text" name="" style="width:40px; float: left;">
+        <div class="text" style="margin-left: 10px;margin-top: -5px;">
+            <a href=""><img src="/img/houtai/tiaozhuan.png"></a>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="dialog">
+        <div class="title">
+            新增内部人员
+        </div>
+        <table>
+            <tr>
+                <td>
+                    用户类型:
+                </td>
+                <td>
+                    <select>
+                        <option>账号</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    用户名:
+                </td>
+                <td>
+                    <input type="text" name="">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    密码设定:
+                </td>
+                <td>
+                    <input type="text" name="">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    账户余额:
+                </td>
+                <td>
+                    <input type="text" name="">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    退水比例:
+                </td>
+                <td>
+                    <input type="text" name="">
+                </td>
+            </tr>
+        </table>
+        <div style="text-align: center; padding-top: 10px;">
+            <a href=""><img src="/img/houtai/quxiao.png" style="margin-right: 10px;"></a>
+            <a href=""><img src="/img/houtai/queren.png"></a>
+        </div>
+    </div>
+</div>
+
 

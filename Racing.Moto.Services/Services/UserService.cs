@@ -1,4 +1,5 @@
 ﻿using Racing.Moto.Data.Entities;
+using Racing.Moto.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,56 +10,8 @@ namespace Racing.Moto.Services
 {
     public class UserService : BaseServcice
     {
-        public UserExtend GetUserExtend(int userId)
-        {
-            var userExtend = db.UserExtend.Where(u => u.UserId == userId).FirstOrDefault();
-            if (userExtend == null)
-            {
-                userExtend = new UserExtend
-                {
-                    UserId = userId,
-                    Amount = 0
-                };
-
-                db.UserExtend.Add(userExtend);
-                db.SaveChanges();
-            }
-            return userExtend;
-        }
-
-        /// <summary>
-        /// 增加账户金额
-        /// </summary>
-        public void AddAmount(int userId, decimal amount)
-        {
-            var userExtend = db.UserExtend.Where(u => u.UserId == userId).FirstOrDefault();
-            if (userExtend == null)
-            {
-                userExtend = new UserExtend
-                {
-                    UserId = userId,
-                    Amount = amount
-                };
-
-                db.UserExtend.Add(userExtend);
-            }
-            else
-            {
-                userExtend.Amount += amount;
-            }
-            db.SaveChanges();
-        }
-
-        /// <summary>
-        /// 减少账户金额
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="amount"></param>
-        public void MinusAmount(int userId, decimal amount)
-        {
-            var userExtend = db.UserExtend.Where(u => u.UserId == userId).FirstOrDefault();
-            userExtend.Amount = userExtend.Amount - amount;
-            db.SaveChanges();
-        }
+        //public List<User> GetUsers(UserType userType) {
+        //    var query = db.User.Include(nameof(User.UserExtend))
+        //}
     }
 }

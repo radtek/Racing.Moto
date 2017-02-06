@@ -74,10 +74,10 @@ namespace Racing.Moto.Web.Controllers
                 }
                 else
                 {
-                    var userService = new UserService();
+                    var userExtendService = new UserExtendService();
 
                     // 查验余额
-                    var userExtend = userService.GetUserExtend(LoginUser.UserId);
+                    var userExtend = userExtendService.GetUserExtend(LoginUser.UserId);
                     var betAmount = bets.Sum(b => b.Amount);
                     if (betAmount > userExtend.Amount)
                     {
@@ -90,7 +90,7 @@ namespace Racing.Moto.Web.Controllers
                         new BetService().SaveBets(pkId, LoginUser.UserId, bets);
 
                         // 更新余额
-                        userService.MinusAmount(LoginUser.UserId, betAmount);
+                        userExtendService.MinusAmount(LoginUser.UserId, betAmount);
                         LoginUser.UserExtend.Amount = LoginUser.UserExtend.Amount - betAmount;
 
                         // 回传给前台, 更新余额

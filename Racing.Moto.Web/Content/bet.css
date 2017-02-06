@@ -566,9 +566,126 @@ body {
         margin-right: 20px;
     }
 
+    
+/*用户管理*/
+.main-wrap .right .z-table .online{
+    background: #fff;
+    width: 16px;
+    height: 16px;
+    background: #00ff17;
+    border-radius: 8px;
+    text-align: center;
+    float: none;
+    margin-left: 13px;
+}
+.main-wrap .right .z-table .offline{
+    background: #393738;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    text-align: center;
+    float: none;
+    margin-left: 13px;
+}
+.main-wrap .right .z-table a{
+    color: #02b4fc;
+    text-decoration: none;
+}
+.fenye{
+    padding: 5px 0 15px 0;
+    color: #fff;
+}
+.fenye div.text{
+    float: left;
+}
+.fenye .fenye-num{
+    margin-left: 100px;
+}
+.fenye .fenye-num a{
+    padding: 0 10px;
+    color: #fff;
+    text-decoration: none;
+}
+.fenye .fenye-num a.on{
+    color: #227ead;
+}
+.sousuo{
+    width: 640px;
+    background: #fff;
+    float: left;
+    padding: 6px 10px;
+    margin-bottom: 8px;
+}
+.sousuo .leftA{
+    float: left;
+    margin-top: 2px;
+}
+.sousuo .select{
+    float: left;
+    padding: 4px 35px;
+    border-radius: 3px;
+    margin-left: 20px;
+}
+.sousuo .floatB{
+    background: #994c04;
+    padding: 5px;
+    border: none;
+    margin-top: 1px;
+    border-radius: 3px;
+    margin-left: 10px;
+    color: #fff;
+    float: left;
+}
+.sousuo .soushuoz{
+    width: 28px;
+    height: 26px;
+    background: url(../img/houtai/btn-sousuo.png) no-repeat;
+    border: none;
+    cursor: pointer;
+    margin-top:1px;
+    float: left;
+    margin-left: 10px;
+}
+.sousuob{
+    margin-left: 20px;
+    float: left;
+}
+.dialog{
+    width: 330px;
+    height: 380px;
+    border: 2px solid #454545;
+    position: absolute;
+    left: 50%;
+    margin-left: -165px;
+    top: 50%;
+    margin-top: -190px;
+    background: #d4d4d4;
+}
+.dialog .title{
+    text-align: center;
+    padding: 10px 0;
+    font-size: 20px;
+}
+.dialog tr td{
+    padding: 10px;
+}
+.dialog tr td input{
+    padding: 5px;
+}
+.dialog tr td select{
+    padding: 5px;
+    width: 100%;
+}
+
+/*----------------------------------------
+    wdy
+------------------------------------------*/
 
 .hide {
     display: none;
+}
+.admin-wrapper {
+    min-height:600px;
 }
 
 /*----------------------------------------

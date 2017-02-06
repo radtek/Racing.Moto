@@ -30,6 +30,18 @@ namespace Racing.Moto.Data.Enums
     }
 
     /// <summary>
+    /// 用户类型
+    /// </summary>
+    public enum UserType
+    {
+        All = 0,
+        GeneralAgent = 1,
+        Agent = 2,
+        User = 3,
+        Vistor = 4
+    }
+
+    /// <summary>
     /// 批量修改类型
     /// </summary>
     public enum BatchRateType

@@ -43,8 +43,8 @@ namespace Racing.Moto.Web.Controllers
 
                         #region LoginUser session
 
-                        var loginUser = SqlMembershipProvider.Provider.GetUser(model.UserName, true);
-                        loginUser.UserExtend = new UserService().GetUserExtend(loginUser.UserId);
+                        var loginUser = _memberProvider.GetUser(model.UserName, true);
+                        loginUser.UserExtend = new UserExtendService().GetUserExtend(loginUser.UserId);
                         System.Web.HttpContext.Current.Session[nameof(LoginUser)] = loginUser;
 
                         #endregion
