@@ -58,6 +58,7 @@
     <Compile Include="Entities\BetItem.cs" />
     <Compile Include="Entities\Bet.cs" />
     <Compile Include="Entities\AppConfig.cs" />
+    <Compile Include="Entities\Menu.cs" />
     <Compile Include="Entities\PKLog.cs" />
     <Compile Include="Entities\PKBonus.cs" />
     <Compile Include="Entities\PKRate.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\UserExtend.cs" />
+    <Compile Include="Entities\MenuRole.cs" />
     <Compile Include="Entities\UserRole.cs" />
     <Compile Include="Enums\DbEnums.cs" />
     <Compile Include="Enums\Enums.cs" />

@@ -89,6 +89,9 @@ namespace Racing.Moto.Data
         public virtual DbSet<PKBonus> PKBonus { get; set; }
         public virtual DbSet<Post> Post { get; set; }
         public virtual DbSet<PKLog> Log { get; set; }
+
+        public virtual DbSet<Menu> Menu { get; set; }
+        public virtual DbSet<MenuRole> MenuRole { get; set; }
         #endregion
     }
 }

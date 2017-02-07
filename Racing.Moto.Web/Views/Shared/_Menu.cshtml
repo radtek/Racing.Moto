@@ -1,11 +1,32 @@
-﻿<ul class="main-menu top">
-    <li class="menu-1"><a href="/Admin/Bet/Raise">即时注单</a></li>
-    <li class="menu-2 on"><a href="/Admin/PK/Rate">游戏管理</a></li>
-    <li class="menu-3"><a href="/Admin/User/All">用户管理</a></li>
-    <li class="menu-4"><a href="/Admin/MyCenter/UserInfo">个人中心</a></li>
+﻿@{ 
+    var rootMenus = PKBag.Menus.Where(m => m.ParentMenuId == null).ToList();
+}
+<ul class="main-menu top">
+@for (var i = 0; i < rootMenus.Count; i++)
+{
+    var index = i + 1;
+    <li class="menu-@index"><a href="@rootMenus[i].MenuUrl">@rootMenus[i].MenuName</a></li>
+}
 </ul>
-<ul class="sub-menu-1 hide tab-new">
-    @*<li><a href="">&nbsp;</a></li>*@
+
+@for (var i = 0; i < rootMenus.Count; i++)
+{
+    var index = i + 1;
+    var childMenus = PKBag.Menus.Where(m => m.ParentMenuId == rootMenus[i].MenuId).ToList();
+    <ul class="tab-new hide sub-menu-@index">
+        @foreach (var menu in childMenus)
+        {
+            <li><a href="@menu.MenuUrl">@menu.MenuName</a></li>
+        }
+    </ul>
+}
+@*<ul class="main-menu top">
+    <li class="menu-1"><a href="/Admin/Bet/Raise">即时注单</a></li>
+        <li class="menu-2 on"><a href="/Admin/PK/Rate">游戏管理</a></li>
+        <li class="menu-3"><a href="/Admin/User/All">用户管理</a></li>
+        <li class="menu-4"><a href="/Admin/MyCenter/UserInfo">个人中心</a></li>
+</ul>*@
+@*<ul class="sub-menu-1 hide tab-new">
 </ul>
 <ul class="sub-menu-2 tab-new">
     <li><a href="/Admin/PK/Rate">盘口设置</a></li>
@@ -25,4 +46,65 @@
     <li><a href="/Admin/MyCenter/ChangePwd">修改密码</a></li>
     <li><a href="/Admin/MyCenter/BetHistory">历史注单</a></li>
     <li><a href="/Admin/MyCenter/Bonus">流水一览</a></li>
-</ul>
+</ul>*@
+
+
+<script type="text/javascript">
+    $(function () {
+        var menu = {
+            init: function () {
+                menu.setMenu();
+                menu.setSubMenu();
+            },
+            setMenu: function () {
+                var mainMenuIndex = 0;
+                var href = location.href.toLowerCase();
+                for (var i = 1; i <= 4; i++) {
+                    $('.sub-menu-' + i + ' > li').each(function () {
+                        var aHref = $('a', $(this)).attr('href').toLowerCase();
+                        if (href.indexOf(aHref) > -1) {
+                            //console.log(i);
+                            mainMenuIndex = i;
+                            $(this).addClass('on');
+                        } else {
+                            $(this).removeClass('on');
+                        }
+                    });
+
+                    // menu: main-menu
+                    if (i == mainMenuIndex) {
+                        $('.menu-' + i).addClass('on');
+                    } else {
+                        $('.menu-' + i).removeClass('on');
+                    }
+                }
+            },
+            setSubMenu: function () {
+                //var index = 0;
+                $('.main-menu > li').each(function (index) {
+                    index++;
+                    if ($(this).hasClass('on')) {
+                        //console.log(index);
+                        $('.sub-menu-' + index).removeClass('hide');
+                    } else {
+                        $('.sub-menu-' + index).addClass('hide');
+                    }
+                });
+            },
+            hover: function () {
+                $('.main-menu > li').hover(function (evt) {
+                    $('.main-menu > li').each(function () {
+                        $(this).removeClass('on');
+                    });
+                    $(this).addClass('on');
+
+                    // sub menu
+                    resetSubMenu()
+                },function () {
+                });
+            },
+        };
+
+        menu.init();
+    })
+</script>

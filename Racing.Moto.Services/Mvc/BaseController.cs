@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Serialization;
 using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Membership;
+using Racing.Moto.Services.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace Racing.Moto.Services.Mvc
                 return _loginUser;
             }
         }
-
+        
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
             base.OnAuthorization(filterContext);
@@ -52,6 +53,15 @@ namespace Racing.Moto.Services.Mvc
                 else
                 {
                     _loginUser = System.Web.HttpContext.Current.Session[nameof(LoginUser)] as User;
+                }
+
+                // menus
+                if (System.Web.HttpContext.Current.Session[SessionConst.Menus] == null)
+                {
+                    var roleIds = _loginUser.UserRoles.Select(ur => ur.RoleId).ToList();
+                    var menus = new MenuService().GetMenuByRoles(roleIds);
+
+                    System.Web.HttpContext.Current.Session[SessionConst.Menus] = menus;
                 }
             }
             else
@@ -90,6 +100,14 @@ namespace Racing.Moto.Services.Mvc
             get
             {
                 return System.Web.HttpContext.Current.Session[nameof(LoginUser)] as User;
+            }
+        }
+
+        public static List<Menu> Menus
+        {
+            get
+            {
+                return System.Web.HttpContext.Current.Session[SessionConst.Menus] as List<Menu>;
             }
         }
     }

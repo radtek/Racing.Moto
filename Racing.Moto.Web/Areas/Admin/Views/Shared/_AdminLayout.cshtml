@@ -127,60 +127,6 @@
                 var date = $app.formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss');
                 $('.shijian').text(date);
             });
-
-            // reset SubMenu
-            function resetSubMenu() {
-                var index = 0;
-                $('.main-menu > li').each(function () {
-                    index++;
-                    if ($(this).hasClass('on')) {
-                        $('.sub-menu-' + index).removeClass('hide');
-                    } else {
-                        $('.sub-menu-' + index).addClass('hide');
-                    }
-                });
-            }
-            // menu: hover
-            //$('.main-menu > li').hover(function (evt) {
-            //    $('.main-menu > li').each(function () {
-            //        $(this).removeClass('on');
-            //    });
-            //    $(this).addClass('on');
-
-            //    // sub menu
-            //    resetSubMenu()
-            //},function () { 
-            //});
-
-            // menu: sub-menu: current
-            var mainMenuIndex = 0;
-            var href = location.href.toLowerCase();
-            for (var i = 1; i <= 4; i++) {
-                $('.sub-menu-' + i + ' > li').each(function () {
-                    var aHref = $('a', $(this)).attr('href').toLowerCase();
-                    if (href.indexOf(aHref) > -1) {
-                        mainMenuIndex = i;
-                        $(this).addClass('on');
-                    } else {
-                        $(this).removeClass('on');
-                    }
-                });
-
-                // menu: main-menu
-                if (i == mainMenuIndex) {
-                    $('.menu-' + i).addClass('on');
-                } else {
-                    $('.menu-' + i).removeClass('on');
-                }
-            }
-            resetSubMenu();
-
-            // menu: News
-            $('#btnNews').click(function (evt) {
-                evt.preventDefault();
-                location.href = '/Admin/PK/NewsAnnouncement';
-            });
-
         })
     </script>
 

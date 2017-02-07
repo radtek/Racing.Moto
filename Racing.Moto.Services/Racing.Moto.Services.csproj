@@ -88,6 +88,7 @@
     <Compile Include="Constants\BetConst.cs" />
     <Compile Include="Constants\DateFormatConst.cs" />
     <Compile Include="Constants\DBConst.cs" />
+    <Compile Include="Constants\SessionConst.cs" />
     <Compile Include="Constants\MessageConst.cs" />
     <Compile Include="Mvc\AdminBaseController.cs" />
     <Compile Include="Services\BaseServcice.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Services\PKRateService.cs" />
     <Compile Include="Services\PKService.cs" />
     <Compile Include="Services\BonusService.cs" />
+    <Compile Include="Services\MenuService.cs" />
     <Compile Include="Services\UserRoleService.cs" />
     <Compile Include="Services\PostService.cs" />
     <Compile Include="Services\UserExtendService.cs" />

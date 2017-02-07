@@ -109,6 +109,11 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
         #region 站内消息
 
+        public ActionResult News()
+        {
+            return View("NewsAnnouncement");
+        }
+
         #region 公告
 
         public ActionResult NewsAnnouncement()
