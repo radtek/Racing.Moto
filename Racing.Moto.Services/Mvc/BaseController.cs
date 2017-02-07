@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using App.Core.OnlineStat;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Membership;
@@ -24,16 +25,17 @@ namespace Racing.Moto.Services.Mvc
                 return _loginUser;
             }
         }
-        
+
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
             base.OnAuthorization(filterContext);
 
             // chrome浏览器设置 从上次停下的地方继续 时, 关闭浏览器不会删除cookie, 此处判断如果session失效则强制删除cookie
-            if (HttpContext.User.Identity.IsAuthenticated && System.Web.HttpContext.Current.Session[nameof(LoginUser)] == null)
+            if (HttpContext.User.Identity.IsAuthenticated && System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
             {
                 System.Web.Security.FormsAuthentication.SignOut();
-                System.Web.HttpContext.Current.Session.Remove(nameof(LoginUser));
+                System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
+
                 var returnUrl = filterContext.RequestContext.HttpContext.Request.RawUrl;
                 var loginUrl = "/Account/Login";
                 var url = !string.IsNullOrEmpty(returnUrl) ? loginUrl + "?returnUrl=" + returnUrl : loginUrl;
@@ -48,11 +50,11 @@ namespace Racing.Moto.Services.Mvc
                     _loginUser.UserExtend = new UserExtendService().GetUserExtend(_loginUser.UserId);
 
                     // LoginUser session
-                    System.Web.HttpContext.Current.Session[nameof(LoginUser)] = _loginUser;
+                    System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = _loginUser;
                 }
                 else
                 {
-                    _loginUser = System.Web.HttpContext.Current.Session[nameof(LoginUser)] as User;
+                    _loginUser = System.Web.HttpContext.Current.Session[SessionConst.LoginUser] as User;
                 }
 
                 // menus
@@ -99,7 +101,7 @@ namespace Racing.Moto.Services.Mvc
         {
             get
             {
-                return System.Web.HttpContext.Current.Session[nameof(LoginUser)] as User;
+                return System.Web.HttpContext.Current.Session[SessionConst.LoginUser] as User;
             }
         }
 
@@ -109,6 +111,14 @@ namespace Racing.Moto.Services.Mvc
             {
                 return System.Web.HttpContext.Current.Session[SessionConst.Menus] as List<Menu>;
             }
+        }
+
+        /// <summary>
+        /// 在线用户
+        /// </summary>
+        public static OnlineUserRecorder OnlineUserRecorder
+        {
+            get { return HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder; }
         }
     }
 

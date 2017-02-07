@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Racing.Moto.Web.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class HomeController : BaseController
     {
         // GET: Home

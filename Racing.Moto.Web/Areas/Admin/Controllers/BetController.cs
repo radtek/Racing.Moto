@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace Racing.Moto.Web.Areas.Admin.Controllers
 {
+    [Authorize]
     public class BetController : AdminBaseController
     {
         // GET: Admin/Bet

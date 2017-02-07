@@ -1,5 +1,6 @@
 ﻿@{ 
-    var rootMenus = PKBag.Menus.Where(m => m.ParentMenuId == null).ToList();
+    var menus = PKBag.Menus != null ? PKBag.Menus : new List<Racing.Moto.Data.Entities.Menu>();
+    var rootMenus = menus.Where(m => m.ParentMenuId == null).ToList();
 }
 <ul class="main-menu top">
 @for (var i = 0; i < rootMenus.Count; i++)
@@ -12,7 +13,7 @@
 @for (var i = 0; i < rootMenus.Count; i++)
 {
     var index = i + 1;
-    var childMenus = PKBag.Menus.Where(m => m.ParentMenuId == rootMenus[i].MenuId).ToList();
+    var childMenus = menus.Where(m => m.ParentMenuId == rootMenus[i].MenuId).ToList();
     <ul class="tab-new hide sub-menu-@index">
         @foreach (var menu in childMenus)
         {

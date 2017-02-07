@@ -45,9 +45,12 @@ namespace Racing.Moto.Web.Controllers
 
                         var loginUser = _memberProvider.GetUser(model.UserName, true);
                         loginUser.UserExtend = new UserExtendService().GetUserExtend(loginUser.UserId);
-                        System.Web.HttpContext.Current.Session[nameof(LoginUser)] = loginUser;
+                        System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = loginUser;
 
                         #endregion
+
+                        //在线用户统计
+                        OnlineHttpModule.ProcessRequest();
 
                         if (Url.IsLocalUrl(returnUrl))
                         {

@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace Racing.Moto.Web.Areas.Admin.Controllers
 {
+    [Authorize]
     public class UserController : BaseController
     {
         private ILogger _logger = LogManager.GetCurrentClassLogger();
@@ -78,7 +79,16 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
             try
             {
-                result.Data = new UserService().GetUsers(searchModel);
+                var pager = new UserService().GetUsers(searchModel);
+
+                // 在线用户, 使用Enabled
+                var onlienUsers = PKBag.OnlineUserRecorder.GetUserList();
+                foreach (var user in pager.Items)
+                {
+                    user.Enabled = onlienUsers.Where(u => u.UserName == user.UserName).Any();
+                }
+
+                result.Data = pager;
             }
             catch (Exception ex)
             {

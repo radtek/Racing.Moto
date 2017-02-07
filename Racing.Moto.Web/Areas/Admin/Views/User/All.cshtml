@@ -40,8 +40,8 @@
         </tr>
         <tr class="text-center" ng-repeat="item in pager.Results">
             <td>
-                <div class="online"></div>
-                @*<div class="offline"></div>*@
+                <div class="online" ng-if="item.Enabled"></div>
+                <div class="offline" ng-if="!item.Enabled"></div>
             </td>
             <td ng-bind="item.UserName">用户名</td>
             <td ng-bind="item.UserRoles[0].Role.RoleName">总代理</td>

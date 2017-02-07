@@ -91,6 +91,7 @@
     <Compile Include="Constants\SessionConst.cs" />
     <Compile Include="Constants\MessageConst.cs" />
     <Compile Include="Mvc\AdminBaseController.cs" />
+    <Compile Include="Mvc\OnlineHttpModule.cs" />
     <Compile Include="Services\BaseServcice.cs" />
     <Compile Include="Mvc\BaseController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
