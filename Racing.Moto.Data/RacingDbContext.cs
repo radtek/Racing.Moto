@@ -60,10 +60,13 @@ namespace Racing.Moto.Data
             //modelBuilder.Entity<PKRate>().Property(e => e.Odd).HasPrecision(18, 2);
             //modelBuilder.Entity<PKRate>().Property(e => e.Even).HasPrecision(18, 2);
             #endregion
+            #region UserExtension
+            modelBuilder.Entity<UserExtension>().Property(e => e.Amount).HasPrecision(18, 2);
+            modelBuilder.Entity<UserExtension>().Property(e => e.Rebate).HasPrecision(18, 2);
+            #endregion
 
             modelBuilder.Entity<Bet>().Property(e => e.Amount).HasPrecision(18, 2);
             modelBuilder.Entity<PKBonus>().Property(e => e.Amount).HasPrecision(18, 2);
-            modelBuilder.Entity<UserExtend>().Property(e => e.Amount).HasPrecision(18, 2);
         }
 
         #region Logging
@@ -76,7 +79,7 @@ namespace Racing.Moto.Data
         #region Entities
         public virtual DbSet<AppConfig> AppConfig { get; set; }
         public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<UserExtend> UserExtend { get; set; }
+        public virtual DbSet<UserExtension> UserExtend { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<Rate> Rate { get; set; }

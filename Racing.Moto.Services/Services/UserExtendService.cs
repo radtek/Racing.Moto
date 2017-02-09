@@ -9,12 +9,12 @@ namespace Racing.Moto.Services
 {
     public class UserExtendService : BaseServcice
     {
-        public UserExtend GetUserExtend(int userId)
+        public UserExtension GetUserExtend(int userId)
         {
             var userExtend = db.UserExtend.Where(u => u.UserId == userId).FirstOrDefault();
             if (userExtend == null)
             {
-                userExtend = new UserExtend
+                userExtend = new UserExtension
                 {
                     UserId = userId,
                     Amount = 0
@@ -34,7 +34,7 @@ namespace Racing.Moto.Services
             var userExtend = db.UserExtend.Where(u => u.UserId == userId).FirstOrDefault();
             if (userExtend == null)
             {
-                userExtend = new UserExtend
+                userExtend = new UserExtension
                 {
                     UserId = userId,
                     Amount = amount

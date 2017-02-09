@@ -6,24 +6,11 @@
 
     $scope.user = {
         UserTypes: { All: 0, GeneralAgent: 1, Agent: 2, User: 3, Vistor: 4 },
-        //UserType: 0,
-        //Data: null,
-        //DataBak: null,
         IsEdit: false,
         CurrentUser: null,
         init: function (userType) {
-            //$scope.user.UserType = userType;
             $scope.pager.init(userType);
         },
-        //getUsers: function (params) {
-        //    $http.post('/Admin/User/GetUsers', params).then(function (res) {
-        //        console.log(res);
-        //        if (res.data.Success) {
-        //            $scope.user.Data = res.data.Data;
-        //            $scope.user.DataBak = angular.copy(res.data.Data);
-        //        }
-        //    });
-        //},
         edit: function () {
             $scope.user.IsEdit = true;
         },

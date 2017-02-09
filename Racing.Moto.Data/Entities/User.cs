@@ -31,7 +31,7 @@ namespace Racing.Moto.Data.Entities
         public System.DateTime FailedPasswordAttemptWindowStart { get; set; }
         public System.DateTime CreateDate { get; set; }
         
-        public virtual UserExtend UserExtend { get; set; }
+        public virtual UserExtension UserExtension { get; set; }
 
         [ForeignKey(nameof(ParentUser))]
         public int? ParentUserId { get; set; }
