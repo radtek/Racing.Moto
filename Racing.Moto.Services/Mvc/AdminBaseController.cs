@@ -33,8 +33,11 @@ namespace Racing.Moto.Services.Mvc
         {
             base.OnActionExecuted(filterContext);
 
-            //在线用户统计
-            OnlineHttpModule.ProcessRequest();
+            if (LoginUser != null)
+            {
+                //在线用户统计
+                OnlineHttpModule.ProcessRequest();
+            }
         }
     }
 }

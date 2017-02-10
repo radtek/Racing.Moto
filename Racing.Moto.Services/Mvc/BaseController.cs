@@ -30,15 +30,22 @@ namespace Racing.Moto.Services.Mvc
         {
             base.OnAuthorization(filterContext);
 
+            var rawUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower();
+            if (rawUrl.Contains("/account/login"))
+            {
+                return;
+            }
+
+            var isAdminUrl = rawUrl.Contains("/admin");
+
             // chrome浏览器设置 从上次停下的地方继续 时, 关闭浏览器不会删除cookie, 此处判断如果session失效则强制删除cookie
             if (HttpContext.User.Identity.IsAuthenticated && System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
             {
                 System.Web.Security.FormsAuthentication.SignOut();
                 System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
-
-                var returnUrl = filterContext.RequestContext.HttpContext.Request.RawUrl;
-                var loginUrl = "/Account/Login";
-                var url = !string.IsNullOrEmpty(returnUrl) ? loginUrl + "?returnUrl=" + returnUrl : loginUrl;
+                
+                var loginUrl = isAdminUrl ? "/Admin/Account/Login" : "/Account/Login";
+                var url = !string.IsNullOrEmpty(rawUrl) ? loginUrl + "?returnUrl=" + rawUrl : loginUrl;
                 filterContext.HttpContext.Response.Redirect(url);
             }
 
@@ -68,6 +75,22 @@ namespace Racing.Moto.Services.Mvc
             }
             else
             {
+                if (isAdminUrl)
+                {
+                    //filterContext.Result = new RedirectToRouteResult(
+                    //    new System.Web.Routing.RouteValueDictionary
+                    //    {
+                    //        { "area", "Admin" },
+                    //        { "controller", "Account" },
+                    //        { "action", "Login" },
+                    //        { "ReturnUrl", rawUrl }
+                    //    }
+                    //);
+
+                    var loginUrl = "/Admin/Account/Login" + "?returnUrl=" + rawUrl;
+                    filterContext.HttpContext.Response.Redirect(loginUrl);
+                }
+
                 ViewBag.ReturnUrl = filterContext.HttpContext.Request.Url.ToString();
             }
 

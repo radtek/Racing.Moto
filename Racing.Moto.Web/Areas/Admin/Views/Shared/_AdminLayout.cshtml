@@ -1,135 +1,85 @@
-﻿<!DOCTYPE html>
-<html lang="zh-CN">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>@ViewBag.Title - PK拾</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="@ViewBag.Description">
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-    @*<link href="~/RacingMotoBetCss" rel="stylesheet" />*@
-    <link href="~/Content/bet.css" rel="stylesheet" />
-
-    <script src="~/RacingMotoBetJs"></script>
-    <script src="~/Scripts/AngularJs/ui-bootstrap-tpls-2.4.0.min.js"></script>
-
-    <script src="~/Scripts/app.js"></script>
-    <script src="~/Scripts/ngApp.js"></script>
-    @RenderSection("headScripts", required: false)
-</head>
-<body ng-app="RacingMotoNgApp">
-    @{
-        var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
-        var balance = PKBag.LoginUser != null ? PKBag.LoginUser.UserExtend.Amount : 0;
-    }
-    <div class="user-top">
-        <div class="box">
-            <img src="/img/houtai/user.png" class="user">
-            <div class="name">@userName</div>
-            <div class="edu">余额：<span id="balance">@balance</span></div>
-            <a href="#" class="jia">
-                <img src="/img/houtai/jia.png">
-            </a>
-            <div class="name"><a href="/Account/Logout">退出</a></div>
-
-        </div>
-    </div>
-    <div class="nav">
-        <a class="logo">
-            <img src="/img/houtai/logo.png">
-        </a>
-        <div class="jishiqi">
-            <img src="/img/houtai/jishiqi.png">
-        </div>
-        <div class="shijian">2016-09-29 13：25：45</div>
-        <ul class="hide">
-            <li>
-                <a href="">
-                    <img src="/img/houtai/nav-1.png">
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <img src="/img/houtai/nav-2.png">
-                </a>
-            </li>
-            <li>
-                <a href="">
-                    <img src="/img/houtai/nav-3.png">
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="main-wrap">
-        <div class="left">
-            <img src="/img/houtai/guanggao.png" class="guanggao">
-            <div class="jilu">
-                <div class="top">
-                    历史中奖纪录
-                </div>
-                <div class="bottom">
-                    <div class="tab1 active">上期纪录</div>
-                    <div class="tab2">历史纪录</div>
-                </div>
-            </div>
-            <div class="dijiqi">
-                统计至第557175期
-            </div>
-            <ul class="list">
-                <li>
-                    <span class="a">冠军</span>
-                    <span class="b">单</span>
-                    <span class="c">5</span>
-                </li>
-                <li>
-                    <span class="a">冠军</span>
-                    <span class="b">单</span>
-                    <span class="c">5</span>
-                </li>
-                <li>
-                    <span class="a">冠军</span>
-                    <span class="b">单</span>
-                    <span class="c">5</span>
-                </li>
-                <li>
-                    <span class="a">冠军</span>
-                    <span class="b">单</span>
-                    <span class="c">5</span>
-                </li>
-                <li>
-                    <span class="a">冠军</span>
-                    <span class="b">单</span>
-                    <span class="c">5</span>
-                </li>
-                <li>
-                    <span class="a">冠军</span>
-                    <span class="b">单</span>
-                    <span class="c">5</span>
-                </li>
-            </ul>
-        </div>
-        <div class="right">
-            @Html.Partial("~/Views/Shared/_Menu.cshtml")
-            @RenderBody()
-        </div>
-        <div class="clear"></div>
-    </div>
-
-    <div id="loader-wrapper" ng-show="RequestCount > 0 && Loading">
-        <div class="loader-with-bgimg long"></div>
-        <div class="loader-section section-left"></div>
-        <div class="loader-section section-right"></div>
-    </div>
-
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>金信</title>
+    <link href="~/Content/Admin/main.css" rel="stylesheet" />
+    <link href="~/Content/Admin/Top.css" rel="stylesheet" />
     <script type="text/javascript">
-        $(function () {
-            $('body').everyTime('1s', function () {
-                var date = $app.formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss');
-                $('.shijian').text(date);
-            });
-        })
+        window.onload = function()
+        {
+            var olink = document.links;
+            for(var i=0;i<olink.length;i++)
+            {
+               olink[i].onmouseover=function(){window.status='';return true;}
+                //解决.按住鼠标不松开还是会显示链接地址
+                olink[i].onfocus=function(){window.status='';return true;}
+            }
+        }
+    </script>
+    <script language="JavaScript">
+        function hidden()
+        {
+            window.status = "javascript:void(0)"
+        }
+        setInterval("hidden()",1)
     </script>
 
-    @RenderSection("footerScripts", required: false)
+    <script type="text/javascript"> if(top.location != self.location ) top.location=self.location;</script>
+</head>
+<body>
+    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+        <tbody>
+            <tr>
+                <td rowspan="2" width="5%"><img src="/Images/Admin/logo.jpg" width="219" height="67"></td>
+                <td height="10" width="95%">
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                        <tbody>
+                            <tr>
+                                <td width="15%">
+                                    <span style="POSITION: relative; TOP: 2px" id="BeLine_User" class="Font_New F_bold">在线会员人数：</span>
+                                    <span style="POSITION: relative; TOP: 2px" id="user_Num" class="Font_New F_bold">1/45</span>
+                                </td>
+                                <td width="70%">
+                                    <marquee style="POSITION: relative; TOP: 2px" onmouseover="this.stop()" onmouseout="this.start()" scrollamount="5" scrolldelay="120" whdth="100%">
+                                        <font style="letter-spacing:1px;color:#d8f5ff"></font>
+                                    </marquee>
+                                </td>
+                                <td width="15%" height="38" class="f_right"><span style="position: relative; top: 2px; left: -7px" class="Font_New F_bold">管理員：cs315</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td valign="bottom" class="c" height="26">
+                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="Loading_But(1);" value="即時註單" type="button" name="but_1">
+                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="Loading_But(2);" value="用戶管理" type="button" name="but_2">
+                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="Loading_But(3);" value="個人管理" type="button" name="but_3">
+                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="Loading_But(4);" value="內部管理" type="button" name="but_4">
+                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('Report_Center.aspx');" value="報表查詢" type="button" name="but_5">
+                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('Lottery_Result.aspx');" value="歷史開獎" type="button" name="but_6">
+                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('newFile.aspx');" value="站內消息" type="button" name="but_7">
+                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('online_all.aspx');" value="在线人数" type="button" name="but_9">
+                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('Quit.aspx');" value="退 出" type="button" name="but_8">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" height="28">
+
+                    <div id="id">
+                        &nbsp;
+                        <input style="CURSOR: pointer" class="bST_1_s" onclick="SelectType1(1);" type="button" id="bST_1" name="bST_1" value="广东快乐时分"><input style="CURSOR: pointer" class="bST_2" onclick="SelectType1(2);" type="button" id="bST_2" name="bST_2" value="重庆时时彩"><input style="CURSOR: pointer" class="bST_3" onclick="SelectType1(3);" type="button" id="bST_3" name="bST_3" value="北京賽車(PK10)"><input style="CURSOR: pointer" class="bST_4" onclick="SelectType1(4);" type="button" id="bST_4" name="bST_4" value="江苏骰寶(快3)"><input style="CURSOR: pointer" class="bST_5" onclick="SelectType1(5);" type="button" id="bST_5" name="bST_5" value="幸运农场"><input style="CURSOR: pointer" class="bST_6" onclick="SelectType1(6);" type="button" id="bST_6" name="bST_6" value="快樂8(雙盤)">
+                    </div>
+                    <div id="a_span" style="position:absolute;top:70px;left:610px;"><a onmouseover="window.status='javascript:void(0)' ;return true" onfocus="window.status='javascript:void(0)' ;return true" href="javascript:void(0);" onclick="javascript:parent.mainFrame.location.href= '/Manage/temp/LoginLog.aspx'" style="width:60px;float:left;height:18px;padding-top:5px;text-align:center" target="mainFrame">登錄日記</a><a onmouseover="window.status='javascript:void(0)' ;return true" onfocus="window.status='javascript:void(0)' ;return true" href="javascript:void(0);" onclick="javascript:parent.mainFrame.location.href= '/Manage/temp/UpdatePwd.aspx'" style="width:60px;float:left;height:18px;padding-top:5px;text-align:center" target="mainFrame">變更密碼</a></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <frameset rows="97,*" cols="*" frameborder="no" border="0" framespacing="0">
+        <frame src="./站内消息_files/newFile.html" name="mainFrame" id="mainFrame">
+    </frameset>
+    @RenderBody()
 </body>
 </html>

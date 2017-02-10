@@ -38,6 +38,10 @@ namespace Racing.Moto.Data.Models
         [Display(Name = "密码")]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "请输入{0}")]
+        [Display(Name = "验证码")]
+        public string Captcha { get; set; }
+
         [Display(Name = "记住我?")]
         public bool RememberMe { get; set; }
     }
