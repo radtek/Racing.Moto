@@ -74,7 +74,7 @@ namespace Racing.Moto.Web.Controllers
                 }
                 else
                 {
-                    var userExtendService = new UserExtendService();
+                    var userExtendService = new UserExtensionService();
 
                     // 查验余额
                     var userExtend = userExtendService.GetUserUserExtension(LoginUser.UserId);

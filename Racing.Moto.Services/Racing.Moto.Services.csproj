@@ -103,7 +103,7 @@
     <Compile Include="Services\MenuService.cs" />
     <Compile Include="Services\UserRoleService.cs" />
     <Compile Include="Services\PostService.cs" />
-    <Compile Include="Services\UserExtendService.cs" />
+    <Compile Include="Services\UserExtensionService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\RateService.cs" />
   </ItemGroup>
