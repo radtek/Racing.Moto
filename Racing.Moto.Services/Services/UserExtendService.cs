@@ -9,7 +9,7 @@ namespace Racing.Moto.Services
 {
     public class UserExtendService : BaseServcice
     {
-        public UserExtension GetUserExtend(int userId)
+        public UserExtension GetUserUserExtension(int userId)
         {
             var userExtend = db.UserExtend.Where(u => u.UserId == userId).FirstOrDefault();
             if (userExtend == null)

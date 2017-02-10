@@ -100,32 +100,5 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
             return Json(result);
         }
-
-        public JsonResult SaveUser(User user)
-        {
-            var result = new ResponseResult();
-
-            try
-            {
-                var pager = new UserService().GetUsers(searchModel);
-
-                // 在线用户, 使用Enabled
-                var onlienUsers = PKBag.OnlineUserRecorder.GetUserList();
-                foreach (var user in pager.Items)
-                {
-                    user.Enabled = onlienUsers.Where(u => u.UserName == user.UserName).Any();
-                }
-
-                result.Data = pager;
-            }
-            catch (Exception ex)
-            {
-                result.Success = false;
-                result.Message = MessageConst.System_Error;
-                _logger.Info(ex);
-            }
-
-            return Json(result);
-        }
     }
 }
