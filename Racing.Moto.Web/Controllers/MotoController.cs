@@ -91,10 +91,10 @@ namespace Racing.Moto.Web.Controllers
 
                         // 更新余额
                         userExtendService.MinusAmount(LoginUser.UserId, betAmount);
-                        LoginUser.UserExtend.Amount = LoginUser.UserExtend.Amount - betAmount;
+                        LoginUser.UserExtension.Amount = LoginUser.UserExtension.Amount - betAmount;
 
                         // 回传给前台, 更新余额
-                        result.Data = LoginUser.UserExtend.Amount;
+                        result.Data = LoginUser.UserExtension.Amount;
                     }
                 }
             }
