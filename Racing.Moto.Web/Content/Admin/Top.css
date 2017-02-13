@@ -4,8 +4,12 @@ body{
 	margin:0;
 }
 .top{width:100%;}
-.top td,input{
-	color:#f8ff2d !important;
+.top * {
+	margin:0;
+	padding:0;
+	letter-spacing:1px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
 }
 a{
 	text-decoration:none;
@@ -41,71 +45,12 @@ a:hover{
 	color: #d8f5ff;
 }
 
-.bST_1, .bST_1_s, .bST_2, .bST_2_s, .bST_3, .bST_3_s, .bST_4, .bST_4_s, .bST_5, .bST_5_s, .bST_6, .bST_6_s{
-	border: 0px solid #FF9224; 
-	background-color: #B3C5EF; 
-	background-image: url('/Images/Admin/But_S2.jpg');
-	height: 29px;
-}
-.bST_1 {
-	background-position:-206px;
-	width: 101px;
-	color:#8EA5B5;
-}
-.bST_1_s {
-	background-position:-513px;
-	width: 101px;
-	color:#fff;
-}
-.bST_2 {
-	background-position:-206px;
-	width: 101px;
-	color:#8EA5B5;
-}
-.bST_2_s {
-	background-position:-513px;
-	width: 101px;
-	color:#fff;
-}
-.bST_3 {
-	background-position:-206px;
-	color:#8EA5B5;
-	width: 101px;
-}
-.bST_3_s {
-	background-position:-513px;
-	color:#fff;
-	width: 101px;
-}
-.bST_4 {
-	background-position:-206px;
-	color:#8EA5B5;
-	width: 101px;
-}
-.bST_4_s {
-	background-position:-513px;
-	color:#fff;
-	width: 101px;
-}
-.bST_5 {
-	background-position:-206px;
-	color:#8EA5B5;
-	width: 101px;
-}
-.bST_5_s {
-	background-position:-513px;
-	color:#fff;
-	width: 101px;
-}
-.bST_6 {
-	background-position:-206px;
-	color:#8EA5B5;
-	width: 101px;
-}
-.bST_6_s {
-	background-position:-513px;
-	color:#fff;
-	width: 101px;
+.menu-game { }
+.menu-game .game{float:left;CURSOR: pointer;background-position: -206px;width: 101px;color: #8EA5B5; border: 0px solid #FF9224;background-color: #B3C5EF;background-image: url(/Images/admin/But_S2.jpg);height: 29px;}
+.menu-game .game-active{float:left;CURSOR: pointer;background-position: -513px;width: 101px;color: #fff;border: 0px solid #FF9224;background-color: #B3C5EF;background-image: url(/Images/admin/But_S2.jpg);height: 29px;}
+
+#a_span a {
+    width:60px;float:left;height:18px;padding-top:5px;text-align:center;text-decoration: none;color: #f8ff2d !important;
 }
 
 .f_right {
