@@ -66,7 +66,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
                         }
                         else
                         {
-                            return RedirectToAction("Index", "Home");
+                            return Redirect("/Admin/News/Index");
                         }
                     }
 

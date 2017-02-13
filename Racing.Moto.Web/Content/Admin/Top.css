@@ -3,8 +3,9 @@ body{
 	background-repeat: repeat-x;
 	margin:0;
 }
-body, div, span, p, b, textarea, input, select, form, table,tr,td {
-	color:#f8ff2d;
+.top{width:100%;}
+.top td,input{
+	color:#f8ff2d !important;
 }
 a{
 	text-decoration:none;

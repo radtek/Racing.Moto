@@ -5,6 +5,7 @@
     <title>金信</title>
     <link href="~/Content/Admin/main.css" rel="stylesheet" />
     <link href="~/Content/Admin/Top.css" rel="stylesheet" />
+    <link href="~/Content/Admin/common.css" rel="stylesheet" />
     <script type="text/javascript">
         window.onload = function()
         {
@@ -25,61 +26,72 @@
         setInterval("hidden()",1)
     </script>
 
-    <script type="text/javascript"> if(top.location != self.location ) top.location=self.location;</script>
+    @*<script type="text/javascript"> if(top.location != self.location ) top.location=self.location;</script>*@
 </head>
-<body>
-    <table border="0" cellspacing="0" cellpadding="0" width="100%">
-        <tbody>
-            <tr>
-                <td rowspan="2" width="5%"><img src="/Images/Admin/logo.jpg" width="219" height="67"></td>
-                <td height="10" width="95%">
-                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
-                        <tbody>
-                            <tr>
-                                <td width="15%">
-                                    <span style="POSITION: relative; TOP: 2px" id="BeLine_User" class="Font_New F_bold">在线会员人数：</span>
-                                    <span style="POSITION: relative; TOP: 2px" id="user_Num" class="Font_New F_bold">1/45</span>
-                                </td>
-                                <td width="70%">
-                                    <marquee style="POSITION: relative; TOP: 2px" onmouseover="this.stop()" onmouseout="this.start()" scrollamount="5" scrolldelay="120" whdth="100%">
-                                        <font style="letter-spacing:1px;color:#d8f5ff"></font>
-                                    </marquee>
-                                </td>
-                                <td width="15%" height="38" class="f_right"><span style="position: relative; top: 2px; left: -7px" class="Font_New F_bold">管理員：cs315</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td valign="bottom" class="c" height="26">
-                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="Loading_But(1);" value="即時註單" type="button" name="but_1">
-                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="Loading_But(2);" value="用戶管理" type="button" name="but_2">
-                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="Loading_But(3);" value="個人管理" type="button" name="but_3">
-                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="Loading_But(4);" value="內部管理" type="button" name="but_4">
-                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('Report_Center.aspx');" value="報表查詢" type="button" name="but_5">
-                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('Lottery_Result.aspx');" value="歷史開獎" type="button" name="but_6">
-                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('newFile.aspx');" value="站內消息" type="button" name="but_7">
-                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('online_all.aspx');" value="在线人数" type="button" name="but_9">
-                    <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('Quit.aspx');" value="退 出" type="button" name="but_8">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" height="28">
+<body @*oncontextmenu="return false" onselectstart="return false"*@>
+    @{
+        var roleName = PKBag.LoginUser != null ? PKBag.LoginUser.UserRoles.First().Role.RoleName : "";
+        var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
+        var balance = PKBag.LoginUser != null ? Math.Round(PKBag.LoginUser.UserExtension.Amount) : 0;
+    }
+    <div class="top">
+        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+            <tbody>
+                <tr>
+                    <td rowspan="2" width="5%"><img src="/Images/Admin/logo.jpg" width="219" height="67" /></td>
+                    <td height="10" width="95%">
+                        <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td width="15%">
+                                        <span style="POSITION: relative; TOP: 2px" id="BeLine_User" class="Font_New F_bold">在线会员人数：</span>
+                                        <span style="POSITION: relative; TOP: 2px" id="user_Num" class="Font_New F_bold">1/45</span>
+                                    </td>
+                                    <td width="70%">
+                                        <marquee style="POSITION: relative; TOP: 2px" onmouseover="this.stop()" onmouseout="this.start()" scrollamount="5" scrolldelay="120" whdth="100%">
+                                            <font style="letter-spacing:1px;color:#d8f5ff"></font>
+                                        </marquee>
+                                    </td>
+                                    <td width="15%" height="38" class="f_right">
+                                        <span style="position: relative; top: 2px; left: -7px" class="Font_New F_bold">@roleName ：@userName</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="bottom" class="c" height="26">
+                        <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="Loading_But(1);" value="即時註單" type="button" name="but_1" />
+                        <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="Loading_But(2);" value="用戶管理" type="button" name="but_2" />
+                        <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="Loading_But(3);" value="個人管理" type="button" name="but_3" />
+                        <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="Loading_But(4);" value="內部管理" type="button" name="but_4" />
+                        <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('Report_Center.aspx');" value="報表查詢" type="button" name="but_5" />
+                        <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('Lottery_Result.aspx');" value="歷史開獎" type="button" name="but_6" />
+                        <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('newFile.aspx');" value="站內消息" type="button" name="but_7" />
+                        <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('online_all.aspx');" value="在线人数" type="button" name="but_9" />
+                        <input class="but_1" onmouseover="this.className='but_1_m'" onmouseout="this.className='but_1'" onclick="GoForm('Quit.aspx');" value="退 出" type="button" name="but_8" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" height="28">
 
-                    <div id="id">
-                        &nbsp;
-                        <input style="CURSOR: pointer" class="bST_1_s" onclick="SelectType1(1);" type="button" id="bST_1" name="bST_1" value="广东快乐时分"><input style="CURSOR: pointer" class="bST_2" onclick="SelectType1(2);" type="button" id="bST_2" name="bST_2" value="重庆时时彩"><input style="CURSOR: pointer" class="bST_3" onclick="SelectType1(3);" type="button" id="bST_3" name="bST_3" value="北京賽車(PK10)"><input style="CURSOR: pointer" class="bST_4" onclick="SelectType1(4);" type="button" id="bST_4" name="bST_4" value="江苏骰寶(快3)"><input style="CURSOR: pointer" class="bST_5" onclick="SelectType1(5);" type="button" id="bST_5" name="bST_5" value="幸运农场"><input style="CURSOR: pointer" class="bST_6" onclick="SelectType1(6);" type="button" id="bST_6" name="bST_6" value="快樂8(雙盤)">
-                    </div>
-                    <div id="a_span" style="position:absolute;top:70px;left:610px;"><a onmouseover="window.status='javascript:void(0)' ;return true" onfocus="window.status='javascript:void(0)' ;return true" href="javascript:void(0);" onclick="javascript:parent.mainFrame.location.href= '/Manage/temp/LoginLog.aspx'" style="width:60px;float:left;height:18px;padding-top:5px;text-align:center" target="mainFrame">登錄日記</a><a onmouseover="window.status='javascript:void(0)' ;return true" onfocus="window.status='javascript:void(0)' ;return true" href="javascript:void(0);" onclick="javascript:parent.mainFrame.location.href= '/Manage/temp/UpdatePwd.aspx'" style="width:60px;float:left;height:18px;padding-top:5px;text-align:center" target="mainFrame">變更密碼</a></div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                        <div id="id">
+                            &nbsp;
+                            <input style="CURSOR: pointer" class="bST_1_s" onclick="SelectType1(1);" type="button" id="bST_1" name="bST_1" value="广东快乐时分" /><input style="CURSOR: pointer" class="bST_2" onclick="SelectType1(2);" type="button" id="bST_2" name="bST_2" value="重庆时时彩" /><input style="CURSOR: pointer" class="bST_3" onclick="SelectType1(3);" type="button" id="bST_3" name="bST_3" value="北京賽車(PK10)" /><input style="CURSOR: pointer" class="bST_4" onclick="SelectType1(4);" type="button" id="bST_4" name="bST_4" value="江苏骰寶(快3)" /><input style="CURSOR: pointer" class="bST_5" onclick="SelectType1(5);" type="button" id="bST_5" name="bST_5" value="幸运农场" /><input style="CURSOR: pointer" class="bST_6" onclick="SelectType1(6);" type="button" id="bST_6" name="bST_6" value="快樂8(雙盤)" />
+                        </div>
+                        <div id="a_span" style="position:absolute;top:70px;left:610px;"><a onmouseover="window.status='javascript:void(0)' ;return true" onfocus="window.status='javascript:void(0)' ;return true" href="javascript:void(0);" onclick="javascript:parent.mainFrame.location.href= '/Manage/temp/LoginLog.aspx'" style="width:60px;float:left;height:18px;padding-top:5px;text-align:center" target="mainFrame">登錄日記</a><a onmouseover="window.status='javascript:void(0)' ;return true" onfocus="window.status='javascript:void(0)' ;return true" href="javascript:void(0);" onclick="javascript:parent.mainFrame.location.href= '/Manage/temp/UpdatePwd.aspx'" style="width:60px;float:left;height:18px;padding-top:5px;text-align:center" target="mainFrame">變更密碼</a></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <frameset rows="97,*" cols="*" frameborder="no" border="0" framespacing="0">
+    @*<frameset rows="97,*" cols="*" frameborder="no" border="0" framespacing="0">
         <frame src="./站内消息_files/newFile.html" name="mainFrame" id="mainFrame">
-    </frameset>
-    @RenderBody()
+    </frameset>*@
+    <div class="content-wrapper">
+        @RenderBody()
+    </div>
 </body>
 </html>
