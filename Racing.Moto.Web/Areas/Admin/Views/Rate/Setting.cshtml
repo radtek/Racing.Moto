@@ -1,0 +1,198 @@
+﻿@{
+    ViewBag.Title = "赔率设置";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@section headScripts {
+    <script src="~/Scripts/Controllers/admin/RateController.js"></script>
+}
+<table width="100%" height="100%" cellspacing="0" border="0" class="a" ng-controller="rateController" ng-init="init('@ViewBag.RateType')">
+    <tbody>
+        <tr>
+            <td width="6" height="99%" bgcolor="#4E4E4E"></td>
+            <td class="c">
+                <table cellspacing="0" border="0" class="main">
+                    <tbody>
+                        <tr>
+                            <td width="12"><img alt="" src="/images/admin/tab_03.gif"></td>
+                            <td background="/images/admin/tab_05.gif">
+                                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td width="17"><img width="16" height="16" src="/images/admin/tb.gif"></td>
+                                            <td width="145">&nbsp;賠率設置--北京赛车</td>
+                                            <td width="70">批量修改:</td>
+                                            <td width="80">
+                                                <select class="b" ng-model="batch.BatchType">
+                                                    <option value="">选择类型</option>
+                                                    <option value="1">名次</option>
+                                                    <option value="2">大小</option>
+                                                    <option value="3">单双</option>
+                                                    <option value="4">全部</option>
+                                                </select>
+                                            </td>
+                                            <td width="60">
+                                                <input type="text" class="c" ng-model="batch.BatchRate" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                            <td width="60">
+                                                <input type="button" ng-click="batch.saveBatchRate()" value="批量修改" class="inputs">
+                                            </td>
+                                            <td width="60">&nbsp;</td>
+                                            <td>
+                                                <input type="button" ng-click="rate.save()" id="m1" value="确定修改" class="inputs">
+                                                <input type="button" ng-click="rate.revert()" value="恢复原来" class="inputs">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td width="16"><img alt="" src="/images/admin/tab_07.gif"></td>
+                        </tr>
+                        <tr>
+                            <td class="t"></td>
+                            <td class="c">
+                                <!-- strat -->
+                                <table cellspacing="0" border="0" class="conter">
+                                    <tbody>
+                                        <tr class="tr_top">
+                                            <td>號</td>
+                                            <td>第一名</td>
+                                            <td>第二名</td>
+                                            <td>第三名</td>
+                                            <td>第四名</td>
+                                            <td>第五名</td>
+                                            <td>第六名</td>
+                                            <td>第七名</td>
+                                            <td>第八名</td>
+                                            <td>第九名</td>
+                                            <td>第十名</td>
+                                            <td>大</td>
+                                            <td>小</td>
+                                            <td>单</td>
+                                            <td>双</td>
+                                        </tr>
+                                        <tr class="text-center" ng-show="!rate.IsEdit">
+                                            <td><div class="rate-value" ng-bind="item.Rate1">9.7</div></td>
+                                            <td><div class="rate-value" ng-bind="item.Rate2">9.7</div></td>
+                                            <td><div class="rate-value" ng-bind="item.Rate3">9.7</div></td>
+                                            <td><div class="rate-value" ng-bind="item.Rate4">9.7</div></td>
+                                            <td><div class="rate-value" ng-bind="item.Rate5">9.7</div></td>
+                                            <td><div class="rate-value" ng-bind="item.Rate6">9.7</div></td>
+                                            <td><div class="rate-value" ng-bind="item.Rate7">9.7</div></td>
+                                            <td><div class="rate-value" ng-bind="item.Rate8">9.7</div></td>
+                                            <td><div class="rate-value" ng-bind="item.Rate9">9.7</div></td>
+                                            <td><div class="rate-value" ng-bind="item.Rate10">9.7</div></td>
+                                            <td><div class="rate-value" ng-bind="item.Big">9.7</div></td>
+                                            <td><div class="rate-value" ng-bind="item.Small">9.7</div></td>
+                                            <td><div class="rate-value" ng-bind="item.Odd">9.7</div></td>
+                                            <td><div class="rate-value" ng-bind="item.Even">9.7</div></td>
+                                        </tr>
+                                        <tr class="tr-input" ng-show="rate.IsEdit">
+                                            <td>
+                                                <input type="text" class="rate-value" ng-model="item.Rate1" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="rate-value" ng-model="item.Rate2" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="rate-value" ng-model="item.Rate3" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="rate-value" ng-model="item.Rate4" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="rate-value" ng-model="item.Rate5" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="rate-value" ng-model="item.Rate6" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="rate-value" ng-model="item.Rate7" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="rate-value" ng-model="item.Rate8" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="rate-value" ng-model="item.Rate9" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="rate-value" ng-model="item.Rate10" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="rate-value" ng-model="item.Big" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="rate-value" ng-model="item.Small" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="rate-value" ng-model="item.Odd" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="rate-value" ng-model="item.Even" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                            </td>
+                                        </tr>
+                                        <tr align="center" style="display:none;">
+                                            <td class="ball">虎</td>
+                                            <td width="70" style="font-size:14px;color:blueviolet" id="ah16">1.9850</td>
+                                            <td>
+                                                <input type="button" name="1" class="aase aase_a" onclick="setodds('ah16','Ball_3',this)" title="上調賠率">&nbsp;
+                                                <input type="button" name="0" class="aase aase_b" onclick="setodds('ah16','Ball_3',this)" title="下調賠率">
+                                            </td>
+                                            <td width="70" style="font-size:14px;color:blueviolet" id="bh16">1.9850</td>
+                                            <td>
+                                                <input type="button" name="1" class="aase aase_a" onclick="setodds('bh16','Ball_4',this)" title="上調賠率">&nbsp;
+                                                <input type="button" name="0" class="aase aase_b" onclick="setodds('bh16','Ball_4',this)" title="下調賠率">
+                                            </td>
+                                            <td width="70" style="font-size:14px;color:blueviolet" id="ch16">1.9850</td>
+                                            <td>
+                                                <input type="button" name="1" class="aase aase_a" onclick="setodds('ch16','Ball_5',this)" title="上調賠率">&nbsp;
+                                                <input type="button" name="0" class="aase aase_b" onclick="setodds('ch16','Ball_5',this)" title="下調賠率">
+                                            </td>
+                                            <td width="70" style="font-size:14px;color:blueviolet" id="dh16">1.9850</td>
+                                            <td>
+                                                <input type="button" name="1" class="aase aase_a" onclick="setodds('dh16','Ball_6',this)" title="上調賠率">&nbsp;
+                                                <input type="button" name="0" class="aase aase_b" onclick="setodds('dh16','Ball_6',this)" title="下調賠率">
+                                            </td>
+                                            <td width="70" style="font-size:14px;color:blueviolet" id="eh16">1.9850</td>
+                                            <td>
+                                                <input type="button" name="1" class="aase aase_a" onclick="setodds('eh16','Ball_7',this)" title="上調賠率">&nbsp;
+                                                <input type="button" name="0" class="aase aase_b" onclick="setodds('eh16','Ball_7',this)" title="下調賠率">
+                                            </td>
+                                            <td width="70" style="font-size:14px;color:blueviolet" id="fh16">1.9850</td>
+                                            <td>
+                                                <input type="button" name="1" class="aase aase_a" onclick="setodds('fh16','Ball_8',this)" title="上調賠率">&nbsp;
+                                                <input type="button" name="0" class="aase aase_b" onclick="setodds('fh16','Ball_8',this)" title="下調賠率">
+                                            </td>
+                                            <td width="70" style="font-size:14px;color:blueviolet" id="gh16">1.9850</td>
+                                            <td>
+                                                <input type="button" name="1" class="aase aase_a" onclick="setodds('gh16','Ball_9',this)" title="上調賠率">&nbsp;
+                                                <input type="button" name="0" class="aase aase_b" onclick="setodds('gh16','Ball_9',this)" title="下調賠率">
+                                            </td>
+                                            <td width="70" style="font-size:14px;color:blueviolet" id="hh16">1.9850</td>
+                                            <td>
+                                                <input type="button" name="1" class="aase aase_a" onclick="setodds('hh16','Ball_10',this)" title="上調賠率">&nbsp;
+                                                <input type="button" name="0" class="aase aase_b" onclick="setodds('hh16','Ball_10',this)" title="下調賠率">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- end -->
+                            </td>
+                            <td class="r"></td>
+                        </tr>
+                        <tr>
+                            <td width="12"><img alt="" src="/images/admin/tab_18.gif"></td>
+                            <td align="center" class="f">默認賠率表更變不會即時影響正在開盤中的賠率。</td>
+                            <td width="16"><img alt="" src="/images/admin/tab_20.gif"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td width="6" bgcolor="#4E4E4E"></td>
+        </tr>
+        <tr>
+            <td height="6" bgcolor="#4E4E4E"><img alt="" src="/images/admin/main_59.gif"></td>
+            <td bgcolor="#4E4E4E"></td>
+            <td height="6" bgcolor="#4E4E4E"><img alt="" src="/images/admin/main_62.gif"></td>
+        </tr>
+    </tbody>
+</table>

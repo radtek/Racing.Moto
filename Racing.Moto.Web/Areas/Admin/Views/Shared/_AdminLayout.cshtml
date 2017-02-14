@@ -2,11 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>金信</title>
+    <title>PK</title>
     <link href="~/Content/Admin/main.css" rel="stylesheet" />
     <link href="~/Content/Admin/Top.css" rel="stylesheet" />
     <link href="~/Content/Admin/common.css" rel="stylesheet" />
-    <script src="~/Scripts/Jquery/jquery-3.1.1.min.js"></script>
+
+    <script src="~/RacingMotoBetJs"></script>
+    <script src="~/Scripts/AngularJs/ui-bootstrap-tpls-2.4.0.min.js"></script>
+    <script src="~/Scripts/app.js"></script>
+    <script src="~/Scripts/ngApp.js"></script>
+    @RenderSection("headScripts", required: false)
     <script type="text/javascript">
         window.onload = function () {
             var olink = document.links;
@@ -23,10 +28,9 @@
         }
         //setInterval("hidden()", 1)
     </script>
-
-    @*<script type="text/javascript"> if(top.location != self.location ) top.location=self.location;</script>*@
 </head>
-<body @*oncontextmenu="return false" onselectstart="return false"*@ >
+@*oncontextmenu="return false" onselectstart="return false"*@
+<body>
     @{
         var roleName = PKBag.LoginUser != null ? PKBag.LoginUser.UserRoles.First().Role.RoleName : "";
         var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
@@ -97,10 +101,11 @@
     </div>
     <script type="text/javascript">
         var opt = {
+            Actions: ['bet', 'user', 'log', 'rate', 'report', 'lottery', 'news', 'online', 'account'],
             SubMenus: [
                 [{ Name: '前五名', Link: '/Admin/Bet/Add/1' }, { Name: '后五名', Link: '/Admin/Bet/Add/2' }, { Name: '大小单双', Link: '/Admin/Bet/Add/3' }],
                 [{ Name: '总代理', Link: '/Admin/User/List/1' }, { Name: '代理', Link: '/Admin/User/List/2' }, { Name: '会员', Link: '/Admin/User/List/3' }],
-                [{ Name: '登录日志', Link: '/Admin/Account/Log' }, { Name: '变更密码', Link: '/Admin/Account/ChangePwd' }],
+                [{ Name: '登录日志', Link: '/Admin/Log/Account' }, { Name: '变更密码', Link: '/Admin/Account/ChangePwd' }],
                 [{ Name: '赔率设置', Link: '/Admin/Rate/Setting' }, { Name: '盘赔率差设置', Link: '/Admin/Rate/MinusSetting' }, { Name: '在线会员', Link: '/Admin/User/Online/3' }, { Name: '在线代理', Link: '/Admin/User/Online/2' }],
             ],
             init: function () {
@@ -108,7 +113,19 @@
                 var contentHeidht = $(window).height() - $('.top').height();
                 $('.content-wrapper').css('height', contentHeidht);
                 // menu
-                opt.setMenu();
+                var subMenuIndex = opt.getSubMenuIndex();
+                opt.showSubMenu(subMenuIndex);
+            },
+            getSubMenuIndex: function () {
+                var index = 99;
+                var url = location.href.toLowerCase();
+                for (var i = 0; i < opt.Actions.length; i++) {
+                    if (url.indexOf(opt.Actions[i]) > -1) {
+                        index = i;
+                        break;
+                    }
+                }
+                return index;
             },
             setMenu: function () {
                 // menu
