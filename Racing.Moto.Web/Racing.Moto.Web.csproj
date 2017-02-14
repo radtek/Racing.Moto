@@ -192,9 +192,11 @@
     <Content Include="Areas\Admin\Views\Account\Login.cshtml" />
     <Content Include="Areas\Admin\Views\News\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Rate\Setting.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Online.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Images\admin\frame1.gif" />
     <Content Include="Images\admin\logo.jpg" />
     <Content Include="Images\admin\bg.gif" />
     <Content Include="Images\admin\But.jpg" />
@@ -206,6 +208,7 @@
     <Content Include="Images\admin\main_34.gif" />
     <Content Include="Images\admin\main_59.gif" />
     <Content Include="Images\admin\main_62.gif" />
+    <Content Include="Images\admin\onlie.gif" />
     <Content Include="Images\admin\tab_03.gif" />
     <Content Include="Images\admin\tab_05.gif" />
     <Content Include="Images\admin\tab_07.gif" />

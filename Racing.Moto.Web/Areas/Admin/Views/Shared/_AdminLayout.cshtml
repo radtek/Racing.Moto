@@ -30,7 +30,7 @@
     </script>
 </head>
 @*oncontextmenu="return false" onselectstart="return false"*@
-<body>
+<body ng-app="RacingMotoNgApp">
     @{
         var roleName = PKBag.LoginUser != null ? PKBag.LoginUser.UserRoles.First().Role.RoleName : "";
         var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
@@ -99,9 +99,16 @@
     <div class="content-wrapper">
         @RenderBody()
     </div>
+
+    <div id="loader-wrapper" ng-show="RequestCount > 0 && Loading">
+        <div class="loader-with-bgimg long"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
+    </div>
+
     <script type="text/javascript">
         var opt = {
-            Actions: ['bet', 'user', 'log', 'rate', 'report', 'lottery', 'news', 'online', 'account'],
+            Actions: ['bet', 'user/list', 'log|account/changepwd', 'rate|user/online', 'report', 'lottery', 'news', 'online', 'account'],
             SubMenus: [
                 [{ Name: '前五名', Link: '/Admin/Bet/Add/1' }, { Name: '后五名', Link: '/Admin/Bet/Add/2' }, { Name: '大小单双', Link: '/Admin/Bet/Add/3' }],
                 [{ Name: '总代理', Link: '/Admin/User/List/1' }, { Name: '代理', Link: '/Admin/User/List/2' }, { Name: '会员', Link: '/Admin/User/List/3' }],
@@ -120,11 +127,20 @@
                 var index = 99;
                 var url = location.href.toLowerCase();
                 for (var i = 0; i < opt.Actions.length; i++) {
-                    if (url.indexOf(opt.Actions[i]) > -1) {
-                        index = i;
+
+                    var actionArr = opt.Actions[i].split('|');
+                    console.log(actionArr);
+                    for (var j = 0; j < actionArr.length; j++) {
+                        if (url.indexOf(actionArr[j]) > -1) {
+                            index = i;
+                            break;
+                        }
+                    }
+                    if (index != 99) {
                         break;
                     }
                 }
+                console.log(index);
                 return index;
             },
             setMenu: function () {

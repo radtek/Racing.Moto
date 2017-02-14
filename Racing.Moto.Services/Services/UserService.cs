@@ -34,6 +34,15 @@ namespace Racing.Moto.Services
             return users;
         }
 
+        public List<User> GetUsers(List<string> userNames)
+        {
+            return db.User
+                .Include(nameof(User.UserExtension))
+                .Include(nameof(User.UserRoles))
+                .Include(nameof(User.UserRoles) + "." + nameof(UserRole.Role))
+                .Where(u => userNames.Contains(u.UserName)).ToList();
+        }
+
         public bool ExistUserName(string userName)
         {
             return db.User.Where(u => u.UserName == userName).Any();

@@ -280,7 +280,7 @@ td.red {
 .inputs {
 	width:66px;
 	height:17px;
-	padding-top:2px;
+	/*padding-top:2px;*/
 	background:url(/images/admin/frame1.gif);
 	background-position:-943px 0;
 	border:none;
@@ -311,7 +311,7 @@ td.red {
 }
 .ls2 {
 	color:#006600;
-	font-family:΢���ź�, Tahoma, Arial;
+	font-family: 宋体, Tahoma, Arial;
 	font-weight:bold;
 	font-size:13px;
 }

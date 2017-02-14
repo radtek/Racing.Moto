@@ -145,8 +145,7 @@
             });;
 
             $('#imgCaptcha').click(function () {
-                var src = $(this).attr("src").split("&")[0] + "&rdm=" + Math.random();
-                $(this).attr("src", src);
+                opt.generateCaptcha();
             });
 
             //init
@@ -159,6 +158,8 @@
                 //enterKey
                 opt.submitOnEnterKey('Password', 'btnSubmit');
                 opt.submitOnEnterKey('Captcha', 'btnSubmit');
+                //captcha
+                opt.generateCaptcha();
                 //msg
                 var messages = opt.getValidationMessages();
                 if (messages.length > 0) {
@@ -178,6 +179,11 @@
                         $("#" + targetId).focus().click();
                     }
                 });
+            },
+            generateCaptcha: function () {
+                var $captcha = $('#imgCaptcha');
+                var src = $captcha.attr("src").split("&")[0] + "&rdm=" + Math.random();
+                $captcha.attr("src", src);
             },
         };
     </script>

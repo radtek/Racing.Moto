@@ -35,10 +35,11 @@ namespace Racing.Moto.Data.Enums
     public enum UserType
     {
         All = 0,
-        GeneralAgent = 1,
-        Agent = 2,
-        Member = 3,
-        Vistor = 4
+        Admin = 1,
+        GeneralAgent = 2,
+        Agent = 3,
+        Member = 4,
+        Vistor = 5
     }
 
     /// <summary>

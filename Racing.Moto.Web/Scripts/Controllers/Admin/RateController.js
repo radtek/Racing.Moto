@@ -8,7 +8,7 @@
         RateType: 0,
         Data: null,
         DataBak: null,
-        IsEdit: false,
+        IsEdit: true,
         ChineseNums: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'],
         init: function (rateType) {
             $scope.rate.RateType = rateType;
@@ -35,7 +35,7 @@
                 console.log(res);
                 if (res.data.Success) {
                     $scope.rate.DataBak = angular.copy($scope.rate.Data);
-                    $scope.rate.IsEdit = false;
+                    $scope.rate.IsEdit = true;
 
                     alert('修改成功!');
                 } else {
@@ -57,20 +57,43 @@
                 return;
             }
 
-            var data = {
-                type: $scope.rate.RateType,
-                batchType: $scope.batch.BatchType,
-                rate: $scope.batch.BatchRate,
-            };
-            $http.post('/Admin/PK/SaveBatch', data).then(function (res) {
-                console.log(res);
-                if (res.data.Success) {
-                    $scope.rate.IsEdit = false;
-                    $scope.rate.getRates();
+            //var data = {
+            //    type: $scope.rate.RateType,
+            //    batchType: $scope.batch.BatchType,
+            //    rate: $scope.batch.BatchRate,
+            //};
+            //$http.post('/Admin/PK/SaveBatch', data).then(function (res) {
+            //    console.log(res);
+            //    if (res.data.Success) {
+            //        $scope.rate.IsEdit = false;
+            //        $scope.rate.getRates();
 
-                    alert('修改成功!');
-                } else {
-                    alert(res.data.Message);
+            //        alert('修改成功!');
+            //    } else {
+            //        alert(res.data.Message);
+            //    }
+            //});
+
+            var rate = $scope.batch.BatchRate;
+            //1-名次, 2-大小, 3-单双, 4-全部
+            angular.forEach($scope.rate.Data, function (item, index, arr) {
+                if ($scope.batch.BatchType == '1' || $scope.batch.BatchType == '4') {
+                    item.Rate1 = rate;
+                    item.Rate2 = rate;
+                    item.Rate3 = rate;
+                    item.Rate4 = rate;
+                    item.Rate5 = rate;
+                    item.Rate6 = rate;
+                    item.Rate7 = rate;
+                    item.Rate8 = rate;
+                    item.Rate9 = rate;
+                    item.Rate10 = rate;
+                } else if ($scope.batch.BatchType == '2' || $scope.batch.BatchType == '4') {
+                    item.Big = rate;
+                    item.Small = rate;
+                } else if ($scope.batch.BatchType == '3' || $scope.batch.BatchType == '4') {
+                    item.Odd = rate;
+                    item.Even = rate;
                 }
             });
         },

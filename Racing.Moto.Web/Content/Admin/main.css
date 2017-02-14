@@ -185,3 +185,71 @@ table.top tr td table tr td.f a:hover {
     font-size: 14px;
     color: blueviolet;
 }
+.rate-tb {
+    width: 100%;
+    margin-top: 5px;
+    border: 1px #b0c47a solid;
+    border-collapse: collapse;
+}
+.rate-tb tr td {border: 1px #b0c47a solid;height: 22px;}
+.rate-tb > tbody > tr > td {width:60px;}
+.rate-tb > tbody > tr > td > input {width:99%;height: 100%;border:none; /*border: 1px #FF9900 solid; background-color: #FFF2EC;*/}
+/*----------------------------------------
+    Loader
+------------------------------------------*/
+#loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    opacity: 0.9;
+}
+
+    #loader-wrapper .loader-with-bgimg {
+        display: block;
+        position: relative;
+        left: 50%;
+        top: 50%;
+        width: 440px;
+        height: 277px;
+        margin: -220px 0 0 -138px;
+        z-index: 1001;
+        background-size: cover;
+        background-position: center;
+        background-image: url('/img/loading.gif');
+    }
+
+    #loader-wrapper .loader-section {
+        position: fixed;
+        top: 0;
+        width: 51%;
+        height: 100%;
+        /*background: #262626;*/
+        background:rgba(48, 48, 48, 1);
+        z-index: 1000;
+        -webkit-transform: translateX(0);
+        /* Chrome, Opera 15+, Safari 3.1+ */
+        -ms-transform: translateX(0);
+        /* IE 9 */
+        transform: translateX(0);
+        /* Firefox 16+, IE 10+, Opera */
+    }
+
+        #loader-wrapper .loader-section.section-left {
+            left: 0;
+        }
+
+        #loader-wrapper .loader-section.section-right {
+            right: 0;
+        }
+
+
+.no-js #loader-wrapper {
+    display: none;
+}
+
+/*----------------------------------------
+    Loader
+------------------------------------------*/

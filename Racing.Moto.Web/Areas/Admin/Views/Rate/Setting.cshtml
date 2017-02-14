@@ -31,7 +31,7 @@
                                                 </select>
                                             </td>
                                             <td width="60">
-                                                <input type="text" class="c" ng-model="batch.BatchRate" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="c" ng-model="batch.BatchRate" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                             <td width="60">
                                                 <input type="button" ng-click="batch.saveBatchRate()" value="批量修改" class="inputs">
@@ -51,7 +51,7 @@
                             <td class="t"></td>
                             <td class="c">
                                 <!-- strat -->
-                                <table cellspacing="0" border="0" class="conter">
+                                <table cellspacing="0" border="0" class="rate-tb">
                                     <tbody>
                                         <tr class="tr_top">
                                             <td>號</td>
@@ -70,7 +70,8 @@
                                             <td>单</td>
                                             <td>双</td>
                                         </tr>
-                                        <tr class="text-center" ng-show="!rate.IsEdit">
+                                        @*<tr class="text-center" align="center" ng-show="!rate.IsEdit" ng-repeat="item in rate.Data">
+                                            <td class="ball"><font color="#959612">1</font></td>
                                             <td><div class="rate-value" ng-bind="item.Rate1">9.7</div></td>
                                             <td><div class="rate-value" ng-bind="item.Rate2">9.7</div></td>
                                             <td><div class="rate-value" ng-bind="item.Rate3">9.7</div></td>
@@ -85,49 +86,50 @@
                                             <td><div class="rate-value" ng-bind="item.Small">9.7</div></td>
                                             <td><div class="rate-value" ng-bind="item.Odd">9.7</div></td>
                                             <td><div class="rate-value" ng-bind="item.Even">9.7</div></td>
-                                        </tr>
-                                        <tr class="tr-input" ng-show="rate.IsEdit">
+                                        </tr>*@
+                                        <tr class="tr-input" align="center" ng-show="rate.IsEdit" ng-repeat="item in rate.Data">
+                                            <td class="ball"><font color="#959612">{{$index+1}}</font></td>
                                             <td>
-                                                <input type="text" class="rate-value" ng-model="item.Rate1" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="rate-value" ng-model="item.Rate1" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                             <td>
-                                                <input type="text" class="rate-value" ng-model="item.Rate2" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="rate-value" ng-model="item.Rate2" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                             <td>
-                                                <input type="text" class="rate-value" ng-model="item.Rate3" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="rate-value" ng-model="item.Rate3" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                             <td>
-                                                <input type="text" class="rate-value" ng-model="item.Rate4" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="rate-value" ng-model="item.Rate4" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                             <td>
-                                                <input type="text" class="rate-value" ng-model="item.Rate5" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="rate-value" ng-model="item.Rate5" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                             <td>
-                                                <input type="text" class="rate-value" ng-model="item.Rate6" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="rate-value" ng-model="item.Rate6" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                             <td>
-                                                <input type="text" class="rate-value" ng-model="item.Rate7" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="rate-value" ng-model="item.Rate7" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                             <td>
-                                                <input type="text" class="rate-value" ng-model="item.Rate8" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="rate-value" ng-model="item.Rate8" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                             <td>
-                                                <input type="text" class="rate-value" ng-model="item.Rate9" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="rate-value" ng-model="item.Rate9" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                             <td>
-                                                <input type="text" class="rate-value" ng-model="item.Rate10" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="rate-value" ng-model="item.Rate10" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                             <td>
-                                                <input type="text" class="rate-value" ng-model="item.Big" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="rate-value" ng-model="item.Big" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                             <td>
-                                                <input type="text" class="rate-value" ng-model="item.Small" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="rate-value" ng-model="item.Small" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                             <td>
-                                                <input type="text" class="rate-value" ng-model="item.Odd" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="rate-value" ng-model="item.Odd" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                             <td>
-                                                <input type="text" class="rate-value" ng-model="item.Even" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" />
+                                                <input type="text" class="rate-value" ng-model="item.Even" input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false" />
                                             </td>
                                         </tr>
                                         <tr align="center" style="display:none;">
