@@ -194,6 +194,8 @@ table.top tr td table tr td.f a:hover {
 .rate-tb tr td {border: 1px #b0c47a solid;height: 22px;}
 .rate-tb > tbody > tr > td {width:60px;}
 .rate-tb > tbody > tr > td > input {width:99%;height: 100%;border:none; /*border: 1px #FF9900 solid; background-color: #FFF2EC;*/}
+.tr-row{height: 28px;}
+    .tr-row:hover {background-color:#FFFFA2;}
 /*----------------------------------------
     Loader
 ------------------------------------------*/

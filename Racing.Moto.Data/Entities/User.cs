@@ -30,6 +30,12 @@ namespace Racing.Moto.Data.Entities
         public int FailedPasswordAttemptCount { get; set; }
         public System.DateTime FailedPasswordAttemptWindowStart { get; set; }
         public System.DateTime CreateDate { get; set; }
+
+        /// <summary>
+        /// 是否在线, 不映射到数据库, 只用作前台显示
+        /// </summary>
+        [NotMapped]
+        public bool IsOnline { get; set; }
         
         public virtual UserExtension UserExtension { get; set; }
 

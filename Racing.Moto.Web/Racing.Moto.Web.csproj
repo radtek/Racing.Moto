@@ -196,6 +196,12 @@
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Images\admin\22.gif" />
+    <Content Include="Images\admin\55.gif" />
+    <Content Include="Images\admin\del.gif" />
+    <Content Include="Images\admin\edit.gif" />
+    <Content Include="Images\admin\edt.gif" />
+    <Content Include="Images\admin\fh.gif" />
     <Content Include="Images\admin\frame1.gif" />
     <Content Include="Images\admin\logo.jpg" />
     <Content Include="Images\admin\bg.gif" />
@@ -219,6 +225,8 @@
     <Content Include="Images\admin\tab_20.gif" />
     <Content Include="Images\admin\tb.gif" />
     <Content Include="Images\admin\top_right.jpg" />
+    <Content Include="Images\admin\USER_0.gif" />
+    <Content Include="Images\admin\USER_1.gif" />
     <Content Include="Img\btn-login.png" />
     <Content Include="Img\denglu.png" />
     <Content Include="Img\houtai\btn-sousuo.png" />

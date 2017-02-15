@@ -156,7 +156,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
             //user.Email = model.Email;
             user.Password = model.Password;
             user.IsLocked = false;
-            user.Enabled = false;
+            user.Enabled = true;
 
             return user;
         }

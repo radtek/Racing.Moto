@@ -43,55 +43,47 @@ namespace Racing.Moto.Services.Mvc
             {
                 System.Web.Security.FormsAuthentication.SignOut();
                 System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
-                
+
                 var loginUrl = isAdminUrl ? "/Admin/Account/Login" : "/Account/Login";
                 var url = !string.IsNullOrEmpty(rawUrl) ? loginUrl + "?returnUrl=" + rawUrl : loginUrl;
                 filterContext.HttpContext.Response.Redirect(url);
             }
-
-            if (HttpContext.User.Identity.IsAuthenticated && _loginUser == null)
+            else
             {
-                if (System.Web.HttpContext.Current.Session[nameof(LoginUser)] == null)
+                if (HttpContext.User.Identity.IsAuthenticated && _loginUser == null)
                 {
-                    _loginUser = SqlMembershipProvider.Provider.GetUser(HttpContext.User.Identity.Name, true);
-                    _loginUser.UserExtension = new UserExtensionService().GetUserUserExtension(_loginUser.UserId);
+                    if (System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
+                    {
+                        _loginUser = SqlMembershipProvider.Provider.GetUser(HttpContext.User.Identity.Name, true);
+                        _loginUser.UserExtension = new UserExtensionService().GetUserUserExtension(_loginUser.UserId);
 
-                    // LoginUser session
-                    System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = _loginUser;
+                        // LoginUser session
+                        System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = _loginUser;
+                    }
+                    else
+                    {
+                        _loginUser = System.Web.HttpContext.Current.Session[SessionConst.LoginUser] as User;
+                    }
+
+                    // menus
+                    if (System.Web.HttpContext.Current.Session[SessionConst.Menus] == null)
+                    {
+                        var roleIds = _loginUser.UserRoles.Select(ur => ur.RoleId).ToList();
+                        var menus = new MenuService().GetMenuByRoles(roleIds);
+
+                        System.Web.HttpContext.Current.Session[SessionConst.Menus] = menus;
+                    }
                 }
                 else
                 {
-                    _loginUser = System.Web.HttpContext.Current.Session[SessionConst.LoginUser] as User;
+                    if (isAdminUrl)
+                    {
+                        var loginUrl = "/Admin/Account/Login" + "?returnUrl=" + rawUrl;
+                        filterContext.HttpContext.Response.Redirect(loginUrl);
+                    }
+
+                    ViewBag.ReturnUrl = filterContext.HttpContext.Request.Url.ToString();
                 }
-
-                // menus
-                if (System.Web.HttpContext.Current.Session[SessionConst.Menus] == null)
-                {
-                    var roleIds = _loginUser.UserRoles.Select(ur => ur.RoleId).ToList();
-                    var menus = new MenuService().GetMenuByRoles(roleIds);
-
-                    System.Web.HttpContext.Current.Session[SessionConst.Menus] = menus;
-                }
-            }
-            else
-            {
-                if (isAdminUrl)
-                {
-                    //filterContext.Result = new RedirectToRouteResult(
-                    //    new System.Web.Routing.RouteValueDictionary
-                    //    {
-                    //        { "area", "Admin" },
-                    //        { "controller", "Account" },
-                    //        { "action", "Login" },
-                    //        { "ReturnUrl", rawUrl }
-                    //    }
-                    //);
-
-                    var loginUrl = "/Admin/Account/Login" + "?returnUrl=" + rawUrl;
-                    filterContext.HttpContext.Response.Redirect(loginUrl);
-                }
-
-                ViewBag.ReturnUrl = filterContext.HttpContext.Request.Url.ToString();
             }
 
             ViewBag.CurrentUser = _loginUser;

@@ -19,6 +19,8 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
     {
         private ILogger _logger = LogManager.GetCurrentClassLogger();
 
+        #region 设计版
+
         #region 所有用户
 
         public ActionResult All()
@@ -29,50 +31,48 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
         }
 
         #endregion
-
-        #region 总代理
-
-        public ActionResult GeneralAgent()
-        {
-            ViewBag.UserType = UserType.GeneralAgent;
-
-            return View();
-        }
-
-        #endregion
-
-        #region 代理
-
-        public ActionResult Agent()
-        {
-            ViewBag.UserType = UserType.Agent;
-
-            return View();
-        }
-
-        #endregion
-
-        #region 会员
-
-        public ActionResult Member()
-        {
-            ViewBag.UserType = UserType.Member;
-
-            return View();
-        }
-
-        #endregion
-
+        
         #region 游客
 
         public ActionResult Vistor()
         {
-            ViewBag.UserType = UserType.Vistor;
+            //ViewBag.UserType = UserType.Vistor;
 
             return View();
         }
 
         #endregion
+
+        #endregion
+
+        public JsonResult GetUsers(UserSearchModel searchModel)
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                var pager = new UserService().GetUsers(searchModel);
+
+                // 在线用户
+                var onlienUsers = PKBag.OnlineUserRecorder.GetUserList();
+                foreach (var user in pager.Items)
+                {
+                    user.IsOnline = onlienUsers.Where(u => u.UserName == user.UserName).Any();
+                }
+
+                result.Data = pager;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+                _logger.Info(ex);
+            }
+
+            return Json(result);
+        }
+
+        #region 网站参考版
 
         #region 在线
 
@@ -118,32 +118,54 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
         #endregion
 
+        #region 用户管理
+        #region 总代理
 
-        public JsonResult GetUsers(UserSearchModel searchModel)
+        public ActionResult GeneralAgent()
         {
-            var result = new ResponseResult();
+            ViewBag.UserType = UserType.GeneralAgent;
 
-            try
-            {
-                var pager = new UserService().GetUsers(searchModel);
-
-                // 在线用户, 使用Enabled
-                var onlienUsers = PKBag.OnlineUserRecorder.GetUserList();
-                foreach (var user in pager.Items)
-                {
-                    user.Enabled = onlienUsers.Where(u => u.UserName == user.UserName).Any();
-                }
-
-                result.Data = pager;
-            }
-            catch (Exception ex)
-            {
-                result.Success = false;
-                result.Message = MessageConst.System_Error;
-                _logger.Info(ex);
-            }
-
-            return Json(result);
+            return View();
         }
+
+        #endregion
+
+        #region 代理
+
+        public ActionResult Agent()
+        {
+            ViewBag.UserType = UserType.Agent;
+
+            return View();
+        }
+
+        #endregion
+
+        #region 会员
+
+        public ActionResult Member()
+        {
+            ViewBag.UserType = UserType.Member;
+
+            return View();
+        }
+
+        #endregion
+
+        ///// <summary>
+        ///// 用户
+        ///// </summary>
+        ///// <param name="id">2:总代理, 3: 代理, 4: 会员</param>
+        ///// <returns></returns>
+        //public ActionResult List(int id)
+        //{
+        //    ViewBag.UserType = id;
+
+        //    return View();
+        //}
+
+        #endregion
+
+        #endregion
     }
 }

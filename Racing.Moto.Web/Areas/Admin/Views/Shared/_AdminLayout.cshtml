@@ -35,6 +35,8 @@
         var roleName = PKBag.LoginUser != null ? PKBag.LoginUser.UserRoles.First().Role.RoleName : "";
         var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
         var balance = PKBag.LoginUser != null ? Math.Round(PKBag.LoginUser.UserExtension.Amount) : 0;
+        var minUserRole = PKBag.LoginUser != null && PKBag.LoginUser.UserRoles != null ? PKBag.LoginUser.UserRoles.OrderBy(ur => ur.RoleId).FirstOrDefault() : null;
+        var minRoleId = minUserRole != null ? minUserRole.RoleId : 99;
     }
     <div class="top">
         <table border="0" cellspacing="0" cellpadding="0" width="100%">
@@ -108,14 +110,17 @@
 
     <script type="text/javascript">
         var opt = {
-            Actions: ['bet', 'user/list', 'log|account/changepwd', 'rate|user/online', 'report', 'lottery', 'news', 'online', 'account'],
+            MinRoleId: 99,
+            Actions: ['bet', 'user/generalagent|user/agent|user/member', 'log|account/changepwd', 'rate|user/online', 'report', 'lottery', 'news', 'online', 'account'],
             SubMenus: [
-                [{ Name: '前五名', Link: '/Admin/Bet/Add/1' }, { Name: '后五名', Link: '/Admin/Bet/Add/2' }, { Name: '大小单双', Link: '/Admin/Bet/Add/3' }],
-                [{ Name: '总代理', Link: '/Admin/User/List/1' }, { Name: '代理', Link: '/Admin/User/List/2' }, { Name: '会员', Link: '/Admin/User/List/3' }],
-                [{ Name: '登录日志', Link: '/Admin/Log/Account' }, { Name: '变更密码', Link: '/Admin/Account/ChangePwd' }],
-                [{ Name: '赔率设置', Link: '/Admin/Rate/Setting' }, { Name: '盘赔率差设置', Link: '/Admin/Rate/MinusSetting' }, { Name: '在线会员', Link: '/Admin/User/Online/3' }, { Name: '在线代理', Link: '/Admin/User/Online/2' }],
+                [{ Name: '前五名', Link: '/Admin/Bet/Add/1', MaxRoleId: 3 }, { Name: '后五名', Link: '/Admin/Bet/Add/2', MaxRoleId: 3 }, { Name: '大小单双', Link: '/Admin/Bet/Add/3', MaxRoleId: 3 }],
+                [{ Name: '总代理', Link: '/Admin/User/GeneralAgent', MaxRoleId: 2 }, { Name: '代理', Link: '/Admin/User/Agent', MaxRoleId: 3 }, { Name: '会员', Link: '/Admin/User/Member', MaxRoleId: 4 }],
+                [{ Name: '登录日志', Link: '/Admin/Log/Account', MaxRoleId: 3 }, { Name: '变更密码', Link: '/Admin/Account/ChangePwd', MaxRoleId: 3 }],
+                [{ Name: '赔率设置', Link: '/Admin/Rate/Setting', MaxRoleId: 1 }, /*{ Name: '盘赔率差设置', Link: '/Admin/Rate/MinusSetting', MaxRoleId: 1 },*/ { Name: '在线会员', Link: '/Admin/User/Online/3', MaxRoleId: 3 }, { Name: '在线代理', Link: '/Admin/User/Online/2', MaxRoleId: 2 }],
             ],
-            init: function () {
+            init: function (minRoleId) {
+                console.log(minRoleId);
+                opt.MinRoleId = minRoleId;
                 // content
                 var contentHeidht = $(window).height() - $('.top').height();
                 $('.content-wrapper').css('height', contentHeidht);
@@ -156,12 +161,14 @@
                 $('#a_span').html('');
                 if (menuIndex < opt.SubMenus.length) {
                     for (var i = 0; i < opt.SubMenus[menuIndex].length; i++) {
-                        var width = opt.SubMenus[menuIndex][i].Name.length * 15;
-                        var $ele = $('<a href="' + opt.SubMenus[menuIndex][i].Link + '">' + opt.SubMenus[menuIndex][i].Name + '</a>').css('width', width + 'px');
-                        $('#a_span').append($ele);
+                        if (opt.MinRoleId <= opt.SubMenus[menuIndex][i].MaxRoleId) {
+                            var width = opt.SubMenus[menuIndex][i].Name.length * 15;
+                            var $ele = $('<a href="' + opt.SubMenus[menuIndex][i].Link + '">' + opt.SubMenus[menuIndex][i].Name + '</a>').css('width', width + 'px');
+                            $('#a_span').append($ele);
 
-                        if (i < opt.SubMenus[menuIndex].length - 1) {
-                            $('#a_span').append('<span style="float:left;"><img src="/images/admin/main_34.gif" width="1" height:23px=""></span>');
+                            if (i < opt.SubMenus[menuIndex].length - 1) {
+                                $('#a_span').append('<span style="float:left;"><img src="/images/admin/main_34.gif" width="1" height:23px=""></span>');
+                            }
                         }
                     }
                 }
@@ -189,7 +196,7 @@
                 }
             },
         };
-        opt.init();
+        opt.init(@minRoleId);
     </script>
 </body>
 </html>

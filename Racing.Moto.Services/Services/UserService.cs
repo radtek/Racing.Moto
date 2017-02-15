@@ -16,17 +16,16 @@ namespace Racing.Moto.Services
     {
         public PagerResult<User> GetUsers(UserSearchModel searchModel)
         {
-            var roleId = (int)searchModel.UserType;
-
             var query = db.User
                 .Include(nameof(User.UserExtension))
+                .Include(nameof(User.ParentUser))
                 .Include(nameof(User.UserRoles))
                 .Include(nameof(User.UserRoles) + "." + nameof(UserRole.Role))
                 .AsQueryable();
 
             if (searchModel.UserType != UserType.All)
             {
-                query = query.Where(u => u.UserRoles.Where(ur => ur.RoleId == roleId).Any());
+                query = query.Where(u => u.UserRoles.Where(ur => ur.RoleId == searchModel.UserType).Any());
             }
 
             var users = query.OrderBy(u => u.UserName).Pager<User>(searchModel.PageIndex, searchModel.PageSize);
