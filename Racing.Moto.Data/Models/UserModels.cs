@@ -18,6 +18,16 @@ namespace Racing.Moto.Data.Models
         public int UserType { get; set; }
 
         /// <summary>
+        /// 用户名
+        /// </summary>
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// 冻结
+        /// </summary>
+        public bool? IsLocked { get; set; }
+
+        /// <summary>
         /// 页号
         /// </summary>
         public int PageIndex { get; set; }

@@ -1,14 +1,17 @@
 ﻿app.controller('userController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
-
+    $scope.data = {
+        UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4, Vistor: 5 },
+    };
     $scope.init = function (userType) {
         $scope.user.init(userType);
     };
 
     $scope.user = {
-        UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, User: 4, Vistor: 5 },
+        UserType: null,
         IsEdit: false,
         CurrentUser: null,
         init: function (userType) {
+            $scope.user.UserType = userType;
             $scope.pager.init(userType);
         },
         edit: function () {
@@ -41,7 +44,7 @@
         PageSize: 15,
         RowCount: 0,
         Params: {
-            UserType: $scope.user.UserTypes.All,
+            UserType: $scope.data.UserTypes.All,
             PageIndex: 1,
             PageSize: 15
         },
@@ -66,14 +69,17 @@
 }]);
 
 app.controller('userOnlineController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
-
+    $scope.data = {
+        UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4, Vistor: 5 },
+    };
     $scope.init = function (userType) {
         $scope.user.init(userType);
     };
 
     $scope.user = {
-        UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, User: 4, Vistor: 5 },
+        UserType: null,
         init: function (userType) {
+            $scope.user.UserType = userType;
             $scope.pager.init(userType);
         },
     };
@@ -83,7 +89,7 @@ app.controller('userOnlineController', ['$scope', '$rootScope', '$http', '$compi
         PageSize: 15,
         RowCount: 0,
         Params: {
-            UserType: $scope.user.UserTypes.Agent,
+            UserType: $scope.data.UserTypes.Agent,
             PageIndex: 1,
             PageSize: 15
         },
@@ -111,15 +117,62 @@ app.controller('userOnlineController', ['$scope', '$rootScope', '$http', '$compi
 }]);
 
 app.controller('userListController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
+    $scope.data = {
+        UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4, Vistor: 5 },
+    };
 
     $scope.init = function (userType) {
         $scope.user.init(userType);
     };
 
     $scope.user = {
-        UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, User: 4, Vistor: 5 },
+        UserType: null,
         init: function (userType) {
+            $scope.user.UserType = parseInt(userType, 10);
             $scope.pager.init(userType);
+        },
+        addUser: function (userType) {
+            location.href = $scope.user.getUrl();
+        },
+        editUser: function (userId) {
+            location.href = $scope.user.getUrl() + '/' + userId;
+        },
+        getUrl: function () {
+            var url = '';
+
+            switch ($scope.user.UserType) {
+                case $scope.data.UserTypes.GeneralAgent: url = '/admin/user/GeneralAgentManagement'; break;
+                case $scope.data.UserTypes.General: url = '/admin/user/AgentManagement'; break;
+                case $scope.data.UserTypes.Member: url = '/admin/user/MemberManagement'; break;
+            }
+
+            return url;
+        },
+        removeUser: function (userId, enabled) {
+            if (confirm('确定删除?')) {
+                $http.post('/Admin/User/RemoveUser', { id: userId, enabled: enabled }).then(function (res) {
+                    console.log(res);
+                    if (res.data.Success) {
+                        alert('操作成功!');
+                        $scope.pager.getResults($scope.pager.PageIndex);
+                    } else {
+                        alert(res.data.Message)
+                    }
+                });
+            }
+        },
+        lockUser: function (userId, locked) {
+            if (confirm('确定冻结?')) {
+                $http.post('/Admin/User/LockUser', { id: userId, locked: locked }).then(function (res) {
+                    console.log(res);
+                    if (res.data.Success) {
+                        alert('操作成功!');
+                        $scope.pager.getResults($scope.pager.PageIndex);
+                    } else {
+                        alert(res.data.Message)
+                    }
+                });
+            }
         },
     };
 
@@ -128,7 +181,8 @@ app.controller('userListController', ['$scope', '$rootScope', '$http', '$compile
         PageSize: 15,
         RowCount: 0,
         Params: {
-            UserType: $scope.user.UserTypes.Agent,
+            UserType: $scope.data.UserTypes.Agent,
+            IsLocked: 'false',
             PageIndex: 1,
             PageSize: 15
         },

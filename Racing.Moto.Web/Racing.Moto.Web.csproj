@@ -193,6 +193,7 @@
     <Content Include="Areas\Admin\Views\News\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Rate\Setting.cshtml" />
     <Content Include="Areas\Admin\Views\User\Online.cshtml" />
+    <Content Include="Areas\Admin\Views\User\GeneralAgentManagement.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -224,6 +225,7 @@
     <Content Include="Images\admin\tab_19.gif" />
     <Content Include="Images\admin\tab_20.gif" />
     <Content Include="Images\admin\tb.gif" />
+    <Content Include="Images\admin\TD_R.jpg" />
     <Content Include="Images\admin\top_right.jpg" />
     <Content Include="Images\admin\USER_0.gif" />
     <Content Include="Images\admin\USER_1.gif" />
@@ -253,6 +255,7 @@
     <Content Include="Scripts\AngularJs\angular-filter-0.5.7.js" />
     <Content Include="Scripts\AngularJs\angular-filter-0.5.7.min.js" />
     <Content Include="Scripts\AngularJs\ui-bootstrap-tpls-2.4.0.min.js" />
+    <Content Include="Scripts\Controllers\Admin\UserManagementController.js" />
     <Content Include="Scripts\Controllers\Admin\UserController.js" />
     <Content Include="Scripts\Controllers\Admin\RateController.js" />
     <Content Include="Scripts\Controllers\Admin\NewsController.js" />

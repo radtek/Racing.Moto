@@ -31,7 +31,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
         }
 
         #endregion
-        
+
         #region 游客
 
         public ActionResult Vistor()
@@ -128,6 +128,15 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
             return View();
         }
 
+        // 添加 or 修改
+        public ActionResult GeneralAgentManagement(int id = 0)
+        {
+            ViewBag.UserType = UserType.GeneralAgent;
+            ViewBag.UserId = id; // =0: add, >0 edit
+
+            return View();
+        }
+
         #endregion
 
         #region 代理
@@ -163,6 +172,94 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
         //    return View();
         //}
+
+        [HttpPost]
+        public ActionResult GetUser(int id)
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                result.Data = new UserService().GetUser(id);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+                _logger.Info(ex);
+            }
+
+            return Json(result);
+        }
+
+        [HttpPost]
+        public JsonResult SaveUser(int type, User user)
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                result = new UserService().SaveUser(type, user);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+                _logger.Info(ex);
+            }
+
+            return Json(result);
+        }
+
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="id">userId</param>
+        /// <param name="enabled">是否可用</param>
+        [HttpPost]
+        public ActionResult RemoveUser(int id, bool enabled)
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                new UserService().EnableUser(id, enabled);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+                _logger.Info(ex);
+            }
+
+            return Json(result);
+        }
+
+
+        /// <summary>
+        /// 冻结
+        /// </summary>
+        /// <param name="id">userId</param>
+        /// <param name="locked">是否冻结</param>
+        [HttpPost]
+        public ActionResult LockUser(int id, bool locked)
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                new UserService().LockUser(id, locked);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+                _logger.Info(ex);
+            }
+
+            return Json(result);
+        }
+
 
         #endregion
 

@@ -20,30 +20,39 @@
                                     <tbody>
                                         <tr>
                                             <td width="17" height="30"><img src="/images/admin/tb.gif" width="16" height="16"></td>
-                                            <td width="18%" style="font-weight:bold;">&nbsp;管理員管理</td>
-                                            <td width="18"><img src="/images/admin/fh.gif"></td>
-                                            <td width="30"><a href="javascript:history.go(-1);" class="font_r F_bold">返囬</a></td>
-                                            <td width="45" align="right">篩選：</td>
-                                            <td width="33">
-                                                <select id="Estate" onchange="GoSearch('Estate',this)" style="cursor: pointer">
-                                                    <option value="0" selected="selected">選擇</option>
-                                                    <option value="1">啟用</option>
-                                                    <option value="2">凍結</option>
+                                            <td width="18%" style="font-weight:bold;">&nbsp;总代理管理</td>
+                                            <td width="18"></td>
+                                            <td width="30">@*<a href="javascript:history.go(-1);" class="font_r F_bold"><img src="/images/admin/fh.gif">返囬</a>*@</td>
+                                            <td width="45" align="right">@*篩選：*@</td>
+                                            <td width="45" align="right">@*狀態：*@</td>
+                                            <td width="30">
+                                                @*<select style="cursor: pointer" ng-model="pager.Params.IsLocked">
+                                                    <option value="" selected="selected">狀態</option>
+                                                    <option value="false">啟用</option>
+                                                    <option value="true">凍結</option>
                                                     <option value="3">停用</option>
-                                                </select>
+                                                </select>*@
                                             </td>
-                                            <td width="45" align="right">搜索：</td>
                                             <td width="210">
-                                                <select id="FindType">
+                                                @*<select id="FindType">
                                                     <option value="g_name">帳號：</option>
                                                     <option value="g_f_name">名稱：</option>
+                                                </select>*@
+                                                狀態：
+                                                <select style="cursor: pointer" ng-model="pager.Params.IsLocked">
+                                                    @*<option value="" selected="selected">狀態</option>*@
+                                                    <option value="false">啟用</option>
+                                                    <option value="true">凍結</option>
+                                                    @*<option value="3">停用</option>*@
                                                 </select>
-                                                <input type="text" maxlength="30" id="searchName" class="textb" style="position: relative; top: -1px;">&nbsp;
-                                                <input name="Find_VN" type="button" onclick="GoSearch('searchName','')" value="查找">
+                                                <span style="width:30px;">&nbsp;</span>
+                                                帳號：
+                                                <input type="text" maxlength="30" class="textb" style="position: relative; top: -1px;" ng-model="pager.Params.UserName">&nbsp;
+                                                <input type="button" value="查找" ng-click="pager.getResults(1)" />
                                             </td>
-                                            <td width="18"><img src="~/Images/admin/22.gif" width="14" height="14"></td>
+                                            <td width="18"></td>
                                             <td width="60">
-                                                <a style="cursor: pointer" onclick="go('Account_Edit.aspx?aid=add&cid=3&sid=1')">新增總代理</a>
+                                                <a style="cursor: pointer" ng-click="user.addUser()"><img src="~/Images/admin/22.gif" width="14" height="14"> 新增總代理</a>
                                                 <!-- <a href="Account_Edit.aspx?aid=add&cid=3&sid=1">新增總代理</a> -->
                                             </td>
                                         </tr>
@@ -74,7 +83,7 @@
                                             <td width="30">
                                                 <img src="/images/admin/USER_0.gif" />
                                             </td>
-                                            <td>{{item.UserName}}</td>
+                                            <td class="dfg bg_l"><a href="javascript:;">{{item.UserName}}</a></td>
                                             <td>{{item.ParentUser.UserName}}</td>
                                             <td style="font-size:104%">{{item.UserExtension.Amount}}</td>
                                             <td><a href="javascript:;">1</a></td>
@@ -84,22 +93,23 @@
                                                 <table border="0" cellspacing="0" cellpadding="0">
                                                     <tbody>
                                                         <tr>
-                                                            <td class="nones" width="14" height="18"><img src="/images/admin/edt.gif"></td>
-                                                            <td class="nones" width="30"><a style="cursor: pointer">退水</a></td>
+                                                            @*<td class="nones" width="14" height="18"><img src="/images/admin/edt.gif"></td>
+                                                            <td class="nones" width="30"><a style="cursor: pointer">退水</a></td>*@
                                                             <td class="nones" width="15"><img src="/images/admin/edit.gif"></td>
-                                                            <td class="nones" width="30"><a style="cursor: pointer">修改</a></td>
+                                                            <td class="nones" width="30"><a style="cursor: pointer" ng-click="user.editUser(item.UserId)">修改</a></td>
                                                             @*<td class="nones" width="16"><img src="/images/admin/55.gif"></td>
                                                                 <td class="nones" width="30"><a style="cursor: pointer">日誌</a></td>
                                                                 <td class="nones" width="16"><img src="/images/admin/44.gif"></td>
                                                                 <td class="nones" width="26"><a style="cursor: pointer">記錄</a></td>*@
                                                             <td class="nones" width="16"><img src="/images/admin/del.gif"></td>
-                                                            <td class="nones" width="26"><a href="javascript:void(0)" onclick="delUser('wz003','2')">刪除</a></td>
+                                                            <td class="nones" width="26"><a href="javascript:void(0)" ng-click="user.removeUser(item.UserId, false)">刪除</a></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </td>
                                             <td>
-                                                <font class="red"><a style="cursor: pointer">凍結</a></font>
+                                                <font class="red" ng-show="!item.IsLocked" ng-click="user.lockUser(item.UserId, true)"><a style="cursor: pointer">凍結</a></font>
+                                                <a style="cursor: pointer" ng-show="item.IsLocked" ng-click="user.lockUser(item.UserId, false)">啟用</a>
                                             </td>
                                         </tr>
                                     </tbody>
