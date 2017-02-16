@@ -194,6 +194,8 @@
     <Content Include="Areas\Admin\Views\Rate\Setting.cshtml" />
     <Content Include="Areas\Admin\Views\User\Online.cshtml" />
     <Content Include="Areas\Admin\Views\User\GeneralAgentManagement.cshtml" />
+    <Content Include="Areas\Admin\Views\User\AgentManagement.cshtml" />
+    <Content Include="Areas\Admin\Views\User\MemberManagement.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -659,6 +661,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\BonusController.cs" />
+    <Compile Include="ApiControllers\UserController.cs" />
     <Compile Include="ApiControllers\PKController.cs" />
     <Compile Include="ApiControllers\BetController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />

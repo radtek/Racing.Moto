@@ -119,6 +119,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
         #endregion
 
         #region 用户管理
+
         #region 总代理
 
         public ActionResult GeneralAgent()
@@ -148,6 +149,15 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
             return View();
         }
 
+        // 添加 or 修改
+        public ActionResult AgentManagement(int id = 0)
+        {
+            ViewBag.UserType = UserType.Agent;
+            ViewBag.UserId = id; // =0: add, >0 edit
+
+            return View();
+        }
+
         #endregion
 
         #region 会员
@@ -155,6 +165,15 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
         public ActionResult Member()
         {
             ViewBag.UserType = UserType.Member;
+
+            return View();
+        }
+
+        // 添加 or 修改
+        public ActionResult MemberManagement(int id = 0)
+        {
+            ViewBag.UserType = UserType.Member;
+            ViewBag.UserId = id; // =0: add, >0 edit
 
             return View();
         }

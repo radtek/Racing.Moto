@@ -87,8 +87,8 @@
                                             <td class="dfg bg_l"><a href="javascript:;">{{item.UserName}}</a></td>
                                             @*<td>{{item.ParentUser.UserName}}</td>*@
                                             <td style="font-size:104%">{{item.UserExtension.Amount}}</td>
-                                            <td><a href="javascript:;">1</a></td>
-                                            <td><a href="javascript:;">2</a></td>
+                                            <td><a href="javascript:;">{{item.UserExtension.AgentCount}}</a></td>
+                                            <td><a href="javascript:;">{{item.UserExtension.MemberCount}}</a></td>
                                             <td>{{item.CreateDate | date : 'yyyy-MM-dd'}}</td>
                                             <td>
                                                 <table border="0" cellspacing="0" cellpadding="0">

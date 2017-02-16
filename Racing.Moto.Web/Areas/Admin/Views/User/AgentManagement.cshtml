@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "总代理";
+    ViewBag.Title = "代理";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -20,7 +20,7 @@
                                     <tbody>
                                         <tr>
                                             <td width="17"><img src="/images/admin/tb.gif" width="16" height="16"></td>
-                                            <td width="99%">&nbsp;總代理</td>
+                                            <td width="99%">&nbsp;代理</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -34,10 +34,10 @@
                                 <table border="0" cellspacing="0" class="conter">
                                     <tbody>
                                         <tr class="tr_top">
-                                            <th colspan="6">{{user.UserId == 0 ? '新增總代理' : '修改總代理'}}</th>
+                                            <th colspan="6">{{user.UserId == 0 ? '新增代理' : '修改代理'}}</th>
                                         </tr>
                                         <tr style="height:28px">
-                                            <td class="bj" id="bj">上級</td>
+                                            <td class="bj" id="bj">上級總代理</td>
                                             <td class="left_p5" id="pc">
                                                 <select ng-model="user.CurrentUser.ParentUserId" ng-options="item.UserId as item.UserName for item in data.ParentUsers">
                                                     @*<option value="1">admin</option>*@
@@ -46,7 +46,7 @@
                                             </td>
                                         </tr>
                                         <tr style="height:28px">
-                                            <td class="bj">總代理帳號</td>
+                                            <td class="bj">代理帳號</td>
                                             <td class="left_p5">
                                                 <input type="text" class="text" ng-model="user.CurrentUser.UserName" maxlength="10" />
                                                 『<span class="red">帳號长度为：3~10 的非中文字符</span>』
@@ -58,7 +58,7 @@
 
                                         @*總代理名稱*@
                                         <tr style="height:28px;display:none;">
-                                            <td class="bj">總代理名稱</td>
+                                            <td class="bj">代理名稱</td>
                                             <td class="left_p5">
                                                 <input class="text" type="text" name="s_F_Name" maxlength="20">
                                                 『<span class="red">名稱长度为：2~8</span>』

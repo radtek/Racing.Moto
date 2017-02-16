@@ -18,7 +18,7 @@ namespace Racing.Moto.Services.Mvc
             {
                 var userRoles = new UserRoleService().GetUserRoles(LoginUser.UserId);
 
-                var adminRoleNames = new string[] { DBConst.Role_Name_Admin, DBConst.Role_Name_General_Agent, DBConst.Role_Name_Agent };
+                var adminRoleNames = new string[] { RoleConst.Role_Name_Admin, RoleConst.Role_Name_General_Agent, RoleConst.Role_Name_Agent };
                 if (!userRoles.Where(r => adminRoleNames.Contains(r.Role.RoleName)).Any())
                 {
                     var returnUrl = filterContext.RequestContext.HttpContext.Request.RawUrl;

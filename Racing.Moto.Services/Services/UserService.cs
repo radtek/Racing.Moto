@@ -75,12 +75,23 @@ namespace Racing.Moto.Services
 
         public void EnableUser(int userId, bool enabled)
         {
-            var dbUser = db.User.Where(u => u.UserId == userId).FirstOrDefault();
+            var dbUser = db.User.Include(nameof(User.UserRoles)).Where(u => u.UserId == userId).FirstOrDefault();
             if (dbUser != null)
             {
                 dbUser.Enabled = enabled;
 
                 db.SaveChanges();
+
+
+                // 更新父User.UserExtension的AgentCount/MemberCount
+                if (enabled)
+                {
+                    UpdateParentUserExtension(dbUser, dbUser.UserRoles.First().RoleId, UserOperation.Add);
+                }
+                else
+                {
+                    UpdateParentUserExtension(dbUser, dbUser.UserRoles.First().RoleId, UserOperation.Delete);
+                }
             }
         }
 
@@ -89,9 +100,16 @@ namespace Racing.Moto.Services
             return db.User.Where(u => u.UserName == userName).Any();
         }
 
+        /// <summary>
+        /// 添加/修改 User
+        /// </summary>
+        /// <param name="roleId">角色</param>
+        /// <param name="user">用户信息</param>
         public ResponseResult SaveUser(int roleId, User user)
         {
             var response = new ResponseResult();
+
+            UserOperation userOperation = user.UserId == 0 ? UserOperation.Add : UserOperation.Edit;
 
             if (user.UserId == 0)
             {
@@ -127,9 +145,99 @@ namespace Racing.Moto.Services
 
             db.SaveChanges();
 
+            // 更新父User.UserExtension的AgentCount/MemberCount
+            if (userOperation == UserOperation.Add)
+            {
+                UpdateParentUserExtension(user, roleId, UserOperation.Add);
+            }
+
             response.Data = user;
 
             return response;
+        }
+
+        /// <summary>
+        /// 更新父User.UserExtension的AgentCount/MemberCount
+        /// </summary>
+        /// <param name="user">当前用户</param>
+        /// <param name="roleId">当前用户的角色Id</param>
+        /// <param name="userOperation">操作: 增/删/改</param>
+        public void UpdateParentUserExtension(User user, int roleId, UserOperation userOperation)
+        {
+            var parentUserExtension = db.UserExtension
+                .Include(nameof(UserExtension.User))
+                .Where(u => u.UserId == user.ParentUserId).FirstOrDefault();
+
+            if (parentUserExtension != null)
+            {
+                switch (userOperation)
+                {
+                    case UserOperation.Add: //新增用户
+                        switch (roleId)
+                        {
+                            case RoleConst.Role_Id_General_Agent:   //新增用户是总代理
+                                parentUserExtension.AgentCount = parentUserExtension.AgentCount + 1;
+                                break;
+                            case RoleConst.Role_Id_Agent:   //新增用户是代理
+                                parentUserExtension.AgentCount = parentUserExtension.AgentCount + 1;
+                                break;
+                            case RoleConst.Role_Id_Member:   //新增用户是会员
+                                //更新代理
+                                parentUserExtension.MemberCount = parentUserExtension.MemberCount + 1;
+                                //更新总代理
+                                UpdateParentUserExtension(parentUserExtension.User, RoleConst.Role_Id_Member, UserOperation.Add);
+                                break;
+                        }
+                        break;
+                    case UserOperation.Edit: //修改用户
+                        break;
+                    case UserOperation.Delete: //删除用户
+                        switch (roleId)
+                        {
+                            case RoleConst.Role_Id_General_Agent:   //删除用户是总代理
+                                parentUserExtension.AgentCount = parentUserExtension.AgentCount - 1;
+                                break;
+                            case RoleConst.Role_Id_Agent:   //删除用户是代理
+                                parentUserExtension.AgentCount = parentUserExtension.AgentCount - 1;
+                                parentUserExtension.MemberCount = parentUserExtension.MemberCount - user.UserExtension.MemberCount;
+                                break;
+                            case RoleConst.Role_Id_Member:   //删除用户是会员
+                                parentUserExtension.MemberCount = parentUserExtension.MemberCount - 1;
+                                //更新总代理
+                                UpdateParentUserExtension(parentUserExtension.User, RoleConst.Role_Id_Member, UserOperation.Delete);
+                                break;
+                        }
+                        break;
+
+                }
+
+                db.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// 添加代理/会员时取父亲节点
+        /// </summary>
+        /// <param name="roleId">角色类型</param>
+        public List<User> GetParentUsers(int roleId)
+        {
+            var parentRoleId = 0;
+            switch (roleId)
+            {
+                case RoleConst.Role_Id_General_Agent:   //总代理
+                    parentRoleId = RoleConst.Role_Id_Admin;
+                    break;
+                case RoleConst.Role_Id_Agent:   //删除用户是代理
+                    parentRoleId = RoleConst.Role_Id_General_Agent;
+                    break;
+                case RoleConst.Role_Id_Member:   //删除用户是会员
+                    parentRoleId = RoleConst.Role_Id_Agent;
+                    break;
+            }
+
+            return parentRoleId > 0
+                ? db.User.Where(u => u.Enabled && u.UserRoles.Where(ur => ur.RoleId == parentRoleId).Any()).ToList()
+                : new List<User>();
         }
     }
 }

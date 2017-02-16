@@ -1,10 +1,14 @@
 ﻿app.controller('userManagementController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
     $scope.data = {
-        UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4, Vistor: 5 },
+        UserTypes: { Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4 },
+        LoginUserId: null,
+        ParentUsers: []
     };
 
-    $scope.init = function (userType, userId) {
-        $scope.user.init(userType, userId);
+    $scope.init = function (userType, userId, loginUserId) {
+        $scope.data.LoginUserId = loginUserId;
+        $scope.user.init(userType, userId, loginUserId);
+        $scope.webApi.getParentUsers(userType);
     };
 
     $scope.user = {
@@ -12,11 +16,16 @@
         UserId: null,
         IsEdit: false,
         CurrentUser: { IsLocked: 'false', UserExtension: {} },
-        init: function (userType, userId) {
+        init: function (userType, userId, loginUserId) {
             $scope.user.UserType = parseInt(userType, 10);
             $scope.user.UserId = userId != null ? parseInt(userId, 10) : 0;
             if ($scope.user.UserId > 0) {
                 $scope.user.getCurrentUser($scope.user.UserId);
+            }
+            if ($scope.user.UserType == $scope.data.UserTypes.GeneralAgent) {
+                // 添加总代理, 登录人是admin
+                $scope.user.CurrentUser.ParentUserId = loginUserId;
+                $scope.data.ParentUsers = [{ UserId: loginUserId, UserName: 'Admin' }];
             }
         },
         getCurrentUser: function (userId) {
@@ -53,7 +62,7 @@
 
             switch ($scope.user.UserType) {
                 case $scope.data.UserTypes.GeneralAgent: url = '/admin/user/GeneralAgent'; break;
-                case $scope.data.UserTypes.General: url = '/admin/user/Agent'; break;
+                case $scope.data.UserTypes.Agent: url = '/admin/user/Agent'; break;
                 case $scope.data.UserTypes.Member: url = '/admin/user/Member'; break;
             }
 
@@ -61,6 +70,23 @@
         },
         revert: function () {
             $scope.user.Data = angular.copy($scope.user.DataBak);
+        },
+    };
+
+    $scope.webApi = {
+        getParentUsers: function (userType) {
+            // 添加代理/会员时取父亲节点
+            if (userType == $scope.data.UserTypes.Agent || userType == $scope.data.UserTypes.Member) {
+                $http.post('/api/User/GetParentUsers/' + userType, {}).then(function (res) {
+                    console.log(res);
+                    if (res.data.Success) {
+                        $scope.data.ParentUsers = res.data.Data;
+                        if ($scope.data.ParentUsers.length > 0) {
+                            $scope.user.CurrentUser.ParentUserId = $scope.data.ParentUsers[0].UserId;
+                        }
+                    }
+                });
+            }
         },
     };
 }]);

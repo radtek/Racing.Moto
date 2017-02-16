@@ -142,7 +142,7 @@ app.controller('userListController', ['$scope', '$rootScope', '$http', '$compile
 
             switch ($scope.user.UserType) {
                 case $scope.data.UserTypes.GeneralAgent: url = '/admin/user/GeneralAgentManagement'; break;
-                case $scope.data.UserTypes.General: url = '/admin/user/AgentManagement'; break;
+                case $scope.data.UserTypes.Agent: url = '/admin/user/AgentManagement'; break;
                 case $scope.data.UserTypes.Member: url = '/admin/user/MemberManagement'; break;
             }
 
