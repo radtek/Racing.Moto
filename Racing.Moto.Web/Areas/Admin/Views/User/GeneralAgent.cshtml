@@ -70,7 +70,7 @@
                                         <tr class="tr_top">
                                             <td width="30">在綫</td>
                                             <td>名稱</td>
-                                            <td>上級</td>
+                                            @*<td>上級</td>*@
                                             @*<td>信用額度</td>*@
                                             <td>可用餘額</td>
                                             <td>代理</td>
@@ -81,10 +81,11 @@
                                         </tr>
                                         <tr align="center" class="tr-row" ng-repeat="item in pager.Results">
                                             <td width="30">
-                                                <img src="/images/admin/USER_0.gif" />
+                                                <img src="/images/admin/USER_0.gif" ng-show="!item.IsOnline"/>
+                                                <img src="/images/admin/USER_1.gif" ng-show="item.IsOnline" />
                                             </td>
                                             <td class="dfg bg_l"><a href="javascript:;">{{item.UserName}}</a></td>
-                                            <td>{{item.ParentUser.UserName}}</td>
+                                            @*<td>{{item.ParentUser.UserName}}</td>*@
                                             <td style="font-size:104%">{{item.UserExtension.Amount}}</td>
                                             <td><a href="javascript:;">1</a></td>
                                             <td><a href="javascript:;">2</a></td>
