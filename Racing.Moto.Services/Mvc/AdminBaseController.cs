@@ -28,16 +28,5 @@ namespace Racing.Moto.Services.Mvc
                 }
             }
         }
-
-        protected override void OnActionExecuted(ActionExecutedContext filterContext)
-        {
-            base.OnActionExecuted(filterContext);
-
-            if (LoginUser != null)
-            {
-                //在线用户统计
-                OnlineHttpModule.ProcessRequest();
-            }
-        }
     }
 }

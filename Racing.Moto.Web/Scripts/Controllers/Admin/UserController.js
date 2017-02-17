@@ -116,20 +116,25 @@ app.controller('userOnlineController', ['$scope', '$rootScope', '$http', '$compi
     };
 }]);
 
+//网站参考版
 app.controller('userListController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
     $scope.data = {
         UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4, Vistor: 5 },
     };
 
-    $scope.init = function (userType) {
-        $scope.user.init(userType);
+    $scope.init = function (userType, fatherUserId, grandFatherUserId) {
+        $scope.user.init(userType, fatherUserId, grandFatherUserId);
     };
 
     $scope.user = {
         UserType: null,
-        init: function (userType) {
+        FatherUserId: null,
+        GrandFatherUserId: null,
+        init: function (userType, fatherUserId, grandFatherUserId) {
             $scope.user.UserType = parseInt(userType, 10);
-            $scope.pager.init(userType);
+            $scope.user.FatherUserId = fatherUserId;
+            $scope.user.GrandFatherUserId = grandFatherUserId;
+            $scope.pager.init(userType, fatherUserId, grandFatherUserId);
         },
         addUser: function (userType) {
             location.href = $scope.user.getUrl();
@@ -181,14 +186,18 @@ app.controller('userListController', ['$scope', '$rootScope', '$http', '$compile
         PageSize: 15,
         RowCount: 0,
         Params: {
+            FatherUserId: 0,
+            GrandFatherUserId: 0,
             UserType: $scope.data.UserTypes.Agent,
             IsLocked: 'false',
             PageIndex: 1,
             PageSize: 15
         },
         Results: [],
-        init: function (userType) {
+        init: function (userType, fatherUserId, grandFatherUserId) {
             $scope.pager.Params.UserType = userType;
+            $scope.pager.Params.FatherUserId = fatherUserId;
+            $scope.pager.Params.GrandFatherUserId = grandFatherUserId;
             $scope.pager.getResults(1);
         },
         getResults: function (pageIndex) {

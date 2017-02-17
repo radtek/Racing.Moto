@@ -241,8 +241,16 @@ namespace Racing.Moto.Data.Membership
 
                 if (user == null) return 1;
 
-                var encryptOldPassword = HashedPassword ? CryptoUtils.ComputeHash(oldPassword) : CryptoUtils.Encrypt(oldPassword);
-                if (user.Password != encryptOldPassword) return 2;
+                //var encryptOldPassword = HashedPassword ? CryptoUtils.ComputeHash(oldPassword) : CryptoUtils.Encrypt(oldPassword);
+                //if (user.Password != encryptOldPassword) return 2;
+                if (HashedPassword)
+                {
+                    if (user.Password != CryptoUtils.ComputeHash(oldPassword)) return 2;
+                }
+                else
+                {
+                    if (oldPassword != CryptoUtils.Decrypt(user.Password)) return 2;
+                }
 
                 var encryptNewPassword = HashedPassword ? CryptoUtils.ComputeHash(newPassword) : CryptoUtils.Encrypt(newPassword);
                 user.Password = encryptNewPassword;

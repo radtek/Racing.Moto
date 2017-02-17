@@ -36,6 +36,17 @@ namespace Racing.Moto.Services.Mvc
                 return;
             }
 
+            //[TO BE REMOVED]
+            if (HttpContext.User.Identity.IsAuthenticated && System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
+            {
+                _loginUser = SqlMembershipProvider.Provider.GetUser(HttpContext.User.Identity.Name, true);
+                _loginUser.UserExtension = new UserExtensionService().GetUserUserExtension(_loginUser.UserId);
+
+                // LoginUser session
+                System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = _loginUser;
+            }
+
+
             var isAdminUrl = rawUrl.Contains("/admin");
 
             // chrome浏览器设置 从上次停下的地方继续 时, 关闭浏览器不会删除cookie, 此处判断如果session失效则强制删除cookie
@@ -87,6 +98,17 @@ namespace Racing.Moto.Services.Mvc
             }
 
             ViewBag.CurrentUser = _loginUser;
+        }
+
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            base.OnActionExecuted(filterContext);
+
+            if (LoginUser != null)
+            {
+                //在线用户统计
+                OnlineHttpModule.ProcessRequest();
+            }
         }
 
         protected override JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)

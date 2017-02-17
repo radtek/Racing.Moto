@@ -13,7 +13,17 @@ namespace Racing.Moto.Data.Models
     public class UserSearchModel
     {
         /// <summary>
-        /// 用户类型 = 角色
+        /// 父UserId
+        /// </summary>
+        public int? FatherUserId { get; set; }
+
+        /// <summary>
+        /// 祖父UserId
+        /// </summary>
+        public int? GrandFatherUserId { get; set; }
+
+        /// <summary>
+        /// 用户类型 = 角色RoleId
         /// </summary>
         public int UserType { get; set; }
 

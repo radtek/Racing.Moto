@@ -50,7 +50,7 @@
                                 <tr>
                                     <td width="15%">
                                         <span style="POSITION: relative; TOP: 2px" id="BeLine_User" class="Font_New F_bold">在线会员人数：</span>
-                                        <span style="POSITION: relative; TOP: 2px" id="user_Num" class="Font_New F_bold">1/45</span>
+                                        <span style="POSITION: relative; TOP: 2px" id="user_Num" class="Font_New F_bold">@PKBag.OnlineUserRecorder.GetUserCount()</span>
                                     </td>
                                     <td width="70%">
                                         <marquee style="POSITION: relative; TOP: 2px" onmouseover="this.stop()" onmouseout="this.start()" scrollamount="5" scrolldelay="120" whdth="100%">
@@ -112,11 +112,11 @@
     <script type="text/javascript">
         var opt = {
             MinRoleId: 99,
-            Actions: ['bet', 'user/generalagent|user/agent|user/member', 'log|account/changepwd', 'rate|user/online', 'report', 'lottery', 'news', 'online', 'account'],
+            Actions: ['bet', 'user/generalagent|user/agent|user/member', 'log|account/changepassword', 'rate|user/online', 'report', 'lottery', 'news', 'online', 'account'],
             SubMenus: [
                 [{ Name: '前五名', Link: '/Admin/Bet/Add/1', MaxRoleId: 3 }, { Name: '后五名', Link: '/Admin/Bet/Add/2', MaxRoleId: 3 }, { Name: '大小单双', Link: '/Admin/Bet/Add/3', MaxRoleId: 3 }],
                 [{ Name: '总代理', Link: '/Admin/User/GeneralAgent', MaxRoleId: 2 }, { Name: '代理', Link: '/Admin/User/Agent', MaxRoleId: 3 }, { Name: '会员', Link: '/Admin/User/Member', MaxRoleId: 4 }],
-                [{ Name: '登录日志', Link: '/Admin/Log/Account', MaxRoleId: 3 }, { Name: '变更密码', Link: '/Admin/Account/ChangePwd', MaxRoleId: 3 }],
+                [{ Name: '登录日志', Link: '/Admin/Log/Account', MaxRoleId: 3 }, { Name: '变更密码', Link: '/Admin/Account/ChangePassword', MaxRoleId: 3 }],
                 [{ Name: '赔率设置', Link: '/Admin/Rate/Setting', MaxRoleId: 1 }, /*{ Name: '盘赔率差设置', Link: '/Admin/Rate/MinusSetting', MaxRoleId: 1 },*/ { Name: '在线会员', Link: '/Admin/User/Online/3', MaxRoleId: 3 }, { Name: '在线代理', Link: '/Admin/User/Online/2', MaxRoleId: 2 }],
             ],
             init: function (minRoleId) {

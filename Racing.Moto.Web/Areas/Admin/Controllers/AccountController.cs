@@ -195,9 +195,11 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
                     switch (status)
                     {
                         case 0:
-                            return RedirectToAction("Index", "Home");
+                            //return RedirectToAction("Index", "Home");
+                            ModelState.AddModelError("", "修改成功");
+                            break;
                         case 2:
-                            ModelState.AddModelError("", "旧密码错误");
+                            ModelState.AddModelError("", "原始密碼错误");
                             break;
                     }
 

@@ -51,16 +51,25 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
             try
             {
-                var pager = new UserService().GetUsers(searchModel);
+                var userService = new UserService();
 
-                // 在线用户
-                var onlienUsers = PKBag.OnlineUserRecorder.GetUserList();
-                foreach (var user in pager.Items)
+                if (userService.SearchEnabled(LoginUser.UserId, searchModel))
                 {
-                    user.IsOnline = onlienUsers.Where(u => u.UserName == user.UserName).Any();
-                }
+                    var pager = new UserService().GetUsers(searchModel);
 
-                result.Data = pager;
+                    // 在线用户
+                    var onlienUsers = PKBag.OnlineUserRecorder.GetUserList();
+                    foreach (var user in pager.Items)
+                    {
+                        user.IsOnline = onlienUsers.Where(u => u.UserName == user.UserName).Any();
+                    }
+
+                    result.Data = pager;
+                }
+                else
+                {
+                    result.Data = new PagerResult<User>();
+                }
             }
             catch (Exception ex)
             {
@@ -142,9 +151,15 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
         #region 代理
 
-        public ActionResult Agent()
+        /// <summary>
+        /// 代理
+        /// </summary>
+        /// <param name="id">上级UserID</param>
+        /// <returns></returns>
+        public ActionResult Agent(int id = 0)
         {
             ViewBag.UserType = UserType.Agent;
+            ViewBag.FatherUserId = id;
 
             return View();
         }
@@ -162,9 +177,11 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
         #region 会员
 
-        public ActionResult Member()
+        public ActionResult Member(int id = 0, int cid = 0)
         {
             ViewBag.UserType = UserType.Member;
+            ViewBag.FatherUserId = id;
+            ViewBag.GrandfatherUserId = cid;
 
             return View();
         }

@@ -23,6 +23,14 @@ namespace Racing.Moto.Services
                 .Include(nameof(User.UserRoles))
                 .Include(nameof(User.UserRoles) + "." + nameof(UserRole.Role))
                 .Where(u => u.Enabled);
+            if (searchModel.FatherUserId.HasValue && searchModel.FatherUserId.Value > 0)
+            {
+                query = query.Where(u => u.ParentUserId == searchModel.FatherUserId.Value);
+            }
+            if (searchModel.GrandFatherUserId.HasValue && searchModel.GrandFatherUserId.Value > 0)
+            {
+                query = query.Where(u => u.ParentUser.ParentUserId == searchModel.FatherUserId.Value);
+            }
             if (searchModel.IsLocked.HasValue)
             {
                 query = query.Where(u => u.IsLocked == searchModel.IsLocked.Value);
@@ -40,6 +48,57 @@ namespace Racing.Moto.Services
             var users = query.OrderBy(u => u.UserName).Pager<User>(searchModel.PageIndex, searchModel.PageSize);
 
             return users;
+        }
+
+        /// <summary>
+        /// 判断当前登录用户是否可以查询用户列表
+        ///     1.管理员无限制 
+        ///     2.总代理可以查看自己下边的代理 /会员
+        ///     3.代理可以查看自己下边的会员 
+        /// </summary>
+        /// <param name="loginUserId">登录用户</param>
+        /// <param name="searchModel">查询Model</param>
+        /// <returns></returns>
+        public bool SearchEnabled(int loginUserId, UserSearchModel searchModel)
+        {
+            var enabled = false;
+
+            /*
+                ParentUserId:
+                    1. 总代理查看代理/会员: FatherUserId == 总代理UserId
+                    2. 代理查看会员: FatherUserId == 代理UserId
+             */
+            // 登录用户查询自己下边的节点
+            if (searchModel.FatherUserId.HasValue && loginUserId == searchModel.FatherUserId.Value)
+            {
+                enabled = true;
+            }
+            else
+            {
+                var loginUserRoles = db.UserRole.Where(ur => ur.UserId == loginUserId).ToList();
+
+                var isAdmin = loginUserRoles.Any(u => u.RoleId == RoleConst.Role_Id_Admin);
+                if (isAdmin)
+                {
+                    enabled = true;
+                }
+                else if (searchModel.GrandFatherUserId.HasValue && searchModel.GrandFatherUserId.Value > 0)//非管理员只能查看自己的子节点, 既ParentUserId必须有值
+                {
+                    // GrandFatherUserId == loginUserId
+                    var parentUser = db.User.Where(u => u.UserId == searchModel.GrandFatherUserId).FirstOrDefault();
+                    if (parentUser != null && parentUser.ParentUserId == loginUserId)
+                    {
+                        enabled = true;
+                    }
+                }
+            }
+
+            return enabled;
+        }
+
+        public bool IsAdmin(int userId)
+        {
+            return db.UserRole.Where(ur => ur.UserId == userId && ur.RoleId == RoleConst.Role_Id_Admin).Any();
         }
 
         public List<User> GetUsers(List<string> userNames)
