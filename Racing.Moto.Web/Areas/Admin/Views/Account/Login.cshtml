@@ -84,7 +84,9 @@
                                                                                     </td>
                                                                                     <td align="right">
                                                                                         @*<img src="/images/admin/code.aspx" height="29" width="102" align="right">*@
-                                                                                        <img src="/Captcha/Generate?rdm=1" id="imgCaptcha" alt="验证码"  height="29" width="102" align="right" />
+                                                                                        <div id="captchaContainer">
+                                                                                            @*<img src="/captcha/generate" alt="验证码" height="29" width="102" align="right" />*@
+                                                                                        </div>
                                                                                     </td>
                                                                                 </tr>
                                                                             </tbody>
@@ -156,10 +158,10 @@
                 //focus
                 $('#UserName').focus()
                 //enterKey
-                opt.submitOnEnterKey('Password', 'btnSubmit');
+                //opt.submitOnEnterKey('Password', 'btnSubmit');
                 opt.submitOnEnterKey('Captcha', 'btnSubmit');
                 //captcha
-                //opt.generateCaptcha();
+                opt.generateCaptcha();
                 //msg
                 var messages = opt.getValidationMessages();
                 if (messages.length > 0) {
@@ -181,9 +183,8 @@
                 });
             },
             generateCaptcha: function () {
-                var $captcha = $('#imgCaptcha');
-                var src = $captcha.attr("src").split("&")[0] + "&rdm=" + Math.random();
-                $captcha.attr("src", src);
+                var $img = '<img src="/captcha/generate?r=' + Math.random() + '" alt="验证码" height="29" width="102" align="right" />';
+                $('#captchaContainer').html($img);
             },
         };
     </script>

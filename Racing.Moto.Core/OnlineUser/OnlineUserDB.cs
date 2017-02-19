@@ -19,6 +19,7 @@ namespace App.Core.OnlineStat
     {
         // 在线用户集合
         private List<OnlineUser> m_onlineUserList = null;
+        //public List<OnlineUser> OnlineUsers { get { return m_onlineUserList; } }
 
         #region 类构造器
         /// <summary>
@@ -66,22 +67,22 @@ namespace App.Core.OnlineStat
             }
         }
 
-		/// <summary>
-		/// 排序在线用户列表
-		/// </summary>
-		public void Sort()
-		{
-			// 按活动时间进行排序
-			this.m_onlineUserList.Sort(CompareByActiveTime);
-		}
+        /// <summary>
+        /// 排序在线用户列表
+        /// </summary>
+        public void Sort()
+        {
+            // 按活动时间进行排序
+            this.m_onlineUserList.Sort(CompareByActiveTime);
+        }
 
         /// <summary>
         /// 获取所有用户
         /// </summary>
         /// <returns></returns>
-        public IList<OnlineUser> Select()
+        public List<OnlineUser> GetOnlineUsers()
         {
-            return this.m_onlineUserList.ToArray();
+            return this.m_onlineUserList;
         }
 
         /// <summary>

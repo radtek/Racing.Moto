@@ -9,7 +9,7 @@
     <link href="~/Content/Admin/common.css" rel="stylesheet" />
 
     <script src="~/RacingMotoBetJs"></script>
-    <script src="~/Scripts/AngularJs/ui-bootstrap-tpls-2.4.0.min.js"></script>
+    <script src="~/Scripts/AngularJs/angular-ui-bootstrap.js"></script>
     <script src="~/Scripts/app.js"></script>
     <script src="~/Scripts/ngApp.js"></script>
     @RenderSection("headScripts", required: false)
@@ -67,15 +67,15 @@
                 </tr>
                 <tr>
                     <td valign="bottom" class="c" height="26">
-                        <input class="but_1" onclick="opt.showSubMenu(0);" value="即時註單" type="button" name="but_1" />
-                        <input class="but_1" onclick="opt.showSubMenu(1);" value="用戶管理" type="button" name="but_2" />
-                        <input class="but_1" onclick="opt.showSubMenu(2);" value="個人管理" type="button" name="but_3" />
-                        <input class="but_1" onclick="opt.showSubMenu(3);" value="內部管理" type="button" name="but_4" />
-                        <input class="but_1" onclick="opt.goto('report');" value="報表查詢" type="button" name="but_5" />
-                        <input class="but_1" onclick="opt.goto('lottery');" value="歷史開獎" type="button" name="but_6" />
-                        <input class="but_1" onclick="opt.goto('news');" value="站內消息" type="button" name="but_7" />
-                        <input class="but_1" onclick="opt.goto('online');" value="在线人数" type="button" name="but_9" />
-                        <input class="but_1" onclick="opt.goto('quit');" value="退 出" type="button" name="but_8" />
+                        <input class="but_1" onclick="$pkAdmin.showSubMenu(0);" value="即時註單" type="button" name="but_1" />
+                        <input class="but_1" onclick="$pkAdmin.showSubMenu(1);" value="用戶管理" type="button" name="but_2" />
+                        <input class="but_1" onclick="$pkAdmin.showSubMenu(2);" value="個人管理" type="button" name="but_3" />
+                        <input class="but_1" onclick="$pkAdmin.showSubMenu(3);" value="內部管理" type="button" name="but_4" />
+                        <input class="but_1" onclick="$pkAdmin.goto('report');" value="報表查詢" type="button" name="but_5" />
+                        <input class="but_1" onclick="$pkAdmin.goto('lottery');" value="歷史開獎" type="button" name="but_6" />
+                        <input class="but_1" onclick="$pkAdmin.goto('news');" value="站內消息" type="button" name="but_7" />
+                        <input class="but_1" onclick="$pkAdmin.goto('online');" value="在线人数" type="button" name="but_9" />
+                        <input class="but_1" onclick="$pkAdmin.goto('quit');" value="退 出" type="button" name="but_8" />
                     </td>
                 </tr>
                 <tr>
@@ -108,96 +108,9 @@
         <div class="loader-section section-left"></div>
         <div class="loader-section section-right"></div>
     </div>
-
+    <script src="~/Scripts/admin.js"></script>
     <script type="text/javascript">
-        var opt = {
-            MinRoleId: 99,
-            Actions: ['bet', 'user/generalagent|user/agent|user/member', 'log|account/changepassword', 'rate|user/online', 'report', 'lottery', 'news', 'online', 'account'],
-            SubMenus: [
-                [{ Name: '前五名', Link: '/Admin/Bet/Add/1', MaxRoleId: 3 }, { Name: '后五名', Link: '/Admin/Bet/Add/2', MaxRoleId: 3 }, { Name: '大小单双', Link: '/Admin/Bet/Add/3', MaxRoleId: 3 }],
-                [{ Name: '总代理', Link: '/Admin/User/GeneralAgent', MaxRoleId: 2 }, { Name: '代理', Link: '/Admin/User/Agent', MaxRoleId: 3 }, { Name: '会员', Link: '/Admin/User/Member', MaxRoleId: 4 }],
-                [{ Name: '登录日志', Link: '/Admin/Log/Account', MaxRoleId: 3 }, { Name: '变更密码', Link: '/Admin/Account/ChangePassword', MaxRoleId: 3 }],
-                [{ Name: '赔率设置', Link: '/Admin/Rate/Setting', MaxRoleId: 1 }, /*{ Name: '盘赔率差设置', Link: '/Admin/Rate/MinusSetting', MaxRoleId: 1 },*/ { Name: '在线会员', Link: '/Admin/User/Online/3', MaxRoleId: 3 }, { Name: '在线代理', Link: '/Admin/User/Online/2', MaxRoleId: 2 }],
-            ],
-            init: function (minRoleId) {
-                console.log(minRoleId);
-                opt.MinRoleId = minRoleId;
-                // content
-                var contentHeidht = $(window).height() - $('.top').height();
-                $('.content-wrapper').css('height', contentHeidht);
-                // menu
-                var subMenuIndex = opt.getSubMenuIndex();
-                opt.showSubMenu(subMenuIndex);
-            },
-            getSubMenuIndex: function () {
-                var index = 99;
-                var url = location.href.toLowerCase();
-                for (var i = 0; i < opt.Actions.length; i++) {
-
-                    var actionArr = opt.Actions[i].split('|');
-                    console.log(actionArr);
-                    for (var j = 0; j < actionArr.length; j++) {
-                        if (url.indexOf(actionArr[j]) > -1) {
-                            index = i;
-                            break;
-                        }
-                    }
-                    if (index != 99) {
-                        break;
-                    }
-                }
-                console.log(index);
-                return index;
-            },
-            setMenu: function () {
-                // menu
-                $('.but_1').hover(function () {
-                    $(this).addClass('but_1_m').removeClass('but_1');
-                }, function () {
-                    $(this).addClass('but_1').removeClass('but_1_m');
-                });
-                opt.setSubMenu();
-            },
-            showSubMenu: function (menuIndex) {
-                $('#a_span').html('');
-                if (menuIndex < opt.SubMenus.length) {
-                    for (var i = 0; i < opt.SubMenus[menuIndex].length; i++) {
-                        if (opt.MinRoleId <= opt.SubMenus[menuIndex][i].MaxRoleId) {
-                            var width = opt.SubMenus[menuIndex][i].Name.length * 15;
-                            var $ele = $('<a href="' + opt.SubMenus[menuIndex][i].Link + '">' + opt.SubMenus[menuIndex][i].Name + '</a>').css('width', width + 'px');
-                            $('#a_span').append($ele);
-
-                            if (i < opt.SubMenus[menuIndex].length - 1) {
-                                $('#a_span').append('<span style="float:left;"><img src="/images/admin/main_34.gif" width="1" height:23px=""></span>');
-                            }
-                        }
-                    }
-                }
-                opt.setSubMenu();
-            },
-            setSubMenu: function () {
-                $('#a_span > a')
-                    .hover(function () { window.status = 'javascript:void(0)'; return true; }, function () { })
-                    .focus(function () { window.status = 'javascript:void(0)'; return true; });
-            },
-            goto: function (page) {
-                $('#a_span').html('');
-
-                var url = '';
-                switch (page) {
-                    case 'report': url = '/admin/report/index'; break;
-                    case 'lottery': url = '/admin/lottery/index'; break;
-                    case 'news': url = '/admin/news/index'; break;
-                    case 'online': url = '/admin/online/index'; break;
-                    case 'quit': url = '/admin/account/logout'; break;
-                }
-                console.log(url);
-                if (url != '') {
-                    location.href = url;
-                }
-            },
-        };
-        opt.init(@minRoleId);
+        $pkAdmin.init(@minRoleId);
     </script>
 </body>
 </html>

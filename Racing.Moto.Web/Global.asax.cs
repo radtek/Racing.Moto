@@ -22,6 +22,8 @@ namespace Racing.Moto.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            Services.Mvc.OnlineHttpModule.Register();
+
             MvcHandler.DisableMvcResponseHeader = true;
 
             //启动定时任务

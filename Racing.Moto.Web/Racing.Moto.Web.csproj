@@ -164,6 +164,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Admin\ball_3.css" />
     <Content Include="Content\Admin\common.css" />
     <Content Include="Content\Admin\main.css" />
     <Content Include="Content\Admin\Top.css" />
@@ -197,11 +198,15 @@
     <Content Include="Areas\Admin\Views\User\AgentManagement.cshtml" />
     <Content Include="Areas\Admin\Views\User\MemberManagement.cshtml" />
     <Content Include="Areas\Admin\Views\Account\ChangePassword.cshtml" />
+    <Content Include="Areas\Admin\Views\Online\Internal.cshtml" />
+    <Content Include="Areas\Admin\Views\Online\Management.cshtml" />
+    <Content Include="Areas\Admin\Views\Lottery\History.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
     <Content Include="Images\admin\22.gif" />
     <Content Include="Images\admin\55.gif" />
+    <Content Include="Images\admin\ball_3.gif" />
     <Content Include="Images\admin\del.gif" />
     <Content Include="Images\admin\edit.gif" />
     <Content Include="Images\admin\edt.gif" />
@@ -219,6 +224,7 @@
     <Content Include="Images\admin\main_59.gif" />
     <Content Include="Images\admin\main_62.gif" />
     <Content Include="Images\admin\onlie.gif" />
+    <Content Include="Images\admin\refresh.png" />
     <Content Include="Images\admin\tab_03.gif" />
     <Content Include="Images\admin\tab_05.gif" />
     <Content Include="Images\admin\tab_07.gif" />
@@ -257,7 +263,10 @@
     <Content Include="Img\time-0.png" />
     <Content Include="Scripts\AngularJs\angular-filter-0.5.7.js" />
     <Content Include="Scripts\AngularJs\angular-filter-0.5.7.min.js" />
-    <Content Include="Scripts\AngularJs\ui-bootstrap-tpls-2.4.0.min.js" />
+    <Content Include="Scripts\AngularJs\angular-ui-bootstrap.js" />
+    <Content Include="Scripts\admin.js" />
+    <Content Include="Scripts\Controllers\Admin\LotteryController.js" />
+    <Content Include="Scripts\Controllers\Admin\OnlineController.js" />
     <Content Include="Scripts\Controllers\Admin\UserManagementController.js" />
     <Content Include="Scripts\Controllers\Admin\UserController.js" />
     <Content Include="Scripts\Controllers\Admin\RateController.js" />
@@ -671,8 +680,10 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\BetController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LotteryController.cs" />
     <Compile Include="Areas\Admin\Controllers\MyCenterController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\OnlineController.cs" />
     <Compile Include="Areas\Admin\Controllers\PKController.cs" />
     <Compile Include="Areas\Admin\Controllers\RateController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />

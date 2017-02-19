@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Racing.Moto.Core.Extentions;
 
 namespace Racing.Moto.Services
 {
@@ -20,6 +21,11 @@ namespace Racing.Moto.Services
         {
             var current = Convert.ToDateTime(DateTime.Now.ToString(DateFormatConst.yMd_Hms));// remove millisecond
             return db.PK.Where(pk => pk.BeginTime <= current && current <= pk.EndTime).FirstOrDefault();
+        }
+
+        public List<PK> GetNotCalculatePKs()
+        {
+            return db.PK.Where(pk => pk.Ranks == null).ToList();
         }
 
         /// <summary>
@@ -69,7 +75,8 @@ namespace Racing.Moto.Services
 
             return pk;
         }
-
+        #region 添加到数据库 使用 存储过程 SP_PK_GeneratePK 代替
+        [Obsolete]
         public PK AddPK(DateTime beginTime)
         {
             var pk = new PK
@@ -102,6 +109,7 @@ namespace Racing.Moto.Services
             return pk;
         }
 
+        [Obsolete]
         public PK SavePK(DateTime dt)
         {
             var currentPK = db.PK.Where(pk => pk.BeginTime <= dt && dt <= pk.EndTime).FirstOrDefault();
@@ -114,6 +122,7 @@ namespace Racing.Moto.Services
 
             return currentPK;
         }
+        #endregion
 
         public bool ExistPK(DateTime dt)
         {
@@ -170,6 +179,15 @@ namespace Racing.Moto.Services
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// 取PK
+        /// </summary>
+        public PagerResult<PK> GetPKs(SearchModel searchModel)
+        {
+            var pks = db.PK.Where(pk => pk.Ranks != null).OrderByDescending(pk => pk.PKId).Pager<PK>(searchModel.PageIndex, searchModel.PageSize);
+            return pks;
         }
     }
 }

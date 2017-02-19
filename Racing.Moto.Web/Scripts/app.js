@@ -99,6 +99,11 @@
             return round(d * pow(10, decimals)) / pow(10, decimals);
         }
     },
+    padLeft: function (len, char) {
+        while (temp.length < len) {
+            temp = c + temp;
+        }
+    },
 };
 Number.prototype.add = function (arg) {
     return $app.add(arg, this);
@@ -119,6 +124,13 @@ String.prototype.startWith = function (str) {
 String.prototype.endWith = function (str) {
     var reg = new RegExp(str + "$");
     return reg.test(this);
+}
+String.prototype.padLeft = function (len, char) {
+    var temp = this;
+    while (temp.length < len) {
+        temp = char + temp;
+    }
+    return temp;
 }
 Date.prototype.addDays = Date.prototype.addDays || function (n) {
     this.setDate(this.getDate() + n);

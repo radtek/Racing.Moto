@@ -1,15 +1,12 @@
 ﻿@{
-    // roleId 3: 代理, 4: 会员
-    var roleId = ViewBag.UserType != null ? (int)ViewBag.UserType : 4;
-    var userType = roleId == 3 ? "代理" : "会员";
-    ViewBag.Title = string.Format("在线{0}查看", userType);
+    ViewBag.Title = string.Format("在線{0}查看", ViewBag.UserTypeName);
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 @section headScripts {
-    <script src="~/Scripts/Controllers/admin/UserController.js"></script>
+    <script src="~/Scripts/Controllers/admin/OnlineController.js"></script>
 }
 
-<table width="100%" height="100%" border="0" cellspacing="0" class="a" ng-controller="userOnlineController" ng-init="init('@ViewBag.UserType')">
+<table width="100%" height="100%" border="0" cellspacing="0" class="a" ng-controller="userTypeOnlineController" ng-init="init('@ViewBag.UserType')">
     <tbody>
         <tr>
             <td width="6" height="99%" bgcolor="#4E4E4E"></td>
@@ -23,7 +20,7 @@
                                     <tbody>
                                         <tr>
                                             <td width="17"><img src="/images/admin/tb.gif" width="16" height="16"></td>
-                                            <td width="99%">&nbsp;在線子賬號查看</td>
+                                            <td width="99%">&nbsp;在線<span>@ViewBag.UserTypeName</span>查看</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -36,19 +33,19 @@
                                 <table border="0" cellspacing="0" class="conter">
                                     <tbody>
                                         <tr class="tr_top">
-                                            <td width="200">@userType 名</td>
+                                            <td width="200"><span>@ViewBag.UserTypeName</span>名</td>
                                             <td width="223">在線状态</td>
                                             <td width="421">登录时间</td>
                                             <td width="421">登录IP/地址</td>
                                         </tr>
                                         <tr style="height: 28px;" ng-repeat="item in pager.Results">
                                             <td align="center">{{item.UserName}}</td>
-                                            <td class="left_p6"><img src="/images/admin/onlie.gif">在线</td>
+                                            <td class="left_p6"><img src="/images/admin/onlie.gif">在線</td>
                                             <td class="left_p6">{{item.LoginTime | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
                                             <td class="left_p6">{{item.ClientIP}}</td>
                                         </tr>
                                         <tr ng-show="pager.RowCount == 0">
-                                            <td align="center" colspan="4">暫無代理在线</td>
+                                            <td align="center" colspan="4">暫無代理在線</td>
                                         </tr>
                                     </tbody>
                                 </table>

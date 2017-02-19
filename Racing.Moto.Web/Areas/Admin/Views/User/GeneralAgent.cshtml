@@ -124,7 +124,7 @@
                             <td class="f" align="right">
                                 @*&nbsp;&nbsp;共&nbsp;<b>1</b>&nbsp;條記錄&nbsp;&nbsp;&nbsp;&nbsp;每頁顯示<b>1</b>條，本頁<b>1-1</b>條&nbsp;&nbsp;前一頁『&nbsp;1&nbsp;』*@
 
-                                <pagination boundary-links="true" total-items="pager.TotalRows" items-per-page="pager.PageSize" max-size="10" rotate="false"
+                                <pagination boundary-links="true" total-items="pager.RowCount" items-per-page="pager.PageSize" max-size="10" rotate="false"
                                             ng-change="pager.pageChanged()" ng-model="pager.PageIndex" class="pagination"
                                             previous-text="上一页" next-text="下一页" first-text="首页" last-text="末页">
                                 </pagination>

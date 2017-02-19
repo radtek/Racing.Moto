@@ -15,8 +15,8 @@ namespace Racing.Moto.Services.Mvc
     {
         // 缓存键
         //public static readonly string g_onlineUserRecorderCacheKey = "__OnlineUserRecorder";
-        #region IHttpHandler 成员
-        public static void ProcessRequest()
+
+        public static void Register()
         {
             // 获取在线用户记录器
             OnlineUserRecorder recorder = HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
@@ -38,17 +38,30 @@ namespace Racing.Moto.Services.Mvc
                 // 缓存记录器
                 HttpContext.Current.Cache.Insert(SessionConst.OnlineUserRecorderCacheKey, recorder);
             }
+        }
+
+        #region IHttpHandler 成员
+        public static void ProcessRequest()
+        {
+            // 获取在线用户记录器
+            OnlineUserRecorder recorder = HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
 
             OnlineUser onlineUser = new OnlineUser();
-
-
+            
             Data.Entities.User user = (Data.Entities.User)HttpContext.Current.Session[SessionConst.LoginUser];//注意session的名称是和登录保存的名称一致
             // 用户名称
             onlineUser.UserName = Convert.ToString(user.UserName);
+            // 用户角色
+            onlineUser.UserDegree = user.UserRoles.First().RoleId;
             // SessionID
             onlineUser.SessionID = HttpContext.Current.Session.SessionID;
             // IP 地址
             onlineUser.ClientIP = HttpContext.Current.Request.UserHostAddress;
+            // 登录时间
+            if (!onlineUser.LoginTime.HasValue)
+            {
+                onlineUser.LoginTime = DateTime.Now;
+            }
             // 最后活动时间
             onlineUser.ActiveTime = DateTime.Now;
             // 最后请求地址

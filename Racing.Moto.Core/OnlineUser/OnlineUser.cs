@@ -23,6 +23,8 @@ namespace App.Core.OnlineStat
         private string m_userName;
         // 身份
         private int m_userDegree;
+        // 登录时间
+        private DateTime? m_loginTime;
         // 最后活动时间
         private DateTime m_activeTime;
         // 最后请求地址
@@ -97,6 +99,22 @@ namespace App.Core.OnlineStat
             get
             {
                 return this.m_userDegree;
+            }
+        }
+
+        /// <summary>
+        /// 登录时间
+        /// </summary>
+        public DateTime? LoginTime
+        {
+            set
+            {
+                this.m_loginTime = value;
+            }
+
+            get
+            {
+                return this.m_loginTime;
             }
         }
 

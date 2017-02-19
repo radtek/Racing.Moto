@@ -36,28 +36,37 @@ namespace Racing.Moto.Services.Mvc
                 return;
             }
 
-            //[TO BE REMOVED]
-            if (HttpContext.User.Identity.IsAuthenticated && System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
+            // 踢出
+            if (HttpContext.User.Identity.IsAuthenticated && PKBag.OnlineUserRecorder.GetUser(HttpContext.User.Identity.Name) == null)
             {
-                _loginUser = SqlMembershipProvider.Provider.GetUser(HttpContext.User.Identity.Name, true);
-                _loginUser.UserExtension = new UserExtensionService().GetUserUserExtension(_loginUser.UserId);
-
-                // LoginUser session
-                System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = _loginUser;
+                System.Web.Security.FormsAuthentication.SignOut();
+                System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
             }
+
+            //[TO BE REMOVED]
+            //if (HttpContext.User.Identity.IsAuthenticated && System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
+            //{
+            //    _loginUser = SqlMembershipProvider.Provider.GetUser(HttpContext.User.Identity.Name, true);
+            //    _loginUser.UserExtension = new UserExtensionService().GetUserUserExtension(_loginUser.UserId);
+
+            //    // LoginUser session
+            //    System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = _loginUser;
+            //}
 
 
             var isAdminUrl = rawUrl.Contains("/admin");
 
-            // chrome浏览器设置 从上次停下的地方继续 时, 关闭浏览器不会删除cookie, 此处判断如果session失效则强制删除cookie
+            // 浏览器有缓存 时, 关闭浏览器不会删除cookie, 此处判断如果session失效则强制删除cookie
             if (HttpContext.User.Identity.IsAuthenticated && System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
             {
                 System.Web.Security.FormsAuthentication.SignOut();
                 System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
 
-                var loginUrl = isAdminUrl ? "/Admin/Account/Login" : "/Account/Login";
-                var url = !string.IsNullOrEmpty(rawUrl) ? loginUrl + "?returnUrl=" + rawUrl : loginUrl;
-                filterContext.HttpContext.Response.Redirect(url);
+                //var loginUrl = isAdminUrl ? "/Admin/Account/Login" : "/Account/Login";
+                //var url = !string.IsNullOrEmpty(rawUrl) ? loginUrl + "?returnUrl=" + rawUrl : loginUrl;
+                //filterContext.HttpContext.Response.Redirect(url);
+
+                SetRedirect(filterContext);
             }
             else
             {
@@ -87,11 +96,12 @@ namespace Racing.Moto.Services.Mvc
                 }
                 else
                 {
-                    if (isAdminUrl)
-                    {
-                        var loginUrl = "/Admin/Account/Login" + "?returnUrl=" + rawUrl;
-                        filterContext.HttpContext.Response.Redirect(loginUrl);
-                    }
+                    //if (isAdminUrl)
+                    //{
+                    //    var loginUrl = "/Admin/Account/Login" + "?returnUrl=" + rawUrl;
+                    //    filterContext.HttpContext.Response.Redirect(loginUrl);
+                    //}
+                    SetRedirect(filterContext);
 
                     ViewBag.ReturnUrl = filterContext.HttpContext.Request.Url.ToString();
                 }
@@ -99,12 +109,24 @@ namespace Racing.Moto.Services.Mvc
 
             ViewBag.CurrentUser = _loginUser;
         }
+        private void SetRedirect(AuthorizationContext filterContext)
+        {
+            var returnUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower().TrimEnd('/');
+            var isAdminUrl = returnUrl.Contains("/admin");
+            var loginUrl = isAdminUrl ? "/Admin/Account/Login" : "/Account/Login";
+            var rdm = Guid.NewGuid().ToString("N");//防止浏览器缓存登录页面
+            var url = !string.IsNullOrEmpty(returnUrl) 
+                ? loginUrl + "?returnUrl=" + returnUrl  + "&r=" + rdm
+                : loginUrl + "?r=" + rdm;
+            
+            filterContext.HttpContext.Response.Redirect(url);
+        }
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             base.OnActionExecuted(filterContext);
 
-            if (LoginUser != null)
+            if (System.Web.HttpContext.Current.Session[SessionConst.LoginUser] != null)
             {
                 //在线用户统计
                 OnlineHttpModule.ProcessRequest();

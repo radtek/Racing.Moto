@@ -16,6 +16,7 @@ namespace Racing.Moto.Services.Constants
     /// </summary>
     public class RoleConst
     {
+        public const int Role_Id_All = 0;
         // 角色ID
         public const int Role_Id_Admin = 1;
         public const int Role_Id_General_Agent = 2;
@@ -27,6 +28,37 @@ namespace Racing.Moto.Services.Constants
         public const string Role_Name_General_Agent = "总代理";
         public const string Role_Name_Agent = "代理";
         public const string Role_Name_Member = "会员";
+
+        public static string GetRoleName(int roleId)
+        {
+            var roleName = "";
+            switch (roleId)
+            {
+                case Role_Id_Admin: roleName = Role_Name_Admin; break;
+                case Role_Id_General_Agent: roleName = Role_Name_General_Agent; break;
+                case Role_Id_Agent: roleName = Role_Name_Agent; break;
+                case Role_Id_Member: roleName = Role_Name_Member; break;
+            }
+            return roleName;
+        }
+    }
+
+    /// <summary>
+    /// 用户类型
+    /// RoleId	RoleName
+    /// 1	管理员
+    /// 2	总代理
+    /// 3	代理
+    /// 4	会员
+    /// </summary>
+    public class UserType
+    {
+        public const int All = 0;
+        public const int Admin = RoleConst.Role_Id_Admin;
+        public const int GeneralAgent = RoleConst.Role_Id_General_Agent;
+        public const int Agent = RoleConst.Role_Id_Agent;
+        public const int Member = RoleConst.Role_Id_Member;
+        //public const int Vistor = 5;
     }
 
     /// <summary>
@@ -38,5 +70,4 @@ namespace Racing.Moto.Services.Constants
         Edit = 2,
         Delete = 3
     }
-
 }

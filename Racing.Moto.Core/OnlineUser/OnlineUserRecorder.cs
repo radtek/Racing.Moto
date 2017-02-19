@@ -9,13 +9,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace App.Core.OnlineStat
 {
-	/// <summary>
-	/// 在线用户记录器
-	/// </summary>
+    /// <summary>
+    /// 在线用户记录器
+    /// </summary>
     public class OnlineUserRecorder
     {
         // 在线用户数据库
@@ -118,9 +119,14 @@ namespace App.Core.OnlineStat
         /// 获取在线用户列表
         /// </summary>
         /// <returns></returns>
-        public IList<OnlineUser> GetUserList()
+        public List<OnlineUser> GetUserList()
         {
-            return this.m_db.Select();
+            return this.m_db.GetOnlineUsers();
+        }
+
+        public OnlineUser GetUser(string userName)
+        {
+            return m_db.GetOnlineUsers().Where(u => u.UserName.ToLower() == userName.ToLower()).FirstOrDefault();
         }
 
         /// <summary>
@@ -190,10 +196,10 @@ namespace App.Core.OnlineStat
                     this.m_cmdQueueX.Dequeue();
                 }
 
-				// 清除超时用户
-				this.m_db.ClearTimeOut(this.UserTimeOutMinute);
-				// 排序
-				this.m_db.Sort();
+                // 清除超时用户
+                this.m_db.ClearTimeOut(this.UserTimeOutMinute);
+                // 排序
+                this.m_db.Sort();
 
                 this.m_lastStatisticTime = DateTime.Now;
                 this.m_isBusy = false;

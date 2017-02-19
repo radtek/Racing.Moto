@@ -47,22 +47,4 @@ namespace Racing.Moto.Data.Models
         /// </summary>
         public int PageSize { get; set; }
     }
-
-    /// <summary>
-    /// 用户类型
-    /// RoleId	RoleName
-    /// 1	管理员
-    /// 2	总代理
-    /// 3	代理
-    /// 4	会员
-    /// </summary>
-    public class UserType
-    {
-        public const int All = 0;
-        public const int Admin = 1;
-        public const int GeneralAgent = 2;
-        public const int Agent = 3;
-        public const int Member = 4;
-        //public const int Vistor = 5;
-    }
 }
