@@ -96,12 +96,10 @@ namespace Racing.Moto.Services.Mvc
                 }
                 else
                 {
-                    //if (isAdminUrl)
-                    //{
-                    //    var loginUrl = "/Admin/Account/Login" + "?returnUrl=" + rawUrl;
-                    //    filterContext.HttpContext.Response.Redirect(loginUrl);
-                    //}
-                    SetRedirect(filterContext);
+                    if (isAdminUrl)
+                    {
+                        SetRedirect(filterContext);
+                    }
 
                     ViewBag.ReturnUrl = filterContext.HttpContext.Request.Url.ToString();
                 }
@@ -109,7 +107,7 @@ namespace Racing.Moto.Services.Mvc
 
             ViewBag.CurrentUser = _loginUser;
         }
-        private void SetRedirect(AuthorizationContext filterContext)
+        protected void SetRedirect(AuthorizationContext filterContext)
         {
             var returnUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower().TrimEnd('/');
             var isAdminUrl = returnUrl.Contains("/admin");

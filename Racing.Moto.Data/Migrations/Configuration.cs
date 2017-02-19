@@ -115,7 +115,7 @@ namespace Racing.Moto.Data.Migrations
 
             #region 第二次执行
 
-            // admin 
+            //// admin 
             //context.User.AddOrUpdate(
             //  p => p.UserName,
             //  new User
@@ -126,7 +126,7 @@ namespace Racing.Moto.Data.Migrations
             //      IsLocked = false,
             //      CreateDate = DateTime.Now,
             //      FailedPasswordAttemptWindowStart = DateTime.Now,
-            //      UserExtend = new UserExtend
+            //      UserExtension = new UserExtension
             //      {
             //          Amount = 10000000
             //      },
@@ -137,13 +137,14 @@ namespace Racing.Moto.Data.Migrations
             //  }
             //);
 
-            // menu
+            ////menu
             //context.Menu.AddOrUpdate(
             //  p => p.MenuName,
-            //  new Menu { MenuName = "即时注单", MenuUrl = "/Admin/Bet/Raise", Visible = true, DisplayOrder = 1, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
-            //  new Menu { MenuName = "游戏管理", MenuUrl = "/Admin/PK/Rate", Visible = true, DisplayOrder = 2, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
-            //  new Menu { MenuName = "用户管理", MenuUrl = "/Admin/User/All", Visible = true, DisplayOrder = 3, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
-            //  new Menu { MenuName = "个人中心", MenuUrl = "/Admin/MyCenter/UserInfo", Visible = true, DisplayOrder = 4, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } }
+            //  new Menu { MenuName = "信用资料", MenuUrl = "/Manage/Credit", Visible = true, DisplayOrder = 1, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
+            //  new Menu { MenuName = "修改密码", MenuUrl = "/Manage/ChangePassword", Visible = true, DisplayOrder = 2, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
+            //  new Menu { MenuName = "未结明细", MenuUrl = "/Manage/Outstanding", Visible = true, DisplayOrder = 3, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
+            //  new Menu { MenuName = "今日已结", MenuUrl = "/Manage/Payment", Visible = true, DisplayOrder = 4, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
+            //  new Menu { MenuName = "规则", MenuUrl = "/Manage/Rule", Visible = true, DisplayOrder = 5, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } }
             //);
 
             #endregion
@@ -156,24 +157,25 @@ namespace Racing.Moto.Data.Migrations
             //  new Post { Title = "跑马灯", PostContent = "跑马灯", PostStatus = Enums.PostStatus.Pass, CreateTime = DateTime.Now, UserId = 1 }
             //);
 
-            //context.Menu.AddOrUpdate(
-            //  p => p.MenuName,
-            //  new Menu { MenuName = "盘口设置", MenuUrl = "/Admin/PK/Rate", Visible = true, DisplayOrder = 1, ParentMenuId = 2, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 } } },
-            //  new Menu { MenuName = "注单查询", MenuUrl = "/Admin/PK/Bet", Visible = true, DisplayOrder = 2, ParentMenuId = 2, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
-            //  new Menu { MenuName = "历史开奖", MenuUrl = "/Admin/PK/History", Visible = true, DisplayOrder = 3, ParentMenuId = 2, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
-            //  new Menu { MenuName = "站内消息设置", MenuUrl = "/Admin/PK/News", Visible = true, DisplayOrder = 4, ParentMenuId = 2, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 } } },
+            // 去掉
+            //////context.Menu.AddOrUpdate(
+            //////  p => p.MenuName,
+            //////  new Menu { MenuName = "盘口设置", MenuUrl = "/Admin/PK/Rate", Visible = true, DisplayOrder = 1, ParentMenuId = 2, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 } } },
+            //////  new Menu { MenuName = "注单查询", MenuUrl = "/Admin/PK/Bet", Visible = true, DisplayOrder = 2, ParentMenuId = 2, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
+            //////  new Menu { MenuName = "历史开奖", MenuUrl = "/Admin/PK/History", Visible = true, DisplayOrder = 3, ParentMenuId = 2, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
+            //////  new Menu { MenuName = "站内消息设置", MenuUrl = "/Admin/PK/News", Visible = true, DisplayOrder = 4, ParentMenuId = 2, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 } } },
 
-            //  new Menu { MenuName = "所有用户", MenuUrl = "/Admin/User/All", Visible = true, DisplayOrder = 1, ParentMenuId = 3, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 } } },
-            //  new Menu { MenuName = "总代理", MenuUrl = "/Admin/User/GeneralAgent", Visible = true, DisplayOrder = 2, ParentMenuId = 3, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
-            //  new Menu { MenuName = "代理", MenuUrl = "/Admin/User/Agent", Visible = true, DisplayOrder = 3, ParentMenuId = 3, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
-            //  new Menu { MenuName = "会员", MenuUrl = "/Admin/User/Member", Visible = true, DisplayOrder = 4, ParentMenuId = 3, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
-            //  new Menu { MenuName = "游客", MenuUrl = "/Admin/User/Vistor", Visible = true, DisplayOrder = 5, ParentMenuId = 3, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
+            //////  new Menu { MenuName = "所有用户", MenuUrl = "/Admin/User/All", Visible = true, DisplayOrder = 1, ParentMenuId = 3, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 } } },
+            //////  new Menu { MenuName = "总代理", MenuUrl = "/Admin/User/GeneralAgent", Visible = true, DisplayOrder = 2, ParentMenuId = 3, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
+            //////  new Menu { MenuName = "代理", MenuUrl = "/Admin/User/Agent", Visible = true, DisplayOrder = 3, ParentMenuId = 3, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
+            //////  new Menu { MenuName = "会员", MenuUrl = "/Admin/User/Member", Visible = true, DisplayOrder = 4, ParentMenuId = 3, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
+            //////  new Menu { MenuName = "游客", MenuUrl = "/Admin/User/Vistor", Visible = true, DisplayOrder = 5, ParentMenuId = 3, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 } } },
 
-            //  new Menu { MenuName = "用户信息", MenuUrl = "/Admin/MyCenter/UserInfo", Visible = true, DisplayOrder = 1, ParentMenuId = 4, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
-            //  new Menu { MenuName = "修改密码", MenuUrl = "/Admin/MyCenter/ChangePwd", Visible = true, DisplayOrder = 1, ParentMenuId = 4, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
-            //  new Menu { MenuName = "历史注单", MenuUrl = "/Admin/MyCenter/BetHistory", Visible = true, DisplayOrder = 1, ParentMenuId = 4, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
-            //  new Menu { MenuName = "流水一览", MenuUrl = "/Admin/MyCenter/Bonus", Visible = true, DisplayOrder = 1, ParentMenuId = 4, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } }
-            //);
+            //////  new Menu { MenuName = "用户信息", MenuUrl = "/Admin/MyCenter/UserInfo", Visible = true, DisplayOrder = 1, ParentMenuId = 4, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
+            //////  new Menu { MenuName = "修改密码", MenuUrl = "/Admin/MyCenter/ChangePwd", Visible = true, DisplayOrder = 1, ParentMenuId = 4, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
+            //////  new Menu { MenuName = "历史注单", MenuUrl = "/Admin/MyCenter/BetHistory", Visible = true, DisplayOrder = 1, ParentMenuId = 4, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
+            //////  new Menu { MenuName = "流水一览", MenuUrl = "/Admin/MyCenter/Bonus", Visible = true, DisplayOrder = 1, ParentMenuId = 4, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } }
+            //////);
             #endregion
         }
     }

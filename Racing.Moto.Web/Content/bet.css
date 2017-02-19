@@ -686,8 +686,15 @@ body {
 }
 .admin-wrapper {
     min-height:600px;
+    padding-top: 15px;
 }
 
+.pk-rule{color:#fff;padding: 15px 30px 0px 30px; }
+    .pk-rule .content div {font-size:12px;line-height:2;padding: 15px 0px 15px 0px;}
+
+.pk-pwd{background-color:#fff;margin-top: 10px; min-height:550px; }
+    .pk-pwd .content{position: absolute;width:400px;height:200px;left:45%;top:40%;}
+        .pk-pwd .content tr {height:50px;}
 /*----------------------------------------
     Loader
 ------------------------------------------*/

@@ -46,11 +46,12 @@ namespace Racing.Moto.Services
                         PKId = pk.PKId,
                         UserId = dbBet.UserId,
                         Rank = dbBet.Rank,
-                        Num = dbBet.Num
+                        Num = dbBet.Num,
+                        Amount = 0//[TODO]
                     });
                 }
 
-                if(bonuses.Count > 0)
+                if (bonuses.Count > 0)
                 {
                     // 保存奖金
                     db.PKBonus.AddRange(bonuses);

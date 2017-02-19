@@ -272,6 +272,7 @@
     <Content Include="Scripts\Controllers\Admin\RateController.js" />
     <Content Include="Scripts\Controllers\Admin\NewsController.js" />
     <Content Include="Scripts\Controllers\betController.js" />
+    <Content Include="Scripts\Controllers\userController.js" />
     <Content Include="Scripts\Jquery.inputmask\jquery.inputmask.bundle-3.2.7.js" />
     <Content Include="Scripts\JqueryUI\jquery-ui.min.css" />
     <Content Include="Scripts\JqueryUI\jquery-ui.min.js" />
@@ -691,6 +692,7 @@
     <Compile Include="Controllers\CaptchaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MotoController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -738,6 +740,11 @@
     <Content Include="Scripts\UEditor\third-party\video-js\font\vjs.ttf" />
     <Content Include="Scripts\UEditor\third-party\video-js\font\vjs.woff" />
     <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="Views\Manage\Credit.cshtml" />
+    <Content Include="Views\Manage\Rule.cshtml" />
+    <Content Include="Views\Manage\Payment.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Outstanding.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

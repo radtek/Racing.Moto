@@ -12,7 +12,7 @@
     <link href="~/Content/bet.css" rel="stylesheet" />
 
     <script src="~/RacingMotoBetJs"></script>
-    <script src="~/Scripts/AngularJs/ui-bootstrap-tpls-2.4.0.min.js"></script>
+    <script src="~/Scripts/AngularJs/angular-ui-bootstrap.js"></script>
 
     <script src="~/Scripts/app.js"></script>
     <script src="~/Scripts/ngApp.js"></script>
@@ -21,7 +21,7 @@
 <body ng-app="RacingMotoNgApp">
     @{
         var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
-        var balance = PKBag.LoginUser != null ? PKBag.LoginUser.UserExtension.Amount : 0;
+        var balance = PKBag.LoginUser != null ? PKBag.LoginUser.UserExtension.Amount.ToString("0") : "0";
     }
     <div class="user-top">
         <div class="box">
@@ -128,39 +128,6 @@
                 var date = $app.formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss');
                 $('.shijian').text(date);
             });
-
-            // menu: hover
-            $('.main-menu > li').hover(function (evt) {
-                $('.main-menu > li').each(function () {
-                    $(this).removeClass('on');
-                });
-                $(this).addClass('on');
-
-                // sub menu
-                var index = 0;
-                $('.main-menu > li').each(function () {
-                    index++;
-                    if ($(this).hasClass('on')) {
-                        $('.sub-menu-' + index).removeClass('hide');
-                    } else {
-                        $('.sub-menu-' + index).addClass('hide');
-                    }
-                });
-            },function () { 
-            });
-            // menu: current
-            var href = location.href.toLowerCase();
-            for (var i = 1; i <= 4; i++) {
-                $('.sub-menu-' + i + ' > li').each(function () {
-                    var aHref = $('a', $(this)).attr('href').toLowerCase();
-                    console.log(aHref);
-                    if (href.indexOf(aHref) > -1) {
-                        $(this).addClass('on');
-                    } else {
-                        $(this).removeClass('on');
-                    }
-                });
-            }
         })
     </script>
 
