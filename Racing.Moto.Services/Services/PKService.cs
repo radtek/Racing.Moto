@@ -28,6 +28,11 @@ namespace Racing.Moto.Services
             return db.PK.Where(pk => pk.Ranks == null).ToList();
         }
 
+        public List<PK> GetNotRebatePKs()
+        {
+            return db.PK.Where(pk => !pk.IsRebated).ToList();
+        }
+
         /// <summary>
         /// 取当前PK
         /// </summary>
@@ -152,6 +157,19 @@ namespace Racing.Moto.Services
             if (pk != null)
             {
                 pk.IsBonused = isBonused;
+                db.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// 更新 奖金生成标志, 防止多次计算
+        /// </summary>
+        public void UpdateIsRebated(int pkId, bool isRebated)
+        {
+            var pk = db.PK.Where(p => p.PKId == pkId).FirstOrDefault();
+            if (pk != null)
+            {
+                pk.IsRebated = isRebated;
                 db.SaveChanges();
             }
         }

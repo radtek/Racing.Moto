@@ -70,6 +70,11 @@ namespace Racing.Moto.Data.Entities
         public bool IsBonused { get; set; }
 
         /// <summary>
+        /// 退水标志
+        /// </summary>
+        public bool IsRebated { get; set; }
+
+        /// <summary>
         /// 当前期倍率
         public virtual ICollection<PKRate> PKRates { get; set; }
     }

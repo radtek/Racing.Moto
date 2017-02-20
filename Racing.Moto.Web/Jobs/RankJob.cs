@@ -22,6 +22,7 @@ namespace Racing.Moto.Web.Jobs
             try
             {
                 var pkService = new PKService();
+                var bonusService = new BonusService();
 
                 //var pk = pkService.GetCurrentPK();
 
@@ -32,7 +33,7 @@ namespace Racing.Moto.Web.Jobs
                     if (pk != null && string.IsNullOrEmpty(pk.Ranks))
                     {
                         var now = DateTime.Now;
-                        if (now > pk.BeginTime.AddSeconds(pk.OpeningSeconds))// 已封盘
+                        if (now >= pk.EndTime.AddSeconds(-pk.LotterySeconds - 3))// 开奖前3秒
                         {
                             // 计算名次
                             var rankList = new BetService().CalculateRanks(pk.PKId);
@@ -48,7 +49,7 @@ namespace Racing.Moto.Web.Jobs
                                 // 更新 奖金生成标志, 防止多次计算
                                 pkService.UpdateIsBonused(pk.PKId, true);
                                 // 生成奖金
-                                new BonusService().GenerateBonus(pk);
+                                bonusService.GenerateBonus(pk);
                             }
                         }
                     }

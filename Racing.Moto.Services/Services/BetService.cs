@@ -35,7 +35,7 @@ namespace Racing.Moto.Services
                 };
             });
 
-            var dbBets = db.Bet.Where(b => b.PKId == pkId).ToList();
+            var dbBets = db.Bet.Where(b => b.PKId == pkId && b.UserId == userId).ToList();
             if (dbBets.Count == 0)
             {
                 // 第一次添加

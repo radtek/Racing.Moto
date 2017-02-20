@@ -26,7 +26,7 @@ namespace Racing.Moto.Web.Jobs
                     .Build();
                 scheduler.ScheduleJob(job, trigger);
 
-                // 计算名次: 每3秒执行一次
+                // 计算名次 + 生成奖金: 每3秒执行一次
                 var rankInterval = 3;
                 IJobDetail rankJob = JobBuilder.Create<RankJob>().Build();
                 ITrigger rankTrigger = TriggerBuilder.Create()
@@ -34,8 +34,17 @@ namespace Racing.Moto.Web.Jobs
                     .WithSimpleSchedule(t => t.WithIntervalInSeconds(rankInterval).RepeatForever())
                     .Build();
                 scheduler.ScheduleJob(rankJob, rankTrigger);
+
+                // 退水: 每10分钟执行一次
+                var rebateInterval = 600;
+                IJobDetail rebateJob = JobBuilder.Create<RebateJob>().Build();
+                ITrigger rebateTrigger = TriggerBuilder.Create()
+                    .WithIdentity("RebateJobTrigger", "RebateJobGroup")
+                    .WithSimpleSchedule(t => t.WithIntervalInSeconds(rebateInterval).RepeatForever())
+                    .Build();
+                scheduler.ScheduleJob(rebateJob, rebateTrigger);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogManager.GetCurrentClassLogger().Info(ex);
             }

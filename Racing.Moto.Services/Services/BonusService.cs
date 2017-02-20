@@ -47,7 +47,8 @@ namespace Racing.Moto.Services
                         UserId = dbBet.UserId,
                         Rank = dbBet.Rank,
                         Num = dbBet.Num,
-                        Amount = 0//[TODO]
+                        BonusType = Data.Enums.BonusType.Bonus,
+                        Amount = Math.Round(dbBet.Amount * pkRate.Rate, 4)
                     });
                 }
 
@@ -56,6 +57,46 @@ namespace Racing.Moto.Services
                     // 保存奖金
                     db.PKBonus.AddRange(bonuses);
                     db.SaveChanges();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 生成退水
+        /// </summary>
+        /// <param name="pk"></param>
+        public void GenerateRebate(PK pk)
+        {
+            // 按下注用户生成
+            var userIds = db.Bet.Where(b => b.PKId == pk.PKId).Select(b => b.UserId).Distinct().ToList();
+            foreach (var userId in userIds)
+            {
+                var userExtension = db.UserExtension.Where(e => e.UserId == userId).FirstOrDefault();
+                if (userExtension != null && userExtension.Rebate > 0)
+                {
+                    // 退水奖金
+                    var bonuses = new List<PKBonus>();
+
+                    var dbBets = db.Bet.Where(bi => bi.PKId == pk.PKId && bi.UserId == userId).ToList();
+                    foreach (var dbBet in dbBets)
+                    {
+                        bonuses.Add(new PKBonus
+                        {
+                            PKId = pk.PKId,
+                            UserId = dbBet.UserId,
+                            Rank = dbBet.Rank,
+                            Num = dbBet.Num,
+                            BonusType = Data.Enums.BonusType.Rebate,
+                            Amount = Math.Round(dbBet.Amount * userExtension.Rebate, 4)
+                        });
+                    }
+
+                    if (bonuses.Count > 0)
+                    {
+                        // 保存奖金
+                        db.PKBonus.AddRange(bonuses);
+                        db.SaveChanges();
+                    }
                 }
             }
         }

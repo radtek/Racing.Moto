@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Racing.Moto.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -31,6 +32,12 @@ namespace Racing.Moto.Data.Entities
         /// 奖金
         /// </summary>
         public decimal Amount { get; set; }
+
+        /// <summary>
+        /// 奖金类型
+        /// 1: 奖金, 2: 退水
+        /// </summary>
+        public BonusType BonusType { get; set; }
 
         /// <summary>
         /// 用户

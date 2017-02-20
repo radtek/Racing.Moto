@@ -27,4 +27,25 @@ namespace Racing.Moto.Data.Enums
         Casino2 = 2,// 娱乐场b
         Casino3 = 3,// 娱乐场c
     }
+
+    /// <summary>
+    /// 奖金类型
+    /// 1: 奖金, 2: 退水
+    /// </summary>
+    public enum BonusType : byte
+    {
+        Bonus = 1,
+        Rebate = 2
+    }
+
+    /// <summary>
+    /// 盘类型
+    /// 1: A盘, 2: B盘, 3: C盘
+    /// </summary>
+    public enum PKType : byte
+    {
+        A = 1,
+        B = 2,
+        C = 3
+    }
 }
