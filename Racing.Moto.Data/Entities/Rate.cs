@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Racing.Moto.Data.Entities
 {
     /// <summary>
-    /// 倍率: 一共10条数据, 10个名次, 每个名次对应 1-10号 + 大小单双, 共14列
+    /// 赔率: 每种[赔率类型]10条数据, 10个名次, 每个名次对应 1-10号 + 大小单双, 共14列
     /// </summary>
     [Table(nameof(Rate))]
     public partial class Rate

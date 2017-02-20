@@ -3,9 +3,19 @@
     Actions: ['bet', 'user/generalagent|user/agent|user/member', 'log|account/changepassword', 'rate|online/internal', 'report', 'lottery', 'news', 'online', 'account'],
     SubMenus: [
         [{ Name: '前五名', Link: '/Admin/Bet/Add/1', MaxRoleId: 3 }, { Name: '后五名', Link: '/Admin/Bet/Add/2', MaxRoleId: 3 }, { Name: '大小单双', Link: '/Admin/Bet/Add/3', MaxRoleId: 3 }],
-        [{ Name: '总代理', Link: '/Admin/User/GeneralAgent', MaxRoleId: 2 }, { Name: '代理', Link: '/Admin/User/Agent', MaxRoleId: 3 }, { Name: '会员', Link: '/Admin/User/Member', MaxRoleId: 4 }],
+        [
+            { Name: '总代理', Link: '/Admin/User/GeneralAgent', MaxRoleId: 2 },
+            { Name: '代理', Link: '/Admin/User/Agent', MaxRoleId: 3 },
+            { Name: '会员', Link: '/Admin/User/Member', MaxRoleId: 4 }
+        ],
         [{ Name: '登录日志', Link: 'javascript:;', /*Link: '/Admin/Log/Account',*/ MaxRoleId: 3 }, { Name: '变更密码', Link: '/Admin/Account/ChangePassword', MaxRoleId: 3 }],
-        [{ Name: '赔率设置', Link: '/Admin/Rate/Setting', MaxRoleId: 1 }, /*{ Name: '盘赔率差设置', Link: '/Admin/Rate/MinusSetting', MaxRoleId: 1 },*/ { Name: '在线会员', Link: '/Admin/Online/Internal/4', MaxRoleId: 3 }, { Name: '在线代理', Link: '/Admin/Online/Internal/3', MaxRoleId: 2 }, { Name: '在线总代理', Link: '/Admin/Online/Internal/2', MaxRoleId: 1 }],
+        [
+            { Name: '赔率设置', Link: '/Admin/Rate/Setting', MaxRoleId: 1 },
+            /*{ Name: '盘赔率差设置', Link: '/Admin/Rate/MinusSetting', MaxRoleId: 1 },*/
+            { Name: '在线会员', Link: '/Admin/Online/Internal/4', MaxRoleId: 3 },
+            { Name: '在线代理', Link: '/Admin/Online/Internal/3', MaxRoleId: 2 },
+            { Name: '在线总代理', Link: '/Admin/Online/Internal/2', MaxRoleId: 1 }
+        ],
     ],
     init: function (minRoleId) {
         console.log(minRoleId);

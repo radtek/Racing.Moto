@@ -94,6 +94,9 @@ app.controller('userListController', ['$scope', '$rootScope', '$http', '$compile
         editUser: function (userId) {
             location.href = $scope.user.getUrl() + '/' + userId;
         },
+        rebate: function (userId) {
+            location.href = '/admin/user/rebate/' + $scope.user.UserType + '/' + userId;
+        },
         getUrl: function () {
             var url = '';
 

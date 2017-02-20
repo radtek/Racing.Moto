@@ -45,5 +45,8 @@ namespace Racing.Moto.Data.Entities
 
         [InverseProperty(nameof(User))]
         public virtual ICollection<UserRole> UserRoles { get; set; }
+
+        [InverseProperty(nameof(User))]
+        public virtual ICollection<UserRebate> UserRebates { get; set; }
     }
 }

@@ -42,7 +42,7 @@ namespace Racing.Moto.Data.Enums
     /// 盘类型
     /// 1: A盘, 2: B盘, 3: C盘
     /// </summary>
-    public enum PKType : byte
+    public enum RebateType : byte
     {
         A = 1,
         B = 2,

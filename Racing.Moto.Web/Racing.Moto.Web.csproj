@@ -166,7 +166,9 @@
   <ItemGroup>
     <Content Include="Content\Admin\ball_3.css" />
     <Content Include="Content\Admin\common.css" />
+    <Content Include="Content\Admin\Common_k3.css" />
     <Content Include="Content\Admin\main.css" />
+    <Content Include="Content\Admin\Style_k3.css" />
     <Content Include="Content\Admin\Top.css" />
     <Content Include="Content\bet.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -201,12 +203,14 @@
     <Content Include="Areas\Admin\Views\Online\Internal.cshtml" />
     <Content Include="Areas\Admin\Views\Online\Management.cshtml" />
     <Content Include="Areas\Admin\Views\Lottery\History.cshtml" />
+    <Content Include="Areas\Admin\Views\User\Rebate.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
     <Content Include="Images\admin\22.gif" />
     <Content Include="Images\admin\55.gif" />
     <Content Include="Images\admin\ball_3.gif" />
+    <Content Include="Images\admin\bg2.jpg" />
     <Content Include="Images\admin\del.gif" />
     <Content Include="Images\admin\edit.gif" />
     <Content Include="Images\admin\edt.gif" />
@@ -235,6 +239,10 @@
     <Content Include="Images\admin\tab_20.gif" />
     <Content Include="Images\admin\tb.gif" />
     <Content Include="Images\admin\TD_R.jpg" />
+    <Content Include="Images\admin\TD_TS1.jpg" />
+    <Content Include="Images\admin\TD_TS2.jpg" />
+    <Content Include="Images\admin\TD_TS3.jpg" />
+    <Content Include="Images\admin\TD_TS4.jpg" />
     <Content Include="Images\admin\top_right.jpg" />
     <Content Include="Images\admin\USER_0.gif" />
     <Content Include="Images\admin\USER_1.gif" />
@@ -267,6 +275,7 @@
     <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\Controllers\Admin\LotteryController.js" />
     <Content Include="Scripts\Controllers\Admin\OnlineController.js" />
+    <Content Include="Scripts\Controllers\Admin\RebateController.js" />
     <Content Include="Scripts\Controllers\Admin\UserManagementController.js" />
     <Content Include="Scripts\Controllers\Admin\UserController.js" />
     <Content Include="Scripts\Controllers\Admin\RateController.js" />

@@ -34,13 +34,7 @@ namespace Racing.Moto.Data.Entities
         /// 如果当前用户是代理: 代理下会员的数量
         /// </summary>
         public int MemberCount { get; set; }
-
-        /// <summary>
-        /// 盘类型
-        /// 1: A盘, 2: B盘, 3: C盘
-        /// </summary>
-        public PKType PKType { get; set; }
-
+        
         public virtual User User { get; set; }
     }
 }

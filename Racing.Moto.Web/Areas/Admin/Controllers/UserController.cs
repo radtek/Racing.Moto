@@ -153,6 +153,18 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
         #endregion
 
+        #region 退水
+        
+        public ActionResult Rebate(int id, int cid = 0)
+        {
+            ViewBag.UserType = id;
+            ViewBag.UserId = cid;
+
+            return View();
+        }
+
+        #endregion
+
         ///// <summary>
         ///// 用户
         ///// </summary>
