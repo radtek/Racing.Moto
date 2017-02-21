@@ -4,10 +4,10 @@
             Type1: { A: 0.04, B: 0.03, C: 0.02 },
             Type2: { A: 0.04, B: 0.03, C: 0.02 },
         },
-        RankNames: ['冠軍', '亞軍', '第三名', '第四名', '第五名', '第六名', '第七名', '第八名', '第九名', '第十名'],
+        RankNames: ['冠軍', '亞軍', '第三名', '第四名', '第五名', '第六名', '第七名', '第八名', '第九名', '第十名', '大', '小', '单', '双'],
     };
     $scope.init = function (userType, userId) {
-        $scope.opt.init();
+        $scope.opt.init(userType, userId);
     };
 
     $scope.opt = {
@@ -30,7 +30,7 @@
             $scope.opt.RebatesBak = [];
 
             //$scope.opt.Default = angular.copy($scope.data.Default);
-            $http.post('/Admin/User/GetRebates', { userId: userId }).then(function (res) {
+            $http.post('/Admin/User/GetRebates', { id: userId }).then(function (res) {
                 if (res.data.Success) {
                     $scope.opt.Rebates = res.data.Data;
                     $scope.opt.RebatesBak = angular.copy(res.data.Data);
@@ -49,24 +49,34 @@
             // type: 1-名次, 2-大小单双
             angular.forEach($scope.opt.Rebates, function (item, index, arr) {
                 if (type == 1) {
-                    if (index <= 10) {
-                        item.RebateTypeA = $scope.data.Type1.A;
-                        item.RebateTypeB = $scope.data.Type1.B;
-                        item.RebateTypeC = $scope.data.Type1.C;
-                        item.Changed = true;
+                    if (index < 10) {
+                        item.TypeAChanged = $scope.data.Default.Type1.A != item.RebateTypeA;
+                        item.TypeBChanged = $scope.data.Default.Type1.B != item.RebateTypeB;
+                        item.TypeCChanged = $scope.data.Default.Type1.C != item.RebateTypeC;
+
+                        item.RebateTypeA = $scope.data.Default.Type1.A;
+                        item.RebateTypeB = $scope.data.Default.Type1.B;
+                        item.RebateTypeC = $scope.data.Default.Type1.C;
                     }
                 } else {
-                    if (index > 10) {
-                        item.RebateTypeA = $scope.data.Type2.A;
-                        item.RebateTypeB = $scope.data.Type2.B;
-                        item.RebateTypeC = $scope.data.Type2.C;
-                        item.Changed = true;
+                    if (index >= 10) {
+                        item.TypeAChanged = $scope.data.Default.Type2.A != item.RebateTypeA;
+                        item.TypeBChanged = $scope.data.Default.Type2.B != item.RebateTypeB;
+                        item.TypeCChanged = $scope.data.Default.Type2.C != item.RebateTypeC;
+
+                        item.RebateTypeA = $scope.data.Default.Type2.A;
+                        item.RebateTypeB = $scope.data.Default.Type2.B;
+                        item.RebateTypeC = $scope.data.Default.Type2.C;
                     }
                 }
             })
         },
         saveRebates: function () {
-            $http.post('/Admin/User/SaveRebates', $scope.opt.Rebates).then(function (res) {
+            var data = {
+                userId: $scope.opt.UserId,
+                userRebates: $scope.opt.Rebates
+            };
+            $http.post('/Admin/User/SaveRebates', data).then(function (res) {
                 if (res.data.Success) {
                     $scope.opt.reset();
                     alert('操作成功!');
@@ -77,8 +87,14 @@
         },
         reset: function () {
             angular.forEach($scope.opt.Rebates, function (item, index, arr) {
-                item.Changed = false;
+                item.RebateTypeA = false;
+                item.RebateTypeB = false;
+                item.RebateTypeC = false;
             })
+        },
+        cancel: function () {
+            var action = $scope.opt.UserType == 2 ? 'GeneralAgent' : 'Agent';
+            location.href = '/admin/user/' + action;
         },
     };
 }]);

@@ -9,7 +9,7 @@
 @section headScripts {
     <script src="~/Scripts/Controllers/admin/RebateController.js"></script>
 }
-<table width="100%" height="100%" border="0" cellspacing="0" class="a" ng-controller="rebateController" ng-init="init('@ViewBag.UserType')">
+<table width="100%" height="100%" border="0" cellspacing="0" class="a" ng-controller="rebateController" ng-init="init('@ViewBag.UserType','@ViewBag.UserId')">
     <tbody>
         <tr>
             <td width="6" height="99%" bgcolor="#4E4E4E"></td>
@@ -65,7 +65,7 @@
                                             <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type2.C" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
                                             @*<td><input style="width:90px;" onfocus="this.className='inp1m'" onblur="this.className='inp1'" class="inp1" autocomplete="off"></td>
                                             <td><input style="width:90px;" onfocus="this.className='inp1m'" onblur="this.className='inp1'" class="inp1" autocomplete="off"></td>*@
-                                            <td class="TD_TS2"><input type="button" name="submit" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" ng-click="opt.saveBatch(1)" value="修改"></td>
+                                            <td class="TD_TS2"><input type="button" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" ng-click="opt.saveBatch(2)" value="修改"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -97,15 +97,15 @@
                                                         <tr class="Conter_Report_List tr_row" ng-repeat="item in opt.Rebates1">
                                                             <td class="t_Edit_caption ed TD_TS1">{{data.RankNames[$index]}}</td>
                                                             <td>
-                                                                <input ng-model="item.RebateTypeA" ng-class="{true: 'inp1m', false: ''}[item.Changed]"
+                                                                <input ng-model="item.RebateTypeA" ng-class="{true: 'inp1m', false: ''}[item.TypeAChanged]"
                                                                        style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
                                                             </td>
                                                             <td>
-                                                                <input ng-model="item.RebateTypeB" ng-class="{true: 'inp1m', false: ''}[item.Changed]" 
+                                                                <input ng-model="item.RebateTypeB" ng-class="{true: 'inp1m', false: ''}[item.TypeBChanged]" 
                                                                        style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
                                                             </td>
                                                             <td>
-                                                                <input ng-model="item.RebateTypeC"  ng-class="{true: 'inp1m', false: ''}[item.Changed]"
+                                                                <input ng-model="item.RebateTypeC"  ng-class="{true: 'inp1m', false: ''}[item.TypeCChanged]"
                                                                        style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
                                                             </td>
                                                             <td style="display:none;">
@@ -131,17 +131,17 @@
                                                         </tr>
 
                                                         <tr class="Conter_Report_List tr_row" ng-repeat="item in opt.Rebates2">
-                                                            <td class="t_Edit_caption ed TD_TS1" ng-class="{true: 'TD_TS1', false: 'TD_TS2'}[item.RebateNo <= 10]">{{data.RankNames[$index]}}</td>
+                                                            <td class="t_Edit_caption ed TD_TS1" ng-class="{true: 'TD_TS1', false: 'TD_TS2'}[item.RebateNo <= 10]">{{data.RankNames[$index + 7]}}</td>
                                                             <td>
-                                                                <input ng-model="item.RebateTypeA"  ng-class="{true: 'inp1m', false: ''}[item.Changed]"
+                                                                <input ng-model="item.RebateTypeA"  ng-class="{true: 'inp1m', false: ''}[item.TypeAChanged]"
                                                                        style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
                                                             </td>
                                                             <td>
-                                                                <input ng-model="item.RebateTypeB"  ng-class="{true: 'inp1m', false: ''}[item.Changed]"
+                                                                <input ng-model="item.RebateTypeB"  ng-class="{true: 'inp1m', false: ''}[item.TypeBChanged]"
                                                                        style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
                                                             </td>
                                                             <td>
-                                                                <input ng-model="item.RebateTypeC"  ng-class="{true: 'inp1m', false: ''}[item.Changed]"
+                                                                <input ng-model="item.RebateTypeC"  ng-class="{true: 'inp1m', false: ''}[item.TypeCChanged]"
                                                                        style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
                                                             </td>
                                                             <td style="display:none;">
@@ -162,7 +162,10 @@
                         </tr>
                         <tr>
                             <td width="12"><img src="/images/admin/tab_18.gif" alt=""></td>
-                            <td class="f" align="right"></td>
+                            <td background="/images/admin/tab_19.gif" align="center">
+                                <input type="button" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" ng-click="opt.saveRebates()" value="保存">&nbsp;&nbsp;
+                                <input type="button" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" ng-click="opt.cancel()" value="取消">
+                            </td>
                             <td width="16"><img src="/images/admin/tab_20.gif" alt=""></td>
                         </tr>
                     </tbody>
@@ -170,6 +173,14 @@
             </td>
             <td width="6" bgcolor="#4E4E4E"></td>
         </tr>
+        @*<tr>
+            <td class="Main_bottom_left"></td>
+            <td background="/images/admin/tab_19.gif" align="center">
+                <input type="submit" name="submit" id="submit" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" value="保存">&nbsp;&nbsp;
+                <input type="button" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" onclick="historys()" value="取消">
+            </td>
+            <td class="Main_bottom_right"></td>
+        </tr>*@
         <tr>
             <td height="6" bgcolor="#4E4E4E"></td>
             <td bgcolor="#4E4E4E"></td>

@@ -6,34 +6,30 @@
     };
 
     $scope.init = function (userType, userId, loginUserId) {
-        $scope.data.LoginUserId = loginUserId;
-        $scope.user.init(userType, userId, loginUserId);
-        $scope.webApi.getParentUsers(userType);
+        $scope.data.LoginUserId = parseInt(loginUserId, 10);
+        $scope.user.init(userType, userId);
+        $scope.webApi.getParentUsers(userType, loginUserId);
     };
 
     $scope.user = {
         UserType: null,
         UserId: null,
         IsEdit: false,
-        CurrentUser: { IsLocked: 'false', UserExtension: {} },
-        init: function (userType, userId, loginUserId) {
+        CurrentUser: {},
+        init: function (userType, userId) {
             $scope.user.UserType = parseInt(userType, 10);
             $scope.user.UserId = userId != null ? parseInt(userId, 10) : 0;
             if ($scope.user.UserId > 0) {
                 $scope.user.getCurrentUser($scope.user.UserId);
-            }
-            if ($scope.user.UserType == $scope.data.UserTypes.GeneralAgent) {
-                // 添加总代理, 登录人是admin
-                $scope.user.CurrentUser.ParentUserId = loginUserId;
-                $scope.data.ParentUsers = [{ UserId: loginUserId, UserName: 'Admin' }];
             }
         },
         getCurrentUser: function (userId) {
             $http.post('/Admin/User/GetUser/' + userId, {}).then(function (res) {
                 console.log(res);
                 if (res.data.Success) {
-                    $scope.user.CurrentUser = res.data.Data;
+                    $scope.user.CurrentUser = angular.merge(res.data.Data, $scope.user.CurrentUser);
                     $scope.user.CurrentUser.IsLocked = $scope.user.CurrentUser.IsLocked ? 'true' : 'false';
+                    $scope.user.CurrentUser.Password = '';
                 } else {
                     alert(res.data.Message)
                 }
@@ -74,7 +70,7 @@
     };
 
     $scope.webApi = {
-        getParentUsers: function (userType) {
+        getParentUsers: function (userType, loginUserId) {
             // 添加代理/会员时取父亲节点
             if (userType == $scope.data.UserTypes.Agent || userType == $scope.data.UserTypes.Member) {
                 $http.post('/api/User/GetParentUsers/' + userType, {}).then(function (res) {
@@ -86,6 +82,12 @@
                         }
                     }
                 });
+            } else {
+                if ($scope.user.UserType == $scope.data.UserTypes.GeneralAgent) {
+                    // 添加总代理, 登录人是admin
+                    $scope.user.CurrentUser.ParentUserId = loginUserId;
+                    $scope.data.ParentUsers = [{ UserId: loginUserId, UserName: 'Admin' }];
+                }
             }
         },
     };

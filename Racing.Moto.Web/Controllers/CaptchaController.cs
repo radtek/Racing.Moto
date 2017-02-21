@@ -13,7 +13,7 @@ namespace Racing.Moto.Web.Controllers
         {
             var captchaResult = new CaptchaHelper(12).Generate();
 
-            Session[CaptchaConst.REG_CAPTCHA_SESSION] = captchaResult.CaptchaCode;
+            Session[CaptchaConst.REG_CAPTCHA_SESSION] = captchaResult.CaptchaCode; 
 
             return File(captchaResult.CaptchaImage, "image/Gif");
         }

@@ -205,11 +205,14 @@ namespace Racing.Moto.Services
                 if (dbUser != null)
                 {
                     dbUser.UserName = user.UserName;
-                    dbUser.Password = CryptoUtils.Encrypt(user.Password);
+                    dbUser.Password = !string.IsNullOrEmpty(user.Password) ? CryptoUtils.Encrypt(user.Password) : dbUser.Password;
+                    dbUser.IsLocked = user.IsLocked;
                     dbUser.UserExtension.Amount = user.UserExtension.Amount;
-                    if(dbUser.UserRebates== null || dbUser.UserRebates.Count() == 0)
+                    if (dbUser.UserRebates == null || dbUser.UserRebates.Count() == 0)
                     {
-                        user.UserRebates = UserRebateService.GetDefaultRebates();// 默认退水
+                        var userRebates = UserRebateService.GetDefaultRebates();// 默认退水
+                        userRebates.ForEach(r => r.UserId = dbUser.UserId);
+                        db.UserRebate.AddRange(userRebates);
                     }
                 }
             }

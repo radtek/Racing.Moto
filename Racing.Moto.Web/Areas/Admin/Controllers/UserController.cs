@@ -267,13 +267,13 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetRebates(int userId)
+        public JsonResult GetRebates(int id)
         {
             var result = new ResponseResult();
 
             try
             {
-                result.Data = new UserRebateService().GetUserRebates(userId);
+                result.Data = new UserRebateService().GetUserRebates(id);
             }
             catch (Exception ex)
             {

@@ -48,7 +48,7 @@
                                         <tr style="height:28px">
                                             <td class="bj">代理帳號</td>
                                             <td class="left_p5">
-                                                <input type="text" class="text" ng-model="user.CurrentUser.UserName" maxlength="10" />
+                                                <input type="text" class="text" ng-model="user.CurrentUser.UserName" maxlength="10" ng-disabled="user.CurrentUser.UserId > 0" />
                                                 『<span class="red">帳號长度为：3~10 的非中文字符</span>』
                                                 &nbsp;&nbsp;
                                                 【<input name="lock" type="radio" value="false" ng-model="user.CurrentUser.IsLocked" />啟用&nbsp;
