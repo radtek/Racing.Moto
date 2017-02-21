@@ -51,6 +51,9 @@ namespace Racing.Moto.Data.Migrations
 
               new AppConfig { Name = "Rate_Admin", Value = "0.2" },// 管理员利润比率,吃二出八
               new AppConfig { Name = "Rate_Return", Value = "0.04" }, // 退水，总代理+代理+会员=4%
+              new AppConfig { Name = "Rate_Rebate_A", Value = "0.04" }, // 退水，A盘
+              new AppConfig { Name = "Rate_Rebate_B", Value = "0.03" }, // 退水，B盘
+              new AppConfig { Name = "Rate_Rebate_C", Value = "0.02" }, // 退水，C盘
 
               new AppConfig { Name = "News_Announcement", Value = "1" },// 公告
               new AppConfig { Name = "News_Marquee", Value = "2" } // 跑马灯

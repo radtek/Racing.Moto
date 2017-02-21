@@ -1,6 +1,8 @@
 ﻿@{
     ViewBag.Title = "退水";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    var rebateUser = ViewBag.RebateUser as Racing.Moto.Data.Entities.User;
 }
 <link href="~/Content/Admin/Common_k3.css" rel="stylesheet" />
 <link href="~/Content/Admin/Style_k3.css" rel="stylesheet" />
@@ -21,9 +23,9 @@
                                     <tbody>
                                         <tr>
                                             <td width="20" align="right"><img style="margin-right:5px" src="/images/admin/tb.gif" width="16" height="16" alt=""></td>
-                                            <td id="titleName" class="Main_Title">退水設定 -&gt; 代理（ &nbsp;&nbsp;&nbsp;<span style="font-weight:normal">asas1212</span> &nbsp;&nbsp;&nbsp;）</td>
+                                            <td id="titleName" class="Main_Title">退水設定 -&gt; @ViewBag.UserTypeName（<span style="font-weight:normal">@rebateUser.UserName</span>）</td>
 
-                                            <td id="F_Name" width="150" align="right">代理名稱：asas1212</td>
+                                            <td id="F_Name" width="150" align="right"><span>@ViewBag.UserTypeName</span>名稱：@rebateUser.UserName</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -49,21 +51,21 @@
                                         </tr>
                                         <tr class="Ct tr-row">
                                             <td class="t_list_tr_1_g">特碼類(第一名、第二名…)</td>
-                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="opt.Default.Type1.A" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
-                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="opt.Default.Type1.B" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
-                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="opt.Default.Type1.C" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type1.A" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type1.B" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type1.C" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
                                             @*<td><input style="width:90px;" onfocus="this.className='inp1m'" onblur="this.className='inp1'" class="inp1" autocomplete="off"></td>
                                             <td><input style="width:90px;" onfocus="this.className='inp1m'" onblur="this.className='inp1'" class="inp1" autocomplete="off"></td>*@
-                                            <td class="TD_TS1"><input type="button" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" onclick="Comparer()" value="修改"></td>
+                                            <td class="TD_TS1"><input type="button" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" ng-click="opt.saveBatch(1)" value="修改"></td>
                                         </tr>
                                         <tr class="Ct tr-row">
                                             <td class="t_list_tr_1_g">兩面類(單雙、大小)</td>
-                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="opt.Default.Type2.A" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
-                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="opt.Default.Type2.A" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
-                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="opt.Default.Type2.A" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type2.A" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type2.B" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type2.C" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
                                             @*<td><input style="width:90px;" onfocus="this.className='inp1m'" onblur="this.className='inp1'" class="inp1" autocomplete="off"></td>
                                             <td><input style="width:90px;" onfocus="this.className='inp1m'" onblur="this.className='inp1'" class="inp1" autocomplete="off"></td>*@
-                                            <td class="TD_TS2"><input type="button" name="submit" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" onclick="Compareb()" value="修改"></td>
+                                            <td class="TD_TS2"><input type="button" name="submit" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" ng-click="opt.saveBatch(1)" value="修改"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -92,135 +94,25 @@
                                                             <td style="display:none;">單註限額</td>
                                                             <td style="display:none;">單期限額</td>
                                                         </tr>
-                                                        <tr class="Conter_Report_List" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                                            <td class="t_Edit_caption ed TD_TS1">冠軍</td>
+                                                        <tr class="Conter_Report_List tr_row" ng-repeat="item in opt.Rebates1">
+                                                            <td class="t_Edit_caption ed TD_TS1">{{data.RankNames[$index]}}</td>
                                                             <td>
-                                                                <input style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" value="99.1">		                        
-                                                                <input type="hidden" name="sRebateAB1" id="sRebateAB1" value="99.1">
+                                                                <input ng-model="item.RebateTypeA" ng-class="{true: 'inp1m', false: ''}[item.Changed]"
+                                                                       style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
                                                             </td>
                                                             <td>
-                                                                <input style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" value="98.1">		                         
-                                                                <input type="hidden" name="sRebateBB1" id="sRebateBB1" value="98.1">
+                                                                <input ng-model="item.RebateTypeB" ng-class="{true: 'inp1m', false: ''}[item.Changed]" 
+                                                                       style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
                                                             </td>
                                                             <td>
-                                                                <input style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" value="97.1">		                         
-                                                                <input type="hidden" name="sRebateCB1" id="sRebateCB1" value="97.1">
+                                                                <input ng-model="item.RebateTypeC"  ng-class="{true: 'inp1m', false: ''}[item.Changed]"
+                                                                       style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
                                                             </td>
                                                             <td style="display:none;">
-                                                                <input style="width:90px;" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" maxlength="9" autocomplete="off" value="50000">		                         
-                                                                <input type="hidden" name="sRebateEB1" id="sRebateEB1" value="50000">
+                                                                <input style="width:90px;" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" maxlength="9" autocomplete="off" />		                         
                                                             </td>
                                                             <td style="display:none;">
-                                                                <input style="width:90px;" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" maxlength="9" autocomplete="off" value="100000">		                         
-                                                                <input type="hidden" name="sRebateFB1" id="sRebateFB1" value="100000">
-                                                            </td>
-                                                        </tr>
-                                                        <tr class="Conter_Report_List" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                                            <td class="t_Edit_caption ed TD_TS1">亞軍</td>
-                                                            <td>
-                                                                <input style="width:60px;" name="a42" id="RebateAB2" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" maxlength="6" autocomplete="off" value="99.1">		                        <input type="hidden" name="sRebateAB2" id="sRebateAB2" value="99.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="b42" id="RebateBB2" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" maxlength="6" autocomplete="off" value="98.1">		                         <input type="hidden" name="sRebateBB2" id="sRebateBB2" value="98.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="c42" id="RebateCB2" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" maxlength="6" autocomplete="off" value="97.1">		                         <input type="hidden" name="sRebateCB2" id="sRebateCB2" value="97.1">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="d42" id="RebateEB2" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" maxlength="9" autocomplete="off" value="50000">		                         <input type="hidden" name="sRebateEB2" id="sRebateEB2" value="50000">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="e42" id="RebateFB2" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" maxlength="9" autocomplete="off" value="100000">		                         <input type="hidden" name="sRebateFB2" id="sRebateFB2" value="100000">
-                                                            </td>
-                                                        </tr>
-                                                        <tr class="Conter_Report_List" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                                            <td class="t_Edit_caption ed TD_TS1">第三名</td>
-                                                            <td>
-                                                                <input style="width:60px;" name="a43" id="RebateAB3" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第三名', 'A盤', '0', 'gc')" maxlength="6" autocomplete="off" value="99.1">		                        <input type="hidden" name="sRebateAB3" id="sRebateAB3" value="99.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="b43" id="RebateBB3" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第三名', 'B盤', '0', 'gc')" maxlength="6" autocomplete="off" value="98.1">		                         <input type="hidden" name="sRebateBB3" id="sRebateBB3" value="98.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="c43" id="RebateCB3" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第三名', 'C盤', '0', 'gc')" maxlength="6" autocomplete="off" value="97.1">		                         <input type="hidden" name="sRebateCB3" id="sRebateCB3" value="97.1">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="d43" id="RebateEB3" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" onchange="isCompares(this, '第三名', '單註限額', '0', 'ge')" maxlength="9" autocomplete="off" value="50000">		                         <input type="hidden" name="sRebateEB3" id="sRebateEB3" value="50000">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="e43" id="RebateFB3" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" onchange="isCompares(this, '第三名', '單期限額', '0', 'gf')" maxlength="9" autocomplete="off" value="100000">		                         <input type="hidden" name="sRebateFB3" id="sRebateFB3" value="100000">
-                                                            </td>
-                                                        </tr>
-                                                        <tr class="Conter_Report_List" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                                            <td class="t_Edit_caption ed TD_TS1">第四名</td>
-                                                            <td>
-                                                                <input style="width:60px;" name="a44" id="RebateAB4" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第四名', 'A盤', '0', 'gc')" maxlength="6" autocomplete="off" value="99.1">		                        <input type="hidden" name="sRebateAB4" id="sRebateAB4" value="99.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="b44" id="RebateBB4" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第四名', 'B盤', '0', 'gc')" maxlength="6" autocomplete="off" value="98.1">		                         <input type="hidden" name="sRebateBB4" id="sRebateBB4" value="98.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="c44" id="RebateCB4" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第四名', 'C盤', '0', 'gc')" maxlength="6" autocomplete="off" value="97.1">		                         <input type="hidden" name="sRebateCB4" id="sRebateCB4" value="97.1">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="d44" id="RebateEB4" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" onchange="isCompares(this, '第四名', '單註限額', '0', 'ge')" maxlength="9" autocomplete="off" value="50000">		                         <input type="hidden" name="sRebateEB4" id="sRebateEB4" value="50000">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="e44" id="RebateFB4" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" onchange="isCompares(this, '第四名', '單期限額', '0', 'gf')" maxlength="9" autocomplete="off" value="100000">		                         <input type="hidden" name="sRebateFB4" id="sRebateFB4" value="100000">
-                                                            </td>
-                                                        </tr>
-                                                        <tr class="Conter_Report_List" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                                            <td class="t_Edit_caption ed TD_TS1">第五名</td>
-                                                            <td>
-                                                                <input style="width:60px;" name="a45" id="RebateAB5" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第五名', 'A盤', '0', 'gc')" maxlength="6" autocomplete="off" value="99.1">		                        <input type="hidden" name="sRebateAB5" id="sRebateAB5" value="99.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="b45" id="RebateBB5" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第五名', 'B盤', '0', 'gc')" maxlength="6" autocomplete="off" value="98.1">		                         <input type="hidden" name="sRebateBB5" id="sRebateBB5" value="98.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="c45" id="RebateCB5" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第五名', 'C盤', '0', 'gc')" maxlength="6" autocomplete="off" value="97.1">		                         <input type="hidden" name="sRebateCB5" id="sRebateCB5" value="97.1">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="d45" id="RebateEB5" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" onchange="isCompares(this, '第五名', '單註限額', '0', 'ge')" maxlength="9" autocomplete="off" value="50000">		                         <input type="hidden" name="sRebateEB5" id="sRebateEB5" value="50000">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="e45" id="RebateFB5" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" onchange="isCompares(this, '第五名', '單期限額', '0', 'gf')" maxlength="9" autocomplete="off" value="100000">		                         <input type="hidden" name="sRebateFB5" id="sRebateFB5" value="100000">
-                                                            </td>
-                                                        </tr>
-                                                        <tr class="Conter_Report_List" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                                            <td class="t_Edit_caption ed TD_TS1">第六名</td>
-                                                            <td>
-                                                                <input style="width:60px;" name="a46" id="RebateAB6" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第六名', 'A盤', '0', 'gc')" maxlength="6" autocomplete="off" value="99.1">		                        <input type="hidden" name="sRebateAB6" id="sRebateAB6" value="99.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="b46" id="RebateBB6" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第六名', 'B盤', '0', 'gc')" maxlength="6" autocomplete="off" value="98.1">		                         <input type="hidden" name="sRebateBB6" id="sRebateBB6" value="98.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="c46" id="RebateCB6" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第六名', 'C盤', '0', 'gc')" maxlength="6" autocomplete="off" value="97.1">		                         <input type="hidden" name="sRebateCB6" id="sRebateCB6" value="97.1">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="d46" id="RebateEB6" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" onchange="isCompares(this, '第六名', '單註限額', '0', 'ge')" maxlength="9" autocomplete="off" value="50000">		                         <input type="hidden" name="sRebateEB6" id="sRebateEB6" value="50000">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="e46" id="RebateFB6" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" onchange="isCompares(this, '第六名', '單期限額', '0', 'gf')" maxlength="9" autocomplete="off" value="100000">		                         <input type="hidden" name="sRebateFB6" id="sRebateFB6" value="100000">
-                                                            </td>
-                                                        </tr>
-                                                        <tr class="Conter_Report_List" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                                            <td class="t_Edit_caption ed TD_TS1">第七名</td>
-                                                            <td>
-                                                                <input style="width:60px;" name="a47" id="RebateAB7" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第七名', 'A盤', '0', 'gc')" maxlength="6" autocomplete="off" value="99.1">		                        <input type="hidden" name="sRebateAB7" id="sRebateAB7" value="99.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="b47" id="RebateBB7" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第七名', 'B盤', '0', 'gc')" maxlength="6" autocomplete="off" value="98.1">		                         <input type="hidden" name="sRebateBB7" id="sRebateBB7" value="98.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="c47" id="RebateCB7" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第七名', 'C盤', '0', 'gc')" maxlength="6" autocomplete="off" value="97.1">		                         <input type="hidden" name="sRebateCB7" id="sRebateCB7" value="97.1">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="d47" id="RebateEB7" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" onchange="isCompares(this, '第七名', '單註限額', '0', 'ge')" maxlength="9" autocomplete="off" value="50000">		                         <input type="hidden" name="sRebateEB7" id="sRebateEB7" value="50000">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="e47" id="RebateFB7" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" onchange="isCompares(this, '第七名', '單期限額', '0', 'gf')" maxlength="9" autocomplete="off" value="100000">		                         <input type="hidden" name="sRebateFB7" id="sRebateFB7" value="100000">
+                                                                <input style="width:90px;" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" maxlength="9" autocomplete="off" />		                         
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -237,131 +129,26 @@
                                                             <td style="display:none;">單註限額</td>
                                                             <td style="display:none;">單期限額</td>
                                                         </tr>
-                                                        <tr class="Conter_Report_List" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                                            <td class="t_Edit_caption ed TD_TS1">第八名</td>
-                                                            <td>
-                                                                <input style="width:60px;" name="a48" id="RebateAB8" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第八名', 'A盤', '0', 'gc')" maxlength="6" autocomplete="off" value="99.1">		                        <input type="hidden" name="sRebateAB8" id="sRebateAB8" value="99.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="b48" id="RebateBB8" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第八名', 'B盤', '0', 'gc')" maxlength="6" autocomplete="off" value="98.1">		                         <input type="hidden" name="sRebateBB8" id="sRebateBB8" value="98.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="c48" id="RebateCB8" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第八名', 'C盤', '0', 'gc')" maxlength="6" autocomplete="off" value="97.1">		                         <input type="hidden" name="sRebateCB8" id="sRebateCB8" value="97.1">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="d48" id="RebateEB8" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" onchange="isCompares(this, '第八名', '單註限額', '0', 'ge')" maxlength="9" autocomplete="off" value="50000">		                         <input type="hidden" name="sRebateEB8" id="sRebateEB8" value="50000">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="e48" id="RebateFB8" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" onchange="isCompares(this, '第八名', '單期限額', '0', 'gf')" maxlength="9" autocomplete="off" value="100000">		                         <input type="hidden" name="sRebateFB8" id="sRebateFB8" value="100000">
-                                                            </td>
-                                                        </tr>
-                                                        <tr class="Conter_Report_List" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                                            <td class="t_Edit_caption ed TD_TS1">第九名</td>
-                                                            <td>
-                                                                <input style="width:60px;" name="a49" id="RebateAB9" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第九名', 'A盤', '0', 'gc')" maxlength="6" autocomplete="off" value="99.1">		                        <input type="hidden" name="sRebateAB9" id="sRebateAB9" value="99.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="b49" id="RebateBB9" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第九名', 'B盤', '0', 'gc')" maxlength="6" autocomplete="off" value="98.1">		                         <input type="hidden" name="sRebateBB9" id="sRebateBB9" value="98.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="c49" id="RebateCB9" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第九名', 'C盤', '0', 'gc')" maxlength="6" autocomplete="off" value="97.1">		                         <input type="hidden" name="sRebateCB9" id="sRebateCB9" value="97.1">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="d49" id="RebateEB9" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" onchange="isCompares(this, '第九名', '單註限額', '0', 'ge')" maxlength="9" autocomplete="off" value="50000">		                         <input type="hidden" name="sRebateEB9" id="sRebateEB9" value="50000">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="e49" id="RebateFB9" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" onchange="isCompares(this, '第九名', '單期限額', '0', 'gf')" maxlength="9" autocomplete="off" value="100000">		                         <input type="hidden" name="sRebateFB9" id="sRebateFB9" value="100000">
-                                                            </td>
-                                                        </tr>
-                                                        <tr class="Conter_Report_List" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                                            <td class="t_Edit_caption ed TD_TS1">第十名</td>
-                                                            <td>
-                                                                <input style="width:60px;" name="a50" id="RebateAB10" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第十名', 'A盤', '0', 'gc')" maxlength="6" autocomplete="off" value="99.1">		                        <input type="hidden" name="sRebateAB10" id="sRebateAB10" value="99.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="b50" id="RebateBB10" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第十名', 'B盤', '0', 'gc')" maxlength="6" autocomplete="off" value="98.1">		                         <input type="hidden" name="sRebateBB10" id="sRebateBB10" value="98.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="c50" id="RebateCB10" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '第十名', 'C盤', '0', 'gc')" maxlength="6" autocomplete="off" value="97.1">		                         <input type="hidden" name="sRebateCB10" id="sRebateCB10" value="97.1">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="d50" id="RebateEB10" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" onchange="isCompares(this, '第十名', '單註限額', '0', 'ge')" maxlength="9" autocomplete="off" value="50000">		                         <input type="hidden" name="sRebateEB10" id="sRebateEB10" value="50000">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="e50" id="RebateFB10" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" onchange="isCompares(this, '第十名', '單期限額', '0', 'gf')" maxlength="9" autocomplete="off" value="100000">		                         <input type="hidden" name="sRebateFB10" id="sRebateFB10" value="100000">
-                                                            </td>
-                                                        </tr>
 
-                                                        <tr class="Conter_Report_List" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                                            <td class="t_Edit_caption ed TD_TS2">大</td>
+                                                        <tr class="Conter_Report_List tr_row" ng-repeat="item in opt.Rebates2">
+                                                            <td class="t_Edit_caption ed TD_TS1" ng-class="{true: 'TD_TS1', false: 'TD_TS2'}[item.RebateNo <= 10]">{{data.RankNames[$index]}}</td>
                                                             <td>
-                                                                <input style="width:60px;" name="a51" id="RebateAB11" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '1-10大小', 'A盤', '0', 'gc')" maxlength="6" autocomplete="off" value="99.1">		                        <input type="hidden" name="sRebateAB11" id="sRebateAB11" value="99.1">
+                                                                <input ng-model="item.RebateTypeA"  ng-class="{true: 'inp1m', false: ''}[item.Changed]"
+                                                                       style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
                                                             </td>
                                                             <td>
-                                                                <input style="width:60px;" name="b51" id="RebateBB11" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '1-10大小', 'B盤', '0', 'gc')" maxlength="6" autocomplete="off" value="98.1">		                         <input type="hidden" name="sRebateBB11" id="sRebateBB11" value="98.1">
+                                                                <input ng-model="item.RebateTypeB"  ng-class="{true: 'inp1m', false: ''}[item.Changed]"
+                                                                       style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
                                                             </td>
                                                             <td>
-                                                                <input style="width:60px;" name="c51" id="RebateCB11" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '1-10大小', 'C盤', '0', 'gc')" maxlength="6" autocomplete="off" value="97.1">		                         <input type="hidden" name="sRebateCB11" id="sRebateCB11" value="97.1">
+                                                                <input ng-model="item.RebateTypeC"  ng-class="{true: 'inp1m', false: ''}[item.Changed]"
+                                                                       style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
                                                             </td>
                                                             <td style="display:none;">
-                                                                <input style="width:90px;" name="d51" id="RebateEB11" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" onchange="isCompares(this, '1-10大小', '單註限額', '0', 'ge')" maxlength="9" autocomplete="off" value="50000">		                         <input type="hidden" name="sRebateEB11" id="sRebateEB11" value="50000">
+                                                                <input style="width:90px;" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" maxlength="9" autocomplete="off" />
                                                             </td>
                                                             <td style="display:none;">
-                                                                <input style="width:90px;" name="e51" id="RebateFB11" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" onchange="isCompares(this, '1-10大小', '單期限額', '0', 'gf')" maxlength="9" autocomplete="off" value="100000">		                         <input type="hidden" name="sRebateFB11" id="sRebateFB11" value="100000">
-                                                            </td>
-                                                        </tr>
-                                                        <tr class="Conter_Report_List" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                                            <td class="t_Edit_caption ed TD_TS2">小</td>
-                                                            <td>
-                                                                <input style="width:60px;" name="a51" id="RebateAB11" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '1-10大小', 'A盤', '0', 'gc')" maxlength="6" autocomplete="off" value="99.1">		                        <input type="hidden" name="sRebateAB11" id="sRebateAB11" value="99.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="b51" id="RebateBB11" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '1-10大小', 'B盤', '0', 'gc')" maxlength="6" autocomplete="off" value="98.1">		                         <input type="hidden" name="sRebateBB11" id="sRebateBB11" value="98.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="c51" id="RebateCB11" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '1-10大小', 'C盤', '0', 'gc')" maxlength="6" autocomplete="off" value="97.1">		                         <input type="hidden" name="sRebateCB11" id="sRebateCB11" value="97.1">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="d51" id="RebateEB11" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" onchange="isCompares(this, '1-10大小', '單註限額', '0', 'ge')" maxlength="9" autocomplete="off" value="50000">		                         <input type="hidden" name="sRebateEB11" id="sRebateEB11" value="50000">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="e51" id="RebateFB11" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" onchange="isCompares(this, '1-10大小', '單期限額', '0', 'gf')" maxlength="9" autocomplete="off" value="100000">		                         <input type="hidden" name="sRebateFB11" id="sRebateFB11" value="100000">
-                                                            </td>
-                                                        </tr>
-                                                        <tr class="Conter_Report_List" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                                            <td class="t_Edit_caption ed TD_TS2">單</td>
-                                                            <td>
-                                                                <input style="width:60px;" name="a52" id="RebateAB12" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '1-10單雙', 'A盤', '0', 'gc')" maxlength="6" autocomplete="off" value="99.1">		                        <input type="hidden" name="sRebateAB12" id="sRebateAB12" value="99.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="b52" id="RebateBB12" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '1-10單雙', 'B盤', '0', 'gc')" maxlength="6" autocomplete="off" value="98.1">		                         <input type="hidden" name="sRebateBB12" id="sRebateBB12" value="98.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="c52" id="RebateCB12" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '1-10單雙', 'C盤', '0', 'gc')" maxlength="6" autocomplete="off" value="97.1">		                         <input type="hidden" name="sRebateCB12" id="sRebateCB12" value="97.1">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="d52" id="RebateEB12" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" onchange="isCompares(this, '1-10單雙', '單註限額', '0', 'ge')" maxlength="9" autocomplete="off" value="50000">		                         <input type="hidden" name="sRebateEB12" id="sRebateEB12" value="50000">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="e52" id="RebateFB12" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" onchange="isCompares(this, '1-10單雙', '單期限額', '0', 'gf')" maxlength="9" autocomplete="off" value="100000">		                         <input type="hidden" name="sRebateFB12" id="sRebateFB12" value="100000">
-                                                            </td>
-                                                        </tr>
-                                                        <tr class="Conter_Report_List" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                                            <td class="t_Edit_caption ed TD_TS2">雙</td>
-                                                            <td>
-                                                                <input style="width:60px;" name="a52" id="RebateAB12" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '1-10單雙', 'A盤', '0', 'gc')" maxlength="6" autocomplete="off" value="99.1">		                        <input type="hidden" name="sRebateAB12" id="sRebateAB12" value="99.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="b52" id="RebateBB12" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '1-10單雙', 'B盤', '0', 'gc')" maxlength="6" autocomplete="off" value="98.1">		                         <input type="hidden" name="sRebateBB12" id="sRebateBB12" value="98.1">
-                                                            </td>
-                                                            <td>
-                                                                <input style="width:60px;" name="c52" id="RebateCB12" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" onchange="isCompare(this, '1-10單雙', 'C盤', '0', 'gc')" maxlength="6" autocomplete="off" value="97.1">		                         <input type="hidden" name="sRebateCB12" id="sRebateCB12" value="97.1">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="d52" id="RebateEB12" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" onchange="isCompares(this, '1-10單雙', '單註限額', '0', 'ge')" maxlength="9" autocomplete="off" value="50000">		                         <input type="hidden" name="sRebateEB12" id="sRebateEB12" value="50000">
-                                                            </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" name="e52" id="RebateFB12" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" onchange="isCompares(this, '1-10單雙', '單期限額', '0', 'gf')" maxlength="9" autocomplete="off" value="100000">		                         <input type="hidden" name="sRebateFB12" id="sRebateFB12" value="100000">
+                                                                <input style="width:90px;" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" maxlength="9" autocomplete="off" />
                                                             </td>
                                                         </tr>
                                                     </tbody>

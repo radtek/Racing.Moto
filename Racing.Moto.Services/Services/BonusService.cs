@@ -69,11 +69,15 @@ namespace Racing.Moto.Services
         {
             // 按下注用户生成
             var userIds = db.Bet.Where(b => b.PKId == pk.PKId).Select(b => b.UserId).Distinct().ToList();
+            var userRebates = db.UserRebate.Where(r => userIds.Contains(r.UserId)).ToList();
             foreach (var userId in userIds)
             {
-                var userExtension = db.UserExtension.Where(e => e.UserId == userId).FirstOrDefault();
-                if (userExtension != null && userExtension.Rebate > 0)
+                var userRebate = userRebates.Where(e => e.UserId == userId).FirstOrDefault();
+
+                if (userRebate != null)
                 {
+                    var rebate = UserRebateService.GetDefaultRebate(userRebate);
+
                     // 退水奖金
                     var bonuses = new List<PKBonus>();
 
@@ -87,7 +91,7 @@ namespace Racing.Moto.Services
                             Rank = dbBet.Rank,
                             Num = dbBet.Num,
                             BonusType = Data.Enums.BonusType.Rebate,
-                            Amount = Math.Round(dbBet.Amount * userExtension.Rebate, 4)
+                            Amount = Math.Round(dbBet.Amount * rebate, 4)
                         });
                     }
 

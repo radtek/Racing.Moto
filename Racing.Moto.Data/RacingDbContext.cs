@@ -64,7 +64,6 @@ namespace Racing.Moto.Data
 
             #region UserExtension
             modelBuilder.Entity<UserExtension>().Property(e => e.Amount).HasPrecision(18, 4);
-            modelBuilder.Entity<UserExtension>().Property(e => e.Rebate).HasPrecision(18, 4);
             #endregion
 
             modelBuilder.Entity<Bet>().Property(e => e.Amount).HasPrecision(18, 4);

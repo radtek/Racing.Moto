@@ -110,6 +110,11 @@ namespace Racing.Moto.Services
                 .Where(u => userNames.Contains(u.UserName)).ToList();
         }
 
+        public User GetUserOnly(int userId)
+        {
+            return db.User.Where(u => u.UserId == userId).FirstOrDefault();
+        }
+
         public User GetUser(int userId)
         {
             return db.User
@@ -187,18 +192,25 @@ namespace Racing.Moto.Services
                 user.Password = CryptoUtils.Encrypt(user.Password);
                 user.FailedPasswordAttemptWindowStart = DateTime.Parse("1900-01-01");
                 user.UserRoles = new List<UserRole> { new UserRole { RoleId = roleId } };
+                user.UserRebates = UserRebateService.GetDefaultRebates();// 默认退水
 
                 db.User.Add(user);
             }
             else
             {
-                var dbUser = db.User.Include(nameof(User.UserExtension)).Where(u => u.UserId == user.UserId).FirstOrDefault();
+                var dbUser = db.User
+                    .Include(nameof(User.UserExtension))
+                    .Include(nameof(User.UserRebates))
+                    .Where(u => u.UserId == user.UserId).FirstOrDefault();
                 if (dbUser != null)
                 {
                     dbUser.UserName = user.UserName;
                     dbUser.Password = CryptoUtils.Encrypt(user.Password);
                     dbUser.UserExtension.Amount = user.UserExtension.Amount;
-                    dbUser.UserExtension.Rebate = user.UserExtension.Rebate;
+                    if(dbUser.UserRebates== null || dbUser.UserRebates.Count() == 0)
+                    {
+                        user.UserRebates = UserRebateService.GetDefaultRebates();// 默认退水
+                    }
                 }
             }
 

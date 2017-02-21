@@ -153,18 +153,6 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
         #endregion
 
-        #region 退水
-        
-        public ActionResult Rebate(int id, int cid = 0)
-        {
-            ViewBag.UserType = id;
-            ViewBag.UserId = cid;
-
-            return View();
-        }
-
-        #endregion
-
         ///// <summary>
         ///// 用户
         ///// </summary>
@@ -264,6 +252,59 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
             return Json(result);
         }
 
+
+
+        #region 退水
+
+        public ActionResult Rebate(int id, int cid = 0)
+        {
+            ViewBag.UserType = id;
+            ViewBag.UserId = cid;
+            ViewBag.UserTypeName = RoleConst.GetRoleName(id);
+            ViewBag.RebateUser = new UserService().GetUserOnly(cid);
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetRebates(int userId)
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                result.Data = new UserRebateService().GetUserRebates(userId);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+                _logger.Info(ex);
+            }
+
+            return Json(result);
+        }
+
+        [HttpPost]
+        public JsonResult SaveRebates(int userId, List<UserRebate> userRebates)
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                new UserRebateService().UpdateUserRebates(userId, userRebates);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+                _logger.Info(ex);
+            }
+
+            return Json(result);
+        }
+
+        #endregion
 
         #endregion
 
