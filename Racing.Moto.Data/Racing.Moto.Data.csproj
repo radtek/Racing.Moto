@@ -63,6 +63,7 @@
     <Compile Include="Entities\PKBonus.cs" />
     <Compile Include="Entities\PKRate.cs" />
     <Compile Include="Entities\Post.cs" />
+    <Compile Include="Entities\LoginLog.cs" />
     <Compile Include="Entities\UserRebate.cs" />
     <Compile Include="Entities\Rate.cs" />
     <Compile Include="Entities\PK.cs" />

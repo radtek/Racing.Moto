@@ -1,5 +1,6 @@
 ﻿using NLog;
 using Racing.Moto.Core.Captcha;
+using Racing.Moto.Core.Utils;
 using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Enums;
 using Racing.Moto.Data.Membership;
@@ -54,6 +55,21 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
                         var loginUser = _memberProvider.GetUser(model.UserName, true);
                         loginUser.UserExtension = new UserExtensionService().GetUserUserExtension(loginUser.UserId);
                         System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = loginUser;
+
+                        #endregion
+
+                        #region 登录日志
+
+                        MonIPUtil.Load(Server.MapPath("~/App_Data/17monipdb.dat"));
+                        var ip = IPUtil.GetHostAddress();
+                        //var ipAddress = MonIPUtil.Find(ip);
+                        var loginLog = new LoginLog
+                        {
+                            IP = ip,
+                            Address = MonIPUtil.FindAddress(ip),
+                            UserId = loginUser.UserId
+                        };
+                        new LoginLogService().AddLoginLog(loginLog);
 
                         #endregion
 

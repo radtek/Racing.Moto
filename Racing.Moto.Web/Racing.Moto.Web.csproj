@@ -204,6 +204,8 @@
     <Content Include="Areas\Admin\Views\Online\Management.cshtml" />
     <Content Include="Areas\Admin\Views\Lottery\History.cshtml" />
     <Content Include="Areas\Admin\Views\User\Rebate.cshtml" />
+    <Content Include="App_Data\17monipdb.dat" />
+    <Content Include="Areas\Admin\Views\Log\LoginRecord.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -274,6 +276,7 @@
     <Content Include="Scripts\AngularJs\angular-ui-bootstrap.js" />
     <Content Include="Scripts\admin.js" />
     <Content Include="Scripts\Controllers\Admin\LotteryController.js" />
+    <Content Include="Scripts\Controllers\Admin\LogController.js" />
     <Content Include="Scripts\Controllers\Admin\OnlineController.js" />
     <Content Include="Scripts\Controllers\Admin\RebateController.js" />
     <Content Include="Scripts\Controllers\Admin\UserManagementController.js" />
@@ -690,6 +693,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\BetController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LogController.cs" />
     <Compile Include="Areas\Admin\Controllers\LotteryController.cs" />
     <Compile Include="Areas\Admin\Controllers\MyCenterController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
@@ -763,7 +767,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Models\" />
     <Folder Include="Scripts\JqueryUI\images\" />

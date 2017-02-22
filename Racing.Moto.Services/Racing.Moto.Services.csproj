@@ -101,6 +101,7 @@
     <Compile Include="Services\PKService.cs" />
     <Compile Include="Services\BonusService.cs" />
     <Compile Include="Services\MenuService.cs" />
+    <Compile Include="Services\LoginLogService.cs" />
     <Compile Include="Services\UserRebateService.cs" />
     <Compile Include="Services\UserRoleService.cs" />
     <Compile Include="Services\PostService.cs" />

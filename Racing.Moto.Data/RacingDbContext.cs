@@ -104,6 +104,8 @@ namespace Racing.Moto.Data
 
         public virtual DbSet<Menu> Menu { get; set; }
         public virtual DbSet<MenuRole> MenuRole { get; set; }
+
+        public virtual DbSet<LoginLog> LoginLog { get; set; }
         #endregion
     }
 }

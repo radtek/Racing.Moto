@@ -1,4 +1,5 @@
 ﻿using App.Core.OnlineStat;
+using Racing.Moto.Core.Utils;
 using Racing.Moto.Services.Constants;
 using System;
 using System.Collections.Generic;
@@ -47,7 +48,7 @@ namespace Racing.Moto.Services.Mvc
             OnlineUserRecorder recorder = HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
 
             OnlineUser onlineUser = new OnlineUser();
-            
+
             Data.Entities.User user = (Data.Entities.User)HttpContext.Current.Session[SessionConst.LoginUser];//注意session的名称是和登录保存的名称一致
             // 用户名称
             onlineUser.UserName = Convert.ToString(user.UserName);
@@ -56,7 +57,7 @@ namespace Racing.Moto.Services.Mvc
             // SessionID
             onlineUser.SessionID = HttpContext.Current.Session.SessionID;
             // IP 地址
-            onlineUser.ClientIP = HttpContext.Current.Request.UserHostAddress;
+            onlineUser.ClientIP = IPUtil.GetHostAddress();
             // 登录时间
             if (!onlineUser.LoginTime.HasValue)
             {

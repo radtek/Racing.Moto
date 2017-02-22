@@ -1,4 +1,5 @@
 ﻿using NLog;
+using Racing.Moto.Core.Utils;
 using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Enums;
 using Racing.Moto.Data.Membership;
@@ -51,6 +52,21 @@ namespace Racing.Moto.Web.Controllers
 
                         //在线用户统计
                         OnlineHttpModule.ProcessRequest();
+
+                        #region 登录日志
+
+                        MonIPUtil.Load(Server.MapPath("~/App_Data/17monipdb.dat"));
+                        var ip = IPUtil.GetHostAddress();
+                        //var ipAddress = MonIPUtil.Find(ip);
+                        var loginLog = new LoginLog
+                        {
+                            IP = ip,
+                            Address = MonIPUtil.FindAddress(ip),
+                            UserId = loginUser.UserId
+                        };
+                        new LoginLogService().AddLoginLog(loginLog);
+
+                        #endregion
 
                         if (Url.IsLocalUrl(returnUrl))
                         {
