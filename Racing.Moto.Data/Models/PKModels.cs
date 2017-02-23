@@ -27,9 +27,9 @@ namespace Racing.Moto.Data.Models
         /// </summary>
         public int OpeningRemainSeconds { get; set; }
         /// <summary>
-        /// 封盘开始时间
+        /// 游戏开始时间
         /// </summary>
-        public DateTime CloseBeginTime { get; set; }
+        public DateTime GameBeginTime { get; set; }
 
         /// <summary>
         /// 盘剩余的秒数: 当前时间 总开盘秒数 - PassedSeconds 的秒数

@@ -84,7 +84,7 @@
                 eleMinute.innerHTML = '00';
                 eleSecond.innerHTML = '00';
             } else {
-                var closeBeginTime = $app.convertToDate(pkInfo.CloseBeginTime);
+                var closeBeginTime = $app.convertToDate(pkInfo.GameBeginTime);
                 var year = closeBeginTime.getFullYear();
                 var month = closeBeginTime.getMonth();
                 var day = closeBeginTime.getDate();
@@ -92,7 +92,7 @@
                 var minute = closeBeginTime.getMinutes();
                 var second = closeBeginTime.getSeconds();
 
-
+                // 倒计时结束时间
                 var d = Date.UTC(year, month, day, hour, minute, second);
                 var obj = {
                     sec: eleSecond,
@@ -108,6 +108,7 @@
             if (pkInfo.GamingSeconds < -countdownSeconds) {
                 var seconds = Math.abs(pkInfo.GamingSeconds + countdownSeconds) + 's';
                 $('body').oneTime(seconds, function () {
+                    $('.time-run-0').hide();
                     $('.time-run').show();
                     var index = 3;
                     $('body').everyTime('1s', 'countdown', function () {
@@ -115,11 +116,13 @@
                         document.getElementById("countdown").src = '/img/' + name + ".png";
                         index--;
                         if (index < -1) {
+                            //$('.time-run-0').show();
                             $('.time-run').hide();
                         }
                     }, 5);
                 });
             } else if (-countdownSeconds < pkInfo.GamingSeconds && pkInfo.GamingSeconds < 0) {
+                $('.time-run-0').hide();
                 $('.time-run').show();
                 var seconds = Math.abs(pkInfo.GamingSeconds);
                 var index = seconds;
@@ -128,10 +131,12 @@
                     document.getElementById("countdown").src = '/img/' + name + ".png";
                     index--;
                     if (index < 0) {
+                        //$('.time-run-0').show();
                         $('.time-run').hide();
                     }
                 }, seconds + 1);
             } else {
+                $('.time-run-0').show();
                 $('.time-run').hide();
             }
         },
@@ -144,6 +149,7 @@
         },
         moveRoad: function (pkInfo) {
             var seconds = (pkInfo.GamingSeconds < 0 ? Math.abs(pkInfo.GamingSeconds) : 0) + 's';
+            console.log('GamingSeconds:' + seconds);
             $('body').oneTime(seconds, function () {
                 // road moving
                 $('.saidao').floatingBg({ direction: 5, millisec: motoRacing.Millisec, backgroud: '/img/bg_saidao.jpg', });

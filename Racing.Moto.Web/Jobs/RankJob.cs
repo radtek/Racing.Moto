@@ -33,7 +33,7 @@ namespace Racing.Moto.Web.Jobs
                     if (pk != null && string.IsNullOrEmpty(pk.Ranks))
                     {
                         var now = DateTime.Now;
-                        if (now >= pk.EndTime.AddSeconds(-pk.LotterySeconds - 3))// 开奖前3秒
+                        if (now >= pk.BeginTime.AddSeconds(pk.OpeningSeconds))// 封盘
                         {
                             // 计算名次
                             var rankList = new BetService().CalculateRanks(pk.PKId);

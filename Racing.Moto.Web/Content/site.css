@@ -41,6 +41,13 @@ body {padding:0; margin:0;font-family: "microsoft Yahei" !important;background-c
     left: 180px;
     top: 24px;
 }
+.game-wrap .saidao .time-run-0 {
+    width: 1004px;
+    height: 241px;
+    position: absolute;
+    left: 180px;
+    top: 24px;
+}
 .game-wrap .saidao .time-run #countdown{
     margin-left: 423px;
     margin-top: 7px; 
