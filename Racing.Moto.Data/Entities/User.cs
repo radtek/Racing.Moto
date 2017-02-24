@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Racing.Moto.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -36,7 +37,12 @@ namespace Racing.Moto.Data.Entities
         /// </summary>
         [NotMapped]
         public bool IsOnline { get; set; }
-        
+
+        /// <summary>
+        /// 默认盘 A盘、B盘、C盘
+        /// </summary>
+        public RebateType DefaultRebateType { get; set; }
+
         public virtual UserExtension UserExtension { get; set; }
 
         [ForeignKey(nameof(ParentUser))]

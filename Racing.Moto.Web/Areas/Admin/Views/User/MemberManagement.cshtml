@@ -76,6 +76,15 @@
                                                        input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" />
                                             </td>
                                         </tr>
+                                        <tr style="height:28px">
+                                            <td class="bj">開放盤口</td>
+                                            <td class="left_p5">
+                                                <input type="radio" value="1" name="DefaultRebateType" ng-model="user.CurrentUser.DefaultRebateType" />A盤&nbsp;
+                                                <input type="radio" value="2" name="DefaultRebateType" ng-model="user.CurrentUser.DefaultRebateType" />B盤&nbsp;
+                                                <input type="radio" value="3" name="DefaultRebateType" ng-model="user.CurrentUser.DefaultRebateType" />C盤&nbsp;
+                                            </td>
+                                        </tr>
+
                                         @*<tr style="height:28px">
                                             <td class="bj">退水</td>
                                             <td class="left_p5"><input class="text" type="text" maxlength="20" ng-model="user.CurrentUser.UserExtension.Amount"></td>

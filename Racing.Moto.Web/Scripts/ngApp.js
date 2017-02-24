@@ -74,3 +74,20 @@ app.directive('inputMask', function () {
         }
     };
 });
+app.directive('disableElements', function () {
+    return {
+        //scope: {
+        //    disableElements: '='
+        //},
+        link: function ($scope, $element, $attrs) {
+            $scope.$watch($attrs.disableElements, function (isDisabled) {
+                if (isDisabled) {
+                    angular.element('input', $element).attr('disabled', 'disabled').addClass('ng-disabled');
+                } else {
+                    angular.element('input', $element).removeAttr('disabled').removeClass('ng-disabled');
+                }
+            });
+            
+        }
+    }
+});

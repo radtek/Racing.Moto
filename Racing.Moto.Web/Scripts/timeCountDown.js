@@ -2,8 +2,9 @@
 * http://www.zhangxinxu.com/wordpress/?p=987
 * 倒计时的实现
 */
-var fnTimeCountDown = function (d, o) {
+var fnTimeCountDown = function (d, o, callback) {
     var f = {
+        callback: null,
         zero: function (n) {
             var n = parseInt(n, 10);
             if (n > 0) {
@@ -40,6 +41,11 @@ var fnTimeCountDown = function (d, o) {
                 pms.year = Math.floor((dur / 31556926)) > 0 ? Math.floor((dur / 31556926)) : "0";
             } else {
                 pms.isZero = true;
+
+                //callback
+                if (typeof f.callback === "function") {
+                    f.callback();
+                }
             }
             return pms;
         },
@@ -67,5 +73,6 @@ var fnTimeCountDown = function (d, o) {
             }
         }
     };
+    f.callback = callback;
     f.ui();
 };

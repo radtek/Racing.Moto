@@ -60,11 +60,6 @@ namespace Racing.Moto.Data.Entities
         /// </summary>
         public decimal RebateTypeC { get; set; }
 
-        /// <summary>
-        /// 默认盘 A盘、B盘、C盘
-        /// </summary>
-        public RebateType DefaultRebateType { get; set; }
-
 
         [ForeignKey(nameof(User))]
         public int UserId { get; set; }

@@ -5,6 +5,7 @@
     };
 
     $scope.bet = {
+        Disabled: false,
         PKModel: null,
         PKRates: [],
         Bets: [],//投注
@@ -15,8 +16,8 @@
 
         NotSavedBetItems: [],
         SavedBetItems: [],
-        NotSavedAoumt: 0,
-        SavedAoumt: 0,
+        NotSavedAmount: 0,
+        SavedAmount: 0,
 
         ChineseNums: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'],
         Tabs: [
@@ -35,13 +36,12 @@
                     $scope.bet.PKRates = res.data.Data.PKRates;
                     $scope.bet.Bets = res.data.Data.Bets;
 
+                    // 设置下注信息
                     $scope.bet.initPKRates($scope.bet.PKRates);
                     $scope.bet.initBetItems($scope.bet.Bets);
                     $scope.bet.setBets($scope.bet.PKRates, $scope.bet.Bets);
-
                     // 重置输入框背景色
                     $scope.bet.resetBgColor();
-
                     // 倒计时
                     $scope.countdown.init($scope.bet.PKModel);
                 }
@@ -73,7 +73,7 @@
                 });
             });
             //已投注.投注金额
-            $scope.bet.SavedAoumt = $scope.bet.sumBetAmount($scope.bet.SavedBetItems);
+            $scope.bet.SavedAmount = $scope.bet.sumBetAmount($scope.bet.SavedBetItems);
         },
         setBetItem: function (betItem, rate) {
             betItem.TabName = $scope.bet.getTabName(betItem.Num, betItem.Rank);
@@ -108,11 +108,14 @@
 
         //refresh
         refresh: function (pkModel) {
-            $scope.bet.PKModel = pkModel;
+            // 重新初始化
+            $scope.bet.init();
 
             // 设置可以下注
-            // 倒计时
-            $scope.countdown.init($scope.bet.PKModel);
+            $scope.bet.setDisabled(false);
+        },
+        setDisabled: function (disabled) {
+            $scope.bet.Disabled = disabled;
         },
 
         /* Popover for quick bet */
@@ -155,7 +158,7 @@
                 case 6: pkRate.Amount6 = amount; break;
                 case 7: pkRate.Amount7 = amount; break;
                 case 8: pkRate.Amount8 = amount; break;
-                case 9: rpkRate.Amount9 = amount; break;
+                case 9: pkRate.Amount9 = amount; break;
                 case 10: pkRate.Amount10 = amount; break;
                 case 11: pkRate.Amount11 = amount; break;
                 case 12: pkRate.Amount12 = amount; break;
@@ -213,7 +216,7 @@
                 }
             }
             //未投注.投注金额
-            $scope.bet.NotSavedAoumt = $scope.bet.sumBetAmount($scope.bet.NotSavedBetItems);
+            $scope.bet.NotSavedAmount = $scope.bet.sumBetAmount($scope.bet.NotSavedBetItems);
 
             // 重置输入框背景色
             $scope.bet.resetBgColor();
@@ -430,6 +433,9 @@
         },
         save: function () {
             //console.log($scope.bet.PKRates);
+            if ($scope.bet.Disabled) {
+                return;
+            }
             var bets = [];
             angular.forEach($scope.bet.NotSavedBetItems, function (item, index, arr) {
                 $scope.bet.addBet(bets, item.Rank, item.Num, item.Amount, item.Rate);
@@ -450,8 +456,9 @@
                     return;
                 }
 
-                // 更新余额
-                $scope.bet.updateBalance(res.data.Data);
+                
+                $scope.bet.NotSavedAmount = 0;  //未投注方案.投注金额
+                $scope.bet.updateBalance(res.data.Data);// 更新余额
                 $scope.bet.init();
                 alert('投注成功!');
             });
@@ -542,3 +549,10 @@ $(function () {
         },
     };
 })
+
+// timeCountDownCallback
+var __timeCountDownCallback = function () {
+    var appElement = document.querySelector('[ng-controller=betController]');
+    var scope = angular.element(appElement).scope();
+    scope.bet.setDisabled(true);
+};

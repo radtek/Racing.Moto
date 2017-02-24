@@ -1,4 +1,5 @@
 ﻿using Racing.Moto.Data.Entities;
+using Racing.Moto.Data.Enums;
 using Racing.Moto.Services.Caches;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,6 @@ namespace Racing.Moto.Services
                 rebates.Add(new UserRebate
                 {
                     RebateNo = i,
-                    DefaultRebateType = Data.Enums.RebateType.C,
                     RebateTypeA = AppConfigCache.Rate_Rebate_A,
                     RebateTypeB = AppConfigCache.Rate_Rebate_B,
                     RebateTypeC = AppConfigCache.Rate_Rebate_C,
@@ -52,14 +52,14 @@ namespace Racing.Moto.Services
             return rebates;
         }
 
-        public static decimal GetDefaultRebate(UserRebate userRebate)
+        public static decimal GetDefaultRebate(UserRebate userRebate, RebateType defaultRebateType)
         {
             var rebate = 0M;
-            switch (userRebate.DefaultRebateType)
+            switch (defaultRebateType)
             {
-                case Data.Enums.RebateType.A: rebate = userRebate.RebateTypeA; break;
-                case Data.Enums.RebateType.B: rebate = userRebate.RebateTypeB; break;
-                case Data.Enums.RebateType.C: rebate = userRebate.RebateTypeC; break;
+                case RebateType.A: rebate = userRebate.RebateTypeA; break;
+                case RebateType.B: rebate = userRebate.RebateTypeB; break;
+                case RebateType.C: rebate = userRebate.RebateTypeC; break;
             }
             return rebate;
         }

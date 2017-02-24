@@ -185,13 +185,13 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveUser(int type, User user)
+        public JsonResult SaveUser(int type, User user, RebateType rebateType)
         {
             var result = new ResponseResult();
 
             try
             {
-                result = new UserService().SaveUser(type, user);
+                result = new UserService().SaveUser(type, user, rebateType);
             }
             catch (Exception ex)
             {

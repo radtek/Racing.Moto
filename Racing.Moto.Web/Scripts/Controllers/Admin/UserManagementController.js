@@ -1,6 +1,7 @@
 ﻿app.controller('userManagementController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
     $scope.data = {
         UserTypes: { Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4 },
+        //RebateTypes: [{ ID: 1, Name: 'A' }, { ID: 2, Name: 'B' }, { ID: 3, Name: 'C' }],
         LoginUserId: null,
         ParentUsers: []
     };
@@ -15,7 +16,7 @@
         UserType: null,
         UserId: null,
         IsEdit: false,
-        CurrentUser: {},
+        CurrentUser: { DefaultRebateType: '1', IsLocked: 'false' },
         init: function (userType, userId) {
             $scope.user.UserType = parseInt(userType, 10);
             $scope.user.UserId = userId != null ? parseInt(userId, 10) : 0;
@@ -27,8 +28,9 @@
             $http.post('/Admin/User/GetUser/' + userId, {}).then(function (res) {
                 console.log(res);
                 if (res.data.Success) {
-                    $scope.user.CurrentUser = angular.merge(res.data.Data, $scope.user.CurrentUser);
+                    $scope.user.CurrentUser = angular.merge($scope.user.CurrentUser, res.data.Data);
                     $scope.user.CurrentUser.IsLocked = $scope.user.CurrentUser.IsLocked ? 'true' : 'false';
+                    $scope.user.CurrentUser.DefaultRebateType = $scope.user.CurrentUser.DefaultRebateType.toString();
                     $scope.user.CurrentUser.Password = '';
                 } else {
                     alert(res.data.Message)
@@ -38,7 +40,8 @@
         save: function () {
             var data = {
                 type: $scope.user.UserType,
-                user: $scope.user.CurrentUser
+                user: $scope.user.CurrentUser,
+                rebateType: $scope.user.CurrentUser.DefaultRebateType,
             };
             $http.post('/Admin/User/SaveUser', data).then(function (res) {
                 console.log(res);

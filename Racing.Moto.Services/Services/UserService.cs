@@ -169,7 +169,7 @@ namespace Racing.Moto.Services
         /// </summary>
         /// <param name="roleId">角色</param>
         /// <param name="user">用户信息</param>
-        public ResponseResult SaveUser(int roleId, User user)
+        public ResponseResult SaveUser(int roleId, User user, RebateType defaultRebateType)
         {
             var response = new ResponseResult();
 
@@ -192,7 +192,8 @@ namespace Racing.Moto.Services
                 user.Password = CryptoUtils.Encrypt(user.Password);
                 user.FailedPasswordAttemptWindowStart = DateTime.Parse("1900-01-01");
                 user.UserRoles = new List<UserRole> { new UserRole { RoleId = roleId } };
-                user.UserRebates = UserRebateService.GetDefaultRebates();// 默认退水
+                user.UserRebates = UserRebateService.GetDefaultRebates();   // 退水
+                user.DefaultRebateType = defaultRebateType;// 默认退水
 
                 db.User.Add(user);
             }
@@ -208,9 +209,11 @@ namespace Racing.Moto.Services
                     dbUser.Password = !string.IsNullOrEmpty(user.Password) ? CryptoUtils.Encrypt(user.Password) : dbUser.Password;
                     dbUser.IsLocked = user.IsLocked;
                     dbUser.UserExtension.Amount = user.UserExtension.Amount;
+                    dbUser.DefaultRebateType = defaultRebateType;// 默认退水
+
                     if (dbUser.UserRebates == null || dbUser.UserRebates.Count() == 0)
                     {
-                        var userRebates = UserRebateService.GetDefaultRebates();// 默认退水
+                        var userRebates = UserRebateService.GetDefaultRebates();// 退水
                         userRebates.ForEach(r => r.UserId = dbUser.UserId);
                         db.UserRebate.AddRange(userRebates);
                     }

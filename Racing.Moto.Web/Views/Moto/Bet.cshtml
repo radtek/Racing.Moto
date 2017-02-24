@@ -28,7 +28,7 @@
     </ul>
     <div class="thead">{{bet.CurrentTab.Name}}</div>
 
-    <div ng-show="bet.CurrentTab == 1">
+    <div ng-show="bet.CurrentTab == 1" disable-elements="bet.Disabled">
         <table class="z-table" ng-repeat="item in bet.TopFive">
             <tr>
                 <td class="bg-gray" rowspan='2'>第{{bet.ChineseNums[item.Rank - 1]}}名</td>
@@ -117,7 +117,7 @@
             </tr>
         </table>
     </div>
-    <div ng-show="bet.CurrentTab == 2">
+    <div ng-show="bet.CurrentTab == 2" disable-elements="bet.Disabled">
         <table class="z-table" ng-repeat="item in bet.LastFive">
             <tr>
                 <td class="bg-gray" rowspan='2'>第{{bet.ChineseNums[item.Rank - 1]}}名</td>
@@ -206,7 +206,7 @@
             </tr>
         </table>
     </div>
-    <div ng-show="bet.CurrentTab == 3">
+    <div ng-show="bet.CurrentTab == 3" disable-elements="bet.Disabled">
         <table class="z-table" ng-repeat="item in bet.BSOE">
             <tr>
                 <td class="bg-gray" rowspan='2'>第{{bet.ChineseNums[item.Rank - 1]}}名</td>
@@ -248,7 +248,7 @@
 
     <div class="touzhu-1">
         <div style="margin-left: 250px;">未投注方案<span ng-bind="bet.NotSavedBetItems.length">3</span>注</div>
-        <div style="margin-left: 100px; margin-right: 80px;">投注金额<span ng-bind="bet.NotSavedAoumt">125.00</span></div>
+        <div style="margin-left: 100px; margin-right: 80px;">投注金额<span ng-bind="bet.NotSavedAmount">125.00</span></div>
         <a href="javascript:;" ng-click="bet.save()">
             <img src="/img/houtai/lijitouzhu.png" class="lijitouzhu" />
         </a>
@@ -283,7 +283,7 @@
             <div>
                 已投注方案<span ng-bind="bet.SavedBetItems.length">2</span>注
             </div>
-            <div style="margin-left: 70px;">投注金额：<span ng-bind="bet.SavedAoumt">60.00</span></div>
+            <div style="margin-left: 70px;">投注金额：<span ng-bind="bet.SavedAmount">60.00</span></div>
         </div>
     </div>
 

@@ -69,14 +69,14 @@ namespace Racing.Moto.Services
         {
             // 按下注用户生成
             var userIds = db.Bet.Where(b => b.PKId == pk.PKId).Select(b => b.UserId).Distinct().ToList();
-            var userRebates = db.UserRebate.Where(r => userIds.Contains(r.UserId)).ToList();
+            var userRebates = db.UserRebate.Include(nameof(UserRebate.User)).Where(r => userIds.Contains(r.UserId)).ToList();
             foreach (var userId in userIds)
             {
                 var userRebate = userRebates.Where(e => e.UserId == userId).FirstOrDefault();
 
                 if (userRebate != null)
                 {
-                    var rebate = UserRebateService.GetDefaultRebate(userRebate);
+                    var rebate = UserRebateService.GetDefaultRebate(userRebate, userRebate.User.DefaultRebateType);
 
                     // 退水奖金
                     var bonuses = new List<PKBonus>();
