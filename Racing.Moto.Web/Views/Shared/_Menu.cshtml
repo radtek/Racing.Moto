@@ -1,26 +1,18 @@
 ﻿@{ 
     var menus = PKBag.Menus != null ? PKBag.Menus : new List<Racing.Moto.Data.Entities.Menu>();
     var rootMenus = menus.Where(m => m.ParentMenuId == null).ToList();
+
+    var pkMenu = menus.Where(m => m.MenuName == "北京赛车(pk 10)").FirstOrDefault();
+    var pMenuId = pkMenu != null ? pkMenu.MenuId : 0;
+    var pkChildMenus = menus.Where(m => m.ParentMenuId == pMenuId).ToList();
 }
-<ul class="main-menu top">
-@for (var i = 0; i < rootMenus.Count; i++)
+<ul class="sub-menu">
+@for (var i = 0; i < pkChildMenus.Count; i++)
 {
     var index = i + 1;
-    <li class="menu-@index"><a href="@rootMenus[i].MenuUrl">@rootMenus[i].MenuName</a></li>
+    <li class="menu-@index"><a href="@pkChildMenus[i].MenuUrl">@pkChildMenus[i].MenuName</a></li>
 }
 </ul>
-
-@for (var i = 0; i < rootMenus.Count; i++)
-{
-    var index = i + 1;
-    var childMenus = menus.Where(m => m.ParentMenuId == rootMenus[i].MenuId).ToList();
-    <ul class="tab-new hide sub-menu-@index">
-        @foreach (var menu in childMenus)
-        {
-            <li><a href="@menu.MenuUrl">@menu.MenuName</a></li>
-        }
-    </ul>
-}
 
 <script type="text/javascript">
     $(function () {
@@ -40,18 +32,6 @@
                     }
                 }
             },
-            //hover: function () {
-            //    $('.main-menu > li').hover(function (evt) {
-            //        $('.main-menu > li').each(function () {
-            //            $(this).removeClass('on');
-            //        });
-            //        $(this).addClass('on');
-
-            //        // sub menu
-            //        resetSubMenu()
-            //    },function () {
-            //    });
-            //},
         };
 
         menu.init();

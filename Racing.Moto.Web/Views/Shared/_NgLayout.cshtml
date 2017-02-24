@@ -13,15 +13,20 @@
 
     <script src="~/RacingMotoBetJs"></script>
     <script src="~/Scripts/AngularJs/angular-ui-bootstrap.js"></script>
-
     <script src="~/Scripts/app.js"></script>
     <script src="~/Scripts/ngApp.js"></script>
+
+    <script src="~/Scripts/timeCountDown.js"></script>
+
     @RenderSection("headScripts", required: false)
 </head>
 <body ng-app="RacingMotoNgApp">
     @{
         var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
         var balance = PKBag.LoginUser != null ? PKBag.LoginUser.UserExtension.Amount.ToString("0") : "0";
+
+        var menus = PKBag.Menus != null ? PKBag.Menus : new List<Racing.Moto.Data.Entities.Menu>();
+        var rootMenus = menus.Where(m => m.ParentMenuId == null).ToList();
     }
     <div class="user-top">
         <div class="box">
@@ -59,6 +64,13 @@
                     <img src="/img/houtai/nav-3.png">
                 </a>
             </li>
+        </ul>
+        <ul class="main-menu">
+            @for (var i = 0; i < rootMenus.Count; i++)
+            {
+                var css = i == 0 ? "on" : "";
+                <li class="@css"><a href="@rootMenus[i].MenuUrl">@rootMenus[i].MenuName</a></li>
+            }
         </ul>
     </div>
     <div class="main-wrap">

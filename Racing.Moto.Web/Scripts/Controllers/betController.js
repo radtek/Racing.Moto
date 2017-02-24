@@ -42,6 +42,7 @@
                     // 重置输入框背景色
                     $scope.bet.resetBgColor();
 
+                    // 倒计时
                     $scope.countdown.init($scope.bet.PKModel);
                 }
             });
@@ -103,6 +104,15 @@
         },
         getChineseRank: function (rank) {
             return $scope.bet.ChineseNums[rank - 1];
+        },
+
+        //refresh
+        refresh: function (pkModel) {
+            $scope.bet.PKModel = pkModel;
+
+            // 设置可以下注
+            // 倒计时
+            $scope.countdown.init($scope.bet.PKModel);
         },
 
         /* Popover for quick bet */
@@ -436,10 +446,6 @@
             };
             $http.post('/Moto/SaveBets', data).then(function (res) {
                 if (!res.data.Success) {
-                    if (res.data.Data != null && res.data.Data != '') {
-                        // 更新余额
-
-                    }
                     alert(res.data.Message);
                     return;
                 }
@@ -498,3 +504,41 @@
         },
     };
 }]);
+
+$(function () {
+    var ticker = $.connection.pKTickerHub;
+
+    function init() {
+        ticker.server.getPKInfo().done(function (pkInfo) {
+            console.log(pkInfo);
+            motoRacing.refresh(pkInfo);
+        });
+    }
+
+    // Add a client-side hub method that the server will call
+    ticker.client.updatePKInfo = function (pkInfo) {
+        console.log(pkInfo);
+        motoRacing.refresh(pkInfo);
+    }
+
+    // Start the connection
+    $.connection.hub.start().done(init);
+
+    var motoRacing = {
+        PKInfo: null,
+        Scope: null,
+        refresh: function (pkInfo) {
+            if (pkInfo != null && (motoRacing.PKInfo == null || pkInfo.PK.PKId != motoRacing.PKInfo.PK.PKId)) {
+                motoRacing.PKInfo = pkInfo;
+
+                if (motoRacing.Scope == null) {
+
+                    var appElement = document.querySelector('[ng-controller=betController]');
+                    motoRacing.Scope = angular.element(appElement).scope();
+                }
+
+                motoRacing.Scope.bet.refresh(pkInfo)
+            }
+        },
+    };
+})

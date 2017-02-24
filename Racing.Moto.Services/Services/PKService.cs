@@ -67,6 +67,7 @@ namespace Racing.Moto.Services
                 PassedSeconds = passedSeconds,
                 RemainSeconds = remainSeconds,
                 OpeningRemainSeconds = openingRemainSeconds,
+                CloseBeginTime = currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds),
                 GameBeginTime = currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds + currentPK.CloseSeconds),
                 GamingSeconds = gamingSeconds,
                 GamePassedSeconds = gamePassedSeconds,

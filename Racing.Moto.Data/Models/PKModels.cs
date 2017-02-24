@@ -26,6 +26,12 @@ namespace Racing.Moto.Data.Models
         /// 距离封盘的秒数, 负:已封盘, 正:距离封盘的秒数
         /// </summary>
         public int OpeningRemainSeconds { get; set; }
+
+        /// <summary>
+        /// 封盘开始时间
+        /// </summary>
+        public DateTime CloseBeginTime { get; set; }
+
         /// <summary>
         /// 游戏开始时间
         /// </summary>

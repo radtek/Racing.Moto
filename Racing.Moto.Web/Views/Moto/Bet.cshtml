@@ -3,6 +3,8 @@
     Layout = "~/Views/Shared/_NgLayout.cshtml";
 }
 @section headScripts {
+    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="/signalr/hubs"></script>
     <script src="~/Scripts/Controllers/betController.js"></script>
 }
 <div ng-controller="betController" ng-init="init()">
