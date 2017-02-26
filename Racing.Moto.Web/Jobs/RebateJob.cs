@@ -22,7 +22,7 @@ namespace Racing.Moto.Web.Jobs
             try
             {
                 var pkService = new PKService();
-                var bonusService = new BonusService();
+                var bonusService = new PKBonusService();
 
                 var pks = pkService.GetNotRebatePKs();
 

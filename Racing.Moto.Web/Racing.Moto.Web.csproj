@@ -206,6 +206,12 @@
     <Content Include="Areas\Admin\Views\User\Rebate.cshtml" />
     <Content Include="App_Data\17monipdb.dat" />
     <Content Include="Areas\Admin\Views\Log\LoginRecord.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Rank.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\GeneralAgent.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Agent.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Bets.cshtml" />
+    <Content Include="Areas\Admin\Views\Report\Member.cshtml" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -279,12 +285,16 @@
     <Content Include="Scripts\Controllers\Admin\LogController.js" />
     <Content Include="Scripts\Controllers\Admin\OnlineController.js" />
     <Content Include="Scripts\Controllers\Admin\RebateController.js" />
+    <Content Include="Scripts\Controllers\Admin\ReportController.js" />
     <Content Include="Scripts\Controllers\Admin\UserManagementController.js" />
     <Content Include="Scripts\Controllers\Admin\UserController.js" />
     <Content Include="Scripts\Controllers\Admin\RateController.js" />
     <Content Include="Scripts\Controllers\Admin\NewsController.js" />
     <Content Include="Scripts\Controllers\betController.js" />
     <Content Include="Scripts\Controllers\userController.js" />
+    <Content Include="Scripts\datetimepicker\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\datetimepicker\bootstrap-datetimepicker.min.css" />
+    <Content Include="Scripts\datetimepicker\bootstrap-datetimepicker.zh-CN.js" />
     <Content Include="Scripts\Jquery.inputmask\jquery.inputmask.bundle-3.2.7.js" />
     <Content Include="Scripts\JqueryUI\jquery-ui.min.css" />
     <Content Include="Scripts\JqueryUI\jquery-ui.min.js" />
@@ -700,6 +710,7 @@
     <Compile Include="Areas\Admin\Controllers\OnlineController.cs" />
     <Compile Include="Areas\Admin\Controllers\PKController.cs" />
     <Compile Include="Areas\Admin\Controllers\RateController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CaptchaController.cs" />

@@ -91,3 +91,16 @@ app.directive('disableElements', function () {
         }
     }
 });
+app.directive('datePicker', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            element.datetimepicker({
+                language: 'zh-CN',
+                format: 'yyyy-mm-dd',
+                autoclose: 1,
+                minView: 2,
+            })
+        }
+    };
+});

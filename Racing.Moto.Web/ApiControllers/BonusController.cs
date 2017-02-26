@@ -18,7 +18,7 @@ namespace Racing.Moto.Web.ApiControllers
         private ILogger _logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
-        /// 取当前局奖金
+        /// 当前局比赛完成后, 获取奖金数据
         /// </summary>
         [HttpPost]
         public ResponseResult GetBonus(BonusSearchModel model)
@@ -27,8 +27,8 @@ namespace Racing.Moto.Web.ApiControllers
 
             try
             {
-                // TODO 改成 Task
-                result.Data = new BonusService().GetPKBonus(model);
+                // TODO 改成 异步
+                result.Data = new PKBonusService().GetPKBonus(model.PKId, model.UserId);
             }
             catch (Exception ex)
             {

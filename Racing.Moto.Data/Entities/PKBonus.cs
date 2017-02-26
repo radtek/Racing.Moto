@@ -40,6 +40,11 @@ namespace Racing.Moto.Data.Entities
         public BonusType BonusType { get; set; }
 
         /// <summary>
+        /// 是否已结算
+        /// </summary>
+        public bool IsSettlementDone { get; set; }
+
+        /// <summary>
         /// 用户
         /// </summary>
         [ForeignKey(nameof(User))]

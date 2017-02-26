@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Title = "总代理";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section headScripts {
+    <script src="~/Scripts/Controllers/admin/ReportController.js"></script>
+}
+<table width="100%" height="100%" border="0" cellspacing="0" class="a" ng-controller="reportSearchController" ng-init="init(1)">
+    <tbody>
+        <tr>
+            <td width="6" height="99%" bgcolor="#4E4E4E"></td>
+            <td class="c">
+                <table border="0" cellspacing="0" class="main">
+                    <tbody>
+                        <tr>
+                            <td width="12"><img src="/images/admin/tab_03.gif" alt=""></td>
+                            <td background="/images/admin/tab_05.gif">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <td width="17"><img src="/images/admin/tb.gif" width="16" height="16"></td>
+                                            <td width="99%" style="font-weight:bold;">&nbsp;報表查詢</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td width="16"><img src="/images/admin/tab_07.gif" alt=""></td>
+                        </tr>
+                        <tr>
+                            <td class="t"></td>
+                            <td class="c">
+                                <!-- strat -->
+                                <table border="0" cellspacing="0" class="conter">
+                                    <tbody>
+                                        <tr class="tr_top">
+                                            <th colspan="2">查詢設定</th>
+                                        </tr>
+                                        <tr>
+                                            <td class="bj1">彩票種類</td>
+                                            <td class="left_p6">
+                                                <select name="s_types">
+                                                    <option value="1" style="color:red">北京赛车(pk10)</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bj1">下註類型</td>
+                                            <td class="left_p6">
+                                                <select ng-model="report.Params.BetType" ng-options="item.ID as item.Name for item in data.BetTypes">
+                                                    <option value="">--- 所有類型 ---</option>
+                                                    @*<option value="43">北京賽車(PK10) - 冠軍</option>
+                                                    <option value="44">北京賽車(PK10) - 亞軍</option>
+                                                    <option value="45">北京賽車(PK10) - 第三名</option>
+                                                    <option value="46">北京賽車(PK10) - 第四名</option>
+                                                    <option value="47">北京賽車(PK10) - 第五名</option>
+                                                    <option value="48">北京賽車(PK10) - 第六名</option>
+                                                    <option value="49">北京賽車(PK10) - 第七名</option>
+                                                    <option value="50">北京賽車(PK10) - 第八名</option>
+                                                    <option value="51">北京賽車(PK10) - 第九名</option>
+                                                    <option value="52">北京賽車(PK10) - 第十名</option>
+                                                    <option value="54">北京賽車(PK10) - 大小</option>
+                                                    <option value="55">北京賽車(PK10) - 單雙</option>*@
+                                                    
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bj1"><input name="t_N" type="radio" value="1" ng-model="report.Params.SearchType" />按期數</td>
+                                            <td class="left_p6">
+                                                <select name="s_number" id="s_number" ng-model="report.Params.PKId" ng-options="item.PKId as item.PKId + ' 期' for item in report.HistoryPKs">
+                                                    @*<option value="604075">北京賽車PK10 604075 期</option>*@
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bj1"><input name="t_N" type="radio" value="2" checked="checked" ng-model="report.Params.SearchType" />按日期</td>
+                                            <td class="left_p6">
+                                                <span id="td_Find">
+                                                    <input class="textb" size="11" ng-model="report.Params.FromDate" date-picker />&nbsp;—&nbsp;
+                                                    <input class="textb" size="11" ng-model="report.Params.ToDate" date-picker />
+                                                </span>&nbsp;&nbsp;
+                                                <input type="button" class="odds2" ng-click="report.changeDateType(1)" value="今天">
+                                                <input type="button" ng-click="report.changeDateType(2)" value="昨天" style="color:#344B50;">
+                                                <input type="button" ng-click="report.changeDateType(3)" value="本星期" style="color:#344B50;">
+                                                <input type="button" ng-click="report.changeDateType(4)" value="上星期" style="color:#344B50;">
+                                                <input type="button" ng-click="report.changeDateType(5)" value="本月" style="color:#344B50;">
+                                                <input type="button" ng-click="report.changeDateType(6)" value="上月" style="color:#344B50;">
+                                            </td>
+                                        </tr>
+                                        @*<tr>
+                                            <td class="bj1">歷史報表範圍</td>
+                                            <td class="left_p6">2017-01-22 — 2017-02-26</td>
+                                        </tr>*@
+                                        @*<tr>
+                                            <td class="bj1">帳務說明</td>
+                                            <td class="left_p6" style="height:55px; color:blue">
+                                                “當天報表” 將在次日淩晨2點45分后与 “歷史報表” 合併
+                                                <br><br>
+                                                “重慶時時彩” 淩晨兩點前註單算當天帳
+                                                <br><br>
+                                                “快樂8(雙盤)”淩晨六點前註單算當天帳
+                                            </td>
+                                        </tr>*@
+                                        <tr>
+                                            <td class="bj1">報錶類型</td>
+                                            <td class="left_p6">
+                                                <input ng-model="report.Params.ReportType" type="radio" value="1" checked="checked">交收報錶&nbsp;&nbsp;&nbsp;
+                                                <input ng-model="report.Params.ReportType" type="radio" value="2">分類報錶
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="bj1">結算狀態</td>
+                                            <td class="left_p6">
+                                                <input ng-model="report.Params.SettlementType" type="radio" value="1" checked="checked">已 結 算&nbsp;&nbsp;&nbsp;
+                                                <input ng-model="report.Params.SettlementType" type="radio" value="2"><font color="blue">未 結 算</font>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- end -->
+                            </td>
+                            <td class="r"></td>
+                        </tr>
+                        <tr>
+                            <td width="12"><img src="/images/admin/tab_18.gif" alt=""></td>
+                            <td class="f" align="center"><input type="button" class="inputs" value="確定" onclick="report.search()" style="color:#0C3E09;"></td>
+                            <td width="16"><img src="/images/admin/tab_20.gif" alt=""></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td width="6" bgcolor="#4E4E4E"></td>
+        </tr>
+        <tr>
+            <td height="6" bgcolor="#4E4E4E"></td>
+            <td bgcolor="#4E4E4E"></td>
+            <td height="6" bgcolor="#4E4E4E"></td>
+        </tr>
+    </tbody>
+</table>

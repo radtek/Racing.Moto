@@ -208,5 +208,18 @@ namespace Racing.Moto.Services
             var pks = db.PK.Where(pk => pk.Ranks != null).OrderByDescending(pk => pk.PKId).Pager<PK>(searchModel.PageIndex, searchModel.PageSize);
             return pks;
         }
+
+        /// <summary>
+        /// 取已结算的PK数据, 报表查询中按期数查询使用
+        /// </summary>
+        /// <param name="count">期数</param>
+        public List<PK> GetSettlementPKs(int count)
+        {
+            return db.PK
+                .Where(pk => pk.EndTime < DateTime.Now)
+                .OrderByDescending(pk => pk.PKId)
+                .Take(count)
+                .ToList();
+        }
     }
 }

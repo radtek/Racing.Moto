@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Racing.Moto.Services
 {
-    public class BonusService : BaseServcice
+    public class PKBonusService : BaseServcice
     {
-        public List<PKBonus> GetPKBonus(BonusSearchModel model)
+        public List<PKBonus> GetPKBonus(int pkId, int userId)
         {
             return db.PKBonus
-                .Where(b => b.PKId == model.PKId && b.UserId == model.UserId)
+                .Where(b => b.PKId == pkId && b.UserId == userId)
                 .OrderBy(b => b.Rank)
                 .ThenBy(b => b.Num)
                 .ToList();
@@ -104,5 +104,18 @@ namespace Racing.Moto.Services
                 }
             }
         }
+
+        #region Report
+
+        public List<PKBonus> GetBonusReport(BonusSearchModel model)
+        {
+            return db.PKBonus
+                .Where(b => b.PKId == model.PKId && b.UserId == model.UserId)
+                .OrderBy(b => b.Rank)
+                .ThenBy(b => b.Num)
+                .ToList();
+        }
+
+        #endregion
     }
 }

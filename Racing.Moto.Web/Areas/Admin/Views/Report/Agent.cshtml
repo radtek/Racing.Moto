@@ -1,0 +1,125 @@
+﻿@{
+    ViewBag.Title = "交收报表";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section headScripts {
+    <script src="~/Scripts/Controllers/admin/ReportController.js"></script>
+}<table width="100%" height="100%" border="0" cellspacing="0" class="a">
+    <tbody>
+        <tr>
+            <td width="6" height="99%" bgcolor="#4E4E4E"></td>
+            <td class="c">
+                <table border="0" cellspacing="0" class="main">
+                    <tbody>
+                        <tr>
+                            <td width="12"><img src="/images/admin/tab_03.gif" alt=""></td>
+                            <td background="/images/admin/tab_05.gif">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <td width="17"><img src="/images/admin/tb.gif" width="16" height="16"></td>
+                                            <td width="60%">&nbsp;管理员（sai003） - 交收報表</td>
+                                            <td width="35%">按日期查詢：2017-02-01 -- 2017-02-28</td>
+                                            <td width="18"><img src="images/fh.gif"></td>
+                                            <td width="30"><a href="javascript:history.go(-1);" class="font_r F_bold">返囬</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td width="16"><img src="/images/admin/tab_07.gif" alt=""></td>
+                        </tr>
+                        <tr>
+                            <td class="t"></td>
+                            <td class="c">
+                                <!-- strat -->
+                                <table border="0" cellspacing="0" class="conter">
+                                    <tbody>
+                                        <tr class="tr_top">
+                                            <td>代理、直屬會員</td>
+                                            <td>名稱</td>
+                                            <td>筆數</td>
+                                            <td><b>有效金額</b></td>
+                                            <td>會員輸贏</td>
+                                            <td>應收下綫</td>
+                                            <td width="70">實占成數</td>
+                                            <td>實占註額</td>
+                                            <td>實占輸贏</td>
+                                            <td>實占退水</td>
+                                            <td>實占結果</td>
+                                            <td>賺取水錢</td>
+                                            <td>賺水后結果</td>
+                                            <td>貢獻上級</td>
+                                            <td>應付上級</td>
+                                        </tr>
+                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center">
+                                            <td>
+                                                yjf88888
+                                            </td>
+                                            <td>有时</td>
+                                            <td>10</td>
+                                            <td>
+                                                <a href="javascript:void(0);" onclick="javascript:GoCryPop('yjf88888','1')" class="tt">4307</a>
+                                            </td>
+                                            <td>-0.2</td>
+
+
+                                            <td class="ll"><b>-0.2</b></td>
+
+                                            <td>0%</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+
+                                            <td>0</td>
+                                            <td><b>-172.3</b></td>
+                                            <td class="bg_b">4307</td>
+                                            <td class="bg_b">172.1</td>
+                                        </tr>
+                                        <tr align="center" class="bg_a">
+                                            <td colspan="2" align="right">合計：</td>
+                                            <td>10</td>
+                                            <td>4307</td>
+                                            <td>-0.2</td>
+                                            <td><b>-0.2</b></td>
+
+                                            <td>--</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td><b>-172.3</b></td>
+                                            <td>4307</td>
+                                            <td><b>172.1</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- end -->
+                            </td>
+                            <td class="r"></td>
+                        </tr>
+                        <tr>
+                            <td width="12"><img src="/images/admin/tab_18.gif" alt=""></td>
+                            <td class="f yu">
+                                占成結果：<font color="red">0</font>&nbsp;&nbsp;/&nbsp;&nbsp;
+                                賺取退水：<font color="#0000FF">0</font>&nbsp;&nbsp;/&nbsp;&nbsp;
+                                抵扣補貨及賺水后結果：<font color="red">-172.3</font>&nbsp;&nbsp;/&nbsp;&nbsp;
+                                應付上級：<font color="#009933">172.1</font>
+                            </td>
+                            <td width="16"><img src="/images/admin/tab_20.gif" alt=""></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+            </td>
+            <td width="6" bgcolor="#4E4E4E"></td>
+        </tr>
+        <tr>
+            <td height="6" bgcolor="#4E4E4E"></td>
+            <td bgcolor="#4E4E4E"></td>
+            <td height="6" bgcolor="#4E4E4E"></td>
+        </tr>
+    </tbody>
+</table>

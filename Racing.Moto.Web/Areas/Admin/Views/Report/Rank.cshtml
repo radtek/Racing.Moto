@@ -1,0 +1,636 @@
+﻿@{
+    ViewBag.Title = "分类报表";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section headScripts {
+    <script src="~/Scripts/Controllers/admin/ReportController.js"></script>
+}
+<table width="100%" height="100%" border="0" cellspacing="0" class="a">
+    <tbody>
+        <tr>
+            <td width="6" height="99%" bgcolor="#4E4E4E"></td>
+            <td class="c">
+                <table border="0" cellspacing="0" class="main">
+                    <tbody>
+                        <tr>
+                            <td width="12"><img src="/images/admin/tab_03.gif" alt=""></td>
+                            <td background="/images/admin/tab_05.gif">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <td width="17"><img src="/images/admin/tb.gif" width="16" height="16"></td>
+                                            <td width="60%">&nbsp;管理員（ad001） - 分类報表</td>
+                                            <td width="35%">按日期查詢：2017-02-26 -- 2017-02-26</td>
+                                            <td width="18"><img src="images/fh.gif"></td>
+                                            <td width="30"><a href="javascript:history.go(-1);" class="font_r F_bold">返囬</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td width="16"><img src="/images/admin/tab_07.gif" alt=""></td>
+                        </tr>
+                        <tr>
+                            <td class="t"></td>
+                            <td class="c">
+                                <!-- strat -->
+                                <table border="0" cellspacing="0" class="conter">
+                                    <tbody>
+                                        <tr class="tr_top">
+                                            <td>下註纇型</td>
+                                            <td>筆</td>
+                                            <td>總下註金額</td>
+                                            <td>會員輸贏</td>
+                                            <td>應收下綫</td>
+                                            <td>實占成数</td>
+                                            <td>實占註額</td>
+                                            <td>占貨比%</td>
+                                            <td>實占輸贏</td>
+                                            <td>實占退水</td>
+                                            <td>實占結果</td>
+                                            <td>賺取水錢</td>
+                                            <td>賺水后結果</td>
+                                            <td>貢獻上級</td>
+                                            <td>應付上級</td>
+                                        </tr>
+                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center">
+                                            <td>
+                                                北京賽車(PK10) - 冠軍
+                                            </td>
+                                            <td>128</td>
+                                            <td>
+                                                5038
+                                            </td>
+                                            <td>
+                                                251.5
+                                            </td>
+                                            <td>
+                                                296.8
+                                            </td>
+                                            <td>
+                                                100
+                                            </td>
+                                            <td>
+                                                5038
+                                            </td>
+                                            <td>
+                                                --
+                                            </td>
+                                            <td>
+                                                251.5
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center">
+                                            <td>
+                                                北京賽車(PK10) - 亞軍
+                                            </td>
+                                            <td>33</td>
+                                            <td>
+                                                772
+                                            </td>
+                                            <td>
+                                                429.7
+                                            </td>
+                                            <td>
+                                                436.6
+                                            </td>
+                                            <td>
+                                                100
+                                            </td>
+                                            <td>
+                                                772
+                                            </td>
+                                            <td>
+                                                --
+                                            </td>
+                                            <td>
+                                                429.7
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center">
+                                            <td>
+                                                北京賽車(PK10) - 第三名
+                                            </td>
+                                            <td>27</td>
+                                            <td>
+                                                1379
+                                            </td>
+                                            <td>
+                                                -620.6
+                                            </td>
+                                            <td>
+                                                -608.1
+                                            </td>
+                                            <td>
+                                                100
+                                            </td>
+                                            <td>
+                                                1379
+                                            </td>
+                                            <td>
+                                                --
+                                            </td>
+                                            <td>
+                                                -620.6
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center">
+                                            <td>
+                                                北京賽車(PK10) - 第四名
+                                            </td>
+                                            <td>69</td>
+                                            <td>
+                                                2705
+                                            </td>
+                                            <td>
+                                                486.4
+                                            </td>
+                                            <td>
+                                                510.7
+                                            </td>
+                                            <td>
+                                                100
+                                            </td>
+                                            <td>
+                                                2705
+                                            </td>
+                                            <td>
+                                                --
+                                            </td>
+                                            <td>
+                                                486.4
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center">
+                                            <td>
+                                                北京賽車(PK10) - 第五名
+                                            </td>
+                                            <td>26</td>
+                                            <td>
+                                                1210
+                                            </td>
+                                            <td>
+                                                21.3
+                                            </td>
+                                            <td>
+                                                32.1
+                                            </td>
+                                            <td>
+                                                100
+                                            </td>
+                                            <td>
+                                                1210
+                                            </td>
+                                            <td>
+                                                --
+                                            </td>
+                                            <td>
+                                                21.3
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center">
+                                            <td>
+                                                北京賽車(PK10) - 第六名
+                                            </td>
+                                            <td>11</td>
+                                            <td>
+                                                760
+                                            </td>
+                                            <td>
+                                                -267.5
+                                            </td>
+                                            <td>
+                                                -260.7
+                                            </td>
+                                            <td>
+                                                100
+                                            </td>
+                                            <td>
+                                                760
+                                            </td>
+                                            <td>
+                                                --
+                                            </td>
+                                            <td>
+                                                -267.5
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center">
+                                            <td>
+                                                北京賽車(PK10) - 第七名
+                                            </td>
+                                            <td>25</td>
+                                            <td>
+                                                1050
+                                            </td>
+                                            <td>
+                                                181.3
+                                            </td>
+                                            <td>
+                                                190.7
+                                            </td>
+                                            <td>
+                                                100
+                                            </td>
+                                            <td>
+                                                1050
+                                            </td>
+                                            <td>
+                                                --
+                                            </td>
+                                            <td>
+                                                181.3
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center">
+                                            <td>
+                                                北京賽車(PK10) - 第八名
+                                            </td>
+                                            <td>6</td>
+                                            <td>
+                                                117
+                                            </td>
+                                            <td>
+                                                -117
+                                            </td>
+                                            <td>
+                                                -115.9
+                                            </td>
+                                            <td>
+                                                100
+                                            </td>
+                                            <td>
+                                                117
+                                            </td>
+                                            <td>
+                                                --
+                                            </td>
+                                            <td>
+                                                -117
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center">
+                                            <td>
+                                                北京賽車(PK10) - 第九名
+                                            </td>
+                                            <td>6</td>
+                                            <td>
+                                                767
+                                            </td>
+                                            <td>
+                                                -599.6
+                                            </td>
+                                            <td>
+                                                -592.6
+                                            </td>
+                                            <td>
+                                                100
+                                            </td>
+                                            <td>
+                                                767
+                                            </td>
+                                            <td>
+                                                --
+                                            </td>
+                                            <td>
+                                                -599.6
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center">
+                                            <td>
+                                                北京賽車(PK10) - 第十名
+                                            </td>
+                                            <td>71</td>
+                                            <td>
+                                                2317
+                                            </td>
+                                            <td>
+                                                194.8
+                                            </td>
+                                            <td>
+                                                215.6
+                                            </td>
+                                            <td>
+                                                100
+                                            </td>
+                                            <td>
+                                                2317
+                                            </td>
+                                            <td>
+                                                --
+                                            </td>
+                                            <td>
+                                                194.8
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center">
+                                            <td>
+                                                北京賽車(PK10) - 1-10名大小
+                                            </td>
+                                            <td>3</td>
+                                            <td>
+                                                40
+                                            </td>
+                                            <td>
+                                                9.6
+                                            </td>
+                                            <td>
+                                                10.0
+                                            </td>
+                                            <td>
+                                                100
+                                            </td>
+                                            <td>
+                                                40
+                                            </td>
+                                            <td>
+                                                --
+                                            </td>
+                                            <td>
+                                                9.6
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center">
+                                            <td>
+                                                北京賽車(PK10) - 1-10名單雙
+                                            </td>
+                                            <td>3</td>
+                                            <td>
+                                                35
+                                            </td>
+                                            <td>
+                                                4.7
+                                            </td>
+                                            <td>
+                                                5.0
+                                            </td>
+                                            <td>
+                                                100
+                                            </td>
+                                            <td>
+                                                35
+                                            </td>
+                                            <td>
+                                                --
+                                            </td>
+                                            <td>
+                                                4.7
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                0
+                                            </td>
+                                        </tr>
+                                        <tr align="center" class="bg_a">
+                                            <td colspan="1" align="right">合計：</td>
+                                            <td>408</td>
+                                            <td>16190</td>
+                                            <td>-25.5</td>
+                                            <td>120.2</td>
+                                            <td>--</td>
+                                            <td>16190</td>
+                                            <td>--</td>
+                                            <td>-25.5</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td><b>0</b></td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- end -->
+                            </td>
+                            <td class="r"></td>
+                        </tr>
+                        <tr>
+                            <td width="12"><img src="/images/admin/tab_18.gif" alt=""></td>
+                            <td class="f yu"></td>
+                            <td width="16"><img src="/images/admin/tab_20.gif" alt=""></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+            </td>
+            <td width="6" bgcolor="#4E4E4E"></td>
+        </tr>
+        <tr>
+            <td height="6" bgcolor="#4E4E4E"></td>
+            <td bgcolor="#4E4E4E"></td>
+            <td height="6" bgcolor="#4E4E4E"></td>
+        </tr>
+    </tbody>
+</table>
