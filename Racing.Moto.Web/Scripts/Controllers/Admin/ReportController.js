@@ -19,7 +19,7 @@
         HistoryPKs: [],//期数
         Params: { SearchType: '2', ReportType: '1', SettlementType: '1', FromDate: null, ToDate: null, BetType: '' },
         init: function (userType) {
-            $scope.report.UserType = userType;
+            $scope.report.UserType = parseInt(userType, 10);
             $scope.report.getSearchReportData();
             $scope.report.Params.FromDate = $app.formatDate(new Date(), 'yyyy-MM-dd');
             $scope.report.Params.ToDate = $scope.report.Params.FromDate;
@@ -110,21 +110,70 @@
             });
         },
         search: function () {
-            var data = {
-                type: $scope.report.UserType,
-                users: $scope.report.Data
-            };
-            $http.post('/Admin/Report/SearchReport', data).then(function (res) {
+            //$http.post('/Admin/Report/SearchReport', $scope.report.Params).then(function (res) {
+            //    console.log(res);
+            //    if (res.data.Success) {
+            //        $scope.report.DataBak = angular.copy($scope.report.Data);
+            //        $scope.report.IsEdit = false;
+
+            //        alert('修改成功!');
+            //    } else {
+            //        alert(res.data.Message);
+            //    }
+            //});
+            var url = '/Admin/Report'
+            switch ($scope.report.UserType) {
+                case $scope.data.UserTypes.Admin: url += '/GeneralAgent/'; break;
+                case $scope.data.UserTypes.Agent: url += '/Agent/'; break;
+                case $scope.data.UserTypes.Member: url += '/Member/'; break;
+            }
+            var params = 'BetType=' + $scope.report.Params.BetType
+                + '&SearchType=' + $scope.report.Params.SearchType
+                + '&FromDate=' + $scope.report.Params.FromDate
+                + '&ToDate=' + $scope.report.Params.ToDate
+                + '&ReportType=' + $scope.report.Params.ReportType
+                + '&SettlementType=' + $scope.report.Params.SettlementType;
+
+            location.href = url + $scope.report.UserType + "?" + params;
+        },
+    };
+}]);
+
+
+app.controller('reportListController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
+    $scope.data = {
+        UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4, Vistor: 5 },
+    };
+
+    $scope.init = function (searchParams) {
+        $scope.pager.init(searchParams);
+    };
+
+    $scope.pager = {
+        PageIndex: 1,
+        PageSize: 15,
+        RowCount: 0,
+        UserType: 4,
+        Params: { UserType: 4, SearchType: '2', ReportType: '1', SettlementType: '1', FromDate: null, ToDate: null, BetType: '' },
+        Results: [],
+        init: function (searchParams) {
+            $scope.pager.Params = JSON.parse(searchParams)
+            $scope.pager.getResults(1);
+        },
+        getResults: function (pageIndex) {
+            $scope.pager.Params.PageIndex = pageIndex;
+            $http.post('/Admin/Report/SearchReport', $scope.pager.Params).then(function (res) {
                 console.log(res);
                 if (res.data.Success) {
-                    $scope.report.DataBak = angular.copy($scope.report.Data);
-                    $scope.report.IsEdit = false;
-
-                    alert('修改成功!');
+                    $scope.pager.Results = res.data.Data.Items;
+                    $scope.pager.RowCount = res.data.Data.RowCount;
                 } else {
-                    alert(res.data.Message);
+                    alert(res.data.Message)
                 }
             });
+        },
+        pageChanged: function () {
+            $scope.pager.getResults($scope.pager.PageIndex);
         },
     };
 }]);

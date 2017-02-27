@@ -99,7 +99,7 @@
     <Compile Include="Services\BetService.cs" />
     <Compile Include="Services\PKRateService.cs" />
     <Compile Include="Services\PKService.cs" />
-    <Compile Include="Services\BonusService.cs" />
+    <Compile Include="Services\PKBonusService.cs" />
     <Compile Include="Services\MenuService.cs" />
     <Compile Include="Services\LoginLogService.cs" />
     <Compile Include="Services\UserRebateService.cs" />
