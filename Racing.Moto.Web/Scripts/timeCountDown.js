@@ -41,11 +41,6 @@ var fnTimeCountDown = function (d, o, callback) {
                 pms.year = Math.floor((dur / 31556926)) > 0 ? Math.floor((dur / 31556926)) : "0";
             } else {
                 pms.isZero = true;
-
-                //callback
-                if (typeof f.callback === "function") {
-                    f.callback();
-                }
             }
             return pms;
         },
@@ -70,6 +65,11 @@ var fnTimeCountDown = function (d, o, callback) {
             }
             if (!f.dv().isZero) {
                 setTimeout(f.ui, 1000);
+            } else {
+                //callback
+                if (typeof f.callback === "function") {
+                    f.callback();
+                }
             }
         }
     };

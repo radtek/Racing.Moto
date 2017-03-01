@@ -96,9 +96,9 @@
         },
         reset: function () {
             angular.forEach($scope.opt.Rebates, function (item, index, arr) {
-                item.RebateTypeA = false;
-                item.RebateTypeB = false;
-                item.RebateTypeC = false;
+                item.TypeAChanged = false;
+                item.TypeBChanged = false;
+                item.TypeCChanged = false;
             })
         },
         cancel: function () {

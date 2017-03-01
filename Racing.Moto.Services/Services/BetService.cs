@@ -320,5 +320,24 @@ namespace Racing.Moto.Services
         #endregion
 
         #endregion
+
+        /// <summary>
+        /// 取用户某期已下注金额
+        /// </summary>
+        /// <param name="userId">用户</param>
+        /// <param name="pkId">期Id</param>
+        /// <returns>已下注金额</returns>
+        public List<BetAmountModel> GetSumAmounts(int userId, int pkId)
+        {
+            return db.Bet
+                .Where(b => b.UserId == userId && b.PKId == pkId)
+                .GroupBy(b => new { b.Rank, b.Num })
+                .Select(g => new BetAmountModel
+                {
+                    Rank = g.Key.Rank,
+                    Num = g.Key.Num,
+                    Amount = g.Sum(b => b.Amount)
+                }).ToList();
+        }
     }
 }

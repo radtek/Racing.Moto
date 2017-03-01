@@ -110,6 +110,31 @@ namespace Racing.Moto.Web.Controllers
             return Json(result);
         }
 
+        /// <summary>
+        /// 取用户某期已下注金额
+        /// </summary>
+        /// <param name="userId">用户</param>
+        /// <param name="pkId">期Id</param>
+        /// <returns>已下注金额</returns>
+        [HttpPost]
+        public JsonResult GetSumAmountsByPkId(int userId, int pkId)
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                result.Data = new BetService().GetSumAmounts(userId, pkId);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+                _logger.Info(ex);
+            }
+
+            return Json(result);
+        }
+
         #endregion
 
         public JsonResult Sample()

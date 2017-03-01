@@ -73,6 +73,8 @@ namespace Racing.Moto.Data
             modelBuilder.Entity<UserRebate>().Property(e => e.RebateTypeA).HasPrecision(18, 4);
             modelBuilder.Entity<UserRebate>().Property(e => e.RebateTypeB).HasPrecision(18, 4);
             modelBuilder.Entity<UserRebate>().Property(e => e.RebateTypeC).HasPrecision(18, 4);
+            modelBuilder.Entity<UserRebate>().Property(e => e.MaxPKAmount).HasPrecision(18, 4);
+            modelBuilder.Entity<UserRebate>().Property(e => e.MaxBetAmount).HasPrecision(18, 4);
             #endregion
 
         }

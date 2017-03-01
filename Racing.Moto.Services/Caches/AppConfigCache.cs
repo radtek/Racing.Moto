@@ -140,6 +140,22 @@ namespace Racing.Moto.Services.Caches
             get { return GetAppConfig("Rate_Rebate_C") != null ? decimal.Parse(GetAppConfig("Rate_Rebate_C").Value) : 0.02M; }
         }
 
+        /// <summary>
+        /// 单注限额
+        /// </summary>
+        public static decimal Rate_Rebate_MaxBetAmount
+        {
+            get { return GetAppConfig("Rate_Rebate_MaxBetAmount") != null ? decimal.Parse(GetAppConfig("Rate_Rebate_MaxBetAmount").Value) : 100000; }
+        }
+
+        /// <summary>
+        /// 单期限额
+        /// </summary>
+        public static decimal Rate_Rebate_MaxPKAmount
+        {
+            get { return GetAppConfig("Rate_Rebate_MaxPKAmount") != null ? decimal.Parse(GetAppConfig("Rate_Rebate_MaxPKAmount").Value) : 50000; }
+        }
+
         #endregion
 
 

@@ -2,7 +2,7 @@
     var menus = PKBag.Menus != null ? PKBag.Menus : new List<Racing.Moto.Data.Entities.Menu>();
     var rootMenus = menus.Where(m => m.ParentMenuId == null).ToList();
 
-    var pkMenu = menus.Where(m => m.MenuName == "北京赛车(pk 10)").FirstOrDefault();
+    var pkMenu = menus.Where(m => m.MenuName == "速度与激情").FirstOrDefault();
     var pMenuId = pkMenu != null ? pkMenu.MenuId : 0;
     var pkChildMenus = menus.Where(m => m.ParentMenuId == pMenuId).ToList();
 }

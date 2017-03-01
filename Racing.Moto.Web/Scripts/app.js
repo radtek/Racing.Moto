@@ -104,6 +104,13 @@
             temp = c + temp;
         }
     },
+    getNewlineMsg: function (msgArr) {
+        if (!document.all) {
+            return msgArr.join('\n');
+        } else {//ie
+            return msgArr.join('\r\n');
+        }
+    },
 };
 Number.prototype.add = function (arg) {
     return $app.add(arg, this);

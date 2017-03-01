@@ -54,6 +54,8 @@ namespace Racing.Moto.Data.Migrations
               new AppConfig { Name = "Rate_Rebate_A", Value = "0.04" }, // 退水，A盘
               new AppConfig { Name = "Rate_Rebate_B", Value = "0.03" }, // 退水，B盘
               new AppConfig { Name = "Rate_Rebate_C", Value = "0.02" }, // 退水，C盘
+              new AppConfig { Name = "Rate_Rebate_MaxBetAmount", Value = "50000" }, // 退水，单注限额
+              new AppConfig { Name = "Rate_Rebate_MaxPKAmount", Value = "100000" }, // 退水，单期限额
 
               new AppConfig { Name = "News_Announcement", Value = "1" },// 公告
               new AppConfig { Name = "News_Marquee", Value = "2" } // 跑马灯
@@ -143,7 +145,7 @@ namespace Racing.Moto.Data.Migrations
             ////menu
             context.Menu.AddOrUpdate(
               p => p.MenuName,
-              new Menu { MenuName = "北京赛车(pk 10)", MenuUrl = "/Manage/Rule", Visible = true, DisplayOrder = 1, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
+              new Menu { MenuName = "速度与激情", MenuUrl = "/Manage/Rule", Visible = true, DisplayOrder = 1, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
               new Menu { MenuName = "重庆时时彩", MenuUrl = "javascript:;", Visible = true, DisplayOrder = 2, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
               new Menu { MenuName = "广东快乐十分", MenuUrl = "javascript:;", Visible = true, DisplayOrder = 3, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
               new Menu { MenuName = "江苏骰子", MenuUrl = "javascript:;", Visible = true, DisplayOrder = 4, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },
@@ -162,7 +164,7 @@ namespace Racing.Moto.Data.Migrations
             //);
 
             ////menu
-            //var menu = context.Menu.Where(m => m.MenuName == "北京赛车(pk 10)").FirstOrDefault();
+            //var menu = context.Menu.Where(m => m.MenuName == "速度与激情").FirstOrDefault();
             //context.Menu.AddOrUpdate(
             //  p => p.MenuName,
             //  new Menu { MenuName = "信用资料", MenuUrl = "/Manage/Credit", Visible = true, DisplayOrder = 1, ParentMenuId = menu.MenuId, MenuRoles = new List<MenuRole> { new MenuRole { RoleId = 1 }, new MenuRole { RoleId = 2 }, new MenuRole { RoleId = 3 }, new MenuRole { RoleId = 4 } } },

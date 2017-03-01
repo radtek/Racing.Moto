@@ -25,6 +25,8 @@ namespace Racing.Moto.Services
                 dbRebate.RebateTypeA = rebate.RebateTypeA;
                 dbRebate.RebateTypeB = rebate.RebateTypeB;
                 dbRebate.RebateTypeC = rebate.RebateTypeC;
+                dbRebate.MaxPKAmount = rebate.MaxPKAmount;
+                dbRebate.MaxBetAmount = rebate.MaxBetAmount;
             }
             db.SaveChanges();
         }
@@ -46,6 +48,8 @@ namespace Racing.Moto.Services
                     RebateTypeA = AppConfigCache.Rate_Rebate_A,
                     RebateTypeB = AppConfigCache.Rate_Rebate_B,
                     RebateTypeC = AppConfigCache.Rate_Rebate_C,
+                    MaxPKAmount = AppConfigCache.Rate_Rebate_MaxPKAmount,
+                    MaxBetAmount = AppConfigCache.Rate_Rebate_MaxBetAmount,
                 });
             }
 
