@@ -23,6 +23,16 @@ namespace Racing.Moto.Data.Entities
         /// </summary>
         public int RebateNo { get; set; }
 
+        /// <summary>
+        /// 单期限额
+        /// </summary>
+        public decimal MaxPKAmount { get; set; }
+
+        /// <summary>
+        /// 单注限额
+        /// </summary>
+        public decimal MaxBetAmount { get; set; }
+
         /*
          A盘、B盘、C盘
 

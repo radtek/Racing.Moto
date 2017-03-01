@@ -1,8 +1,8 @@
 ﻿app.controller('rebateController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
     $scope.data = {
         Default: {
-            Type1: { A: 0.04, B: 0.03, C: 0.02 },
-            Type2: { A: 0.04, B: 0.03, C: 0.02 },
+            Type1: { A: 0.04, B: 0.03, C: 0.02, MaxPKAmount: 100000, MaxBetAmount: 50000 },
+            Type2: { A: 0.04, B: 0.03, C: 0.02, MaxPKAmount: 100000, MaxBetAmount: 50000 },
         },
         RankNames: ['冠軍', '亞軍', '第三名', '第四名', '第五名', '第六名', '第七名', '第八名', '第九名', '第十名', '大', '小', '单', '双'],
     };
@@ -53,20 +53,29 @@
                         item.TypeAChanged = $scope.data.Default.Type1.A != item.RebateTypeA;
                         item.TypeBChanged = $scope.data.Default.Type1.B != item.RebateTypeB;
                         item.TypeCChanged = $scope.data.Default.Type1.C != item.RebateTypeC;
+                        item.MaxPKAmountChanged = $scope.data.Default.Type1.MaxPKAmount != item.MaxPKAmount;
+                        item.MaxBetAmountChanged = $scope.data.Default.Type1.MaxBetAmount != item.MaxBetAmount;
 
                         item.RebateTypeA = $scope.data.Default.Type1.A;
                         item.RebateTypeB = $scope.data.Default.Type1.B;
                         item.RebateTypeC = $scope.data.Default.Type1.C;
+                        item.MaxPKAmount = $scope.data.Default.Type1.MaxPKAmount;
+                        item.MaxBetAmount = $scope.data.Default.Type1.MaxBetAmount;
                     }
                 } else {
                     if (index >= 10) {
                         item.TypeAChanged = $scope.data.Default.Type2.A != item.RebateTypeA;
                         item.TypeBChanged = $scope.data.Default.Type2.B != item.RebateTypeB;
                         item.TypeCChanged = $scope.data.Default.Type2.C != item.RebateTypeC;
+                        item.MaxPKAmountChanged = $scope.data.Default.Type2.MaxPKAmount != item.MaxPKAmount;
+                        item.MaxBetAmountChanged = $scope.data.Default.Type2.MaxBetAmount != item.MaxBetAmount;
+
 
                         item.RebateTypeA = $scope.data.Default.Type2.A;
                         item.RebateTypeB = $scope.data.Default.Type2.B;
                         item.RebateTypeC = $scope.data.Default.Type2.C;
+                        item.MaxPKAmount = $scope.data.Default.Type2.MaxPKAmount;
+                        item.MaxBetAmount = $scope.data.Default.Type2.MaxBetAmount;
                     }
                 }
             })

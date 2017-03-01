@@ -45,8 +45,8 @@
                                             <td width="15%">A盤</td>
                                             <td width="15%">B盤</td>
                                             <td width="15%">C盤</td>
-                                            @*<td width="17%">單註限額</td>
-                                            <td width="17%">單期限額</td>*@
+                                            <td width="17%">單註限額</td>
+                                            <td width="17%">單期限額</td>
                                             <td width="10%">…</td>
                                         </tr>
                                         <tr class="Ct tr-row">
@@ -54,8 +54,8 @@
                                             <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type1.A" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
                                             <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type1.B" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
                                             <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type1.C" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
-                                            @*<td><input style="width:90px;" onfocus="this.className='inp1m'" onblur="this.className='inp1'" class="inp1" autocomplete="off"></td>
-                                            <td><input style="width:90px;" onfocus="this.className='inp1m'" onblur="this.className='inp1'" class="inp1" autocomplete="off"></td>*@
+                                            <td><input style="width:90px;" class="inp1" autocomplete="off" ng-model="data.Default.Type1.MaxPKAmount" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:90px;" class="inp1" autocomplete="off" ng-model="data.Default.Type1.MaxBetAmount" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
                                             <td class="TD_TS1"><input type="button" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" ng-click="opt.saveBatch(1)" value="修改"></td>
                                         </tr>
                                         <tr class="Ct tr-row">
@@ -63,8 +63,8 @@
                                             <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type2.A" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
                                             <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type2.B" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
                                             <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type2.C" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
-                                            @*<td><input style="width:90px;" onfocus="this.className='inp1m'" onblur="this.className='inp1'" class="inp1" autocomplete="off"></td>
-                                            <td><input style="width:90px;" onfocus="this.className='inp1m'" onblur="this.className='inp1'" class="inp1" autocomplete="off"></td>*@
+                                            <td><input style="width:90px;" class="inp1" autocomplete="off" ng-model="data.Default.Type2.MaxPKAmount" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:90px;" class="inp1" autocomplete="off" ng-model="data.Default.Type2.MaxBetAmount" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
                                             <td class="TD_TS2"><input type="button" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" ng-click="opt.saveBatch(2)" value="修改"></td>
                                         </tr>
                                     </tbody>
@@ -91,8 +91,8 @@
                                                             <td>A盤</td>
                                                             <td>B盤</td>
                                                             <td>C盤</td>
-                                                            <td style="display:none;">單註限額</td>
-                                                            <td style="display:none;">單期限額</td>
+                                                            <td>單註限額</td>
+                                                            <td>單期限額</td>
                                                         </tr>
                                                         <tr class="Conter_Report_List tr_row" ng-repeat="item in opt.Rebates1">
                                                             <td class="t_Edit_caption ed TD_TS1">{{data.RankNames[$index]}}</td>
@@ -108,11 +108,13 @@
                                                                 <input ng-model="item.RebateTypeC"  ng-class="{true: 'inp1m', false: ''}[item.TypeCChanged]"
                                                                        style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
                                                             </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" maxlength="9" autocomplete="off" />		                         
+                                                            <td>
+                                                                <input ng-model="item.MaxPKAmount" ng-class="{true: 'inp1m', false: ''}[item.MaxPKAmountChanged]"
+                                                                       style="width:90px;" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" maxlength="9" autocomplete="off" />		                         
                                                             </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" maxlength="9" autocomplete="off" />		                         
+                                                            <td>
+                                                                <input ng-model="item.MaxBetAmount" ng-class="{true: 'inp1m', false: ''}[item.MaxBetAmountChanged]"
+                                                                       style="width:90px;" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" maxlength="9" autocomplete="off" />		                         
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -126,8 +128,8 @@
                                                             <td>A盤</td>
                                                             <td>B盤</td>
                                                             <td>C盤</td>
-                                                            <td style="display:none;">單註限額</td>
-                                                            <td style="display:none;">單期限額</td>
+                                                            <td>單註限額</td>
+                                                            <td>單期限額</td>
                                                         </tr>
 
                                                         <tr class="Conter_Report_List tr_row" ng-repeat="item in opt.Rebates2">
@@ -144,11 +146,13 @@
                                                                 <input ng-model="item.RebateTypeC"  ng-class="{true: 'inp1m', false: ''}[item.TypeCChanged]"
                                                                        style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
                                                             </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" maxlength="9" autocomplete="off" />
+                                                            <td>
+                                                                <input ng-model="item.MaxPKAmount" ng-class="{true: 'inp1m', false: ''}[item.MaxPKAmountChanged]"
+                                                                       style="width:90px;" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" maxlength="9" autocomplete="off" />
                                                             </td>
-                                                            <td style="display:none;">
-                                                                <input style="width:90px;" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" maxlength="9" autocomplete="off" />
+                                                            <td>
+                                                                <input ng-model="item.MaxBetAmount" ng-class="{true: 'inp1m', false: ''}[item.MaxBetAmountChanged]"
+                                                                       style="width:90px;" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" maxlength="9" autocomplete="off" />
                                                             </td>
                                                         </tr>
                                                     </tbody>

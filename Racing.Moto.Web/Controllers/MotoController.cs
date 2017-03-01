@@ -41,11 +41,13 @@ namespace Racing.Moto.Web.Controllers
                 var pkModel = new PKService().GetCurrentPKModel();
                 var pkRates = new PKRateService().GetPKRateModels(pkModel.PK.PKId);
                 var bets = new BetService().GetBets(pkModel.PK.PKId, LoginUser.UserId);
+                var rebates = new UserRebateService().GetUserRebates(LoginUser.UserId);
                 result.Data = new
                 {
                     PKModel = pkModel,
                     PKRates = pkRates,
-                    Bets = bets
+                    Bets = bets,
+                    Rebates = rebates
                 };
             }
             catch (Exception ex)

@@ -8,6 +8,7 @@
         Disabled: false,
         PKModel: null,
         PKRates: [],
+        Rebates: [],//退水
         Bets: [],//投注
 
         TopFive: [],
@@ -34,6 +35,7 @@
                 if (res.data.Success) {
                     $scope.bet.PKModel = res.data.Data.PKModel;
                     $scope.bet.PKRates = res.data.Data.PKRates;
+                    $scope.bet.Rebates = res.data.Data.Rebates;
                     $scope.bet.Bets = res.data.Data.Bets;
 
                     // 设置下注信息
@@ -119,77 +121,77 @@
         },
 
         /* Popover for quick bet */
-        CurrentPKRate: null,
-        CurrentPKRateNum: null,
-        showPopover: function (pkRate, num) {
-            $scope.bet.resetPopoverIsOpen(pkRate, num, true);
-            $scope.bet.CurrentPKRate = pkRate;
-            $scope.bet.CurrentPKRateNum = num;
-        },
-        hideAllPopover: function () {
-            for (var i = 0; i < $scope.bet.PKRates.length; i++) {
-                for (var j = 1; j <= 14; j++) {
-                    $scope.bet.setPopoverIsOpen($scope.bet.PKRates[i], j, false);
-                }
-            }
-        },
-        quickBet: function (amount) {
-            //console.log(amount);
-            $scope.bet.setPKRateAmount($scope.bet.CurrentPKRate, $scope.bet.CurrentPKRateNum, amount);
-            $scope.bet.resetPopoverIsOpen($scope.bet.CurrentPKRate, $scope.bet.CurrentPKRateNum, false);
-            $scope.bet.betOnChange($scope.bet.CurrentPKRate, $scope.bet.CurrentPKRateNum, amount);
-            // 重置输入框背景色
-            if (amount == null || amount == '') {
-                $scope.bet.setBgColor($scope.bet.CurrentPKRate, $scope.bet.CurrentPKRateNum, 'bg-color-white');
-            } else {
-                $scope.bet.resetBgColor();
-            }
+        //CurrentPKRate: null,
+        //CurrentPKRateNum: null,
+        //showPopover: function (pkRate, num) {
+        //    $scope.bet.resetPopoverIsOpen(pkRate, num, true);
+        //    $scope.bet.CurrentPKRate = pkRate;
+        //    $scope.bet.CurrentPKRateNum = num;
+        //},
+        //hideAllPopover: function () {
+        //    for (var i = 0; i < $scope.bet.PKRates.length; i++) {
+        //        for (var j = 1; j <= 14; j++) {
+        //            $scope.bet.setPopoverIsOpen($scope.bet.PKRates[i], j, false);
+        //        }
+        //    }
+        //},
+        //quickBet: function (amount) {
+        //    //console.log(amount);
+        //    $scope.bet.setPKRateAmount($scope.bet.CurrentPKRate, $scope.bet.CurrentPKRateNum, amount);
+        //    $scope.bet.resetPopoverIsOpen($scope.bet.CurrentPKRate, $scope.bet.CurrentPKRateNum, false);
+        //    $scope.bet.betOnChange($scope.bet.CurrentPKRate, $scope.bet.CurrentPKRateNum, amount);
+        //    // 重置输入框背景色
+        //    if (amount == null || amount == '') {
+        //        $scope.bet.setBgColor($scope.bet.CurrentPKRate, $scope.bet.CurrentPKRateNum, 'bg-color-white');
+        //    } else {
+        //        $scope.bet.resetBgColor();
+        //    }
 
-            //$scope.bet.CurrentPKRateNum = 0;
-            //console.log($scope.bet.CurrentPKRate);
-        },
-        setPKRateAmount: function (pkRate, num, amount) {
-            switch (num) {
-                case 1: pkRate.Amount1 = amount; break;
-                case 2: pkRate.Amount2 = amount; break;
-                case 3: pkRate.Amount3 = amount; break;
-                case 4: pkRate.Amount4 = amount; break;
-                case 5: pkRate.Amount5 = amount; break;
-                case 6: pkRate.Amount6 = amount; break;
-                case 7: pkRate.Amount7 = amount; break;
-                case 8: pkRate.Amount8 = amount; break;
-                case 9: pkRate.Amount9 = amount; break;
-                case 10: pkRate.Amount10 = amount; break;
-                case 11: pkRate.Amount11 = amount; break;
-                case 12: pkRate.Amount12 = amount; break;
-                case 13: pkRate.Amount13 = amount; break;
-                case 14: pkRate.Amount14 = amount; break;
-            }
-        },
-        resetPopoverIsOpen: function (pkRate, num, isOpen) {
-            // hide all first
-            $scope.bet.hideAllPopover();
-            // show
-            $scope.bet.setPopoverIsOpen(pkRate, num, isOpen);
-        },
-        setPopoverIsOpen: function (pkRate, num, isOpen) {
-            switch (num) {
-                case 1: pkRate.PopoverIsOpen1 = isOpen; break;
-                case 2: pkRate.PopoverIsOpen2 = isOpen; break;
-                case 3: pkRate.PopoverIsOpen3 = isOpen; break;
-                case 4: pkRate.PopoverIsOpen4 = isOpen; break;
-                case 5: pkRate.PopoverIsOpen5 = isOpen; break;
-                case 6: pkRate.PopoverIsOpen6 = isOpen; break;
-                case 7: pkRate.PopoverIsOpen7 = isOpen; break;
-                case 8: pkRate.PopoverIsOpen8 = isOpen; break;
-                case 9: pkRate.PopoverIsOpen9 = isOpen; break;
-                case 10: pkRate.PopoverIsOpen10 = isOpen; break;
-                case 11: pkRate.PopoverIsOpen11 = isOpen; break;
-                case 12: pkRate.PopoverIsOpen12 = isOpen; break;
-                case 13: pkRate.PopoverIsOpen13 = isOpen; break;
-                case 14: pkRate.PopoverIsOpen14 = isOpen; break;
-            }
-        },
+        //    //$scope.bet.CurrentPKRateNum = 0;
+        //    //console.log($scope.bet.CurrentPKRate);
+        //},
+        //setPKRateAmount: function (pkRate, num, amount) {
+        //    switch (num) {
+        //        case 1: pkRate.Amount1 = amount; break;
+        //        case 2: pkRate.Amount2 = amount; break;
+        //        case 3: pkRate.Amount3 = amount; break;
+        //        case 4: pkRate.Amount4 = amount; break;
+        //        case 5: pkRate.Amount5 = amount; break;
+        //        case 6: pkRate.Amount6 = amount; break;
+        //        case 7: pkRate.Amount7 = amount; break;
+        //        case 8: pkRate.Amount8 = amount; break;
+        //        case 9: pkRate.Amount9 = amount; break;
+        //        case 10: pkRate.Amount10 = amount; break;
+        //        case 11: pkRate.Amount11 = amount; break;
+        //        case 12: pkRate.Amount12 = amount; break;
+        //        case 13: pkRate.Amount13 = amount; break;
+        //        case 14: pkRate.Amount14 = amount; break;
+        //    }
+        //},
+        //resetPopoverIsOpen: function (pkRate, num, isOpen) {
+        //    // hide all first
+        //    $scope.bet.hideAllPopover();
+        //    // show
+        //    $scope.bet.setPopoverIsOpen(pkRate, num, isOpen);
+        //},
+        //setPopoverIsOpen: function (pkRate, num, isOpen) {
+        //    switch (num) {
+        //        case 1: pkRate.PopoverIsOpen1 = isOpen; break;
+        //        case 2: pkRate.PopoverIsOpen2 = isOpen; break;
+        //        case 3: pkRate.PopoverIsOpen3 = isOpen; break;
+        //        case 4: pkRate.PopoverIsOpen4 = isOpen; break;
+        //        case 5: pkRate.PopoverIsOpen5 = isOpen; break;
+        //        case 6: pkRate.PopoverIsOpen6 = isOpen; break;
+        //        case 7: pkRate.PopoverIsOpen7 = isOpen; break;
+        //        case 8: pkRate.PopoverIsOpen8 = isOpen; break;
+        //        case 9: pkRate.PopoverIsOpen9 = isOpen; break;
+        //        case 10: pkRate.PopoverIsOpen10 = isOpen; break;
+        //        case 11: pkRate.PopoverIsOpen11 = isOpen; break;
+        //        case 12: pkRate.PopoverIsOpen12 = isOpen; break;
+        //        case 13: pkRate.PopoverIsOpen13 = isOpen; break;
+        //        case 14: pkRate.PopoverIsOpen14 = isOpen; break;
+        //    }
+        //},
 
         /* 未投注 */
         betOnChange: function (pkRateModel, num, amount) {
@@ -477,6 +479,80 @@
                 Amount: amount,
                 Rate: rate
             };
+        },
+    };
+
+    $sope.quickBet = {
+        CurrentPKRate: null,
+        CurrentPKRateNum: null,
+        showPopover: function (pkRate, num) {
+            $scope.quickBet.resetPopoverIsOpen(pkRate, num, true);
+            $scope.quickBet.CurrentPKRate = pkRate;
+            $scope.quickBet.CurrentPKRateNum = num;
+        },
+        hideAllPopover: function () {
+            for (var i = 0; i < $scope.quickBet.PKRates.length; i++) {
+                for (var j = 1; j <= 14; j++) {
+                    $scope.quickBet.setPopoverIsOpen($scope.quickBet.PKRates[i], j, false);
+                }
+            }
+        },
+        save: function (amount) {
+            //console.log(amount);
+            $scope.quickBet.setPKRateAmount($scope.quickBet.CurrentPKRate, $scope.quickBet.CurrentPKRateNum, amount);
+            $scope.quickBet.resetPopoverIsOpen($scope.quickBet.CurrentPKRate, $scope.quickBet.CurrentPKRateNum, false);
+            $scope.bet.betOnChange($scope.quickBet.CurrentPKRate, $scope.quickBet.CurrentPKRateNum, amount);
+            // 重置输入框背景色
+            if (amount == null || amount == '') {
+                $scope.bet.setBgColor($scope.quickBet.CurrentPKRate, $scope.quickBet.CurrentPKRateNum, 'bg-color-white');
+            } else {
+                $scope.bet.resetBgColor();
+            }
+
+            //$scope.quickBet.CurrentPKRateNum = 0;
+            //console.log($scope.quickBet.CurrentPKRate);
+        },
+        setPKRateAmount: function (pkRate, num, amount) {
+            switch (num) {
+                case 1: pkRate.Amount1 = amount; break;
+                case 2: pkRate.Amount2 = amount; break;
+                case 3: pkRate.Amount3 = amount; break;
+                case 4: pkRate.Amount4 = amount; break;
+                case 5: pkRate.Amount5 = amount; break;
+                case 6: pkRate.Amount6 = amount; break;
+                case 7: pkRate.Amount7 = amount; break;
+                case 8: pkRate.Amount8 = amount; break;
+                case 9: pkRate.Amount9 = amount; break;
+                case 10: pkRate.Amount10 = amount; break;
+                case 11: pkRate.Amount11 = amount; break;
+                case 12: pkRate.Amount12 = amount; break;
+                case 13: pkRate.Amount13 = amount; break;
+                case 14: pkRate.Amount14 = amount; break;
+            }
+        },
+        resetPopoverIsOpen: function (pkRate, num, isOpen) {
+            // hide all first
+            $scope.quickBet.hideAllPopover();
+            // show
+            $scope.quickBet.setPopoverIsOpen(pkRate, num, isOpen);
+        },
+        setPopoverIsOpen: function (pkRate, num, isOpen) {
+            switch (num) {
+                case 1: pkRate.PopoverIsOpen1 = isOpen; break;
+                case 2: pkRate.PopoverIsOpen2 = isOpen; break;
+                case 3: pkRate.PopoverIsOpen3 = isOpen; break;
+                case 4: pkRate.PopoverIsOpen4 = isOpen; break;
+                case 5: pkRate.PopoverIsOpen5 = isOpen; break;
+                case 6: pkRate.PopoverIsOpen6 = isOpen; break;
+                case 7: pkRate.PopoverIsOpen7 = isOpen; break;
+                case 8: pkRate.PopoverIsOpen8 = isOpen; break;
+                case 9: pkRate.PopoverIsOpen9 = isOpen; break;
+                case 10: pkRate.PopoverIsOpen10 = isOpen; break;
+                case 11: pkRate.PopoverIsOpen11 = isOpen; break;
+                case 12: pkRate.PopoverIsOpen12 = isOpen; break;
+                case 13: pkRate.PopoverIsOpen13 = isOpen; break;
+                case 14: pkRate.PopoverIsOpen14 = isOpen; break;
+            }
         },
     };
 

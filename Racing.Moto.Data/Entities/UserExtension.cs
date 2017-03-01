@@ -19,7 +19,7 @@ namespace Racing.Moto.Data.Entities
         /// 账户金额
         /// </summary>
         public decimal Amount { get; set; }
-        
+
         /// <summary>
         /// 如果当前用户是总代理: 总代理下代理的数量
         /// </summary>
