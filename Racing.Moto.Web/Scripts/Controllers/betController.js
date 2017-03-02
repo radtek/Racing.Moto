@@ -29,7 +29,7 @@
             { ID: 3, Name: '猜大小单双', ShortName: '大小单双' }
         ],
         CurrentTab: 1,
-        init: function (userId) {
+        init: function () {
             $scope.bet.CurrentTab = $scope.bet.Tabs[0].ID;
 
             $http.post('/Moto/GetCurrentPKInfo').then(function (res) {
@@ -42,12 +42,12 @@
 
                     // 设置下注信息
                     $scope.bet.initPKRates($scope.bet.PKRates);
+
                     $scope.bet.initBetItems($scope.bet.Bets);
-                    $scope.bet.setBets($scope.bet.PKRates, $scope.bet.Bets);
+                    //$scope.bet.setBets($scope.bet.PKRates, $scope.bet.Bets);
                     // 重置输入框背景色
-                    $scope.bet.resetBgColor();
-                    //已下注重置, 3秒后 清空背景色, 数值
-                    $scope.bet.retsetSavedBetItems();
+                    //$scope.bet.resetBgColor();
+
                     // 倒计时
                     $scope.countdown.init($scope.bet.PKModel);
                 }
@@ -140,13 +140,13 @@
                     // remove
                     $scope.bet.removeNotSaveBetItem(pkRate.Rank, num);
                     // 重置输入框背景色
-                    $scope.bet.resetBgColor(pkRate, num, 'bg-color-white');
+                    $scope.bet.setBgColor(pkRate, num, 'bg-color-white');
                 } else {
                     // edit
                     betItem.Amount = amount != null ? parseFloat(amount) : null;
                     $scope.bet.setBetItem(betItem, pkRate.Rate);
                     // 重置输入框背景色
-                    $scope.bet.resetBgColor(pkRate, num, 'bg-color-red');
+                    $scope.bet.setBgColor(pkRate, num, 'bg-color-red');
                 }
             }
             //未投注.投注金额
@@ -257,7 +257,7 @@
                 $scope.bet.setPKRateAmount(pkRate, num, null);
 
                 // 重置输入框背景色
-                $scope.bet.resetBgColor(pkRate, num, 'bg-color-white');
+                $scope.bet.setBgColor(pkRate, num, 'bg-color-white');
             }
         },
         //重置输入框背景色
@@ -265,12 +265,16 @@
             for (var i = 0; i < $scope.bet.PKRates.length; i++) {
                 var rank = i + 1;
                 for (var j = 1; j <= 14; j++) {
-                    if ($scope.bet.existInNotSavedBetItems(rank, j)) {
-                        $scope.bet.setBgColor($scope.bet.PKRates[i], j, 'bg-color-pink');
-                    } else if ($scope.bet.existInSavedBetItems(rank, j)) {
-                        $scope.bet.setBgColor($scope.bet.PKRates[i], j, 'bg-color-red');
-                    } else {
-                        $scope.bet.setBgColor($scope.bet.PKRates[i], j, 'bg-color-white');
+                    var pkRate = $scope.bet.PKRates[i];
+                    var amount = $scope.bet.getPKRateAmount(pkRate, j);
+                    if (amount != null && amount > 0) {
+                        if ($scope.bet.existInNotSavedBetItems(rank, j)) {
+                            $scope.bet.setBgColor(pkRate, j, 'bg-color-pink');
+                        } else if ($scope.bet.existInSavedBetItems(rank, j)) {
+                            $scope.bet.setBgColor(pkRate, j, 'bg-color-red');
+                        } else {
+                            $scope.bet.setBgColor(pkRate, j, 'bg-color-white');
+                        }
                     }
                 }
             }
@@ -281,12 +285,35 @@
                 for (var i = 0; i < $scope.bet.PKRates.length; i++) {
                     var rank = i + 1;
                     for (var j = 1; j <= 14; j++) {
-                        if ($scope.bet.existInSavedBetItems(rank, j)) {
-                            $scope.bet.removeEnteredAmount($scope.bet.PKRates[i].Rank, $scope.bet.PKRates[i].Num);
+                        var pkRate = $scope.bet.PKRates[i];
+                        if ($scope.bet.getBgColor(pkRate, j) == 'bg-color-red') {
+                            $scope.bet.setPKRateAmount(pkRate, j, null);
+                            // 重置输入框背景色
+                            $scope.bet.setBgColor(pkRate, j, 'bg-color-white');
                         }
                     }
                 }
             }, 3000);
+        },
+        getBgColor: function (pkRate, num) {
+            var color = null;
+            switch (num) {
+                case 1: color = pkRate.BgColor1; break;
+                case 2: color = pkRate.BgColor2; break;
+                case 3: color = pkRate.BgColor3; break;
+                case 4: color = pkRate.BgColor4; break;
+                case 5: color = pkRate.BgColor5; break;
+                case 6: color = pkRate.BgColor6; break;
+                case 7: color = pkRate.BgColor7; break;
+                case 8: color = pkRate.BgColor8; break;
+                case 9: color = pkRate.BgColor9; break;
+                case 10: color = pkRate.BgColor10; break;
+                case 11: color = pkRate.BgColor11; break;
+                case 12: color = pkRate.BgColor12; break;
+                case 13: color = pkRate.BgColor13; break;
+                case 14: color = pkRate.BgColor14; break;
+            }
+            return color;
         },
         setBgColor: function (pkRate, num, color) {
             switch (num) {
@@ -305,6 +332,26 @@
                 case 13: pkRate.BgColor13 = color; break;
                 case 14: pkRate.BgColor14 = color; break;
             }
+        },
+        getPKRateAmount: function (pkRate, num) {
+            var amount = null;
+            switch (num) {
+                case 1: amount = pkRate.Amount1; break;
+                case 2: amount = pkRate.Amount2; break;
+                case 3: amount = pkRate.Amount3; break;
+                case 4: amount = pkRate.Amount4; break;
+                case 5: amount = pkRate.Amount5; break;
+                case 6: amount = pkRate.Amount6; break;
+                case 7: amount = pkRate.Amount7; break;
+                case 8: amount = pkRate.Amount8; break;
+                case 9: amount = pkRate.Amount9; break;
+                case 10: amount = pkRate.Amount10; break;
+                case 11: amount = pkRate.Amount11; break;
+                case 12: amount = pkRate.Amount12; break;
+                case 13: amount = pkRate.Amount13; break;
+                case 14: amount = pkRate.Amount14; break;
+            }
+            return amount;
         },
         setPKRateAmount: function (pkRate, num, amount) {
             switch (num) {
@@ -444,13 +491,29 @@
                         alert(res.data.Message);
                         return;
                     }
-
-                    $scope.bet.NotSavedAmount = 0;  //未投注方案.投注金额
                     $scope.bet.updateBalance(res.data.Data);// 更新余额
-                    $scope.bet.init();
+                    $scope.bet.setSavedBets();// 设置保存投注
+
                     alert('投注成功!');
                 });
             });
+        },
+        // 设置保存投注
+        setSavedBets: function () {
+            $scope.bet.NotSavedAmount = 0;  //未投注方案.投注金额
+            
+            // 已投注
+            angular.forEach($scope.bet.NotSavedBetItems, function (item, index, arr) {
+                $scope.bet.addSavedItem($scope.bet.SavedBetItems, item.Rank, item.Num, item.Amount, item.Rate);
+            });
+            // 未投注
+            $scope.bet.NotSavedBetItems = [];
+
+            // 重置输入框背景色
+            $scope.bet.resetBgColor();
+            //已下注重置, 3秒后 清空背景色, 数值
+            $scope.bet.retsetSavedBetItems();
+            //$scope.bet.init();
         },
         getSumAmountsByPkId: function () {
             var deferred = $q.defer();
@@ -479,6 +542,21 @@
                 Num: num,
                 Amount: amount,
                 Rate: rate
+            };
+        },
+
+        addSavedItem: function (items, rank, num, amount, rate) {
+            var newItem = $scope.bet.newSavedItem(rank, num, parseFloat(amount), rate);
+            items.push(newItem);
+        },
+        newSavedItem: function (rank, num, amount, rate) {
+            return {
+                TabName: $scope.bet.getTabName(num, rank),
+                ChineseRank: $scope.bet.getChineseRank(rank),
+                NumName: $scope.bet.getNumName(num),
+                Rate: rate,
+                Amount: amount,
+                Bonus: amount != null ? $app.round(amount.mul(rate), 2) : 0
             };
         },
     };

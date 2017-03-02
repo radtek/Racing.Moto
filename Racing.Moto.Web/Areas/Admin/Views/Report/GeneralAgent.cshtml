@@ -37,19 +37,19 @@
                                 <table border="0" cellspacing="0" class="conter">
                                     <tbody>
                                         <tr class="tr_top">
-                                            <td>代理</td>
+                                            <td>总代理</td>
                                             <td>筆數</td>
                                             <td><b>有效金額</b></td>
                                             <td>會員輸贏</td>
                                             <td>應收下綫</td>
-                                            @*<td width="70">實占成數</td>
+                                            <td width="70">實占成數</td>
                                             <td>實占註額</td>
                                             <td>實占輸贏</td>
                                             <td>實占退水</td>
-                                            <td>實占結果</td>*@
+                                            <td>實占結果</td>
                                             <td>賺取水錢</td>
-                                            @*<td>賺水后結果</td>
-                                            <td>貢獻上級</td>*@
+                                            @*<td>賺水后結果</td>*@
+                                            <td>貢獻上級</td>
                                             <td>應付上級</td>
                                         </tr>
                                         <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center"
@@ -59,16 +59,15 @@
                                             <td>{{item.TotalAmount}}</td>
                                             <td>{{item.MemberAmount}}</td>
                                             <td>{{item.ReceiveAmount}}</td>
-                                            @*<td class="ll"><b>-946.5</b></td>
                                             <td>0%</td>
                                             <td>0</td>
                                             <td>0</td>
                                             <td>0</td>
-                                            <td>0</td>*@
+                                            <td>0</td>
 
                                             <td>{{item.RebateAmount}}</td>
-                                            @*<td><b>-17505</b></td>
-                                            <td class="bg_b">17505</td>*@
+                                            @*<td><b>-17505</b></td>*@
+                                            <td class="bg_b">{{item.TotalAmount}}</td>
                                             <td class="bg_b">{{item.PayAmount}}</td>
                                         </tr>
                                         <tr align="center" class="bg_a">
@@ -77,8 +76,15 @@
                                             <td>{{item.TotalAmount}}</td>
                                             <td>{{item.MemberAmount}}</td>
                                             <td>{{item.ReceiveAmount}}</td>
-                                            <td>{{item.RebateAmount}}</td>
-                                            <td class="bg_b">{{item.PayAmount}}</td>
+                                            @*<td>{{item.RebateAmount}}</td>*@
+                                            <td>--</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>{{item.TotalAmount}}</td>
+                                            <td>{{item.TotalAmount}}</td>
+                                            <td>{{item.PayAmount}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -86,7 +92,7 @@
                             </td>
                             <td class="r"></td>
                         </tr>
-                        <tr>
+                        <tr style="display:none;">
                             <td width="12"><img src="/images/admin/tab_18.gif" alt=""></td>
                             <td class="f yu">
                                 占成結果：<font color="red">0</font>&nbsp;&nbsp;/&nbsp;&nbsp;

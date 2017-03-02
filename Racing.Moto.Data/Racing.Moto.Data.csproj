@@ -82,6 +82,7 @@
     <Compile Include="Models\BetModels.cs" />
     <Compile Include="Models\PKRateModels.cs" />
     <Compile Include="Models\PKModels.cs" />
+    <Compile Include="Models\ReportModels.cs" />
     <Compile Include="Models\RoleModels.cs" />
     <Compile Include="Models\SearchModels.cs" />
     <Compile Include="Models\UserModels.cs" />
