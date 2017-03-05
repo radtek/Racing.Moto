@@ -24,7 +24,18 @@ namespace Racing.Moto.Web.Controllers
 
         public ActionResult Credit()
         {
-            return View();
+            var model = new UserCreditModel();
+
+            try
+            {
+                model = new UserService().GetUserCredit(LoginUser.UserId);
+            }
+            catch (Exception ex)
+            {
+                _logger.Info(ex);
+            }
+
+            return View(model);
         }
 
         #endregion
@@ -35,6 +46,7 @@ namespace Racing.Moto.Web.Controllers
         {
             return View();
         }
+
         public JsonResult SaveChangePassword(ChangePasswordModel model)
         {
             var result = new ResponseResult();
@@ -42,8 +54,8 @@ namespace Racing.Moto.Web.Controllers
             try
             {
                 var status = SqlMembershipProvider.Provider.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
-                
-                if(status == (int)LoginStatus.InvalidPassword)
+
+                if (status == (int)LoginStatus.InvalidPassword)
                 {
                     result.Success = false;
                     result.Message = "原始密码错误";
@@ -70,6 +82,54 @@ namespace Racing.Moto.Web.Controllers
         }
 
         #endregion
+
+        /// <summary>
+        /// 用户.今日已结/未结明细
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public JsonResult GetUserBonusReport(UserReportSearchModel model)
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                result.Data = new BetService().GetUserBetReport(model);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+
+                _logger.Info(ex);
+            }
+
+            return Json(result);
+        }
+
+        /// <summary>
+        /// 用户.今日已结/未结明细
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public JsonResult GetUserBonusReportStatistics(UserReportSearchModel model)
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                result.Data = new BetService().GetUserBetReportStatistics(model);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+
+                _logger.Info(ex);
+            }
+
+            return Json(result);
+        }
 
         #region 今日已结
 

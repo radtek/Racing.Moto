@@ -47,4 +47,53 @@ namespace Racing.Moto.Data.Models
         /// </summary>
         public int PageSize { get; set; }
     }
+
+    /// <summary>
+    /// 信用资料
+    /// </summary>
+    public class UserCreditModel
+    {
+        /// <summary>
+        /// 今日消费
+        /// </summary>
+        public decimal TodayBetAmount { get; set; }
+
+        /// <summary>
+        /// 未开奖消费
+        /// </summary>
+        public decimal NotBonusAmount { get; set; }
+
+        /// <summary>
+        /// 今日返点
+        /// </summary>
+        public decimal TodayRebateAmount { get; set; }
+
+        /// <summary>
+        /// 今日利润
+        /// </summary>
+        public decimal TodayProfitAmount { get; set; }
+
+        /// <summary>
+        /// 今日盈亏
+        /// </summary>
+        public decimal TodayProfitAndLossAmount { get; set; }
+    }
+
+    public class UserBonusReportStatistics
+    {
+        /// <summary>
+        /// 注单数量
+        /// </summary>
+        public int BetCount { get; set; }
+
+        /// <summary>
+        /// 下注金额
+        /// </summary>
+        public decimal BetAmount { get; set; }
+
+        /// <summary>
+        /// 奖金+退水金额
+        /// </summary>
+        public decimal BonusAmount { get; set; }
+    }
 }

@@ -45,6 +45,13 @@ namespace Racing.Moto.Data.Entities
         public bool IsSettlementDone { get; set; }
 
         /// <summary>
+        /// 下注
+        /// </summary>
+        [ForeignKey(nameof(Bet))]
+        public int BetId { get; set; }
+        public virtual Bet Bet { get; set; }
+
+        /// <summary>
         /// 用户
         /// </summary>
         [ForeignKey(nameof(User))]

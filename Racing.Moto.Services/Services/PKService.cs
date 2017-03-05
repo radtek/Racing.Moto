@@ -23,6 +23,12 @@ namespace Racing.Moto.Services
             return db.PK.Where(pk => pk.BeginTime <= current && current <= pk.EndTime).FirstOrDefault();
         }
 
+
+        public PK GetPK(int pkId)
+        {
+            return db.PK.Where(pk => pk.PKId == pkId).FirstOrDefault();
+        }
+
         public List<PK> GetNotCalculatePKs()
         {
             return db.PK.Where(pk => pk.Ranks == null).ToList();

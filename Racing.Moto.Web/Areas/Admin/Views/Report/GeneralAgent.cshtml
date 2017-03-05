@@ -55,36 +55,33 @@
                                         <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center"
                                             ng-repeat="item in pager.Results">
                                             <td>{{item.UserName}}</td>
-                                            <td>{{item.Count}}</td>
-                                            <td>{{item.TotalAmount}}</td>
-                                            <td>{{item.MemberAmount}}</td>
+                                            <td>{{item.BetCount}}</td>
+                                            <td>{{item.BetAmount}}</td>
+                                            <td>{{item.MemberWinOrLoseAmount}}</td>
                                             <td>{{item.ReceiveAmount}}</td>
                                             <td>0%</td>
                                             <td>0</td>
                                             <td>0</td>
                                             <td>0</td>
                                             <td>0</td>
-
                                             <td>{{item.RebateAmount}}</td>
-                                            @*<td><b>-17505</b></td>*@
-                                            <td class="bg_b">{{item.TotalAmount}}</td>
-                                            <td class="bg_b">{{item.PayAmount}}</td>
+                                            <td class="bg_b">{{item.ContributeHigherLevelAmount}}</td>
+                                            <td class="bg_b">{{item.PayHigherLevelAmount}}</td>
                                         </tr>
                                         <tr align="center" class="bg_a">
                                             <td align="right">合計：</td>
-                                            <td>{{item.Count}}</td>
-                                            <td>{{item.TotalAmount}}</td>
-                                            <td>{{item.MemberAmount}}</td>
-                                            <td>{{item.ReceiveAmount}}</td>
-                                            @*<td>{{item.RebateAmount}}</td>*@
+                                            <td>{{pager.Statistics.BetCount}}</td>
+                                            <td>{{pager.Statistics.BetAmount}}</td>
+                                            <td>{{pager.Statistics.MemberWinOrLoseAmount}}</td>
+                                            <td>{{pager.Statistics.ReceiveAmount}}</td>
                                             <td>--</td>
                                             <td>0</td>
                                             <td>0</td>
                                             <td>0</td>
                                             <td>0</td>
-                                            <td>{{item.TotalAmount}}</td>
-                                            <td>{{item.TotalAmount}}</td>
-                                            <td>{{item.PayAmount}}</td>
+                                            <td>{{pager.Statistics.RebateAmount}}</td>
+                                            <td>{{pager.Statistics.ContributeHigherLevelAmount}}</td>
+                                            <td>{{pager.Statistics.PayHigherLevelAmount}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

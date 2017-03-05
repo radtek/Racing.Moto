@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Racing.Moto.Core.Utils;
+using Racing.Moto.Core.Extentions;
+using System.Data.Entity;
 
 namespace Racing.Moto.Services
 {
@@ -19,10 +21,38 @@ namespace Racing.Moto.Services
         /// </summary>
         public void SaveBets(int pkId, int userId, List<Bet> bets)
         {
+            int? agentUserId = null;            // 报表使用
+            int? genearlAgentUserId = null;     // 报表使用
+
+            var user = db.User
+                .Include(nameof(User.ParentUser))
+                .Include(nameof(User.UserRoles))
+                .Where(u => u.UserId == userId).First();
+
+            // 下注用户是会员
+            if (user.UserRoles.First().RoleId == RoleConst.Role_Id_Member)
+            {
+                agentUserId = user.ParentUserId;
+                genearlAgentUserId = db.User.Where(u => u.UserId == user.ParentUser.ParentUserId).First().UserId;
+            }
+            // 下注用户是代理
+            else if (user.UserRoles.First().RoleId == RoleConst.Role_Id_Agent)
+            {
+                agentUserId = user.UserId;
+                genearlAgentUserId = user.ParentUserId;
+            }
+            // 下注用户是代理
+            else if (user.UserRoles.First().RoleId == RoleConst.Role_Id_General_Agent)
+            {
+                agentUserId = user.UserId;
+                genearlAgentUserId = user.UserId;
+            }
+
             bets.ForEach(b =>
             {
                 b.PKId = pkId;
                 b.UserId = userId;
+                b.CreateTime = DateTime.Now;
                 b.BetItems = new List<BetItem>
                 {
                     new BetItem
@@ -148,7 +178,7 @@ namespace Racing.Moto.Services
             bets.Add(new Bet
             {
                 Rank = rank,
-                Num = bSNum
+                Num = oENum
             });
 
             return bets;
@@ -178,6 +208,11 @@ namespace Racing.Moto.Services
             var betRates = CalculateBetRates(betAmounts);
             // 奖池百分比 转换成 矩阵, 用于计算最小中奖名次 [TODO]大于1必不中
             var matrix = GetMatrix(betRates);
+
+            /////////////////////test//////////////////////////////
+            //var matrixStr = GetMatrixStr(matrix);
+            ////////////////////test///////////////////////////////
+
             // 计算最小中奖名次
             var minCostMatrix = new HungarianAlgorithm(matrix).Run();
 
@@ -203,9 +238,9 @@ namespace Racing.Moto.Services
         private List<BetAmountModel> GetBetAmounts(int pkId)
         {
             var sql = new StringBuilder();
-            sql.AppendLine("SELECT [Rank], [Num], SUM(Amount) Amount");
+            sql.AppendLine("SELECT [Rank], [Num], SUM(Amount) Amount, SUM(RateAmount) RateAmount");
             sql.AppendLine("FROM (");
-            sql.AppendLine("	SELECT [B].[Rank], [B].[Num], [B].[Amount], [PR].[Rate]");
+            sql.AppendLine("	SELECT [B].[Rank], [B].[Num], [B].[Amount], [B].[Amount] * [PR].[Rate] AS RateAmount, [PR].[Rate]");
             sql.AppendLine("	FROM [dbo].[Bet] AS [B]");
             sql.AppendLine("	INNER JOIN [dbo].[PKRate] AS [PR] ON [B].[PKId] = [PR].[PKId] AND [B].[Rank] = [PR].[Rank] AND [B].[Num] = [PR].[Num]");
             sql.AppendLine("	WHERE [B].[PKId] = " + pkId);
@@ -233,11 +268,11 @@ namespace Racing.Moto.Services
             {
                 for (var num = 1; num <= 10; num++)// 10个车号
                 {
-                    var bet = betAmounts.Where(ba => ba.Rank == rank && ba.Num == num).FirstOrDefault();// 第n名选m号车的
-                    var big = betAmounts.Where(ba => ba.Rank == rank && ba.Num == BetNumConst.Big).FirstOrDefault();//第n名选大
-                    var small = betAmounts.Where(ba => ba.Rank == rank && ba.Num == BetNumConst.Small).FirstOrDefault();//第n名选小
-                    var odd = betAmounts.Where(ba => ba.Rank == rank && ba.Num == BetNumConst.Odd).FirstOrDefault();//第n名选单
-                    var even = betAmounts.Where(ba => ba.Rank == rank && ba.Num == BetNumConst.Even).FirstOrDefault();//第n名选双
+                    var bet = betAmounts.Where(ba => ba.Rank == rank && ba.Num == num).FirstOrDefault();// 第n名选m号车的                    
+                    var big = num > 5 ? betAmounts.Where(ba => ba.Rank == rank && ba.Num == BetNumConst.Big).FirstOrDefault() : null;//第n名选大
+                    var small = num <= 5 ? betAmounts.Where(ba => ba.Rank == rank && ba.Num == BetNumConst.Small).FirstOrDefault() : null;//第n名选小
+                    var odd = num % 2 != 0 ? betAmounts.Where(ba => ba.Rank == rank && ba.Num == BetNumConst.Odd).FirstOrDefault() : null;//第n名选单
+                    var even = num % 2 == 0 ? betAmounts.Where(ba => ba.Rank == rank && ba.Num == BetNumConst.Even).FirstOrDefault() : null;//第n名选双
 
                     var amount = GetAmount(bet) + GetAmount(big) + GetAmount(small) + GetAmount(odd) + GetAmount(even);
 
@@ -280,6 +315,23 @@ namespace Racing.Moto.Services
             return matrix;
         }
 
+        private string GetMatrixStr(int[,] matrix)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (var rank = 1; rank <= 10; rank++)// 10个名次
+            {
+                var list = new List<string>();
+                for (var num = 1; num <= 10; num++)// 10个车号
+                {
+                    list.Add(matrix[rank - 1, num - 1].ToString().PadLeft(5, ' '));
+                }
+                sb.AppendLine(string.Join(",", list));
+            }
+
+            return sb.ToString();
+        }
+
         /// <summary>
         /// 验证最小中奖名次的 [奖池百分比] 之和 是否小于 100%
         /// </summary>
@@ -315,7 +367,16 @@ namespace Racing.Moto.Services
         /// <returns></returns>
         private List<int> GetRanks(int[] minCostMatrix)
         {
-            return minCostMatrix.Select(m => m + 1).ToList();
+            var ranks = minCostMatrix.Select(m => m + 1).ToList();
+
+            // 自然数升序的情况, 通常是因为无论什么顺序, 奖金都相同, 如只有一个用户下注1号车的10个名次都是大,且金额相同
+            // 此时生成个随机数返回
+            if (string.Join(",", ranks) == "1,2,3,4,5,6,7,8,9,10")
+            {
+                ranks = RandomUtil.GetRandomList(1, 10);
+            }
+
+            return ranks;
         }
         #endregion
 
@@ -339,5 +400,74 @@ namespace Racing.Moto.Services
                     Amount = g.Sum(b => b.Amount)
                 }).ToList();
         }
+
+
+        #region User Report
+
+        /// <summary>
+        /// 用户.今日已结/未结明细
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public PagerResult<Bet> GetUserBetReport(UserReportSearchModel model)
+        {
+            var query = db.Bet.Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone);
+
+            //今日 && 未开奖
+            query = query.Where(b => DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0 && DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+
+            var result = query
+                .OrderByDescending(b => b.BetId)
+                .Pager(model.PageIndex, model.PageSize);
+
+            // 奖金
+            var betIds = result.Items.Select(b => b.BetId).ToList();
+            var pkBonus = db.PKBonus.Where(b => betIds.Contains(b.BetId)).ToList();
+            foreach (var bet in result.Items)
+            {
+                var bonus = pkBonus.Where(b => b.BetId == bet.BetId).ToList();
+                var amount = bonus.Count() > 0 ? bonus.Sum(b => b.Amount) : 0;
+                bet.BonusAmount = amount - bet.Amount;  // 退水后奖金 = 中奖金额+退水-本金
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 用户.今日已结/未结明细 统计
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public UserBonusReportStatistics GetUserBetReportStatistics(UserReportSearchModel model)
+        {
+            var statistics = new UserBonusReportStatistics();
+
+            #region Bet
+            var queryBet = db.Bet.Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone);
+            //今日 && 未开奖
+            queryBet = queryBet.Where(b => DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0 && DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+            #endregion
+
+            #region Bonus
+            var queryBonus = db.PKBonus
+                .Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone);
+            //今日 && 未开奖
+            queryBonus = queryBonus.Where(b => DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0 && DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+            #endregion
+
+            // 注单数量
+            statistics.BetCount = queryBet.Count();
+
+            // 下注金额
+            statistics.BetAmount = statistics.BetCount > 0 ? queryBet.Sum(b => b.Amount) : 0;
+
+            // 奖金+退水金额
+            statistics.BonusAmount = queryBonus.Any() ? queryBonus.Sum(b => b.Amount) - statistics.BetAmount : 0 - statistics.BetAmount;
+
+
+            return statistics;
+        }
+
+        #endregion
     }
 }

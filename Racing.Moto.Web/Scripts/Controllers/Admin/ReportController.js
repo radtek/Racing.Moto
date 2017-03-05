@@ -127,7 +127,8 @@
                 case $scope.data.UserTypes.Agent: url += '/Agent/'; break;
                 case $scope.data.UserTypes.Member: url += '/Member/'; break;
             }
-            var params = 'BetType=' + $scope.report.Params.BetType
+            var params = 'PageIndex=1&PageSize=20'
+                + '&BetType=' + $scope.report.Params.BetType
                 + '&SearchType=' + $scope.report.Params.SearchType
                 + '&FromDate=' + $scope.report.Params.FromDate
                 + '&ToDate=' + $scope.report.Params.ToDate
@@ -151,11 +152,12 @@ app.controller('reportListController', ['$scope', '$rootScope', '$http', '$compi
 
     $scope.pager = {
         PageIndex: 1,
-        PageSize: 15,
+        PageSize: 20,
         RowCount: 0,
         UserType: 4,
         Params: { UserType: 4, SearchType: '2', ReportType: '1', SettlementType: '1', FromDate: null, ToDate: null, BetType: '' },
         Results: [],
+        Statistics: {},
         init: function (searchParams) {
             $scope.pager.Params = JSON.parse(searchParams)
             $scope.pager.getResults(1);
@@ -167,10 +169,40 @@ app.controller('reportListController', ['$scope', '$rootScope', '$http', '$compi
                 if (res.data.Success) {
                     $scope.pager.Results = res.data.Data.Items;
                     $scope.pager.RowCount = res.data.Data.RowCount;
+
+                    $scope.pager.setStatistics($scope.pager.Results);
                 } else {
                     alert(res.data.Message)
                 }
             });
+        },
+        setStatistics: function () {
+            var betCount = 0,
+                betAmount = 0,
+                memberWinOrLoseAmount = 0,
+                receiveAmount = 0,
+                rebateAmount = 0,
+                contributeHigherLevelAmount = 0,
+                payHigherLevelAmount = 0;
+            angular.forEach($scope.pager.Results, function (item, index, arr) {
+                betCount = betCount.add(item.BetCount);
+                betAmount = betAmount.add(item.BetAmount);
+                memberWinOrLoseAmount = memberWinOrLoseAmount.add(item.MemberWinOrLoseAmount);
+                receiveAmount = receiveAmount.add(item.ReceiveAmount);
+                rebateAmount = rebateAmount.add(item.RebateAmount);
+                contributeHigherLevelAmount = contributeHigherLevelAmount.add(item.ContributeHigherLevelAmount);
+                payHigherLevelAmount = payHigherLevelAmount.add(item.PayHigherLevelAmount);
+            })
+            $scope.pager.Statistics = {
+                BetCount: betCount,
+                BetAmount: betAmount,
+                MemberWinOrLoseAmount: memberWinOrLoseAmount,
+                ReceiveAmount: receiveAmount,
+                RebateAmount: rebateAmount,
+                ContributeHigherLevelAmount: contributeHigherLevelAmount,
+                PayHigherLevelAmount: payHigherLevelAmount,
+            };
+            console.log($scope.pager.Statistics);
         },
         pageChanged: function () {
             $scope.pager.getResults($scope.pager.PageIndex);

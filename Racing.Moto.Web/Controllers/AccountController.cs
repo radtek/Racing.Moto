@@ -68,14 +68,15 @@ namespace Racing.Moto.Web.Controllers
 
                         #endregion
 
-                        if (Url.IsLocalUrl(returnUrl))
-                        {
-                            return Redirect(returnUrl);
-                        }
-                        else
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
+                        //if (Url.IsLocalUrl(returnUrl))
+                        //{
+                        //    return Redirect(returnUrl);
+                        //}
+                        //else
+                        //{
+                        //    return RedirectToAction("Index", "Home");
+                        //}
+                        return RedirectToAction("Agreement", "Account");
                     }
 
                     ModelState.AddModelError("", "用户名或密码错误.");
@@ -93,6 +94,15 @@ namespace Racing.Moto.Web.Controllers
             }
 
             return View(model);
+        }
+
+        #endregion
+
+        #region Agreement
+
+        public ActionResult Agreement()
+        {
+            return View();
         }
 
         #endregion

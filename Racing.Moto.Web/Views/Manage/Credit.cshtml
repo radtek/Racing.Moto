@@ -1,8 +1,37 @@
-﻿@{
+﻿@model Racing.Moto.Data.Models.UserCreditModel
+@{
     ViewBag.Title = "信用资料";
     Layout = "~/Views/Shared/_NgLayout.cshtml";
+
+    var user = PKBag.LoginUser;
 }
 
-<div class="admin-wrapper">
-
+<div class="gray-box">
+    <div class="userInfo">
+        <span class="a">用户名称:</span><span class="b">@user.UserName</span>
+    </div>
+    <div class="userInfo">
+        <span class="a">用户类别:</span><span class="b">@user.UserRoles.First().Role.RoleName</span>
+    </div>
+    <div class="userInfo">
+        <span class="a">上次登录:</span><span class="b">@user.LastLoginDate.Value.ToString("yyyy-MM-dd HH:mm:ss")</span>
+    </div>
+    <div class="userInfo">
+        <span class="a">账户余额:</span><span class="b">@user.UserExtension.Amount</span>
+    </div>
+    @*<div class="userInfo">
+        <span class="a">冻结金额:</span><span class="b">andy</span>
+    </div>*@
+    <div class="userInfo">
+        <span class="a">今日消费:</span><span class="b">@Model.TodayBetAmount</span>
+    </div>
+    <div class="userInfo">
+        <span class="a">未开奖消费:</span><span class="b">@Model.NotBonusAmount</span>
+    </div>
+    <div class="userInfo">
+        <span class="a">今日返点:</span><span class="b">@Model.TodayRebateAmount</span>
+    </div>
+    <div class="userInfo">
+        <span class="a">今日盈亏:</span><span class="b">@Model.TodayProfitAndLossAmount</span>
+    </div>
 </div>

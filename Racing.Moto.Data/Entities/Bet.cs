@@ -38,11 +38,37 @@ namespace Racing.Moto.Data.Entities
         public decimal Rate { get; set; }
 
         /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime CreateTime { get; set; }
+
+        /// <summary>
+        /// 退水后结果
+        /// </summary>
+        [NotMapped]
+        public decimal BonusAmount { get; set; }
+        
+        /// <summary>
+        /// 是否已结算, 前台查询使用
+        /// </summary>
+        public bool IsSettlementDone { get; set; }
+
+        /// <summary>
         /// 用户
         /// </summary>
         [ForeignKey(nameof(User))]
         public int UserId { get; set; }
         public virtual User User { get; set; }
+
+        /// <summary>
+        /// 代理 UserId 报表使用
+        /// </summary>
+        public int? AgentUserId { get; set; }
+
+        /// <summary>
+        /// 总代理 UserId 报表使用
+        /// </summary>
+        public int? GeneralAgentUserId { get; set; }
 
         /// <summary>
         /// PK

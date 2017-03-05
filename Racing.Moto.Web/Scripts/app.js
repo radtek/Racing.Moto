@@ -43,6 +43,11 @@
 
         return result;
     },
+    getWeek: function (dateStr) {
+        var weeks = new Array("日", "一", "二", "三", "四", "五", "六");
+        var weekDay = $app.convertToDate(dateStr).getDay();
+        return weeks[weekDay];
+    },
     submitOnEnterKey: function (txtId, targetId) {
         $('#' + txtId).keypress(function (event) {
             if (event.keyCode == 13) {

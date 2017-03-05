@@ -61,6 +61,8 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
                 SettlementType = int.Parse(Request.QueryString["SettlementType"]),
                 FromDate = GetDateTimeQueryString("FromDate"),
                 ToDate = GetDateTimeQueryString("ToDate"),
+                PageIndex = int.Parse(Request.QueryString["PageIndex"]),
+                PageSize = int.Parse(Request.QueryString["PageSize"]),
             };
 
             return model;
@@ -90,7 +92,6 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
         #endregion
 
-
         #region 代理
 
         public ActionResult Agent(int id)
@@ -105,7 +106,6 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
         #endregion
 
-
         #region 会员
 
         public ActionResult Member(int id)
@@ -119,8 +119,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
         }
 
         #endregion
-
-
+        
 
         [HttpPost]
         public JsonResult SearchReport(ReportSearchModel model)
@@ -129,7 +128,12 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
             try
             {
-                result.Data = new PKBonusService().GetBonusReport(model);
+                //result.Data = new PKBonusService().GetBonusReport(model);
+
+                if(model.UserType == RoleConst.Role_Id_Admin)
+                {
+                    result.Data = new ReportService().GetGeneralAgentReports(model);
+                }
             }
             catch (Exception ex)
             {

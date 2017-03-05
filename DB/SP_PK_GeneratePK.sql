@@ -1,6 +1,4 @@
-
-GO
-/****** Object:  StoredProcedure [dbo].[SP_PK_GeneratePK]    Script Date: 2017/2/5 15:15:10 ******/
+/****** Object:  StoredProcedure [dbo].[SP_PK_GeneratePK]    Script Date: 2017/3/4 21:35:54 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -9,7 +7,7 @@ GO
 -- Description:	Éú³ÉPK
    exec [dbo].[SP_PK_GeneratePK]
 -- ============================================= */
-create PROCEDURE [dbo].[SP_PK_GeneratePK]
+ALTER PROCEDURE [dbo].[SP_PK_GeneratePK]
 	
 AS
 BEGIN
@@ -43,8 +41,8 @@ BEGIN
 	SELECT @Total_Seconds = @Opening_Seconds + @Close_Seconds + @Game_Seconds + @Lottery_Seconds
 	SELECT @End_Time = DATEADD(second, @Total_Seconds, @Now)
 
-	INSERT INTO [dbo].[PK] ([BeginTime],[EndTime],[CreateTime],[OpeningSeconds],[CloseSeconds],[GameSeconds],[LotterySeconds],[IsBonused]) 
-	VALUES (@Now, @End_Time, @Now, @Opening_Seconds, @Close_Seconds, @Game_Seconds, @Lottery_Seconds, 0)
+	INSERT INTO [dbo].[PK] ([BeginTime],[EndTime],[CreateTime],[OpeningSeconds],[CloseSeconds],[GameSeconds],[LotterySeconds],[IsBonused],[IsRebated]) 
+	VALUES (@Now, @End_Time, @Now, @Opening_Seconds, @Close_Seconds, @Game_Seconds, @Lottery_Seconds, 0, 0)
 	
 	SET @PKId=@@IDENTITY
 	SELECT * FROM [dbo].[PK] WHERE PKId = @PKId

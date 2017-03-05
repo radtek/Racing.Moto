@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Racing.Moto.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace Racing.Moto.Data.Models
         /// <summary>
         /// 用户Id
         /// </summary>
-        public string UserId { get; set; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// 用户名
@@ -29,7 +30,7 @@ namespace Racing.Moto.Data.Models
         /// <summary>
         /// 有效金额：所有下线会员加一起的下注金额总和
         /// </summary>
-        public decimal Amount { get; set; }
+        public decimal BetAmount { get; set; }
 
         /// <summary>
         /// 会员输赢：会员输了多少钱，所有的会员组合加一起的输赢（档期都有该数据）（会员输了就是负数，赢了是正数）
@@ -55,5 +56,22 @@ namespace Racing.Moto.Data.Models
         /// 应付上级：应收下线+赚取水钱
         /// </summary>
         public decimal PayHigherLevelAmount { get; set; }
+    }
+
+    public class BetReportModel
+    {
+        public int UserId { get; set; }
+        public int BetCount { get; set; }
+        public decimal Amount { get; set; }
+    }
+
+    public class BonusReportModel
+    {
+        public int UserId { get; set; }
+        public int? AgentUserId { get; set; }
+        public int? GeneralAgentUserId { get; set; }
+
+        public BonusType BonusType { get; set; }
+        public decimal Amount { get; set; }
     }
 }

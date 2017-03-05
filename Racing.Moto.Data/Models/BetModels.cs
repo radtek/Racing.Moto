@@ -27,6 +27,11 @@ namespace Racing.Moto.Data.Models
         /// 金额
         /// </summary>
         public decimal Amount { get; set; }
+
+        /// <summary>
+        /// 金额*赔率
+        /// </summary>
+        public decimal RateAmount { get; set; }
     }
     /// <summary>
     /// 奖池百分比（奖池占有率）

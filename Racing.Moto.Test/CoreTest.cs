@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NLog;
 using Racing.Moto.Core.Utils;
+using Racing.Moto.Services;
+using Racing.Moto.Web.Jobs;
 
 namespace Racing.Moto.Test
 {
@@ -73,6 +75,19 @@ namespace Racing.Moto.Test
             var str2 = string.Join(",", randoms2);
 
             Assert.AreNotEqual(str1, str2);
+        }
+
+        [TestMethod]
+        public void BonusTest()
+        {
+            //var pkService = new PKService();
+            //var bonusService = new PKBonusService();
+
+            //var pk = pkService.GetPK(87);
+            //// 生成奖金
+            //bonusService.GenerateBonus(pk);
+
+            new RankJob().Run();
         }
     }
 }

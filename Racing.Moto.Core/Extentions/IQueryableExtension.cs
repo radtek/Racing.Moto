@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Racing.Moto.Core.Extentions
 {
     public static class IQueryableExtension
-    {   
+    {
         /// <summary>
         /// 分页
         /// </summary>

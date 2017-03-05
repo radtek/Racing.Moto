@@ -7,6 +7,7 @@ using Racing.Moto.Services.Constants;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -225,6 +226,7 @@ namespace Racing.Moto.Services
             // 更新父User.UserExtension的AgentCount/MemberCount
             if (userOperation == UserOperation.Add)
             {
+                UpdateUserExtension(user, roleId);
                 UpdateParentUserExtension(user, roleId, UserOperation.Add);
             }
 
@@ -293,6 +295,34 @@ namespace Racing.Moto.Services
         }
 
         /// <summary>
+        /// 更新用户扩展 UserExtension
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="roleId"></param>
+        public void UpdateUserExtension(User user, int roleId)
+        {
+            var userExtension = db.UserExtension.Where(u => u.UserId == user.UserId).FirstOrDefault();
+            if (userExtension != null)
+            {
+                switch (roleId)
+                {
+                    case RoleConst.Role_Id_General_Agent:
+                        user.UserExtension.GeneralAgentUserId = user.UserId;
+                        user.UserExtension.AgentUserId = user.UserId;
+                        break;
+                    case RoleConst.Role_Id_Agent:
+                        user.UserExtension.GeneralAgentUserId = user.ParentUserId;
+                        user.UserExtension.AgentUserId = user.UserId;
+                        break;
+                    case RoleConst.Role_Id_Member:
+                        user.UserExtension.AgentUserId = user.ParentUserId;
+                        user.UserExtension.GeneralAgentUserId = db.User.Where(agent => agent.UserId == user.ParentUserId).Select(u => u.ParentUserId).First();
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
         /// 添加代理/会员时取父亲节点
         /// </summary>
         /// <param name="roleId">角色类型</param>
@@ -315,6 +345,32 @@ namespace Racing.Moto.Services
             return parentRoleId > 0
                 ? db.User.Where(u => u.Enabled && u.UserRoles.Where(ur => ur.RoleId == parentRoleId).Any()).ToList()
                 : new List<User>();
+        }
+
+        /// <summary>
+        /// 用户资金信息
+        /// </summary>
+        /// <param name="userId">userId</param>
+        public UserCreditModel GetUserCredit(int userId)
+        {
+            var model = new UserCreditModel();
+
+            // 今日消费
+            model.TodayBetAmount = db.Bet.Where(b => b.UserId == userId && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0).Sum(b => b.Amount);
+
+            // 未开奖消费
+            model.NotBonusAmount = db.Bet.Where(b => b.UserId == userId && b.PK.EndTime > DateTime.Now).Sum(b => b.Amount);
+
+            // 今日返点
+            model.TodayRebateAmount = db.PKBonus.Where(b => b.UserId == userId && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0 && b.BonusType == BonusType.Rebate).Sum(b => b.Amount);
+
+            // 今日利润
+            model.TodayProfitAmount = db.PKBonus.Where(b => b.UserId == userId && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0 && b.BonusType == BonusType.Bonus).Sum(b => b.Amount);
+
+            // 今日盈亏
+            model.TodayProfitAndLossAmount = model.TodayRebateAmount + model.TodayProfitAmount - model.TodayBetAmount;
+
+            return model;
         }
     }
 }

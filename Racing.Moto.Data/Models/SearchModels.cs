@@ -24,6 +24,32 @@ namespace Racing.Moto.Data.Models
     }
 
     /// <summary>
+    /// 用户报表检索
+    /// </summary>
+    public class UserReportSearchModel
+    {
+        /// <summary>
+        /// 页号
+        /// </summary>
+        public int PageIndex { get; set; }
+
+        /// <summary>
+        /// 页大小
+        /// </summary>
+        public int PageSize { get; set; }
+
+        /// <summary>
+        /// 用户Id
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
+        /// 是否已结算
+        /// </summary>
+        public bool IsSettlementDone { get; set; }
+    }
+
+    /// <summary>
     /// 报表检索
     /// </summary>
     public class ReportSearchModel
@@ -37,6 +63,16 @@ namespace Racing.Moto.Data.Models
         /// 页大小
         /// </summary>
         public int PageSize { get; set; }
+
+        /// <summary>
+        /// 用户Id
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
+        /// PKId
+        /// </summary>
+        public int PKId { get; set; }
 
         /// <summary>
         /// 用户类型

@@ -31,5 +31,15 @@ namespace Racing.Moto.Data.Entities
         public int MemberCount { get; set; }
         
         public virtual User User { get; set; }
+
+        /// <summary>
+        /// 代理 UserId 报表使用
+        /// </summary>
+        public int? AgentUserId { get; set; }
+
+        /// <summary>
+        /// 总代理 UserId 报表使用
+        /// </summary>
+        public int? GeneralAgentUserId { get; set; }
     }
 }

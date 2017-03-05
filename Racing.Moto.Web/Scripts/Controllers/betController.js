@@ -500,14 +500,18 @@
         },
         // 设置保存投注
         setSavedBets: function () {
-            $scope.bet.NotSavedAmount = 0;  //未投注方案.投注金额
             
             // 已投注
+            var amount = 0;
             angular.forEach($scope.bet.NotSavedBetItems, function (item, index, arr) {
                 $scope.bet.addSavedItem($scope.bet.SavedBetItems, item.Rank, item.Num, item.Amount, item.Rate);
+                amount = amount.add(item.Amount);
             });
+            $scope.bet.SavedAmount += amount; //已投注.投注金额
+
             // 未投注
             $scope.bet.NotSavedBetItems = [];
+            $scope.bet.NotSavedAmount = 0;  //未投注.投注金额
 
             // 重置输入框背景色
             $scope.bet.resetBgColor();

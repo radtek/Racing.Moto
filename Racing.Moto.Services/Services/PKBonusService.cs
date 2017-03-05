@@ -3,6 +3,7 @@ using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,17 +45,22 @@ namespace Racing.Moto.Services
 
                     bonuses.Add(new PKBonus
                     {
+                        BetId = dbBet.BetId,
                         PKId = pk.PKId,
                         UserId = dbBet.UserId,
                         Rank = dbBet.Rank,
                         Num = dbBet.Num,
                         BonusType = Data.Enums.BonusType.Bonus,
-                        Amount = Math.Round(dbBet.Amount * pkRate.Rate, 4)
+                        Amount = Math.Round(dbBet.Amount * pkRate.Rate, 4),
+                        IsSettlementDone = true // 直接设置成已结算
                     });
                 }
 
                 if (bonuses.Count > 0)
                 {
+                    // 更新Bet表已结算标志
+                    dbBets.ForEach(b => b.IsSettlementDone = true);
+
                     // 保存奖金
                     db.PKBonus.AddRange(bonuses);
                     db.SaveChanges();
@@ -87,12 +93,14 @@ namespace Racing.Moto.Services
                     {
                         bonuses.Add(new PKBonus
                         {
+                            BetId = dbBet.BetId,
                             PKId = pk.PKId,
                             UserId = dbBet.UserId,
                             Rank = dbBet.Rank,
                             Num = dbBet.Num,
                             BonusType = Data.Enums.BonusType.Rebate,
-                            Amount = Math.Round(dbBet.Amount * rebate, 4)
+                            Amount = Math.Round(dbBet.Amount * rebate, 4),
+                            IsSettlementDone = true // 直接设置成已结算
                         });
                     }
 
@@ -113,12 +121,14 @@ namespace Racing.Moto.Services
                                 // 代理退水奖金
                                 var agentBonuses = bonuses.Select(b => new PKBonus
                                 {
+                                    BetId = b.BetId,
                                     PKId = pk.PKId,
                                     UserId = agentUser.UserId,
                                     Rank = b.Rank,
                                     Num = b.Num,
                                     BonusType = Data.Enums.BonusType.Rebate,
-                                    Amount = Math.Round(b.Amount * agentRebate, 4)
+                                    Amount = Math.Round(b.Amount * agentRebate, 4),
+                                    IsSettlementDone = true // 直接设置成已结算
                                 }).ToList();
                                 // 保存代理退水奖金
                                 db.PKBonus.AddRange(bonuses);
@@ -136,12 +146,14 @@ namespace Racing.Moto.Services
                                     // 总代理退水奖金
                                     var generalAgentBonuses = bonuses.Select(b => new PKBonus
                                     {
+                                        BetId = b.BetId,
                                         PKId = pk.PKId,
                                         UserId = generalAgentUser.UserId,
                                         Rank = b.Rank,
                                         Num = b.Num,
                                         BonusType = Data.Enums.BonusType.Rebate,
-                                        Amount = Math.Round(b.Amount * generalAgentRebate, 4)
+                                        Amount = Math.Round(b.Amount * generalAgentRebate, 4),
+                                        IsSettlementDone = true // 直接设置成已结算
                                     }).ToList();
                                     // 保存总代理退水奖金
                                     db.PKBonus.AddRange(bonuses);
@@ -153,8 +165,9 @@ namespace Racing.Moto.Services
                 }
             }
         }
+        
 
-        #region Report
+        #region Admin Report
 
         public PagerResult<BonusResultModel> GetBonusReport(ReportSearchModel model)
         {

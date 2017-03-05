@@ -2,7 +2,51 @@
     ViewBag.Title = "今日已结";
     Layout = "~/Views/Shared/_NgLayout.cshtml";
 }
-
-<div class="admin-wrapper">
-
+@section headScripts {
+    <script src="~/Scripts/Controllers/userReportController.js"></script>
+}
+<div class="gray-box" ng-controller="userReportController" ng-init="init('@PKBag.LoginUser.UserId', true)">
+    <table>
+        <thead>
+            <tr>
+                <th>注单号/时间</th>
+                <th>下注类型</th>
+                <th>注单明细</th>
+                <th>下注金额</th>
+                <th>退水后结果</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in pager.Results">
+                <td>
+                    <div>{{item.BetId}}#</div>
+                    <div>{{item.CreateTime | date : 'yyyy-MM-dd HH:mm:ss'}} {{item.Week}}</div>
+                </td>
+                <td>
+                    <div>速度与激情</div>
+                    <div><span class="z">{{item.PKId}}期</span></div>
+                </td>
+                <td><span class="z">{{item.RankName}} [{{item.NumName}}]</span> @@{{item.Rate}}</td>
+                <td>{{item.Amount}}</td>
+                <td>{{item.BonusAmount}}</td>
+            </tr>
+            <tr class="footer">
+                <td colspan="2">合计</td>
+                <td style="padding: 6px;">{{pager.Statistics.BetCount}}笔</td>
+                <td>{{pager.Statistics.BetAmount}}</td>
+                <td>{{pager.Statistics.BonusAmount}}</td>
+            </tr>
+            <tr class="footer">
+                <td colspan="2">共{{pager.RowCount}}条记录</td>
+                <td colspan="3">
+                    <div style="float:right;">
+                        <pagination boundary-links="true" total-items="pager.RowCount" items-per-page="pager.PageSize" max-size="10" rotate="false"
+                                    ng-change="pager.pageChanged()" ng-model="pager.PageIndex" class="pagination"
+                                    previous-text="上一页" next-text="下一页" first-text="首页" last-text="末页">
+                        </pagination>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
