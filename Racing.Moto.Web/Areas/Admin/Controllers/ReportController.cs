@@ -169,14 +169,42 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
         #endregion
 
+        #region 下注明细
+
         /// <summary>
         /// 下注明细
+        /// <param name="id">当前会员UserId</param>
         /// </summary>
         /// <returns></returns>
-        public ActionResult Bets()
+        public ActionResult Bets(int id)
         {
+            var model = GetReportSearchModelFromUrl(id);
+
+            ViewBag.SearchParams = JsonConvert.SerializeObject(model);
+            ViewBag.QueryString = Request.Url.Query;
+
             return View();
         }
 
+        [HttpPost]
+        public JsonResult GetBets(ReportSearchModel model)
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                //result.Data = new ReportService().GetAgentReports(model);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+                _logger.Info(ex);
+            }
+
+            return Json(result);
+        }
+
+        #endregion
     }
 }
