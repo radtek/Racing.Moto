@@ -67,29 +67,29 @@ namespace Racing.Moto.Services
             应付上级：应收下线+赚取水钱
          */
 
-        #region General Agent
-        public PagerResult<ReportModel> GetGeneralAgentReports(ReportSearchModel model)
+        #region 总代理/代理
+        public PagerResult<ReportModel> GetAgentReports(ReportSearchModel model)
         {
             var reports = new PagerResult<ReportModel>();
             reports.Items = new List<ReportModel>();
 
-            var generalSql = GetGeneralUserIdsSql(model);
-            var generalQuery = db.Database.SqlQuery<int>(generalSql);
-            var generalCount = generalQuery.Count();
-            var generalUserIds = generalQuery.Skip((model.PageIndex - 1) * model.PageSize).Take(model.PageSize).ToList();
+            var agentSql = GetAgentUserIdsSql(model);
+            var agentQuery = db.Database.SqlQuery<int>(agentSql);
+            var agentCount = agentQuery.Count();
+            var agentUserIds = agentQuery.Skip((model.PageIndex - 1) * model.PageSize).Take(model.PageSize).ToList();
 
-            reports.RowCount = generalCount;
-            reports.PageCount = (int)Math.Ceiling(generalCount * 1.0 / model.PageSize);
+            reports.RowCount = agentCount;
+            reports.PageCount = (int)Math.Ceiling(agentCount * 1.0 / model.PageSize);
 
             // 取用户
-            var users = db.User.Where(u => generalUserIds.Contains(u.UserId)).ToList();
+            var users = db.User.Where(u => agentUserIds.Contains(u.UserId)).ToList();
 
             // 取下注: 笔数
-            var betReportSql = GetGeneralBetReportSql(model);
+            var betReportSql = GetAgentBetReportSql(model);
             var dbBetReports = db.Database.SqlQuery<BetReportModel>(betReportSql).ToList();
 
             // 取奖金
-            var bonusReportSql = GetGeneralBonusReportSql(model);
+            var bonusReportSql = GetAgentBonusReportSql(model);
             var dbBonusReports = db.Database.SqlQuery<BonusReportModel>(bonusReportSql).ToList();
 
 
@@ -121,41 +121,68 @@ namespace Racing.Moto.Services
             return reports;
         }
 
-        private string GetGeneralUserIdsSql(ReportSearchModel model)
+        private string GetAgentUserIdsSql(ReportSearchModel model)
         {
             var sql = new StringBuilder();
 
-            sql.AppendLine("SELECT DISTINCT GeneralAgentUserId");
-            sql.AppendLine("FROM [dbo].[Bet]");
+            var userId = GetUserIdField(model.UserType);
+
+            sql.AppendLine(string.Format("SELECT DISTINCT [B].{0}", userId));
+            sql.AppendLine("FROM [dbo].[Bet] [B]");
+            sql.AppendLine(string.Format("INNER JOIN [dbo].[User] [U] ON [U].UserId = [B].{0}", userId));
             sql.AppendLine(GetWhereSql(model));
 
             return sql.ToString();
         }
 
-        private string GetGeneralBetReportSql(ReportSearchModel model)
+        private string GetAgentBetReportSql(ReportSearchModel model)
         {
             var sql = new StringBuilder();
 
-            sql.AppendLine("SELECT GeneralAgentUserId UserId, Count(0) BetCount, Sum(Amount) Amount");
-            sql.AppendLine("FROM [dbo].[Bet]");
+            var userId = GetUserIdField(model.UserType);
+
+            sql.AppendLine(string.Format("SELECT [B].{0} UserId, Count(0) BetCount, Sum(Amount) Amount", userId));
+            sql.AppendLine("FROM [dbo].[Bet] [B]");
+            sql.AppendLine(string.Format("INNER JOIN [dbo].[User] [U] ON [U].UserId = [B].{0}", userId));
             sql.AppendLine(GetWhereSql(model));
-            sql.AppendLine("GROUP BY GeneralAgentUserId");
+            sql.AppendLine(string.Format("GROUP BY [B].{0}", userId));
 
             return sql.ToString();
         }
 
-        private string GetGeneralBonusReportSql(ReportSearchModel model)
+        private string GetAgentBonusReportSql(ReportSearchModel model)
         {
             var sql = new StringBuilder();
 
-            sql.AppendLine("SELECT [PKB].UserId, GeneralAgentUserId, BonusType, Sum([PKB].Amount) Amount");
+            var userId = GetUserIdField(model.UserType);
+
+            sql.AppendLine(string.Format("SELECT [PKB].UserId, [UE].{0}, [PKB].BonusType, Sum([PKB].Amount) Amount", userId));
             sql.AppendLine("FROM [dbo].[PKBonus] [PKB]");
             sql.AppendLine("INNER JOIN [dbo].[PK] [PK] ON [PK].PKId = [PKB].PKId");
             sql.AppendLine("INNER JOIN [dbo].[UserExtension] [UE] ON [UE].UserId = [PKB].UserId");
+            sql.AppendLine(string.Format("INNER JOIN [dbo].[User] [U] ON [U].UserId = [UE].{0}", userId));
             sql.AppendLine(GetWhereSql(model));
-            sql.AppendLine("GROUP BY [PKB].UserId, GeneralAgentUserId, [PKB].BonusType");
+            sql.AppendLine(string.Format("GROUP BY [PKB].UserId, [UE].{0}, [PKB].BonusType", userId));
 
             return sql.ToString();
+        }
+
+        /// <summary>
+        /// 管理员查看总代理
+        /// 总代理查看代理
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        private string GetUserIdField(int roleId)
+        {
+            var userId = "UserId";
+            switch (roleId)
+            {
+                case RoleConst.Role_Id_Admin: userId = "GeneralAgentUserId"; break;
+                case RoleConst.Role_Id_General_Agent: userId = "AgentUserId"; break;
+                case RoleConst.Role_Id_Agent: userId = "UserId"; break;
+            }
+            return userId;
         }
         #endregion
 
@@ -178,6 +205,11 @@ namespace Racing.Moto.Services
                 {
                     sql.AppendLine(string.Format("AND DATEDIFF(DAY, '{0}', CreateTime) <= 0", model.ToDate.Value.ToString("yyyy/MM/dd")));
                 }
+            }
+
+            if (model.ParentUserId.HasValue)
+            {
+                sql.AppendLine(string.Format("AND [U].ParentUserId = {0}", model.ParentUserId));
             }
 
             return sql.ToString();

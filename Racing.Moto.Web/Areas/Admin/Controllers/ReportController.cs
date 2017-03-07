@@ -51,7 +51,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
         #region 交收报表
 
-        private ReportSearchModel GetReportSearchModelFromUrl()
+        private ReportSearchModel GetReportSearchModelFromUrl(int? parentUserId)
         {
             var model = new ReportSearchModel()
             {
@@ -63,6 +63,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
                 ToDate = GetDateTimeQueryString("ToDate"),
                 PageIndex = int.Parse(Request.QueryString["PageIndex"]),
                 PageSize = int.Parse(Request.QueryString["PageSize"]),
+                ParentUserId = parentUserId
             };
 
             return model;
@@ -78,48 +79,66 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
             return !string.IsNullOrEmpty(Request.QueryString[paramName]) ? (DateTime?)DateTime.Parse(Request.QueryString[paramName]) : null;
         }
 
-        #region 总代理
+        #region 总代理列表
 
-        public ActionResult GeneralAgent(int id)
+        /// <summary>
+        /// 总代理列表
+        /// </summary>
+        public ActionResult GeneralAgent()
         {
-            var model = GetReportSearchModelFromUrl();
-            model.UserType = UserType.Admin;
+            var model = GetReportSearchModelFromUrl(null);
+            model.UserType = UserType.Admin;//当前用户是管理员
 
             ViewBag.SearchParams = JsonConvert.SerializeObject(model);
+            ViewBag.QueryString = Request.Url.Query;
 
             return View();
         }
 
         #endregion
 
-        #region 代理
+        #region 代理列表
 
+        /// <summary>
+        /// 代理列表
+        /// </summary>
+        /// <param name="id">上级总代理UserId</param>
+        /// <returns></returns>
         public ActionResult Agent(int id)
         {
-            var model = GetReportSearchModelFromUrl();
-            model.UserType = UserType.GeneralAgent;
+            var model = GetReportSearchModelFromUrl(id);
+            model.UserType = UserType.GeneralAgent;//当前用户是总代理
 
             ViewBag.SearchParams = JsonConvert.SerializeObject(model);
+            ViewBag.QueryString = Request.Url.Query;
+            ViewBag.ParentUser = new UserService().GetUser(id);
 
             return View();
         }
 
         #endregion
 
-        #region 会员
+        #region 会员列表
 
+        /// <summary>
+        /// 会员列表
+        /// </summary>
+        /// <param name="id">上级代理UserId</param>
+        /// <returns></returns>
         public ActionResult Member(int id)
         {
-            var model = GetReportSearchModelFromUrl();
-            model.UserType = UserType.Agent;
+            var model = GetReportSearchModelFromUrl(id);
+            model.UserType = UserType.Agent;//当前用户是代理
 
             ViewBag.SearchParams = JsonConvert.SerializeObject(model);
+            ViewBag.QueryString = Request.Url.Query;
+            ViewBag.ParentUser = new UserService().GetUser(id);
 
             return View();
         }
 
         #endregion
-        
+
 
         [HttpPost]
         public JsonResult SearchReport(ReportSearchModel model)
@@ -128,12 +147,15 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
             try
             {
-                //result.Data = new PKBonusService().GetBonusReport(model);
-
-                if(model.UserType == RoleConst.Role_Id_Admin)
-                {
-                    result.Data = new ReportService().GetGeneralAgentReports(model);
-                }
+                //if (model.UserType == RoleConst.Role_Id_Admin || model.UserType == RoleConst.Role_Id_General_Agent)
+                //{
+                //    result.Data = new ReportService().GetAgentReports(model);
+                //}
+                //else if (model.UserType == RoleConst.Role_Id_Agent)
+                //{
+                //    result.Data = new ReportService().GetAgentReports(model);
+                //}
+                result.Data = new ReportService().GetAgentReports(model);
             }
             catch (Exception ex)
             {
@@ -146,5 +168,15 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
         }
 
         #endregion
+
+        /// <summary>
+        /// 下注明细
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Bets()
+        {
+            return View();
+        }
+
     }
 }

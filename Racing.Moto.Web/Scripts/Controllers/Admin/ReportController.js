@@ -135,7 +135,7 @@
                 + '&ReportType=' + $scope.report.Params.ReportType
                 + '&SettlementType=' + $scope.report.Params.SettlementType;
 
-            location.href = url + $scope.report.UserType + "?" + params;
+            location.href = url + "?" + params;
         },
     };
 }]);

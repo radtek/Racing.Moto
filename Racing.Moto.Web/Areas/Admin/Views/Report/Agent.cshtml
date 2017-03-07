@@ -1,11 +1,15 @@
 ﻿@{
     ViewBag.Title = "交收报表";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    var parentUser = ViewBag.ParentUser as Racing.Moto.Data.Entities.User;
+    var userName = parentUser != null ? parentUser.UserName : "";
 }
 
 @section headScripts {
     <script src="~/Scripts/Controllers/admin/ReportController.js"></script>
-}<table width="100%" height="100%" border="0" cellspacing="0" class="a">
+}
+<table width="100%" height="100%" border="0" cellspacing="0" class="a" ng-controller="reportListController" ng-init="init('@ViewBag.SearchParams')">
     <tbody>
         <tr>
             <td width="6" height="99%" bgcolor="#4E4E4E"></td>
@@ -19,9 +23,12 @@
                                     <tbody>
                                         <tr>
                                             <td width="17"><img src="/images/admin/tb.gif" width="16" height="16"></td>
-                                            <td width="60%">&nbsp;管理员（sai003） - 交收報表</td>
-                                            <td width="35%">按日期查詢：2017-02-01 -- 2017-02-28</td>
-                                            <td width="18"><img src="images/fh.gif"></td>
+                                            <td width="60%">&nbsp;总代理(@userName) - 交收報表</td>
+                                            <td width="35%">
+                                                <span ng-show="pager.Params.SearchType == 2">按日期查詢：{{pager.Params.FromDate | date : 'yyyy-MM-dd'}} -- {{pager.Params.ToDate | date : 'yyyy-MM-dd'}}</span>
+                                                <span ng-show="pager.Params.SearchType == 1">按期數:</span>
+                                            </td>
+                                            <td width="18"><img src="/images/admin/fh.gif"></td>
                                             <td width="30"><a href="javascript:history.go(-1);" class="font_r F_bold">返囬</a></td>
                                         </tr>
                                     </tbody>
@@ -36,8 +43,7 @@
                                 <table border="0" cellspacing="0" class="conter">
                                     <tbody>
                                         <tr class="tr_top">
-                                            <td>代理、直屬會員</td>
-                                            <td>名稱</td>
+                                            <td>代理</td>
                                             <td>筆數</td>
                                             <td><b>有效金額</b></td>
                                             <td>會員輸贏</td>
@@ -48,51 +54,42 @@
                                             <td>實占退水</td>
                                             <td>實占結果</td>
                                             <td>賺取水錢</td>
-                                            <td>賺水后結果</td>
+                                            @*<td>賺水后結果</td>*@
                                             <td>貢獻上級</td>
                                             <td>應付上級</td>
                                         </tr>
-                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center">
+                                        <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center"
+                                            ng-repeat="item in pager.Results">
                                             <td>
-                                                yjf88888
+                                                <a href="/Admin/Report/Member/{{item.UserId}}/@ViewBag.QueryString">{{item.UserName}}</a>
                                             </td>
-                                            <td>有时</td>
-                                            <td>10</td>
-                                            <td>
-                                                <a href="javascript:void(0);" onclick="javascript:GoCryPop('yjf88888','1')" class="tt">4307</a>
-                                            </td>
-                                            <td>-0.2</td>
-
-
-                                            <td class="ll"><b>-0.2</b></td>
-
+                                            <td>{{item.BetCount}}</td>
+                                            <td>{{item.BetAmount}}</td>
+                                            <td>{{item.MemberWinOrLoseAmount}}</td>
+                                            <td>{{item.ReceiveAmount}}</td>
                                             <td>0%</td>
                                             <td>0</td>
                                             <td>0</td>
                                             <td>0</td>
                                             <td>0</td>
-
-                                            <td>0</td>
-                                            <td><b>-172.3</b></td>
-                                            <td class="bg_b">4307</td>
-                                            <td class="bg_b">172.1</td>
+                                            <td>{{item.RebateAmount}}</td>
+                                            <td class="bg_b">{{item.ContributeHigherLevelAmount}}</td>
+                                            <td class="bg_b">{{item.PayHigherLevelAmount}}</td>
                                         </tr>
                                         <tr align="center" class="bg_a">
-                                            <td colspan="2" align="right">合計：</td>
-                                            <td>10</td>
-                                            <td>4307</td>
-                                            <td>-0.2</td>
-                                            <td><b>-0.2</b></td>
-
+                                            <td align="right">合計：</td>
+                                            <td>{{pager.Statistics.BetCount}}</td>
+                                            <td>{{pager.Statistics.BetAmount}}</td>
+                                            <td>{{pager.Statistics.MemberWinOrLoseAmount}}</td>
+                                            <td>{{pager.Statistics.ReceiveAmount}}</td>
                                             <td>--</td>
                                             <td>0</td>
                                             <td>0</td>
                                             <td>0</td>
                                             <td>0</td>
-                                            <td>0</td>
-                                            <td><b>-172.3</b></td>
-                                            <td>4307</td>
-                                            <td><b>172.1</b></td>
+                                            <td>{{pager.Statistics.RebateAmount}}</td>
+                                            <td>{{pager.Statistics.ContributeHigherLevelAmount}}</td>
+                                            <td>{{pager.Statistics.PayHigherLevelAmount}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -100,13 +97,13 @@
                             </td>
                             <td class="r"></td>
                         </tr>
-                        <tr>
+                        <tr style="display:none;">
                             <td width="12"><img src="/images/admin/tab_18.gif" alt=""></td>
                             <td class="f yu">
                                 占成結果：<font color="red">0</font>&nbsp;&nbsp;/&nbsp;&nbsp;
                                 賺取退水：<font color="#0000FF">0</font>&nbsp;&nbsp;/&nbsp;&nbsp;
-                                抵扣補貨及賺水后結果：<font color="red">-172.3</font>&nbsp;&nbsp;/&nbsp;&nbsp;
-                                應付上級：<font color="#009933">172.1</font>
+                                抵扣補貨及賺水后結果：<font color="red">-17505</font>&nbsp;&nbsp;/&nbsp;&nbsp;
+                                應付上級：<font color="#009933">16558.5</font>
                             </td>
                             <td width="16"><img src="/images/admin/tab_20.gif" alt=""></td>
                         </tr>
