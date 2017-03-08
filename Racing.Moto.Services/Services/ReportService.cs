@@ -5,6 +5,7 @@ using Racing.Moto.Data.Models;
 using Racing.Moto.Services.Constants;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,7 +49,6 @@ namespace Racing.Moto.Services
 
         //       */
         //  }
-
 
 
         /*
@@ -214,5 +214,44 @@ namespace Racing.Moto.Services
 
             return sql.ToString();
         }
+
+        #region 下注明细
+
+        /// <summary>
+        /// 下注明细
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public PagerResult<Bet> GetUserBetReports(ReportSearchModel model)
+        {
+            var isSettlementDone = model.SettlementType == 1 ? true : false;
+            var query = db.Bet
+                .Include(nameof(Bet.User))
+                .Where(b => b.UserId == model.UserId && b.IsSettlementDone == isSettlementDone);
+
+            //已开奖
+            query = query.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+
+            var result = query
+                .OrderByDescending(b => b.BetId)
+                .Pager(model.PageIndex, model.PageSize);
+
+            // 奖金
+            var betIds = result.Items.Select(b => b.BetId).ToList();
+            var pkBonus = db.PKBonus.Where(b => betIds.Contains(b.BetId)).ToList();
+            foreach (var bet in result.Items)
+            {
+                var rebateBonus = pkBonus.Where(b => b.BetId == bet.BetId && b.BonusType == BonusType.Rebate).FirstOrDefault();
+                var bonus = pkBonus.Where(b => b.BetId == bet.BetId).ToList();
+                var amount = bonus.Count() > 0 ? bonus.Sum(b => b.Amount) : 0;
+
+                bet.RebateAmount = rebateBonus != null ? rebateBonus.Amount : 0;// 退水
+                bet.BonusAmount = amount - bet.Amount;  // 退水后奖金 = 中奖金额+退水-本金
+            }
+
+            return result;
+        }
+
+        #endregion
     }
 }

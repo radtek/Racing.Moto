@@ -65,6 +65,11 @@ namespace Racing.Moto.Data.Models
         public int PageSize { get; set; }
 
         /// <summary>
+        /// 用户Id
+        /// </summary>
+        public int? UserId { get; set; }
+
+        /// <summary>
         /// 父级用户Id
         /// </summary>
         public int? ParentUserId { get; set; }

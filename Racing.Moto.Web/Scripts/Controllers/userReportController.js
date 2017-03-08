@@ -1,7 +1,8 @@
 ﻿app.controller('userReportController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
     $scope.Data = {
         UserId: null, IsSettlementDone: null,
-        Ranks: ['冠军', '亚军', '第三名', '第四名', '第五名', '第六名', '第七名', '第八名', '第九名', '第十名']
+        Ranks: ['冠军', '亚军', '第三名', '第四名', '第五名', '第六名', '第七名', '第八名', '第九名', '第十名'],
+        RebateTypes: ['A', 'B', 'C']
     };
 
     $scope.init = function (userId, isSettlementDone) {
@@ -61,6 +62,7 @@
                 item.Week = $app.getWeek(item.CreateTime);
                 item.RankName = $scope.Data.Ranks[item.Rank - 1];
                 item.NumName = item.Num <= 10 ? item.Num : $scope.pager.getBSOEName(item.Num);
+                item.RebateType = $scope.Data.RebateTypes[item.DefaultRebateType - 1];
             });
         },
         getBSOEName: function (num) {

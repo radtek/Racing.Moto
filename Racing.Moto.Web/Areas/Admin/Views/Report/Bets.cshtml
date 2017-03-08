@@ -7,7 +7,7 @@
     <script src="~/Scripts/Controllers/admin/ReportController.js"></script>
 }
 
-<table width="100%" height="100%" border="0" cellspacing="0" class="a">
+<table width="100%" height="100%" border="0" cellspacing="0" class="a" ng-controller="reportBetsController" ng-init="init('@ViewBag.SearchParams')">
     <tbody>
         <tr>
             <td width="6" height="99%" bgcolor="#4E4E4E"></td>
@@ -43,389 +43,24 @@
                                             <td>會員輸贏</td>
                                             <td>代理占成</td>
                                             <td>總代理占成</td>
-                                            <td>股東占成</td>
-                                            <td>分公司占成</td>
                                             <td>总公司占成</td>
                                             <td><b>您的結果</b></td>
                                         </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053058#<br>2017-02-26 22:00:05 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604088期</font></td>
+                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''"
+                                            ng-repeat="item in pager.Results">
+                                            <td>{{item.BetId}}#<br>{{item.CreateTime | date : 'yyyy-MM-dd HH:mm:ss'}} {{item.Week}}</td>
+                                            <td>速度与激情<br><font color="#009933">{{item.PKId}}期</font></td>
                                             <td>
-                                                we168<br>
-                                                A盤
+                                                {{item.User.UserName}}<br>{{item.RebateType}}盤
                                             </td>
-                                            <td><font color="#0066FF">冠軍『大』</font>@@ <font color="red"><b>1.985</b></font></td>
-                                            <td>20</td>
-                                            <td>-20</td>
-                                            <td><b>0</b>%<br>100</td>
+                                            <td><font color="#0066FF">{{item.RankName}}『{{item.NumName}}』</font>@@ <font color="red"><b>{{item.Rate}}</b></font></td>
+                                            <td>{{item.Amount}}</td>
+                                            <td>{{item.BonusAmount}}</td>
                                             <td><b>0</b>%<br>0</td>
                                             <td><b>0</b>%<br>0</td>
                                             <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -20&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053056#<br>2017-02-26 21:59:58 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604088期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">冠軍『10』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>20</td>
-                                            <td>-20</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -20&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053055#<br>2017-02-26 21:59:58 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604088期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">冠軍『9』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>20</td>
-                                            <td>-20</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -20&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053054#<br>2017-02-26 21:59:58 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604088期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">冠軍『8』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>20</td>
-                                            <td>-20</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -20&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053053#<br>2017-02-26 21:59:58 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604088期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">冠軍『7』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>20</td>
-                                            <td>-20</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -20&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053052#<br>2017-02-26 21:59:58 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604088期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">冠軍『6』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>20</td>
-                                            <td>-20</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -20&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053046#<br>2017-02-26 21:56:41 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604087期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">第六名『9』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>15</td>
-                                            <td>-15</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -15&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053045#<br>2017-02-26 21:56:41 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604087期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">第五名『9』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>15</td>
-                                            <td>-15</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -15&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053044#<br>2017-02-26 21:56:41 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604087期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">第四名『9』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>15</td>
-                                            <td>-15</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -15&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053043#<br>2017-02-26 21:56:41 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604087期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">第三名『9』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>15</td>
-                                            <td>-15</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -15&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053042#<br>2017-02-26 21:56:41 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604087期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">亞軍『9』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>15</td>
-                                            <td>-15</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -15&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053034#<br>2017-02-26 21:54:38 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604087期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">第五名『7』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>40</td>
-                                            <td>-40</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -40&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053033#<br>2017-02-26 21:54:38 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604087期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">第五名『6』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>40</td>
-                                            <td>-40</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -40&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053032#<br>2017-02-26 21:54:38 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604087期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">第五名『5』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>40</td>
-                                            <td>-40</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -40&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053031#<br>2017-02-26 21:54:38 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604087期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">第五名『4』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>40</td>
-                                            <td>354</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                354&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053030#<br>2017-02-26 21:54:38 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604087期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">第五名『3』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>40</td>
-                                            <td>-40</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -40&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053025#<br>2017-02-26 21:51:25 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604086期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">第四名『10』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>60</td>
-                                            <td>-60</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -60&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053024#<br>2017-02-26 21:51:25 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604086期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">第四名『9』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>60</td>
-                                            <td>-60</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -60&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053023#<br>2017-02-26 21:51:25 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604086期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">第四名『8』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>60</td>
-                                            <td>-60</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -60&nbsp;&nbsp;<br>0									&nbsp;
-                                            </td>
-                                        </tr>
-                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''">
-                                            <td>2053022#<br>2017-02-26 21:51:25 日</td>
-                                            <td>北京賽車PK10<br><font color="#009933">604086期</font></td>
-                                            <td>
-                                                we168<br>
-                                                A盤
-                                            </td>
-                                            <td><font color="#0066FF">第五名『7』</font>@@ <font color="red"><b>9.85</b></font></td>
-                                            <td>40</td>
-                                            <td>-40</td>
-                                            <td><b>0</b>%<br>100</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>0</b>%<br>0</td>
-                                            <td><b>100</b>%<br>99.1</td>
-                                            <td align="right">
-                                                -40&nbsp;&nbsp;<br>0									&nbsp;
+                                            <td align="right" style="padding-right:2px;">
+                                                {{item.BonusAmount}}<br> {{item.RebateAmount}}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -436,7 +71,12 @@
                         </tr>
                         <tr>
                             <td width="12"><img src="/images/admin/tab_18.gif" alt=""></td>
-                            <td class="f" align="right">&nbsp;&nbsp;共&nbsp;<b>446</b>&nbsp;條記錄&nbsp;&nbsp;&nbsp;&nbsp;每頁顯示<b>20</b>條，本頁<b>1-20</b>條&nbsp;&nbsp;前一頁『&nbsp;1&nbsp;&nbsp;<a style="cursor: pointer" onclick="location.href = '/Manage/temp/Report_CryPop.aspx?s_types=3&amp;s_type=&amp;s_number=604089&amp;t_N=1&amp;startDate=2017-02-26&amp;endDate=2017-02-26&amp;ReportType=1&amp;Balance=1&amp;s_name=we168&amp;t=1&amp;page=2';">2</a>&nbsp;&nbsp;<a style="cursor: pointer" onclick="location.href = '/Manage/temp/Report_CryPop.aspx?s_types=3&amp;s_type=&amp;s_number=604089&amp;t_N=1&amp;startDate=2017-02-26&amp;endDate=2017-02-26&amp;ReportType=1&amp;Balance=1&amp;s_name=we168&amp;t=1&amp;page=3';">3</a>&nbsp;&nbsp;<a style="cursor: pointer" onclick="location.href = '/Manage/temp/Report_CryPop.aspx?s_types=3&amp;s_type=&amp;s_number=604089&amp;t_N=1&amp;startDate=2017-02-26&amp;endDate=2017-02-26&amp;ReportType=1&amp;Balance=1&amp;s_name=we168&amp;t=1&amp;page=4';">4</a>&nbsp;&nbsp;<a style="cursor: pointer" onclick="location.href = '/Manage/temp/Report_CryPop.aspx?s_types=3&amp;s_type=&amp;s_number=604089&amp;t_N=1&amp;startDate=2017-02-26&amp;endDate=2017-02-26&amp;ReportType=1&amp;Balance=1&amp;s_name=we168&amp;t=1&amp;page=5';">5</a>&nbsp;』&nbsp;&nbsp;<a style="cursor: pointer" onclick="location.href = '/Manage/temp/Report_CryPop.aspx?s_types=3&amp;s_type=&amp;s_number=604089&amp;t_N=1&amp;startDate=2017-02-26&amp;endDate=2017-02-26&amp;ReportType=1&amp;Balance=1&amp;s_name=we168&amp;t=1&amp;page=2';">后一頁</a>&nbsp;&nbsp;&nbsp;&nbsp;<a style="cursor: pointer" onclick="location.href = '/Manage/temp/Report_CryPop.aspx?s_types=3&amp;s_type=&amp;s_number=604089&amp;t_N=1&amp;startDate=2017-02-26&amp;endDate=2017-02-26&amp;ReportType=1&amp;Balance=1&amp;s_name=we168&amp;t=1&amp;page=23';">末 頁</a>&nbsp;&nbsp;</td>
+                            <td class="f" align="right">
+                                <pagination boundary-links="true" total-items="pager.RowCount" items-per-page="pager.PageSize" max-size="10" rotate="false"
+                                            ng-change="pager.pageChanged()" ng-model="pager.PageIndex" class="pagination"
+                                            previous-text="上一页" next-text="下一页" first-text="首页" last-text="末页">
+                                </pagination>
+                            </td>
                             <td width="16"><img src="/images/admin/tab_20.gif" alt=""></td>
                         </tr>
                     </tbody>

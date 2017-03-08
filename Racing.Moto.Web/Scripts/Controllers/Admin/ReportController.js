@@ -1,5 +1,5 @@
 ﻿app.controller('reportSearchController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
-    $scope.data = {
+    $scope.Data = {
         UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4, Vistor: 5 },
         BetTypes: [
             { ID: 1, Name: '冠軍' }, { ID: 2, Name: '亞軍' }, { ID: 3, Name: '第三名' }, { ID: 4, Name: '第四名' }, { ID: 5, Name: '第五名' },
@@ -123,9 +123,9 @@
             //});
             var url = '/Admin/Report'
             switch ($scope.report.UserType) {
-                case $scope.data.UserTypes.Admin: url += '/GeneralAgent/'; break;
-                case $scope.data.UserTypes.Agent: url += '/Agent/'; break;
-                case $scope.data.UserTypes.Member: url += '/Member/'; break;
+                case $scope.Data.UserTypes.Admin: url += '/GeneralAgent/'; break;
+                case $scope.Data.UserTypes.Agent: url += '/Agent/'; break;
+                case $scope.Data.UserTypes.Member: url += '/Member/'; break;
             }
             var params = 'PageIndex=1&PageSize=20'
                 + '&BetType=' + $scope.report.Params.BetType
@@ -140,9 +140,8 @@
     };
 }]);
 
-
 app.controller('reportListController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
-    $scope.data = {
+    $scope.Data = {
         UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4, Vistor: 5 },
     };
 
@@ -203,6 +202,65 @@ app.controller('reportListController', ['$scope', '$rootScope', '$http', '$compi
                 PayHigherLevelAmount: payHigherLevelAmount,
             };
             console.log($scope.pager.Statistics);
+        },
+        pageChanged: function () {
+            $scope.pager.getResults($scope.pager.PageIndex);
+        },
+    };
+}]);
+
+app.controller('reportBetsController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
+    $scope.Data = {
+        UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4, Vistor: 5 },
+        Ranks: ['冠军', '亚军', '第三名', '第四名', '第五名', '第六名', '第七名', '第八名', '第九名', '第十名'],
+    };
+
+    $scope.init = function (searchParams) {
+        $scope.pager.init(searchParams);
+    };
+
+    $scope.pager = {
+        PageIndex: 1,
+        PageSize: 20,
+        RowCount: 0,
+        UserType: 4,
+        Params: { UserType: 4, SearchType: '2', ReportType: '1', SettlementType: '1', FromDate: null, ToDate: null, BetType: '' },
+        Results: [],
+        Statistics: {},
+        init: function (searchParams) {
+            $scope.pager.Params = JSON.parse(searchParams)
+            $scope.pager.getResults(1);
+        },
+        getResults: function (pageIndex) {
+            $scope.pager.Params.PageIndex = pageIndex;
+            $http.post('/Admin/Report/GetBets', $scope.pager.Params).then(function (res) {
+                console.log(res);
+                if (res.data.Success) {
+                    $scope.pager.Results = res.data.Data.Items;
+                    $scope.pager.RowCount = res.data.Data.RowCount;
+
+                    $scope.pager.setResults();
+                } else {
+                    alert(res.data.Message)
+                }
+            });
+        },
+        setResults: function () {
+            angular.forEach($scope.pager.Results, function (item, index, arr) {
+                item.Week = $app.getWeek(item.CreateTime);
+                item.RankName = $scope.Data.Ranks[item.Rank - 1];
+                item.NumName = item.Num <= 10 ? item.Num : $scope.pager.getBSOEName(item.Num);
+            });
+        },
+        getBSOEName: function (num) {
+            var name = '';
+            switch (num) {
+                case 11: name = '大'; break;
+                case 12: name = '小'; break;
+                case 13: name = '单'; break;
+                case 14: name = '双'; break;
+            }
+            return name;
         },
         pageChanged: function () {
             $scope.pager.getResults($scope.pager.PageIndex);

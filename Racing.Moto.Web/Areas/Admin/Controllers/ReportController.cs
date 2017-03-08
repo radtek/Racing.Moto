@@ -3,6 +3,7 @@ using NLog;
 using Racing.Moto.Data.Models;
 using Racing.Moto.Services;
 using Racing.Moto.Services.Constants;
+using Racing.Moto.Services.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ using System.Web.Mvc;
 
 namespace Racing.Moto.Web.Areas.Admin.Controllers
 {
-    public class ReportController : Controller
+    public class ReportController : BaseController
     {
         private ILogger _logger = LogManager.GetCurrentClassLogger();
 
@@ -51,7 +52,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
         #region 交收报表
 
-        private ReportSearchModel GetReportSearchModelFromUrl(int? parentUserId)
+        private ReportSearchModel GetReportSearchModelFromUrl(int? parentUserId, int? userId)
         {
             var model = new ReportSearchModel()
             {
@@ -63,7 +64,8 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
                 ToDate = GetDateTimeQueryString("ToDate"),
                 PageIndex = int.Parse(Request.QueryString["PageIndex"]),
                 PageSize = int.Parse(Request.QueryString["PageSize"]),
-                ParentUserId = parentUserId
+                ParentUserId = parentUserId,
+                UserId = userId
             };
 
             return model;
@@ -86,7 +88,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
         /// </summary>
         public ActionResult GeneralAgent()
         {
-            var model = GetReportSearchModelFromUrl(null);
+            var model = GetReportSearchModelFromUrl(null, null);
             model.UserType = UserType.Admin;//当前用户是管理员
 
             ViewBag.SearchParams = JsonConvert.SerializeObject(model);
@@ -106,7 +108,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult Agent(int id)
         {
-            var model = GetReportSearchModelFromUrl(id);
+            var model = GetReportSearchModelFromUrl(id, null);
             model.UserType = UserType.GeneralAgent;//当前用户是总代理
 
             ViewBag.SearchParams = JsonConvert.SerializeObject(model);
@@ -127,7 +129,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult Member(int id)
         {
-            var model = GetReportSearchModelFromUrl(id);
+            var model = GetReportSearchModelFromUrl(id, null);
             model.UserType = UserType.Agent;//当前用户是代理
 
             ViewBag.SearchParams = JsonConvert.SerializeObject(model);
@@ -178,7 +180,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
         /// <returns></returns>
         public ActionResult Bets(int id)
         {
-            var model = GetReportSearchModelFromUrl(id);
+            var model = GetReportSearchModelFromUrl(null, id);
 
             ViewBag.SearchParams = JsonConvert.SerializeObject(model);
             ViewBag.QueryString = Request.Url.Query;
@@ -193,7 +195,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
             try
             {
-                //result.Data = new ReportService().GetAgentReports(model);
+                result.Data = new ReportService().GetUserBetReports(model);
             }
             catch (Exception ex)
             {

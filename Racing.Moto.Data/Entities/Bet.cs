@@ -46,6 +46,12 @@ namespace Racing.Moto.Data.Entities
         /// 退水后结果
         /// </summary>
         [NotMapped]
+        public decimal RebateAmount { get; set; }
+
+        /// <summary>
+        /// 退水后结果
+        /// </summary>
+        [NotMapped]
         public decimal BonusAmount { get; set; }
         
         /// <summary>
