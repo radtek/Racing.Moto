@@ -61,7 +61,7 @@
                                         <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center"
                                             ng-repeat="item in pager.Results">
                                             <td>
-                                                <a href="/Admin/Report/Member/{{item.UserId}}/@ViewBag.QueryString">{{item.UserName}}</a>
+                                                <a class="tt" href="/Admin/Report/Member/{{item.UserId}}/@ViewBag.QueryString">{{item.UserName}}</a>
                                             </td>
                                             <td>{{item.BetCount}}</td>
                                             <td>{{item.BetAmount}}</td>

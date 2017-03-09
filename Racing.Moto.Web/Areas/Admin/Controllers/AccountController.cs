@@ -76,14 +76,15 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
                         //在线用户统计
                         OnlineHttpModule.ProcessRequest();
 
-                        if (Url.IsLocalUrl(returnUrl))
-                        {
-                            return Redirect(returnUrl);
-                        }
-                        else
-                        {
-                            return Redirect("/Admin/News/Index");
-                        }
+                        //if (Url.IsLocalUrl(returnUrl))
+                        //{
+                        //    return Redirect(HttpUtility.UrlDecode(returnUrl));
+                        //}
+                        //else
+                        //{
+                        //    return Redirect("/Admin/News/Index");
+                        //}
+                        return Redirect("/Admin/News/Index");
                     }
 
                     ModelState.AddModelError("", "用户名或密码错误.");

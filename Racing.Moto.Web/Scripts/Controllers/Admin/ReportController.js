@@ -4,7 +4,7 @@
         BetTypes: [
             { ID: 1, Name: '冠軍' }, { ID: 2, Name: '亞軍' }, { ID: 3, Name: '第三名' }, { ID: 4, Name: '第四名' }, { ID: 5, Name: '第五名' },
             { ID: 6, Name: '第六名' }, { ID: 7, Name: '第七名' }, { ID: 8, Name: '第八名' }, { ID: 9, Name: '第九名' }, { ID: 10, Name: '第十名' },
-            { ID: 11, Name: '大小' }, { ID: 12, Name: '單雙' },
+            { ID: 11, Name: '大' }, { ID: 12, Name: '小' }, { ID: 13, Name: '單' }, { ID: 14, Name: '雙' }
         ],
         SearchTypes: [{ ID: 1, Name: '期数' }, { ID: 2, Name: '日期' }],
         ReportTypes: [{ ID: 1, Name: '交收報錶' }, { ID: 2, Name: '分類報錶' }],
@@ -39,10 +39,6 @@
                     break;
                 case 3: // 本周
                     var now = new Date(); //当前日期 
-                    //var dayOfWeek = now.getDay() == 0 ? 6 : now.getDay() - 1; //今天本周的第几天 
-                    //var nowDay = now.getDate(); //当前日 
-                    //var weekStartDate = new Date(now.getFullYear(), now.getMonth(), nowDay - dayOfWeek);
-                    //var weekEndDate = new Date(now.getFullYear(), now.getMonth(), nowDay + (6 - dayOfWeek));
                     var rangeWeek = $scope.report.getRangeWeek(now);
 
                     from = $app.formatDate(rangeWeek.From, 'yyyy-MM-dd');
@@ -51,11 +47,6 @@
                 case 4: // 上周
                     var prevWeek = new Date(); //当前日期 
                     prevWeek.setDate(prevWeek.getDate() - 7);
-                    //var dayOfWeek = now.getDay() == 0 ? 6 : now.getDay() - 1; //今天本周的第几天 
-                    //var nowDay = now.getDate(); //当前日 
-                    //var weekStartDate = new Date(now.getFullYear(), now.getMonth(), nowDay - dayOfWeek);
-                    //var weekEndDate = new Date(now.getFullYear(), now.getMonth(), nowDay + (6 - dayOfWeek));
-
                     var rangeWeek = $scope.report.getRangeWeek(prevWeek);
 
                     from = $app.formatDate(rangeWeek.From, 'yyyy-MM-dd');
@@ -93,8 +84,6 @@
             var nowDay = date.getDate(); //当前日 
             var from = new Date(date.getFullYear(), date.getMonth(), nowDay - dayOfWeek);
             var to = new Date(date.getFullYear(), date.getMonth(), nowDay + (6 - dayOfWeek));
-            //from = $app.formatDate(weekStartDate, 'yyyy-MM-dd');
-            //to = $app.formatDate(weekEndDate, 'yyyy-MM-dd');
 
             return { From: from, To: to };
         },
@@ -110,24 +99,21 @@
             });
         },
         search: function () {
-            //$http.post('/Admin/Report/SearchReport', $scope.report.Params).then(function (res) {
-            //    console.log(res);
-            //    if (res.data.Success) {
-            //        $scope.report.DataBak = angular.copy($scope.report.Data);
-            //        $scope.report.IsEdit = false;
+            var url = '/Admin/Report';
 
-            //        alert('修改成功!');
-            //    } else {
-            //        alert(res.data.Message);
-            //    }
-            //});
-            var url = '/Admin/Report'
-            switch ($scope.report.UserType) {
-                case $scope.Data.UserTypes.Admin: url += '/GeneralAgent/'; break;
-                case $scope.Data.UserTypes.Agent: url += '/Agent/'; break;
-                case $scope.Data.UserTypes.Member: url += '/Member/'; break;
+            if ($scope.report.Params.ReportType == 1) {
+                // 交收報錶
+                switch ($scope.report.UserType) {
+                    case $scope.Data.UserTypes.Admin: url += '/GeneralAgent/'; break;
+                    case $scope.Data.UserTypes.Agent: url += '/Agent/'; break;
+                    case $scope.Data.UserTypes.Member: url += '/Member/'; break;
+                }
+            } else {
+                // 分類報錶
+                url += '/Rank/';
             }
             var params = 'PageIndex=1&PageSize=20'
+                + '&PKId=' + $scope.report.Params.PKId
                 + '&BetType=' + $scope.report.Params.BetType
                 + '&SearchType=' + $scope.report.Params.SearchType
                 + '&FromDate=' + $scope.report.Params.FromDate
@@ -139,7 +125,7 @@
         },
     };
 }]);
-
+// 交收報表
 app.controller('reportListController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
     $scope.Data = {
         UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4, Vistor: 5 },
@@ -208,7 +194,7 @@ app.controller('reportListController', ['$scope', '$rootScope', '$http', '$compi
         },
     };
 }]);
-
+// 下注明細
 app.controller('reportBetsController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
     $scope.Data = {
         UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4, Vistor: 5 },
@@ -264,6 +250,83 @@ app.controller('reportBetsController', ['$scope', '$rootScope', '$http', '$compi
         },
         pageChanged: function () {
             $scope.pager.getResults($scope.pager.PageIndex);
+        },
+    };
+}]);
+
+
+// 分类報表
+app.controller('reportListController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
+    $scope.Data = {
+        UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4, Vistor: 5 },
+        Ranks: [
+            { ID: 1, Name: '冠軍' }, { ID: 2, Name: '亞軍' }, { ID: 3, Name: '第三名' }, { ID: 4, Name: '第四名' }, { ID: 5, Name: '第五名' },
+            { ID: 6, Name: '第六名' }, { ID: 7, Name: '第七名' }, { ID: 8, Name: '第八名' }, { ID: 9, Name: '第九名' }, { ID: 10, Name: '第十名' },
+            { ID: 11, Name: '大' }, { ID: 12, Name: '小' }, { ID: 13, Name: '單' }, { ID: 14, Name: '雙' }
+        ],
+    };
+
+    $scope.init = function (searchParams) {
+        $scope.opt.init(searchParams);
+    };
+
+    $scope.opt = {
+        Params: { UserType: 4, SearchType: '2', ReportType: '1', SettlementType: '1', FromDate: null, ToDate: null, BetType: '' },
+        Results: [],
+        Statistics: {},
+        init: function (searchParams) {
+            $scope.opt.Params = JSON.parse(searchParams)
+            $scope.opt.getResults();
+        },
+        getResults: function () {
+            $http.post('/Admin/Report/SearchReport', $scope.opt.Params).then(function (res) {
+                console.log(res);
+                if (res.data.Success) {
+                    $scope.opt.Results = res.data.Data;
+
+                    $scope.opt.setStatistics($scope.opt.Results);
+                } else {
+                    alert(res.data.Message)
+                }
+            });
+        },
+        setStatistics: function () {
+            var betCount = 0,
+                betAmount = 0,
+                memberWinOrLoseAmount = 0,
+                receiveAmount = 0,
+                rebateAmount = 0,
+                contributeHigherLevelAmount = 0,
+                payHigherLevelAmount = 0;
+            angular.forEach($scope.opt.Results, function (item, index, arr) {
+                betCount = betCount.add(item.BetCount);
+                betAmount = betAmount.add(item.BetAmount);
+                memberWinOrLoseAmount = memberWinOrLoseAmount.add(item.MemberWinOrLoseAmount);
+                receiveAmount = receiveAmount.add(item.ReceiveAmount);
+                //rebateAmount = rebateAmount.add(item.RebateAmount);
+                contributeHigherLevelAmount = contributeHigherLevelAmount.add(item.ContributeHigherLevelAmount);
+                payHigherLevelAmount = payHigherLevelAmount.add(item.PayHigherLevelAmount);
+            })
+            $scope.opt.Statistics = {
+                BetCount: betCount,
+                BetAmount: betAmount,
+                MemberWinOrLoseAmount: memberWinOrLoseAmount,
+                ReceiveAmount: receiveAmount,
+                //RebateAmount: rebateAmount,
+                ContributeHigherLevelAmount: contributeHigherLevelAmount,
+                PayHigherLevelAmount: payHigherLevelAmount,
+            };
+            console.log($scope.opt.Statistics);
+        },
+        getRankName: function (num) {
+            var name = '';
+            for (var i = 0; i < $scope.Data.Ranks.length; i++) {
+                if ($scope.Data.Ranks[i].ID == num) {
+                    name = $scope.Data.Ranks[i].Name;
+                    break;
+                }
+            }
+            return name;
         },
     };
 }]);

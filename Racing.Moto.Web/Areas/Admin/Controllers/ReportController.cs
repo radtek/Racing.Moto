@@ -56,6 +56,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
         {
             var model = new ReportSearchModel()
             {
+                PKId = GetIntQueryString("PKId"),
                 BetType = GetIntQueryString("BetType"),
                 SearchType = int.Parse(Request.QueryString["SearchType"]),
                 ReportType = int.Parse(Request.QueryString["ReportType"]),
@@ -149,15 +150,16 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
             try
             {
-                //if (model.UserType == RoleConst.Role_Id_Admin || model.UserType == RoleConst.Role_Id_General_Agent)
-                //{
-                //    result.Data = new ReportService().GetAgentReports(model);
-                //}
-                //else if (model.UserType == RoleConst.Role_Id_Agent)
-                //{
-                //    result.Data = new ReportService().GetAgentReports(model);
-                //}
-                result.Data = new ReportService().GetAgentReports(model);
+                if (model.ReportType == 1)
+                {
+                    // 交收報表
+                    result.Data = new ReportService().GetAgentReports(model);
+                }
+                else
+                {
+                    // 分类報表
+                    result.Data = new ReportService().GetRankReports(model);
+                }
             }
             catch (Exception ex)
             {
@@ -205,6 +207,21 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
             }
 
             return Json(result);
+        }
+
+        #endregion
+
+
+        #region 分类报表
+
+        public ActionResult Rank()
+        {
+            var model = GetReportSearchModelFromUrl(null, null);
+
+            ViewBag.SearchParams = JsonConvert.SerializeObject(model);
+            ViewBag.QueryString = Request.Url.Query;
+
+            return View();
         }
 
         #endregion

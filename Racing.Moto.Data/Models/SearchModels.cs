@@ -77,7 +77,7 @@ namespace Racing.Moto.Data.Models
         /// <summary>
         /// PKId
         /// </summary>
-        public int PKId { get; set; }
+        public int? PKId { get; set; }
 
         /// <summary>
         /// 用户类型
@@ -90,7 +90,7 @@ namespace Racing.Moto.Data.Models
         public int UserType { get; set; }
 
         /// <summary>
-        /// 下註類型: 1-10名, 11 大小, 12 单双
+        /// 下註類型: 1-10名, 11,12 大小, 13,14 单双
         /// </summary>
         public int? BetType { get; set; }
 

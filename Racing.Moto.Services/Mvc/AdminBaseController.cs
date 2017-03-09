@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Racing.Moto.Services.Mvc
@@ -27,7 +28,7 @@ namespace Racing.Moto.Services.Mvc
                     var loginUrl = isAdminUrl ? "/Admin/Account/Login" : "/Account/Login";
                     var rdm = Guid.NewGuid().ToString("N");//防止浏览器缓存登录页面
                     var url = !string.IsNullOrEmpty(returnUrl)
-                        ? loginUrl + "?returnUrl=" + returnUrl + "&r=" + rdm
+                        ? loginUrl + "?returnUrl=" + HttpUtility.UrlEncode(returnUrl + "&r=" + rdm)
                         : loginUrl + "?r=" + rdm;
 
                     filterContext.HttpContext.Response.Redirect(url);

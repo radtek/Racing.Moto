@@ -22,6 +22,8 @@ namespace Racing.Moto.Data.Models
         /// </summary>
         public string UserName { get; set; }
 
+        public int Num { get; set; }
+
         /// <summary>
         /// 笔数：一场比赛，下注多个盘口，每个盘口算1个笔数
         /// </summary>
@@ -63,6 +65,8 @@ namespace Racing.Moto.Data.Models
         public int UserId { get; set; }
         public int BetCount { get; set; }
         public decimal Amount { get; set; }
+
+        public int Num { get; set; }
     }
 
     public class BonusReportModel
@@ -73,5 +77,7 @@ namespace Racing.Moto.Data.Models
 
         public BonusType BonusType { get; set; }
         public decimal Amount { get; set; }
+
+        public int Num { get; set; }
     }
 }

@@ -18,7 +18,7 @@
         ],
     ],
     init: function (minRoleId) {
-        console.log(minRoleId);
+        //console.log(minRoleId);
         $pkAdmin.MinRoleId = minRoleId;
         // content
         var contentHeidht = $(window).height() - $('.top').height();
@@ -29,11 +29,11 @@
     },
     getSubMenuIndex: function () {
         var index = 99;
-        var url = location.href.toLowerCase();
+        var url = location.href.toLowerCase().split('?')[0];
         for (var i = 0; i < $pkAdmin.Actions.length; i++) {
 
             var actionArr = $pkAdmin.Actions[i].split('|');
-            console.log(actionArr);
+            //console.log(actionArr);
             for (var j = 0; j < actionArr.length; j++) {
                 if (url.indexOf(actionArr[j]) > -1) {
                     index = i;
@@ -44,7 +44,7 @@
                 break;
             }
         }
-        console.log(index);
+        //console.log(index);
         return index;
     },
     setMenu: function () {
@@ -66,7 +66,7 @@
                     $('#a_span').append($ele);
 
                     if (i < $pkAdmin.SubMenus[menuIndex].length - 1) {
-                        $('#a_span').append('<span style="float:left;"><img src="/images/admin/main_34.gif" width="1" height:23px=""></span>');
+                        $('#a_span').append('<span style="float:left;"><img src="/images/admin/main_34.gif" width="1" height="23"></span>');
                     }
                 }
             }
@@ -89,7 +89,7 @@
             case 'online': url = '/admin/online/management'; break;
             case 'quit': url = '/admin/account/logout'; break;
         }
-        console.log(url);
+        //console.log(url);
         if (url != '') {
             location.href = url;
         }

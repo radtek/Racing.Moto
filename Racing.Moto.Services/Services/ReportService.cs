@@ -67,7 +67,9 @@ namespace Racing.Moto.Services
             应付上级：应收下线+赚取水钱
          */
 
-        #region 总代理/代理
+        #region 交收报表
+
+        #region 总代理/代理/会员
         public PagerResult<ReportModel> GetAgentReports(ReportSearchModel model)
         {
             var reports = new PagerResult<ReportModel>();
@@ -156,13 +158,13 @@ namespace Racing.Moto.Services
 
             var userId = GetUserIdField(model.UserType);
 
-            sql.AppendLine(string.Format("SELECT [PKB].UserId, [UE].{0}, [PKB].BonusType, Sum([PKB].Amount) Amount", userId));
-            sql.AppendLine("FROM [dbo].[PKBonus] [PKB]");
-            sql.AppendLine("INNER JOIN [dbo].[PK] [PK] ON [PK].PKId = [PKB].PKId");
-            sql.AppendLine("INNER JOIN [dbo].[UserExtension] [UE] ON [UE].UserId = [PKB].UserId");
+            sql.AppendLine(string.Format("SELECT [B].UserId, [UE].{0}, [B].BonusType, Sum([B].Amount) Amount", userId));
+            sql.AppendLine("FROM [dbo].[PKBonus] [B]");
+            sql.AppendLine("INNER JOIN [dbo].[PK] [PK] ON [PK].PKId = [B].PKId");
+            sql.AppendLine("INNER JOIN [dbo].[UserExtension] [UE] ON [UE].UserId = [B].UserId");
             sql.AppendLine(string.Format("INNER JOIN [dbo].[User] [U] ON [U].UserId = [UE].{0}", userId));
             sql.AppendLine(GetWhereSql(model));
-            sql.AppendLine(string.Format("GROUP BY [PKB].UserId, [UE].{0}, [PKB].BonusType", userId));
+            sql.AppendLine(string.Format("GROUP BY [B].UserId, [UE].{0}, [B].BonusType", userId));
 
             return sql.ToString();
         }
@@ -185,35 +187,6 @@ namespace Racing.Moto.Services
             return userId;
         }
         #endregion
-
-        private string GetWhereSql(ReportSearchModel model)
-        {
-            var sql = new StringBuilder(); sql.AppendLine(string.Format("WHERE IsSettlementDone = {0}", model.SettlementType));
-
-            // 1:按期數, 2:按日期
-            if (model.SearchType == 1)
-            {
-                sql.AppendLine(string.Format("AND PKId = {0}", model.PKId));
-            }
-            else
-            {
-                if (model.FromDate.HasValue)
-                {
-                    sql.AppendLine(string.Format("AND DATEDIFF(DAY, '{0}', CreateTime) >= 0", model.FromDate.Value.ToString("yyyy/MM/dd")));
-                }
-                if (model.ToDate.HasValue)
-                {
-                    sql.AppendLine(string.Format("AND DATEDIFF(DAY, '{0}', CreateTime) <= 0", model.ToDate.Value.ToString("yyyy/MM/dd")));
-                }
-            }
-
-            if (model.ParentUserId.HasValue)
-            {
-                sql.AppendLine(string.Format("AND [U].ParentUserId = {0}", model.ParentUserId));
-            }
-
-            return sql.ToString();
-        }
 
         #region 下注明细
 
@@ -250,6 +223,105 @@ namespace Racing.Moto.Services
             }
 
             return result;
+        }
+
+        #endregion
+
+        #endregion
+
+
+        private string GetWhereSql(ReportSearchModel model)
+        {
+            var sql = new StringBuilder(); sql.AppendLine(string.Format("WHERE IsSettlementDone = {0}", model.SettlementType));
+
+            // 1:按期數, 2:按日期
+            if (model.SearchType == 1)
+            {
+                sql.AppendLine(string.Format("AND [B].PKId = {0}", model.PKId));
+            }
+            else
+            {
+                if (model.FromDate.HasValue)
+                {
+                    sql.AppendLine(string.Format("AND DATEDIFF(DAY, '{0}', CreateTime) >= 0", model.FromDate.Value.ToString("yyyy/MM/dd")));
+                }
+                if (model.ToDate.HasValue)
+                {
+                    sql.AppendLine(string.Format("AND DATEDIFF(DAY, '{0}', CreateTime) <= 0", model.ToDate.Value.ToString("yyyy/MM/dd")));
+                }
+            }
+
+            if (model.ParentUserId.HasValue)
+            {
+                sql.AppendLine(string.Format("AND [U].ParentUserId = {0}", model.ParentUserId));
+            }
+
+            if (model.BetType.HasValue)
+            {
+                sql.AppendLine(string.Format("AND [B].Num = {0}", model.BetType));
+            }
+
+            return sql.ToString();
+        }
+
+        #region 分类报表
+
+        public List<ReportModel> GetRankReports(ReportSearchModel model)
+        {
+            var reports = new List<ReportModel>();
+
+            // 下注
+            var betReportSql = GetBetReportSql(model);
+            var betReports = db.Database.SqlQuery<BetReportModel>(betReportSql);
+
+            // 奖金
+            var bonusReportSql = GetBonusReportSql(model);
+            var bonusReports = db.Database.SqlQuery<BonusReportModel>(bonusReportSql);
+
+            foreach (var betReport in betReports)
+            {
+                var bonusReport = bonusReports.Where(r => r.Num > 0 && r.Num == betReport.Num).FirstOrDefault();
+                var bonusAmount = bonusReport != null ? bonusReport.Amount : 0;
+
+                reports.Add(new ReportModel
+                {
+                    Num = betReport.Num,
+                    BetCount = betReport.BetCount,
+                    BetAmount = betReport.Amount,
+                    MemberWinOrLoseAmount = bonusAmount - betReport.Amount,
+                    ReceiveAmount = bonusAmount - betReport.Amount,
+                    //RebateAmount = 0,
+                    ContributeHigherLevelAmount = 0,
+                    PayHigherLevelAmount = 0
+                });
+            }
+
+            return reports;
+        }
+
+
+        private string GetBetReportSql(ReportSearchModel model)
+        {
+            var sql = new StringBuilder();
+
+            sql.AppendLine("SELECT Num, Count(0) BetCount, Sum(Amount) Amount");
+            sql.AppendLine("FROM [dbo].[Bet] [B]");
+            sql.AppendLine(GetWhereSql(model));
+            sql.AppendLine("GROUP BY [B].Num");
+
+            return sql.ToString();
+        }
+        private string GetBonusReportSql(ReportSearchModel model)
+        {
+            var sql = new StringBuilder();
+
+            sql.AppendLine("SELECT [B].Num, Sum([B].Amount) Amount");
+            sql.AppendLine("FROM [dbo].[PKBonus] [B]");
+            sql.AppendLine("INNER JOIN [dbo].[PK] [PK] ON [PK].PKId = [B].PKId");
+            sql.AppendLine(GetWhereSql(model));
+            sql.AppendLine("GROUP BY [B].Num");
+
+            return sql.ToString();
         }
 
         #endregion

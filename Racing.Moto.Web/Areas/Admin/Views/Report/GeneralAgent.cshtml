@@ -23,7 +23,7 @@
                                             <td width="60%">&nbsp;总公司 - 交收報表</td>
                                             <td width="35%">
                                                 <span ng-show="pager.Params.SearchType == 2">按日期查詢：{{pager.Params.FromDate | date : 'yyyy-MM-dd'}} -- {{pager.Params.ToDate | date : 'yyyy-MM-dd'}}</span>
-                                                <span ng-show="pager.Params.SearchType == 1">按期數:</span>
+                                                <span ng-show="pager.Params.SearchType == 1">按期數: {{pager.Params.PKId}}</span>
                                             </td>
                                             <td width="18"><img src="/images/admin/fh.gif"></td>
                                             <td width="30"><a href="javascript:history.go(-1);" class="font_r F_bold">返囬</a></td>
@@ -58,7 +58,7 @@
                                         <tr style="height: 26px;" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''" align="center"
                                             ng-repeat="item in pager.Results">
                                             <td>
-                                                <a href="/Admin/Report/Agent/{{item.UserId}}/@ViewBag.QueryString">{{item.UserName}}</a>
+                                                <a class="tt" href="/Admin/Report/Agent/{{item.UserId}}/@ViewBag.QueryString">{{item.UserName}}</a>
                                             </td>
                                             <td>{{item.BetCount}}</td>
                                             <td>{{item.BetAmount}}</td>
