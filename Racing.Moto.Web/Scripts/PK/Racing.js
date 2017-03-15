@@ -147,6 +147,13 @@
             }
             $('.car-list').html(html);
         },
+        appendRun: function () {
+            var html = '';
+            for (var i = 10; i > 0; i--) {
+                html += '<img id="moto' + i + '" src="/img/moto-' + i + '.run.gif" class="car-' + i + '" alt="' + i + '" />';
+            }
+            $('.car-list').html(html);
+        },
         moveRoad: function (pkInfo) {
             var seconds = (pkInfo.GamingSeconds < 0 ? Math.abs(pkInfo.GamingSeconds) : 0) + 's';
             console.log('GamingSeconds:' + seconds);
@@ -164,6 +171,9 @@
                 var speeds = motoRacing.calculateSpeeds();
                 // moto init position
                 motoRacing.MotoInitPosition = [];
+                // moto running 
+                motoRacing.appendRun();
+
                 // run
                 for (var i = 0; i < speeds.length; i++) {
                     var param = speeds[i].Rank != 10
