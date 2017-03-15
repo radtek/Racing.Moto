@@ -45,8 +45,8 @@
     // moto
     var motoRacing = {
         PKInfo: null,
-        Millisec: 5,
-        RoadLength: 910,//910
+        Millisec: 8,
+        RoadLength: 800,//910
         Colors: ['red', 'blue', 'yellow', 'green', 'gray', 'aqua', 'blueviolet', 'brown', 'Highlight', 'aquamarine', 'teal'],
         //Easings: ['easeInQuad', 'easeInQuart', 'easeInOutSine', 'easeOutSine', 'easeOutQuad', 'linear', 'easeInCirc', 'easeInOutQuad', 'easeOutCubic', 'easeInOutCubic'],
         Easings: ['easeInQuart', 'easeInOutExpo', 'easeOutCirc', 'swing', 'easeOutExpo', 'easeOutBack', 'swing', 'easeInOutSine', 'easeOutSine', 'easeInOutQuad'],
@@ -55,10 +55,16 @@
         resetElements: function () {
             $('.game-wrap').html($elememts);
         },
+        resetMoto: function (num) {
+            $('.car-' + num)[0].src = '/img/moto-' + num + ".png";
+        },
         run: function (pkInfo) {
             if (pkInfo != null) {
                 // countdown
-                motoRacing.countdownClock(pkInfo);
+                var clock = motoRacing.getcountdownClock();
+                if (clock == '::') {
+                    motoRacing.countdownClock(pkInfo);
+                }
             }
 
             if (pkInfo == null || pkInfo.PK.Ranks == null) {
@@ -79,6 +85,13 @@
                 // run moto
                 motoRacing.runMoto(pkInfo);
             }
+        },
+        getcountdownClock: function () {
+            var eleHour = document.getElementById('hour').innerHTML;
+            var eleMinute = document.getElementById('minute').innerHTML;
+            var eleSecond = document.getElementById('second').innerHTML;
+
+            return eleHour + ':' + eleMinute + ':' + eleSecond;
         },
         countdownClock: function (pkInfo) {
             var eleHour = document.getElementById('hour');
@@ -153,9 +166,20 @@
             }
             $('.car-list').html(html);
         },
+        appendRun: function () {
+            var html = '';
+            for (var i = 10; i > 0; i--) {
+                if (i == 1) {
+                    html += '<img id="moto' + i + '" src="/img/moto-' + i + '.run.gif" class="car-' + i + '" alt="' + i + '" />';
+                } else {
+                    html += '<img id="moto' + i + '" src="/img/moto-' + i + '.png" class="car-' + i + '" alt="' + i + '" />';
+                }
+            }
+            $('.car-list').html(html);
+        },
         moveRoad: function (pkInfo) {
             var seconds = (pkInfo.GamingSeconds < 0 ? Math.abs(pkInfo.GamingSeconds) : 0) + 's';
-            console.log('GamingSeconds:' + seconds);
+            //console.log('GamingSeconds:' + seconds);
             $('body').oneTime(seconds, function () {
                 // road moving
                 $('.saidao').floatingBg({ direction: 5, millisec: motoRacing.Millisec, backgroud: '/img/bg_saidao.jpg', });
@@ -170,6 +194,9 @@
                 var speeds = motoRacing.calculateSpeeds();
                 // moto init position
                 motoRacing.MotoInitPosition = [];
+                // moto running 
+                motoRacing.appendRun();
+
                 // run
                 for (var i = 0; i < speeds.length; i++) {
                     var param = speeds[i].Rank != 10
@@ -180,14 +207,18 @@
                                     motoRacing.moveEndFlag(pkInfo);
                                 }
 
+                                var num = $(this).attr('alt');
                                 motoRacing.EndMotos.push({
                                     Rank: motoRacing.EndMotos.length + 1,
-                                    Num: parseInt($(this).attr('alt'))
+                                    Num: parseInt(num)
                                 });
                                 console.log(motoRacing.EndMotos);
 
                                 // when moto and the end, continue to move some instance
                                 //motoRacing.moveEndDistance($(this).attr('alt'), $(this).css('right'));
+
+                                //resetMoto
+                                motoRacing.resetMoto(num);
                             }
                         }
                         : {
@@ -199,12 +230,20 @@
 
                                 // when moto and the end, continue to move some instance
                                 //motoRacing.moveEndDistance($(this).attr('alt'), $(this).css('right'));
+
+                                //resetMoto
+                                var num = $(this).attr('alt');
+                                motoRacing.resetMoto(num);
+
+                                //clear
+                                //motoRacing.clear();
                             }
                         };
 
                     var $moto = $('#moto' + speeds[i].Num);
                     var pos = parseInt($moto.css('right'), 10);
-                    $moto.animate({ right: motoRacing.RoadLength + pos }, param);
+
+                    $moto.animate({ right: speeds[i].MoveLength }, param);    //speeds[i].MoveLength + pos 
 
                     // moto init position
                     motoRacing.MotoInitPosition.push(pos);
@@ -225,13 +264,14 @@
         moveEndFlag: function (pkInfo) {
             var $endFlag = $('.end-flag');
 
-            $endFlag.floating({ direction: 'right', millisec: motoRacing.Millisec, position: 0 });
+            var positon = 2000;
+            $endFlag.floating({ direction: 'right', millisec: motoRacing.Millisec, position: positon });
 
-            $('body').everyTime('1ds', function () {
-                if ($endFlag.css('left') == '0px') {
-                    motoRacing.clear();
-                }
-            });
+            //$('body').everyTime('1ds', function () {
+            //    if ($endFlag.css('left') == positon + 'px') {
+            //        motoRacing.clear();
+            //    }
+            //});
         },
         calculateSpeeds: function () {
             var speeds = [];
@@ -250,11 +290,13 @@
                     ? (pkInfo.PK.GameSeconds - 10 + rank) * 500
                     : (pkInfo.GameRemainSeconds / 10) * rank * 500;
 
+                var length = 800 - 50 * rank;
                 speeds.push({
                     'Num': motoNum,
                     'Rank': rank,
                     'Duration': duration,
-                    'Easing': motoRacing.Easings[random]
+                    'Easing': motoRacing.Easings[random],
+                    'MoveLength': length
                 });
             }
             //console.log(speeds);
@@ -285,6 +327,8 @@
                     Distance: distance
                 });
             }
+
+            console.log(ranks);
 
             //desc order
             ranks.sort(function (a, b) {
@@ -369,8 +413,8 @@
             var ranks = motoRacing.PKInfo.PK.Ranks;
 
             var title = '<a href="javacript:;" class="close"><img src="/img/del.png"></a>'
-                     + '<div class="title">第' + motoRacing.PKInfo.PK.PKId + '期比赛结果</div>';       
-    
+                     + '<div class="title">第' + motoRacing.PKInfo.PK.PKId + '期比赛结果</div>';
+
             var li = '';
             var ranksArr = ranks.split(',');
             for (var i = 0; i < ranksArr.length; i++) {

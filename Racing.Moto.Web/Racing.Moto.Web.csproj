@@ -255,6 +255,7 @@
     <Content Include="Images\admin\USER_0.gif" />
     <Content Include="Images\admin\USER_1.gif" />
     <Content Include="Images\agreement.jpg" />
+    <Content Include="Img\moto-1.run.gif" />
     <Content Include="Img\btn-login.png" />
     <Content Include="Img\denglu.png" />
     <Content Include="Img\dialog-zhongjiang2.png" />

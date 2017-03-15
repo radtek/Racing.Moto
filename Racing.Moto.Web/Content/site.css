@@ -699,6 +699,13 @@ a.dianji {
     right: 239px;
     position: absolute;
 }
+a.gaoji-bg{
+    width: 600px;
+    height: 230px;
+    position: absolute;
+    top: 420px;
+    right: 45px;
+}
 
 ul.menu {
     width: 500px;

@@ -166,33 +166,5 @@ namespace Racing.Moto.Services
             }
         }
         
-
-        #region Admin Report
-
-        public PagerResult<BonusResultModel> GetBonusReport(ReportSearchModel model)
-        {
-            var result = new PagerResult<BonusResultModel>();
-            result.PageCount = 1;
-            result.RowCount = 1;
-
-            result.Items = new List<BonusResultModel>
-            {
-                new BonusResultModel
-                {
-                    PKId = 1,
-                    UserName = "ga001",
-                    Count = 9,
-                    TotalAmount = 100,
-                    MemberAmount = 50,
-                    ReceiveAmount = 50,
-                    RebateAmount = 4,
-                    PayAmount = 20
-                }
-            };
-
-            return result;
-        }
-
-        #endregion
     }
 }
