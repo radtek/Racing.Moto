@@ -55,7 +55,7 @@
                 //} else {
                 //    cnt = eval(cnt) + 1;
                 //}
-                cnt = eval(cnt) + 1;
+                cnt = eval(cnt) + 5;
 
                 $this.attr("cnt", cnt);
 

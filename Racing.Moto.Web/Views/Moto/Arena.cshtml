@@ -28,10 +28,16 @@
         </div>
     </div>
     <div class="saidao">
-        <div class="time-run-0">
+        @*<div class="time-run-0">
             <span id="hour"></span>:<span id="minute"></span>:<span id="second"></span>
-        </div>
+        </div>*@
         <div class="time-run"><img id="countdown" /></div>
+        <div class="time-run2">
+            <div class="text1">距离比赛开始还有</div>
+            <div class="text2"><span id="hour"></span>:<span id="minute"></span>:<span id="second"></span></div>
+            <div class="text3">比赛倒计时</div>
+        </div>
+
         @*start flag*@
         <div class="start-flag">
             <div class="road-num"></div>
@@ -72,16 +78,23 @@
     </div>
 </div>
 
-<div id="racingResult" title="比赛结果">
-    <ul>
-        <li>
-            <span>第一名</span>
-            <span>1</span>
-        </li>
-        <li>
-            <span>第一名</span>
-            <span>1</span>
-        </li>
+<div id="racingResult" class="dialog-wrap racing-jieguo hide">
+    <a href="javacript:;" class="close">
+        <img src="/img/del.png">
+    </a>
+    <div class="title">第20160830期比赛结果</div>
+    <ul class="list">
+        <div class="jiangpai"><img src="/img/jiangpai.png"></div>
+        <li class="car_1"><span class="mingci" style="color: #fe0000">第1名</span><span class="time">48'53</span><img src="/img/1.png" class="carZ"></li>
+        <li class="car_2"><span class="mingci" style="color: #fe0000">第2名</span><span class="time">48'53</span><img src="/img/2.png" class="carZ"></li>
+        <li class="car_3"><span class="mingci" style="color: #fe0000">第3名</span><span class="time">48'53</span><img src="/img/3.png" class="carZ"></li>
+        <li class="car_4"><span class="mingci">第4名</span><span class="time">48'53</span><img src="/img/4.png" class="carZ"></li>
+        <li class="car_5"><span class="mingci">第5名</span><span class="time">48'53</span><img src="/img/5.png" class="carZ"></li>
+        <li class="car_6"><span class="mingci">第6名</span><span class="time">48'53</span><img src="/img/6.png" class="carZ"></li>
+        <li class="car_7"><span class="mingci">第7名</span><span class="time">48'53</span><img src="/img/7.png" class="carZ"></li>
+        <li class="car_8"><span class="mingci">第8名</span><span class="time">48'53</span><img src="/img/8.png" class="carZ"></li>
+        <li class="car_9"><span class="mingci">第9名</span><span class="time">48'53</span><img src="/img/9.png" class="carZ"></li>
+        <li class="car_10"><span class="mingci">第10名</span><span class="time">48'53</span><img src="/img/10.png" class="carZ"></li>
     </ul>
 </div>
 

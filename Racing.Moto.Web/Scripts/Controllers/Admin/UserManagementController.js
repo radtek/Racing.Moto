@@ -7,7 +7,8 @@
     };
 
     $scope.init = function (userType, userId, loginUserId) {
-        $scope.data.LoginUserId = parseInt(loginUserId, 10);
+        loginUserId = parseInt(loginUserId, 10);
+        $scope.data.LoginUserId = loginUserId;
         $scope.user.init(userType, userId);
         $scope.webApi.getParentUsers(userType, loginUserId);
     };

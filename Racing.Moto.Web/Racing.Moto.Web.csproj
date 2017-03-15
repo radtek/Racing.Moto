@@ -257,12 +257,15 @@
     <Content Include="Images\agreement.jpg" />
     <Content Include="Img\btn-login.png" />
     <Content Include="Img\denglu.png" />
+    <Content Include="Img\dialog-zhongjiang2.png" />
+    <Content Include="Img\dialog_zoushi.png" />
     <Content Include="Img\houtai\btn-sousuo.png" />
     <Content Include="Img\houtai\btn-xinzheng.png" />
     <Content Include="Img\houtai\btn-xiugai2.png" />
     <Content Include="Img\houtai\queren.png" />
     <Content Include="Img\houtai\quxiao.png" />
     <Content Include="Img\houtai\tiaozhuan.png" />
+    <Content Include="Img\jiangpai.png" />
     <Content Include="Img\loading.gif" />
     <Content Include="Img\loginwrap.jpg" />
     <Content Include="Img\moto-1.png" />
@@ -278,6 +281,7 @@
     <Content Include="Img\road-num.png" />
     <Content Include="Img\start-line.png" />
     <Content Include="Img\time-0.png" />
+    <Content Include="Img\time_run2.png" />
     <Content Include="Scripts\AngularJs\angular-filter-0.5.7.js" />
     <Content Include="Scripts\AngularJs\angular-filter-0.5.7.min.js" />
     <Content Include="Scripts\AngularJs\angular-ui-bootstrap.js" />

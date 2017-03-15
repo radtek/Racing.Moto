@@ -14,13 +14,22 @@ namespace Racing.Moto.Services
     public class PKService : BaseServcice
     {
         /// <summary>
-        /// 取最后一个PK
+        /// 取当前PK
         /// </summary>
         /// <returns></returns>
         public PK GetCurrentPK()
         {
             var current = Convert.ToDateTime(DateTime.Now.ToString(DateFormatConst.yMd_Hms));// remove millisecond
             return db.PK.Where(pk => pk.BeginTime <= current && current <= pk.EndTime).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// 取最后一个PK
+        /// </summary>
+        /// <returns></returns>
+        public PK GetLastPK()
+        {
+            return db.PK.OrderByDescending(pk => pk.PKId).FirstOrDefault();
         }
 
 
@@ -46,6 +55,7 @@ namespace Racing.Moto.Services
         public PKModel GetCurrentPKModel()
         {
             var currentPK = GetCurrentPK();
+            //var currentPK = GetLastPK();
 
             // job 设置5秒启动一次, 两次PK之间会有时间差, 故取不到PK数据
             if (currentPK == null)

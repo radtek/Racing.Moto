@@ -66,7 +66,7 @@
             }
 
             var timeId = setTimeout(function () {
-                pos = pos + 1;
+                pos = pos + 5;
                 $this.data('pos', pos);
 
                 switch (opt.direction) {

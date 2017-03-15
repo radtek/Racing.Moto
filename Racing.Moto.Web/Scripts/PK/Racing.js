@@ -8,6 +8,11 @@
     function init() {
         ticker.server.getPKInfo().done(function (pkInfo) {
             console.log(pkInfo);
+
+            if (pkInfo == null) {
+                return;
+            }
+
             // test
             //pkInfo.GamingSeconds = -5;
             //pkInfo.GamePassedSeconds = 0;
@@ -16,13 +21,14 @@
 
             motoRacing.run(pkInfo);
         });
-
-        $racingResult.dialog({ autoOpen: false, modal: true, width: 600, minHeight: 300, resizable: false, zIndex: 10000 });
     }
 
     // Add a client-side hub method that the server will call
     ticker.client.updatePKInfo = function (pkInfo) {
         console.log(pkInfo);
+        if (pkInfo == null) {
+            return;
+        }
 
         // test
         //pkInfo.GamingSeconds = -5;
@@ -40,10 +46,10 @@
     var motoRacing = {
         PKInfo: null,
         Millisec: 5,
-        RoadLength: 910,
+        RoadLength: 910,//910
         Colors: ['red', 'blue', 'yellow', 'green', 'gray', 'aqua', 'blueviolet', 'brown', 'Highlight', 'aquamarine', 'teal'],
         //Easings: ['easeInQuad', 'easeInQuart', 'easeInOutSine', 'easeOutSine', 'easeOutQuad', 'linear', 'easeInCirc', 'easeInOutQuad', 'easeOutCubic', 'easeInOutCubic'],
-        Easings: ['easeInOutSine', 'easeOutSine', 'linear', 'swing', 'easeInOutSine', 'easeInOutQuad', 'swing', 'easeInOutSine', 'easeOutSine', 'easeInOutQuad'],
+        Easings: ['easeInQuart', 'easeInOutExpo', 'easeOutCirc', 'swing', 'easeOutExpo', 'easeOutBack', 'swing', 'easeInOutSine', 'easeOutSine', 'easeInOutQuad'],
         MotoInitPosition: [],
         EndMotos: [],// motos that at the end 
         resetElements: function () {
@@ -63,7 +69,7 @@
             if (motoRacing.PKInfo == null || pkInfo.PK.PKId != motoRacing.PKInfo.PK.PKId) {
                 motoRacing.PKInfo = pkInfo;
                 motoRacing.EndMotos = [];
-                
+
                 // append moto
                 motoRacing.append();
                 // countdown
@@ -108,7 +114,7 @@
             if (pkInfo.GamingSeconds < -countdownSeconds) {
                 var seconds = Math.abs(pkInfo.GamingSeconds + countdownSeconds) + 's';
                 $('body').oneTime(seconds, function () {
-                    $('.time-run-0').hide();
+                    $('.time-run2').hide();
                     $('.time-run').show();
                     var index = 3;
                     $('body').everyTime('1s', 'countdown', function () {
@@ -116,13 +122,13 @@
                         document.getElementById("countdown").src = '/img/' + name + ".png";
                         index--;
                         if (index < -1) {
-                            //$('.time-run-0').show();
+                            //$('.time-run2').show();
                             $('.time-run').hide();
                         }
                     }, 5);
                 });
             } else if (-countdownSeconds < pkInfo.GamingSeconds && pkInfo.GamingSeconds < 0) {
-                $('.time-run-0').hide();
+                $('.time-run2').hide();
                 $('.time-run').show();
                 var seconds = Math.abs(pkInfo.GamingSeconds);
                 var index = seconds;
@@ -131,12 +137,12 @@
                     document.getElementById("countdown").src = '/img/' + name + ".png";
                     index--;
                     if (index < 0) {
-                        //$('.time-run-0').show();
+                        //$('.time-run2').show();
                         $('.time-run').hide();
                     }
                 }, seconds + 1);
             } else {
-                $('.time-run-0').show();
+                $('.time-run2').show();
                 $('.time-run').hide();
             }
         },
@@ -179,6 +185,9 @@
                                     Num: parseInt($(this).attr('alt'))
                                 });
                                 console.log(motoRacing.EndMotos);
+
+                                // when moto and the end, continue to move some instance
+                                //motoRacing.moveEndDistance($(this).attr('alt'), $(this).css('right'));
                             }
                         }
                         : {
@@ -187,6 +196,9 @@
                                 motoRacing.clear();
 
                                 motoRacing.showResult();
+
+                                // when moto and the end, continue to move some instance
+                                //motoRacing.moveEndDistance($(this).attr('alt'), $(this).css('right'));
                             }
                         };
 
@@ -203,6 +215,12 @@
                     motoRacing.showRanks();
                 });
             });
+        },
+        moveEndDistance: function (num, right) {
+            // when moto and the end, continue to move some instance
+            var $moto = $('#moto' + num);
+            right = parseInt(right, 10) + 150;
+            $moto.animate({ right: right + 'px' }, 1000);
         },
         moveEndFlag: function (pkInfo) {
             var $endFlag = $('.end-flag');
@@ -229,8 +247,8 @@
                 var random = motoRacing.getRandomNum(0, 9);
 
                 var duration = (pkInfo.GameRemainSeconds > 10)
-                    ? (pkInfo.PK.GameSeconds - 10 + rank) * 1000
-                    : (pkInfo.GameRemainSeconds / 10) * rank * 1000;
+                    ? (pkInfo.PK.GameSeconds - 10 + rank) * 500
+                    : (pkInfo.GameRemainSeconds / 10) * rank * 500;
 
                 speeds.push({
                     'Num': motoNum,
@@ -324,24 +342,17 @@
         showResult: function () {
             var ranks = motoRacing.PKInfo.PK.Ranks;
 
-            var html = '';
-            var ranksArr = ranks.split(',');
-            for (var i = 0; i < ranksArr.length; i++) {
-                html += '<li>'
-                      + '   <span>第' + (i + 1) + '名</span>'
-                      + '   <span>' + ranksArr[i] + '号车</span>'
-                      + '</li>';
-            }
-            html = '<ul>' + html + '</ul>';
+            var html = motoRacing.getResultHtml();
 
             //$(".ui-dialog-titlebar").addClass('hide');
             $racingResult.html(html);
-            $racingResult.dialog("open");
+            $racingResult.removeClass("hide");
 
             // close result dialog after 5 seconds, then open bonus dialog
             $('body').oneTime('5s', function () {
                 // close
-                $racingResult.dialog("close");
+                //$racingResult.dialog("close");
+                $racingResult.addClass("hide");
                 // open
                 motoRacing.showBonus();
             });
@@ -353,6 +364,31 @@
                 // resetElements
                 motoRacing.resetElements();
             });
+        },
+        getResultHtml: function () {
+            var ranks = motoRacing.PKInfo.PK.Ranks;
+
+            var title = '<a href="javacript:;" class="close"><img src="/img/del.png"></a>'
+                     + '<div class="title">第' + motoRacing.PKInfo.PK.PKId + '期比赛结果</div>';       
+    
+            var li = '';
+            var ranksArr = ranks.split(',');
+            for (var i = 0; i < ranksArr.length; i++) {
+                //<li class="car_1"><span class="mingci" style="color: #fe0000">第1名</span><span class="time">48'53</span><img src="img/1.png" class="carZ"></li>
+                var style = (i < 3) ? 'style="color: #fe0000"' : '';
+                li += '<li class="car_' + (i + 1) + '">'
+                      + '   <span class="mingci" ' + style + '>第' + (i + 1) + '名</span>'
+                      + '   <span class="time">' + ranksArr[i] + '</span>'
+                      + '   <img src="/img/' + ranksArr[i] + '.png" class="carZ">'
+                      + '</li>';
+            }
+
+            var ul = '<ul class="list">'
+                    + '  <div class="jiangpai"><img src="/img/jiangpai.png"></div>'
+                    + li
+                    + '</ul>';
+
+            return title + ul;
         },
         showBonus: function () {
             $.ajax({
