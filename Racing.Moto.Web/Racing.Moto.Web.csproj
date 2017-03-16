@@ -737,10 +737,12 @@
     <Compile Include="Scripts\UEditor\net\App_Code\NotSupportedHandler.cs" />
     <Compile Include="Scripts\UEditor\net\App_Code\PathFormater.cs" />
     <Compile Include="Scripts\UEditor\net\App_Code\UploadHandler.cs" />
+    <Compile Include="SignalR\Hubs\PrevPKTickerHub.cs" />
     <Compile Include="SignalR\Hubs\PKTickerHub.cs" />
     <Compile Include="Jobs\JobScheduler.cs" />
     <Compile Include="Jobs\PkJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignalR\PrevPKTicker.cs" />
     <Compile Include="SignalR\PKTicker.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

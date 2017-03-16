@@ -56,7 +56,9 @@
             $('.game-wrap').html($elememts);
         },
         resetMoto: function (num) {
-            $('.car-' + num)[0].src = '/img/moto-' + num + ".png";
+            var $moto = $('#moto' + num);
+            $moto[0].src = '/img/moto-' + num + ".png";
+            $moto.addClass('car-' + num).removeClass('car-run-' + num);
         },
         run: function (pkInfo) {
             if (pkInfo != null) {
@@ -170,7 +172,7 @@
             var html = '';
             for (var i = 10; i > 0; i--) {
                 if (i == 1) {
-                    html += '<img id="moto' + i + '" src="/img/moto-' + i + '.run.gif" class="car-' + i + '" alt="' + i + '" />';
+                    html += '<img id="moto' + i + '" src="/img/moto-' + i + '.run.gif" class="car-run-' + i + '" alt="' + i + '" />';
                 } else {
                     html += '<img id="moto' + i + '" src="/img/moto-' + i + '.png" class="car-' + i + '" alt="' + i + '" />';
                 }

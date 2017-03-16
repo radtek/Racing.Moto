@@ -263,6 +263,13 @@ body {
         width: 210px;
     }
 
+    .car-list .car-run-1 {
+        position: absolute;
+        right: -135px;
+        top: 320px;
+        width: 240px;
+    }
+
 /*game*/
 
 .saiqi {

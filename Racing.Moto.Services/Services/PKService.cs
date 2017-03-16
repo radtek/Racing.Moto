@@ -32,6 +32,13 @@ namespace Racing.Moto.Services
             return db.PK.OrderByDescending(pk => pk.PKId).FirstOrDefault();
         }
 
+        /// <summary>
+        /// 上一期
+        /// </summary>
+        public PK GetPrevPK()
+        {
+            return db.PK.Where(pk => pk.EndTime < DateTime.Now).OrderByDescending(pk => pk.PKId).FirstOrDefault();
+        }
 
         public PK GetPK(int pkId)
         {
