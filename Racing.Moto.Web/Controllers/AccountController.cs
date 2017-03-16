@@ -114,7 +114,8 @@ namespace Racing.Moto.Web.Controllers
         public ActionResult LogOut()
         {
             _memberProvider.SignOut();
-            System.Web.HttpContext.Current.Session.Remove(nameof(LoginUser));
+            //System.Web.HttpContext.Current.Session.Remove(nameof(LoginUser));
+            PKBag.Clear();
 
             return RedirectToAction("Index", "Home");
         }

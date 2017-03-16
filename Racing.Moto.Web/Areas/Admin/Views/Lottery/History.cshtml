@@ -50,7 +50,7 @@
                                         </tr>
                                         <tr class="td_text history-row" ng-repeat="item in pager.Results">
                                             <td width="56" style="font-family:微软雅黑, Tahoma, Arial; font-size:13px">{{item.PKNo}}</td>
-                                            <td width="126" style="font-family:微软雅黑, Tahoma, Arial; font-size:13px">{{item.EndTime | date : 'MM-dd'}}&nbsp;&nbsp;日&nbsp;&nbsp;{{item.EndTime | date : 'HH:mm:ss'}}</td>
+                                            <td width="126" style="font-family:微软雅黑, Tahoma, Arial; font-size:13px">{{item.EndTime | date : 'MM-dd'}}&nbsp;&nbsp;{{item.Week}}&nbsp;&nbsp;{{item.EndTime | date : 'HH:mm:ss'}}</td>
                                             <td width="29" class="No_{{rank}}" height="27px" style="padding-right:0px" ng-repeat="rank in item.RankArr track by $index"></td>
                                             @*<td width="29" class="No_4" style="padding-right:0px"></td>
                                             <td width="29" class="No_5" style="padding-right:0px"></td>

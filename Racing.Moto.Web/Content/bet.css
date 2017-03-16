@@ -166,33 +166,39 @@ body {
         line-height: 55px;
         text-align: center;
         font-size: 18px;
-        border-bottom: 2px solid #fbfbfb;
+        border-bottom: 1px solid #ddd;
     }
 
     .main-wrap .left .jilu .bottom {
-        width: 100%;
-        height: 55px;
+        /*width: 100%;*/
+        min-height: 260px;
+        background: #fff;
     }
 
-        .main-wrap .left .jilu .bottom .tab1 {
-            width: 50%;
-            float: left;
-            height: 55px;
-            line-height: 55px;
-            text-align: center;
+        .main-wrap .left .jilu .pk-id {
+            border-bottom: 1px solid #ddd;
+            padding: 5px 22px;
         }
 
         .main-wrap .left .jilu .bottom .tab2 {
-            width: 50%;
-            float: left;
-            height: 55px;
-            line-height: 55px;
-            text-align: center;
+            border-bottom: 1px solid #ddd;
         }
 
         .main-wrap .left .jilu .bottom .active {
             background: #9f9f9f;
             color: #e6ce2f;
+        }
+        .main-wrap .left .jilu .bottom .rank{border-collapse:collapse;border:none;}
+        .main-wrap .left .jilu .bottom .rank tr td{padding: 5px 2px; border-bottom:solid #ddd 1px; text-align:center;}
+        .main-wrap .left .jilu .bottom .rank tr td.rank-title{border-right:solid #ddd 1px;}
+        .main-wrap .left .jilu .bottom tr td .mingci {
+                width: 25px;
+                height: 25px;
+                text-align: center;
+                line-height: 25px;
+                color: #fff;
+                border-radius: 3px;
+                margin-left: 5px;
         }
 
 .main-wrap .left .dijiqi {
@@ -396,6 +402,15 @@ body {
         border-radius: 3px;
         margin-left: 10px;
     }
+    .main-wrap .right .z-table tr td .mingci2 {
+        width: 22px;
+        height: 22px;
+        text-align: center;
+        line-height: 22px;
+        color: #fff;
+        border-radius: 3px;
+        margin-left: 2px;
+    }
 
     .main-wrap .right .z-table tr td div.value {
         color: #cf3c42;
@@ -420,43 +435,43 @@ body {
         margin-left: 8px;
     }
 
-.bg-huang {
+.bg-1 {
     background: #fcd54a;
 }
 
-.bg-lan {
+.bg-2 {
     background: #0187fc;
 }
 
-.bg-juhuang {
+.bg-3 {
     background: #fd6e00;
 }
 
-.bg-lv {
+.bg-4 {
     background: #23c400;
 }
 
-.bg-zi {
+.bg-5 {
     background: #5b34a1;
 }
 
-.bg-qianzi {
+.bg-6 {
     background: #a94ac9;
 }
 
-.bg-danhong {
+.bg-7 {
     background: #dc3b29;
 }
 
-.bg-tianlan {
+.bg-8 {
     background: #53c5e7;
 }
 
-.bg-hei {
+.bg-9 {
     background: #636363;
 }
 
-.bg-hong {
+.bg-10 {
     background: #720201;
 }
 

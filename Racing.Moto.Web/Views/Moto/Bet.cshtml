@@ -3,8 +3,8 @@
     Layout = "~/Views/Shared/_NgLayout.cshtml";
 }
 @section headScripts {
-    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
-    <script src="/signalr/hubs"></script>
+    @*<script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="/signalr/hubs"></script>*@
     <script src="~/Scripts/Controllers/betController.js"></script>
 }
 <div ng-controller="betController" ng-init="init('@PKBag.LoginUser.UserId')">
@@ -33,7 +33,7 @@
             <tr>
                 <td class="bg-gray" rowspan='2'>第{{bet.ChineseNums[item.Rank - 1]}}名</td>
                 <td>
-                    <div class="mingci bg-huang">1</div>
+                    <div class="mingci bg-1">1</div>
                     <div class="value" ng-bind="item.Rate1">9.7</div>
                     <input type="text" class="shuru {{item.BgColor1}}" ng-model="item.Amount1" ng-change="bet.betOnChange(item, 1, item.Amount1)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" 
@@ -41,7 +41,7 @@
                            popover-is-open="item.PopoverIsOpen1" ng-focus="quickBet.showPopover(item, 1)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-lan">2</div>
+                    <div class="mingci bg-2">2</div>
                     <div class="value" ng-bind="item.Rate2">9.7</div>
                     <input type="text" class="shuru {{item.BgColor2}}" ng-model="item.Amount2" ng-change="bet.betOnChange(item, 2, item.Amount2)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -49,7 +49,7 @@
                            popover-is-open="item.PopoverIsOpen2" ng-focus="quickBet.showPopover(item, 2)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-juhuang">3</div>
+                    <div class="mingci bg-3">3</div>
                     <div class="value" ng-bind="item.Rate3">9.7</div>
                     <input type="text" class="shuru {{item.BgColor3}}" ng-model="item.Amount3" ng-change="bet.betOnChange(item, 3, item.Amount3)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -57,7 +57,7 @@
                            popover-is-open="item.PopoverIsOpen3" ng-focus="quickBet.showPopover(item, 3)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-lv">4</div>
+                    <div class="mingci bg-4">4</div>
                     <div class="value" ng-bind="item.Rate4">9.7</div>
                     <input type="text" class="shuru {{item.BgColor4}}" ng-model="item.Amount4" ng-change="bet.betOnChange(item, 4, item.Amount4)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -65,7 +65,7 @@
                            popover-is-open="item.PopoverIsOpen4" ng-focus="quickBet.showPopover(item, 4)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-zi">5</div>
+                    <div class="mingci bg-5">5</div>
                     <div class="value" ng-bind="item.Rate5">9.7</div>
                     <input type="text" class="shuru {{item.BgColor5}}" ng-model="item.Amount5" ng-change="bet.betOnChange(item, 5, item.Amount5)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -75,7 +75,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="mingci bg-qianzi">6</div>
+                    <div class="mingci bg-6">6</div>
                     <div class="value" ng-bind="item.Rate6">9.7</div>
                     <input type="text" class="shuru {{item.BgColor6}}" ng-model="item.Amount6" ng-change="bet.betOnChange(item, 6, item.Amount6)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -83,7 +83,7 @@
                            popover-is-open="item.PopoverIsOpen6" ng-focus="quickBet.showPopover(item, 6)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-danhong">7</div>
+                    <div class="mingci bg-7">7</div>
                     <div class="value" ng-bind="item.Rate7">9.7</div>
                     <input type="text" class="shuru {{item.BgColor7}}" ng-model="item.Amount7" ng-change="bet.betOnChange(item, 7, item.Amount7)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -91,7 +91,7 @@
                            popover-is-open="item.PopoverIsOpen7" ng-focus="quickBet.showPopover(item, 7)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-tianlan">8</div>
+                    <div class="mingci bg-8">8</div>
                     <div class="value" ng-bind="item.Rate8">9.7</div>
                     <input type="text" class="shuru {{item.BgColor8}}" ng-model="item.Amount8" ng-change="bet.betOnChange(item, 8, item.Amount8)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -99,7 +99,7 @@
                            popover-is-open="item.PopoverIsOpen8" ng-focus="quickBet.showPopover(item, 8)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-hei">9</div>
+                    <div class="mingci bg-9">9</div>
                     <div class="value" ng-bind="item.Rate9">9.7</div>
                     <input type="text" class="shuru {{item.BgColor9}}" ng-model="item.Amount9" ng-change="bet.betOnChange(item, 9, item.Amount9)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -107,7 +107,7 @@
                            popover-is-open="item.PopoverIsOpen9" ng-focus="quickBet.showPopover(item, 9)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-hong">10</div>
+                    <div class="mingci bg-10">10</div>
                     <div class="value" ng-bind="item.Rate10">9.7</div>
                     <input type="text" class="shuru {{item.BgColor10}}" ng-model="item.Amount10" ng-change="bet.betOnChange(item, 10, item.Amount10)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -122,7 +122,7 @@
             <tr>
                 <td class="bg-gray" rowspan='2'>第{{bet.ChineseNums[item.Rank - 1]}}名</td>
                 <td>
-                    <div class="mingci bg-huang">1</div>
+                    <div class="mingci bg-1">1</div>
                     <div class="value" ng-bind="item.Rate1">9.7</div>
                     <input type="text" class="shuru {{item.BgColor1}}" ng-model="item.Amount1" ng-change="bet.betOnChange(item, 1, item.Amount1)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -130,7 +130,7 @@
                            popover-is-open="item.PopoverIsOpen1" ng-focus="quickBet.showPopover(item, 1)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-lan">2</div>
+                    <div class="mingci bg-2">2</div>
                     <div class="value" ng-bind="item.Rate2">9.7</div>
                     <input type="text" class="shuru {{item.BgColor2}}" ng-model="item.Amount2" ng-change="bet.betOnChange(item, 2, item.Amount2)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -138,7 +138,7 @@
                            popover-is-open="item.PopoverIsOpen2" ng-focus="quickBet.showPopover(item, 2)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-juhuang">3</div>
+                    <div class="mingci bg-3">3</div>
                     <div class="value" ng-bind="item.Rate3">9.7</div>
                     <input type="text" class="shuru {{item.BgColor3}}" ng-model="item.Amount3" ng-change="bet.betOnChange(item, 3, item.Amount3)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -146,7 +146,7 @@
                            popover-is-open="item.PopoverIsOpen3" ng-focus="quickBet.showPopover(item, 3)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-lv">4</div>
+                    <div class="mingci bg-4">4</div>
                     <div class="value" ng-bind="item.Rate4">9.7</div>
                     <input type="text" class="shuru {{item.BgColor4}}" ng-model="item.Amount4" ng-change="bet.betOnChange(item, 4, item.Amount4)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -154,7 +154,7 @@
                            popover-is-open="item.PopoverIsOpen4" ng-focus="quickBet.showPopover(item, 4)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-zi">5</div>
+                    <div class="mingci bg-5">5</div>
                     <div class="value" ng-bind="item.Rate5">9.7</div>
                     <input type="text" class="shuru {{item.BgColor5}}" ng-model="item.Amount5" ng-change="bet.betOnChange(item, 5, item.Amount5)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -164,7 +164,7 @@
             </tr>
             <tr>
                 <td>
-                    <div class="mingci bg-qianzi">6</div>
+                    <div class="mingci bg-6">6</div>
                     <div class="value" ng-bind="item.Rate6">9.7</div>
                     <input type="text" class="shuru {{item.BgColor6}}" ng-model="item.Amount6" ng-change="bet.betOnChange(item, 6, item.Amount6)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -172,7 +172,7 @@
                            popover-is-open="item.PopoverIsOpen6" ng-focus="quickBet.showPopover(item, 6)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-danhong">7</div>
+                    <div class="mingci bg-7">7</div>
                     <div class="value" ng-bind="item.Rate7">9.7</div>
                     <input type="text" class="shuru {{item.BgColor7}}" ng-model="item.Amount7" ng-change="bet.betOnChange(item, 7, item.Amount7)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -180,7 +180,7 @@
                            popover-is-open="item.PopoverIsOpen7" ng-focus="quickBet.showPopover(item, 7)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-tianlan">8</div>
+                    <div class="mingci bg-8">8</div>
                     <div class="value" ng-bind="item.Rate8">9.7</div>
                     <input type="text" class="shuru {{item.BgColor8}}" ng-model="item.Amount8" ng-change="bet.betOnChange(item, 8, item.Amount8)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -188,7 +188,7 @@
                            popover-is-open="item.PopoverIsOpen8" ng-focus="quickBet.showPopover(item, 8)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-hei">9</div>
+                    <div class="mingci bg-9">9</div>
                     <div class="value" ng-bind="item.Rate9">9.7</div>
                     <input type="text" class="shuru {{item.BgColor9}}" ng-model="item.Amount9" ng-change="bet.betOnChange(item, 9, item.Amount9)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -196,7 +196,7 @@
                            popover-is-open="item.PopoverIsOpen9" ng-focus="quickBet.showPopover(item, 9)" ng-blur="quickBet.hideAllPopover()" />
                 </td>
                 <td>
-                    <div class="mingci bg-hong">10</div>
+                    <div class="mingci bg-10">10</div>
                     <div class="value" ng-bind="item.Rate10">9.7</div>
                     <input type="text" class="shuru {{item.BgColor10}}" ng-model="item.Amount10" ng-change="bet.betOnChange(item, 10, item.Amount10)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false"  
@@ -211,7 +211,7 @@
             <tr>
                 <td class="bg-gray" rowspan='2'>第{{bet.ChineseNums[item.Rank - 1]}}名</td>
                 <td>
-                    <div class="mingci bg-huang">大</div>
+                    <div class="mingci bg-1">大</div>
                     <div class="value" ng-bind="item.Rate11">9.7</div>
                     <input type="text" class="shuru {{item.BgColor11}}" ng-model="item.Amount11" ng-change="bet.betOnChange(item, 11, item.Amount11)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" 
@@ -219,7 +219,7 @@
                            popover-is-open="item.PopoverIsOpen11" ng-focus="quickBet.showPopover(item, 11)" ng-blur="quickBet.hideAllPopover()"  />
                 </td>
                 <td>
-                    <div class="mingci bg-lan">小</div>
+                    <div class="mingci bg-2">小</div>
                     <div class="value" ng-bind="item.Rate12">9.7</div>
                     <input type="text" class="shuru {{item.BgColor12}}" ng-model="item.Amount12" ng-change="bet.betOnChange(item, 12, item.Amount12)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" 
@@ -227,7 +227,7 @@
                            popover-is-open="item.PopoverIsOpen12" ng-focus="quickBet.showPopover(item, 12)" ng-blur="quickBet.hideAllPopover()"  />
                 </td>
                 <td>
-                    <div class="mingci bg-juhuang">单</div>
+                    <div class="mingci bg-3">单</div>
                     <div class="value" ng-bind="item.Rate13">9.7</div>
                     <input type="text" class="shuru {{item.BgColor13}}" ng-model="item.Amount13" ng-change="bet.betOnChange(item, 13, item.Amount13)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" 
@@ -235,7 +235,7 @@
                            popover-is-open="item.PopoverIsOpen13" ng-focus="quickBet.showPopover(item, 13)" ng-blur="quickBet.hideAllPopover()"  />
                 </td>
                 <td>
-                    <div class="mingci bg-lv">双</div>
+                    <div class="mingci bg-4">双</div>
                     <div class="value" ng-bind="item.Rate14">9.7</div>
                     <input type="text" class="shuru {{item.BgColor14}}" ng-model="item.Amount14" ng-change="bet.betOnChange(item, 14, item.Amount14)" 
                            input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false" 

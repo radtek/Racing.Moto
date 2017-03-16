@@ -148,5 +148,14 @@ namespace Racing.Moto.Web.Controllers
         }
 
         #endregion
+
+        #region 历史记录
+
+        public ActionResult History()
+        {
+            return View();
+        }
+
+        #endregion
     }
 }

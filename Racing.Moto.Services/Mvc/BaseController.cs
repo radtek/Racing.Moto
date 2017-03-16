@@ -40,7 +40,9 @@ namespace Racing.Moto.Services.Mvc
             if (HttpContext.User.Identity.IsAuthenticated && PKBag.OnlineUserRecorder.GetUser(HttpContext.User.Identity.Name) == null)
             {
                 System.Web.Security.FormsAuthentication.SignOut();
-                System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
+
+                //System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
+                PKBag.Clear();
             }
 
             //[TO BE REMOVED]
@@ -177,7 +179,15 @@ namespace Racing.Moto.Services.Mvc
         {
             get { return HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder; }
         }
+
+
+        public static void Clear()
+        {
+            System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
+            System.Web.HttpContext.Current.Session.Remove(SessionConst.Menus);
+        }
     }
+
 
     #region JsonResult
 

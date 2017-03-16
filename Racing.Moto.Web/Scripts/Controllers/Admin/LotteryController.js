@@ -28,6 +28,7 @@
                     angular.forEach($scope.pager.Results, function (item, index, arr) {
                         item.PKNo = item.PKId.toString().padLeft(8, '0');
                         item.RankArr = item.Ranks != null ? item.Ranks.split(',') : [];
+                        item.Week = $app.getWeek(item.EndTime);
                     });
                     console.log($scope.pager.Results);
                 } else {

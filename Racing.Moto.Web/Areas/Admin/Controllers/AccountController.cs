@@ -118,7 +118,8 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
         public ActionResult LogOut()
         {
             _memberProvider.SignOut();
-            System.Web.HttpContext.Current.Session.Remove(nameof(LoginUser));
+            //System.Web.HttpContext.Current.Session.Remove(nameof(LoginUser));
+            PKBag.Clear();
 
             return Redirect("/Admin/Account/Login");
         }
