@@ -66,7 +66,7 @@
             if (pkInfo != null) {
                 // countdown
                 var clock = motoRacing.getcountdownClock();
-                if (clock == '::') {
+                if (clock == '::' || clock == '00:00:00') {
                     motoRacing.countdownClock(pkInfo);
                 }
             }

@@ -147,29 +147,29 @@
 
         //上期记录
         $(function () {
-            var ticker = $.connection.prevPKTickerHub;
+            var prevTicker = $.connection.prevPKTickerHub;
 
             function init() {
-                ticker.server.getPK().done(function (pk) {
+                prevTicker.server.getPK().done(function (pk) {
                     console.log(pk);
-                    motoRacing.refresh(pk);
+                    prevMotoRacing.refresh(pk);
                 });
             }
 
             // Add a client-side hub method that the server will call
-            ticker.client.updatePK = function (pk) {
+            prevTicker.client.updatePK = function (pk) {
                 console.log(pk);
-                motoRacing.refresh(pk);
+                prevMotoRacing.refresh(pk);
             }
 
             // Start the connection
             $.connection.hub.start().done(init);
 
-            var motoRacing = {
+            var prevMotoRacing = {
                 PK: null,
                 refresh: function (pk) {
-                    if (pk != null && (motoRacing.PK == null || pk.PKId != motoRacing.PK.PKId)) {
-                        motoRacing.PK = pk;
+                    if (pk != null && (prevMotoRacing.PK == null || pk.PKId != prevMotoRacing.PK.PKId)) {
+                        prevMotoRacing.PK = pk;
 
                         $('#pkId').text(pk.PKId);
 
