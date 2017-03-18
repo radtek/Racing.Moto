@@ -265,9 +265,9 @@ body {
 
     .car-list .car-run-1 {
         position: absolute;
-        right: -135px;
-        top: 320px;
-        width: 240px;
+        right: -132px;
+        top: 316px;
+        width: 238px;
     }
 
 /*game*/
@@ -350,6 +350,7 @@ body {
     margin-right: -354px;
     top: 80px;
     color: #fff;
+    z-index: 10000;
 }
 
     .dialog-wrap .close {
@@ -362,6 +363,13 @@ body {
         position: absolute;
         right: 34px;
         bottom: 10px;
+    }
+
+    .dialog-wrap .bonus-countdown {
+        position: absolute;
+        right: 220px;
+        bottom: 26px;
+        font-size: 25px;
     }
 
     .dialog-wrap .huodejiangjin {
@@ -390,6 +398,8 @@ body {
         line-height: 60px;
         font-size: 20px;
     }
+    .dialog-wrap .jieguo-2 .bonus {overflow-y: scroll;overflow-x: hidden; height: 246px;}
+    .dialog-wrap .jieguo-2 .bonus li { list-style: none; height: 30px; line-height: 30px; }
 
     .dialog-wrap .jieguo .text {
         padding-left: 18px;

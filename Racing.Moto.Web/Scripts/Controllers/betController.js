@@ -293,7 +293,7 @@
                         }
                     }
                 }
-            }, 3000);
+            }, 1000);
         },
         getBgColor: function (pkRate, num) {
             var color = null;
@@ -500,7 +500,7 @@
         },
         // 设置保存投注
         setSavedBets: function () {
-            
+
             // 已投注
             var amount = 0;
             angular.forEach($scope.bet.NotSavedBetItems, function (item, index, arr) {
@@ -515,7 +515,7 @@
 
             // 重置输入框背景色
             $scope.bet.resetBgColor();
-            //已下注重置, 3秒后 清空背景色, 数值
+            //已下注重置, 1秒后 清空背景色, 数值
             $scope.bet.retsetSavedBetItems();
             //$scope.bet.init();
         },
@@ -555,6 +555,8 @@
         },
         newSavedItem: function (rank, num, amount, rate) {
             return {
+                Rank: rank,
+                Num: num,
                 TabName: $scope.bet.getTabName(num, rank),
                 ChineseRank: $scope.bet.getChineseRank(rank),
                 NumName: $scope.bet.getNumName(num),
@@ -735,6 +737,7 @@ $(function () {
                 }
 
                 motoRacing.Scope.bet.refresh(pkInfo)
+                motoRacing.Scope.$apply();
             }
         },
     };

@@ -46,19 +46,19 @@ namespace Racing.Moto.Services.Caches
         }
 
         /// <summary>
-        /// 封盘时长, 按秒记录, 默认1m
+        /// 封盘时长, 按秒记录, 默认50s
         /// </summary>
         public static int Racing_Close_Seconds
         {
-            get { return GetAppConfig("Racing_Close_Seconds") != null ? int.Parse(GetAppConfig("Racing_Close_Seconds").Value) : 60; }
+            get { return GetAppConfig("Racing_Close_Seconds") != null ? int.Parse(GetAppConfig("Racing_Close_Seconds").Value) : 50; }
         }
 
         /// <summary>
-        /// 比赛时长, 按秒记录, 50s
+        /// 比赛时长, 按秒记录, 默认1m
         /// </summary>
         public static int Racing_Game_Seconds
         {
-            get { return GetAppConfig("Racing_Game_Seconds") != null ? int.Parse(GetAppConfig("Racing_Game_Seconds").Value) : 50; }
+            get { return GetAppConfig("Racing_Game_Seconds") != null ? int.Parse(GetAppConfig("Racing_Game_Seconds").Value) : 60; }
         }
 
         /// <summary>

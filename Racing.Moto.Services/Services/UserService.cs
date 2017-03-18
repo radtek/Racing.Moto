@@ -356,16 +356,20 @@ namespace Racing.Moto.Services
             var model = new UserCreditModel();
 
             // 今日消费
-            model.TodayBetAmount = db.Bet.Where(b => b.UserId == userId && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0).Sum(b => b.Amount);
+            model.TodayBetAmount = db.Bet.Where(b => b.UserId == userId && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0)
+                .Select(b => b.Amount).DefaultIfEmpty(0m).Sum();
 
             // 未开奖消费
-            model.NotBonusAmount = db.Bet.Where(b => b.UserId == userId && b.PK.EndTime > DateTime.Now).Sum(b => b.Amount);
+            model.NotBonusAmount = db.Bet.Where(b => b.UserId == userId && b.PK.EndTime > DateTime.Now)
+                .Select(b => b.Amount).DefaultIfEmpty(0m).Sum();
 
             // 今日返点
-            model.TodayRebateAmount = db.PKBonus.Where(b => b.UserId == userId && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0 && b.BonusType == BonusType.Rebate).Sum(b => b.Amount);
+            model.TodayRebateAmount = db.PKBonus.Where(b => b.UserId == userId && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0 && b.BonusType == BonusType.Rebate)
+                .Select(b => b.Amount).DefaultIfEmpty(0m).Sum();
 
             // 今日利润
-            model.TodayProfitAmount = db.PKBonus.Where(b => b.UserId == userId && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0 && b.BonusType == BonusType.Bonus).Sum(b => b.Amount);
+            model.TodayProfitAmount = db.PKBonus.Where(b => b.UserId == userId && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0 && b.BonusType == BonusType.Bonus)
+                .Select(b => b.Amount).DefaultIfEmpty(0m).Sum();
 
             // 今日盈亏
             model.TodayProfitAndLossAmount = model.TodayRebateAmount + model.TodayProfitAmount - model.TodayBetAmount;

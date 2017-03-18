@@ -58,9 +58,6 @@ namespace Racing.Moto.Services
 
                 if (bonuses.Count > 0)
                 {
-                    // 更新Bet表已结算标志
-                    dbBets.ForEach(b => b.IsSettlementDone = true);
-
                     // 保存奖金
                     db.PKBonus.AddRange(bonuses);
                     db.SaveChanges();

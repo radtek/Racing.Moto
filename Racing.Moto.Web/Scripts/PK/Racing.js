@@ -45,6 +45,8 @@
     // moto
     var motoRacing = {
         PKInfo: null,
+        ResultShowSeconds: 5,
+        BonusShowSeconds: 30,
         Millisec: 8,
         RoadLength: 800,//910
         Colors: ['red', 'blue', 'yellow', 'green', 'gray', 'aqua', 'blueviolet', 'brown', 'Highlight', 'aquamarine', 'teal'],
@@ -257,23 +259,23 @@
                 });
             });
         },
-        moveEndDistance: function (num, right) {
-            // when moto and the end, continue to move some instance
-            var $moto = $('#moto' + num);
-            right = parseInt(right, 10) + 150;
-            $moto.animate({ right: right + 'px' }, 1000);
-        },
+        //moveEndDistance: function (num, right) {
+        //    // when moto and the end, continue to move some instance
+        //    var $moto = $('#moto' + num);
+        //    right = parseInt(right, 10) + 150;
+        //    $moto.animate({ right: right + 'px' }, 1000);
+        //},
         moveEndFlag: function (pkInfo) {
             var $endFlag = $('.end-flag');
 
-            var positon = 2000;
+            var positon = 500;
             $endFlag.floating({ direction: 'right', millisec: motoRacing.Millisec, position: positon });
 
-            //$('body').everyTime('1ds', function () {
-            //    if ($endFlag.css('left') == positon + 'px') {
-            //        motoRacing.clear();
-            //    }
-            //});
+            $('body').everyTime('1ds', function () {
+                if ($endFlag.css('left') == positon + 'px') {
+                    motoRacing.clear();
+                }
+            });
         },
         calculateSpeeds: function () {
             var speeds = [];
@@ -292,7 +294,7 @@
                     ? (pkInfo.PK.GameSeconds - 10 + rank) * 500
                     : (pkInfo.GameRemainSeconds / 10) * rank * 500;
 
-                var length = 800 - 50 * rank;
+                var length = 1600 - 50 * rank;
                 speeds.push({
                     'Num': motoNum,
                     'Rank': rank,
@@ -395,20 +397,14 @@
             $racingResult.removeClass("hide");
 
             // close result dialog after 5 seconds, then open bonus dialog
-            $('body').oneTime('5s', function () {
+            $('body').oneTime(motoRacing.ResultShowSeconds + 's', function () {
                 // close
                 //$racingResult.dialog("close");
                 $racingResult.addClass("hide");
                 // open
                 motoRacing.showBonus();
-            });
-
-            // close bonus dialog after 60 seconds
-            $('body').oneTime('60s', function () {
-                // close
-                $bonusResult.addClass("hide");
-                // resetElements
-                motoRacing.resetElements();
+                // countdown
+                motoRacing.bonusCountdown();
             });
         },
         getResultHtml: function () {
@@ -458,8 +454,15 @@
                             $bonusResult.addClass("hide");
                         });
                     }
-                },
-                //dataType: dataType
+                }
+            });
+
+            // close bonus dialog after 30 seconds
+            $('body').oneTime(motoRacing.BonusShowSeconds + 's', function () {
+                // close
+                $bonusResult.addClass("hide");
+                // resetElements
+                motoRacing.resetElements();
             });
         },
         getBonusRanksHtml: function () {
@@ -490,16 +493,25 @@
             var bonusResultHtml = motoRacing.getBonusResultHtml(bonusArr);
             var html = '<a href="javacript:;" class="close close-bonus"><img src="/img/del.png"></a>'
                      + '<a href="javacript:;" class="queding close-bonus"><img src="/img/btn-queding.png"></a>'
+                     + '<div class="bonus-countdown">' + motoRacing.BonusShowSeconds + '</div>'
                      + '<div class="huodejiangjin">获得奖金：' + totalBonus + '</div>'
                      + '<div class="jieguo">'
                      + '    <div class="text">结果</div>'
                      + '    <div class="shishi z-shishi">' + ranksHtml + '</div>'
                      + '</div>'
                      + '<div class="jieguo-2">'
-                     + '    <ul>' + bonusResultHtml + '</ul>'
+                     + '    <ul class="bonus">' + bonusResultHtml + '</ul>'
                      + '</div>';
 
             return html;
+        },
+        bonusCountdown: function () {
+            $('body').everyTime('1s', 'bonusCountdown', function () {
+                var $cuntdown = $('.bonus-countdown');
+                var num = $('.bonus-countdown').text();
+                num = num == '' ? motoRacing.BonusShowSeconds : num - 1;
+                $cuntdown.text(num);
+            }, motoRacing.BonusShowSeconds);
         },
     };
 });

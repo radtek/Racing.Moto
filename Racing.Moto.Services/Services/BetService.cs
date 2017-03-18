@@ -401,6 +401,16 @@ namespace Racing.Moto.Services
                 }).ToList();
         }
 
+        /// <summary>
+        /// 每局结束后, 更新已结算标志 IsSettlementDone
+        /// </summary>
+        public void UpdateSettlementDone()
+        {
+            var dbBets = db.Bet.Where(b => !b.IsSettlementDone && DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0).ToList();
+            dbBets.ForEach(b => b.IsSettlementDone = true);
+            db.SaveChanges();
+        }
+
 
         #region User Report
 
@@ -411,10 +421,21 @@ namespace Racing.Moto.Services
         /// <returns></returns>
         public PagerResult<Bet> GetUserBetReport(UserReportSearchModel model)
         {
-            var query = db.Bet.Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone);
+            var query = db.Bet.Where(b => b.UserId == model.UserId
+                && b.IsSettlementDone == model.IsSettlementDone
+                && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);//今日
 
-            //今日 && 未开奖
-            query = query.Where(b => DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0 && DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+
+            if (model.IsSettlementDone)
+            {
+                //已结
+                query = query.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+            }
+            else
+            {
+                //未结
+                query = query.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) < 0);
+            }
 
             var result = query
                 .OrderByDescending(b => b.BetId)
@@ -443,16 +464,34 @@ namespace Racing.Moto.Services
             var statistics = new UserBonusReportStatistics();
 
             #region Bet
-            var queryBet = db.Bet.Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone);
-            //今日 && 未开奖
-            queryBet = queryBet.Where(b => DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0 && DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+            var queryBet = db.Bet.Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);
+
+            if (model.IsSettlementDone)
+            {
+                //已结
+                queryBet = queryBet.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+            }
+            else
+            {
+                //未结
+                queryBet = queryBet.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) < 0);
+            }
             #endregion
 
             #region Bonus
             var queryBonus = db.PKBonus
-                .Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone);
-            //今日 && 未开奖
-            queryBonus = queryBonus.Where(b => DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0 && DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+                .Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);
+
+            if (model.IsSettlementDone)
+            {
+                //已结
+                queryBonus = queryBonus.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+            }
+            else
+            {
+                //未结
+                queryBonus = queryBonus.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) < 0);
+            }
             #endregion
 
             // 注单数量

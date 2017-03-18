@@ -99,6 +99,9 @@ namespace Racing.Moto.Web.Jobs
                     }
                 }
             }
+
+            // 更新Bet表已结算标志
+            betService.UpdateSettlementDone();
         }
     }
 }
