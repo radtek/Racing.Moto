@@ -10,6 +10,7 @@
         PageSize: 15,
         RowCount: 0,
         Params: {
+            Key: '',
             PageIndex: 1,
             PageSize: 15
         },
@@ -38,6 +39,18 @@
         },
         pageChanged: function () {
             $scope.pager.getResults($scope.pager.PageIndex);
+        },
+        search: function () {
+            if ($scope.pager.Params.Key == '') {
+                alert('请输入期数');
+                return;
+            }
+            var pkNoPattern = /[0-9]+/;
+            if (!$scope.pager.Params.Key.match(pkNoPattern)) {
+                alert('请输入有效的期数');
+                return;
+            }
+            $scope.pager.getResults(1);
         },
     };
 }]);

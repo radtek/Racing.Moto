@@ -75,17 +75,16 @@ body {
         left: 180px;
         top: 24px;
     }
-        /*.game-wrap .saidao .time-run-0 {
-    width: 1004px;
-    height: 241px;
-    position: absolute;
-    left: 180px;
-    top: 24px;
-}*/
+
         .game-wrap .saidao .time-run #countdown {
             margin-left: 423px;
             margin-top: 7px;
         }
+
+    .game-wrap .saidao .time-run-go #countdown {
+        margin-left: 345px;
+        margin-top: 25px;
+    }
 
     .game-wrap .saidao .time-run2 {
         width: 1004px;
@@ -337,7 +336,7 @@ body {
     .shishi .color-10 {
         background: url(../img/he-se.png) no-repeat;
     }
-    
+
 /*--中奖情况--*/
 .dialog-wrap {
     width: 708px;
@@ -398,8 +397,18 @@ body {
         line-height: 60px;
         font-size: 20px;
     }
-    .dialog-wrap .jieguo-2 .bonus {overflow-y: scroll;overflow-x: hidden; height: 246px;}
-    .dialog-wrap .jieguo-2 .bonus li { list-style: none; height: 30px; line-height: 30px; }
+
+        .dialog-wrap .jieguo-2 .bonus {
+            overflow-y: scroll;
+            overflow-x: hidden;
+            height: 246px;
+        }
+
+            .dialog-wrap .jieguo-2 .bonus li {
+                list-style: none;
+                height: 30px;
+                line-height: 30px;
+            }
 
     .dialog-wrap .jieguo .text {
         padding-left: 18px;
@@ -716,7 +725,8 @@ a.dianji {
     right: 239px;
     position: absolute;
 }
-a.gaoji-bg{
+
+a.gaoji-bg {
     width: 600px;
     height: 230px;
     position: absolute;
@@ -748,15 +758,7 @@ ul.menu {
     height: 444px;
     position: absolute;
     left: 0;
-    bottom: 0;
-}
-
-.car-model {
-    width: 572px;
-    height: 444px;
-    position: absolute;
-    left: 0;
-    bottom: 0;
+    bottom: 180px;
 }
 
 .girl-model {
@@ -764,7 +766,7 @@ ul.menu {
     height: 469px;
     position: absolute;
     left: 425px;
-    bottom: 60px;
+    bottom: 290px;
 }
 
 .menu-sub {
@@ -1119,15 +1121,138 @@ li.kefu a {
         text-shadow: 5px 5px 10px #000;
     }
 
+/**注册**/
+.registerPanel {
+    background: url(../img/register.jpg) no-repeat;
+    width: 1366px;
+    height: 711px;
+    position: relative;
+}
 
-    .loginbox .psw2 {
+    .registerPanel .del {
+        right: 410px;
+        top: 180px;
+        width: 57px;
+        height: 57px;
+        background: url(../img/del.png) no-repeat;
         position: absolute;
-        right: 158px;
-        top: 276px;
+        display: block;
+    }
+
+    .registerPanel .username {
+        position: absolute;
+        right: 530px;
+        top: 260px;
         padding: 10px;
         width: 218px;
         background: none;
         border: none;
         font-size: 14px;
         color: #fff;
+    }
+
+    .registerPanel .psw {
+        position: absolute;
+        right: 530px;
+        top: 321px;
+        padding: 10px;
+        width: 218px;
+        background: none;
+        border: none;
+        font-size: 14px;
+        color: #fff;
+    }
+
+    .registerPanel .psw2 {
+        position: absolute;
+        right: 530px;
+        top: 383px;
+        padding: 10px;
+        width: 218px;
+        background: none;
+        border: none;
+        font-size: 14px;
+        color: #fff;
+    }
+
+    .registerPanel .btn {
+        position: absolute;
+        right: 595px;
+        top: 442px;
+        width: 150px;
+        height: 50px;
+        display: block;
+    }
+
+
+/**忘记密码**/
+.forgetPasswordPanel {
+    background: url(../img/forgetpwd.jpg) no-repeat;
+    width: 1366px;
+    height: 711px;
+    position: relative;
+}
+
+    .forgetPasswordPanel .del {
+        right: 410px;
+        top: 180px;
+        width: 57px;
+        height: 57px;
+        background: url(../img/del.png) no-repeat;
+        position: absolute;
+        display: block;
+    }
+
+    .forgetPasswordPanel .username {
+        position: absolute;
+        right: 530px;
+        top: 260px;
+        padding: 10px;
+        width: 218px;
+        background: none;
+        border: none;
+        font-size: 14px;
+        color: #fff;
+    }
+
+    .forgetPasswordPanel .email {
+        position: absolute;
+        right: 530px;
+        top: 321px;
+        padding: 10px;
+        width: 218px;
+        background: none;
+        border: none;
+        font-size: 14px;
+        color: #fff;
+    }
+
+    .forgetPasswordPanel .validateCode {
+        position: absolute;
+        right: 635px;
+        top: 383px;
+        padding: 10px;
+        width: 115px;
+        background: none;
+        border: none;
+        font-size: 14px;
+        color: #fff;
+    }
+
+    .forgetPasswordPanel .btnGenerateCode {
+        position: absolute;
+        right: 510px;
+        top: 380px;
+        width: 110px;
+        height: 40px;
+        display: block;
+    }
+
+    .forgetPasswordPanel .btnSubmit {
+        position: absolute;
+        right: 585px;
+        top: 436px;
+        width: 180px;
+        height: 60px;
+        display: block;
     }

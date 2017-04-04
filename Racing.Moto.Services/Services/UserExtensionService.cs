@@ -61,5 +61,34 @@ namespace Racing.Moto.Services
             db.SaveChanges();
         }
 
+        /// <summary>
+        /// 保存 找回密码时系统生成的验证码
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="validateCode"></param>
+        public void SaveValidateCode(string userName, string validateCode)
+        {
+            var userExtention = db.UserExtension.Where(u => u.User.UserName == userName).FirstOrDefault();
+            if (userExtention != null)
+            {
+                userExtention.ValidateCodeForForgetPwd = validateCode;
+                userExtention.ValidateCodeCreateDate = DateTime.Now;
+
+                db.SaveChanges();
+            }
+        }
+
+        public bool CheckValidateCodeForForgetPwd(string userName, string code)
+        {
+            var extention = db.UserExtension.Where(u => u.User.UserName == userName && u.ValidateCodeForForgetPwd == code).FirstOrDefault();
+            if (extention != null)
+            {
+                extention.ValidateCodeForForgetPwd = null;
+                extention.ValidateCodeCreateDate = null;
+
+                db.SaveChanges();
+            }
+            return extention != null;
+        }
     }
 }

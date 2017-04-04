@@ -69,7 +69,9 @@
         },
         initBetItems: function (bets) {
             $scope.bet.NotSavedBetItems = [];//未投注
+            $scope.bet.NotSavedAmount = 0;//未投注
             $scope.bet.SavedBetItems = [];//已投注
+            $scope.bet.SavedAmount = 0;//已投注
 
             angular.forEach(bets, function (bet, index, arr) {
                 angular.forEach(bet.BetItems, function (betItem, index, arr) {

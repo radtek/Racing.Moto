@@ -61,6 +61,11 @@ namespace Racing.Moto.Web.Controllers
                     result.Message = "原始密码错误";
                 }
 
+                // 保存邮箱
+                if (model.Email != LoginUser.Email)
+                {
+                    new UserService().SaveEmail(LoginUser.UserId, model.Email);
+                }
             }
             catch (Exception ex)
             {

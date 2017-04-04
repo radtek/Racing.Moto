@@ -29,7 +29,15 @@ namespace Racing.Moto.Data.Entities
         /// 如果当前用户是代理: 代理下会员的数量
         /// </summary>
         public int MemberCount { get; set; }
-        
+
+        /// <summary>
+        /// 忘记密码时生成的验证码
+        /// </summary>
+        [StringLength(10)]
+        public string ValidateCodeForForgetPwd { get; set; }
+        public System.DateTime? ValidateCodeCreateDate { get; set; }
+
+
         public virtual User User { get; set; }
 
         /// <summary>

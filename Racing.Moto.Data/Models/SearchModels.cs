@@ -21,6 +21,11 @@ namespace Racing.Moto.Data.Models
         /// 页大小
         /// </summary>
         public int PageSize { get; set; }
+
+        /// <summary>
+        /// 期数: PKID
+        /// </summary>
+        public int Key { get; set; }
     }
 
     /// <summary>

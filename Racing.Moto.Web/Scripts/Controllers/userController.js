@@ -1,11 +1,22 @@
 ﻿app.controller('userController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
-
-    //$scope.init = function () {
-    //};
+    $scope.init = function (email) {
+        $scope.user.init(email);
+    };
 
     $scope.user = {
-        Params: { OldPassword: '', NewPassword: '', ConfirmPassword: '' },
+        Params: { Email: '', OldPassword: '', NewPassword: '', ConfirmPassword: '' },
+        init: function (email) {
+            $scope.user.Params.Email = email;
+        },
         check: function () {
+            if ($scope.user.Params.Email == '') {
+                return '请输入电子邮箱';
+            } else {
+                var emailPattern = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
+                if (!$scope.user.Params.Email.match(emailPattern)) {
+                    return '邮箱格式不正确.';
+                }
+            }
             if ($scope.user.Params.OldPassword == '') {
                 return '请输入原始密码';
             }

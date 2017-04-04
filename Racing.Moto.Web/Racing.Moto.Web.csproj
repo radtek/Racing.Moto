@@ -255,6 +255,7 @@
     <Content Include="Images\admin\USER_0.gif" />
     <Content Include="Images\admin\USER_1.gif" />
     <Content Include="Images\agreement.jpg" />
+    <Content Include="Img\forgetpwd.jpg" />
     <Content Include="Img\moto-1.run.gif" />
     <Content Include="Img\btn-login.png" />
     <Content Include="Img\denglu.png" />
@@ -279,9 +280,10 @@
     <Content Include="Img\moto-7.png" />
     <Content Include="Img\moto-8.png" />
     <Content Include="Img\moto-9.png" />
+    <Content Include="Img\register.jpg" />
     <Content Include="Img\road-num.png" />
     <Content Include="Img\start-line.png" />
-    <Content Include="Img\time-0.png" />
+    <Content Include="Img\countdown-1.png" />
     <Content Include="Img\time_run2.png" />
     <Content Include="Scripts\AngularJs\angular-filter-0.5.7.js" />
     <Content Include="Scripts\AngularJs\angular-filter-0.5.7.min.js" />
@@ -401,9 +403,9 @@
     <Content Include="Img\shenlan-se.png" />
     <Content Include="Img\shishi.png" />
     <Content Include="Img\tianlan-se.png" />
-    <Content Include="Img\time-3.png" />
-    <Content Include="Img\time-2.png" />
-    <Content Include="Img\time-1.png" />
+    <Content Include="Img\countdown-4.png" />
+    <Content Include="Img\countdown-3.png" />
+    <Content Include="Img\countdown-2.png" />
     <Content Include="Img\time_run.png" />
     <Content Include="Img\user.jpg" />
     <Content Include="Img\wang.png" />
@@ -781,6 +783,7 @@
     <Content Include="Views\Manage\Outstanding.cshtml" />
     <Content Include="Views\Account\Agreement.cshtml" />
     <Content Include="Views\Manage\History.cshtml" />
+    <Content Include="Views\Account\ForgetPassword.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

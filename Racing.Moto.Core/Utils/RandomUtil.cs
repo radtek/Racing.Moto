@@ -36,5 +36,18 @@ namespace Racing.Moto.Core.Utils
             }
             return list.OrderBy(i => Guid.NewGuid()).ToList();
         }
+
+        public static string GetRandomCode(int length)
+        {
+            string buffer = "0123456789";// 随机字符中也可以为汉字（任何）
+            StringBuilder sb = new StringBuilder();
+            Random r = new Random();
+            int range = buffer.Length;
+            for (int i = 0; i < length; i++)
+            {
+                sb.Append(buffer.Substring(r.Next(range), 1));
+            }
+            return sb.ToString();
+        }
     }
 }

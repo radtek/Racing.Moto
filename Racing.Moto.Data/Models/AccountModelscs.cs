@@ -11,6 +11,11 @@ namespace Racing.Moto.Data.Models
     public class ChangePasswordModel
     {
         [Required(ErrorMessage = "请输入{0}")]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "电子邮箱")]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "请输入{0}")]
         [DataType(DataType.Password)]
         [Display(Name = "当前密码")]
         public string OldPassword { get; set; }

@@ -7,6 +7,7 @@
 }
 <style>
     .main-wrap .right .z-table a { color: #000 !important; text-decoration: none;}
+    .pagination li > a{font-size:14px !important;}
 </style>
 <div class="gray-box" ng-controller="lotteryController" ng-init="init('@PKBag.LoginUser.UserId')">
     <table class="z-table">
@@ -22,7 +23,7 @@
             <tr ng-repeat="item in pager.Results">
                 <td>{{$index + 1}}</td>
                 <td style="color:red;">{{item.PKNo}}</td>
-                <td>{{item.EndTime | date : 'MM-dd'}}&nbsp;&nbsp;{{item.Week}}&nbsp;&nbsp;{{item.EndTime | date : 'HH:mm:ss'}}</td>
+                <td>{{item.EndTime | date : 'yyyy-MM-dd'}}&nbsp;&nbsp;星期{{item.Week}}&nbsp;&nbsp;{{item.EndTime | date : 'HH:mm:ss'}}</td>
                 <td>
                     <div class="mingci2 bg-{{rank}}" ng-repeat="rank in item.RankArr track by $index">{{rank}}</div>
                     @*<div class="mingci2 bg-2">2</div>
@@ -39,8 +40,12 @@
             <tr class="footer">
                 <td colspan="2">共{{pager.RowCount}}条记录</td>
                 <td colspan="2">
-                    <div style="float:right;">
-                        <pagination boundary-links="true" total-items="pager.RowCount" items-per-page="pager.PageSize" max-size="10" rotate="false"
+                    <div style="float:left; width:25%; padding:10px 5px;">
+                        <input type="text" style="width:120px;" maxlength="12" placeholder="期数" ng-model="pager.Params.Key" />
+                        <button ng-click="pager.search()">查询</button>
+                    </div>
+                    <div style="float:right; width:70%">
+                        <pagination boundary-links="true" total-items="pager.RowCount" items-per-page="pager.PageSize" max-size="5" rotate="false"
                                     ng-change="pager.pageChanged()" ng-model="pager.PageIndex" class="pagination"
                                     previous-text="上一页" next-text="下一页" first-text="首页" last-text="末页">
                         </pagination>

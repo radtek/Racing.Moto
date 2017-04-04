@@ -228,7 +228,13 @@ namespace Racing.Moto.Services
         /// </summary>
         public PagerResult<PK> GetPKs(SearchModel searchModel)
         {
-            var pks = db.PK.Where(pk => pk.Ranks != null).OrderByDescending(pk => pk.PKId).Pager<PK>(searchModel.PageIndex, searchModel.PageSize);
+            var query = db.PK.Where(pk => pk.Ranks != null);
+            if (searchModel.Key > 0)
+            {
+                query = query.Where(q => q.PKId == searchModel.Key);
+            }
+
+            var pks = query.OrderByDescending(pk => pk.PKId).Pager<PK>(searchModel.PageIndex, searchModel.PageSize);
             return pks;
         }
 

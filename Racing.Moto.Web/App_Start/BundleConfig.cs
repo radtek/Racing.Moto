@@ -14,7 +14,7 @@ namespace Racing.Moto.Web
             bundles.Add(new ScriptBundle("~/RacingMotoJs")
                 .Include("~/Scripts/jQuery/jquery-{version}.js")
                 .Include("~/Scripts/modernizr-{version}.js")
-                .Include("~/Scripts/app.js")
+                //.Include("~/Scripts/app.js")
             );
             bundles.Add(new ScriptBundle("~/Racing")
                 .Include("~/Scripts/jquery.easing.1.3.js")

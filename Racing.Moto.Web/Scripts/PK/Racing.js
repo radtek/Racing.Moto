@@ -9,15 +9,17 @@
         ticker.server.getPKInfo().done(function (pkInfo) {
             console.log(pkInfo);
 
-            if (pkInfo == null) {
-                return;
-            }
+            //if (pkInfo == null) {
+            //    return;
+            //}
 
             // test
-            //pkInfo.GamingSeconds = -5;
-            //pkInfo.GamePassedSeconds = 0;
-            //pkInfo.GameRemainSeconds = 20;
-            //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
+            pkInfo = {};
+            pkInfo.GamingSeconds = -6;
+            pkInfo.GamePassedSeconds = 0;
+            pkInfo.GameRemainSeconds = 20;
+            pkInfo.GameBeginTime = '2017/04/03 18:20:00';
+            pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
             motoRacing.run(pkInfo);
         });
@@ -36,7 +38,7 @@
         //pkInfo.GameRemainSeconds = 20;
         //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
-        motoRacing.run(pkInfo);
+        //motoRacing.run(pkInfo);
     }
 
     // Start the connection
@@ -126,42 +128,47 @@
             }
         },
         countdown: function (pkInfo) {
-            var countdownSeconds = 4;
-            var seconds = pkInfo.GamingSeconds < -countdownSeconds ? Math.abs(pkInfo.GamingSeconds + countdownSeconds) : 0;
-            if (pkInfo.GamingSeconds < -countdownSeconds) {
+            var countdownSeconds = 5;
+            var toGamingSeconds = Math.abs(pkInfo.GamingSeconds);
+            //var seconds = countdownSeconds < toGamingSeconds ? toGamingSeconds - countdownSeconds : 0;
+            if (countdownSeconds <= toGamingSeconds && pkInfo.GamingSeconds < 0) {
                 var seconds = Math.abs(pkInfo.GamingSeconds + countdownSeconds) + 's';
                 $('body').oneTime(seconds, function () {
                     $('.time-run2').hide();
                     $('.time-run').show();
-                    var index = 3;
-                    $('body').everyTime('1s', 'countdown', function () {
-                        var name = 'time-' + (index >= 0 ? index : 0);
-                        document.getElementById("countdown").src = '/img/' + name + ".png";
-                        index--;
-                        if (index < -1) {
-                            //$('.time-run2').show();
-                            $('.time-run').hide();
-                        }
-                    }, 5);
+
+                    motoRacing.countdown2(countdownSeconds, 4);
                 });
-            } else if (-countdownSeconds < pkInfo.GamingSeconds && pkInfo.GamingSeconds < 0) {
+            } else if (countdownSeconds > toGamingSeconds && pkInfo.GamingSeconds < 0) {
                 $('.time-run2').hide();
                 $('.time-run').show();
-                var seconds = Math.abs(pkInfo.GamingSeconds);
-                var index = seconds;
-                $('body').everyTime('1s', 'countdown', function () {
-                    var name = 'time-' + (index >= 1 ? index : 1);
-                    document.getElementById("countdown").src = '/img/' + name + ".png";
-                    index--;
-                    if (index < 0) {
-                        //$('.time-run2').show();
-                        $('.time-run').hide();
-                    }
-                }, seconds + 1);
+
+                motoRacing.countdown2(toGamingSeconds, toGamingSeconds - 1);
             } else {
                 $('.time-run2').show();
                 $('.time-run').hide();
             }
+        },
+        countdown2: function (countdownSeconds, index) {
+            //var index = 4;
+            $('body').everyTime('1s', 'countdown', function () {
+                if (index <= 0) {
+                    //$('.time-run2').show();
+                    $('.time-run').hide();
+                } else {
+                    var number = index;
+                    if (number <= 1) {
+                        $('.time-run').addClass('time-run-go');
+                    } else {
+                        $('.time-run').removeClass('time-run-go');
+                    }
+                    var name = 'countdown-' + (number >= 1 ? number : 1);
+                    document.getElementById("countdown").src = '/img/' + name + ".png";
+                }
+                console.log(index);
+
+                index = index - 1;
+            }, countdownSeconds);
         },
         append: function () {
             var html = '';

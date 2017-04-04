@@ -125,6 +125,12 @@ namespace Racing.Moto.Services
                 .Where(u => u.UserId == userId).FirstOrDefault();
         }
 
+        public User GetUserByUserName(string userName)
+        {
+            return db.User.Where(u => u.UserName == userName).FirstOrDefault();
+        }
+
+
         public void LockUser(int userId, bool locked)
         {
             var dbUser = db.User.Where(u => u.UserId == userId).FirstOrDefault();
@@ -375,6 +381,20 @@ namespace Racing.Moto.Services
             model.TodayProfitAndLossAmount = model.TodayRebateAmount + model.TodayProfitAmount - model.TodayBetAmount;
 
             return model;
+        }
+
+        public void SaveEmail(int userId, string email)
+        {
+            var user = db.User.Where(u => u.UserId == userId).First();
+            user.Email = email;
+            db.SaveChanges();
+        }
+
+        public void ChangePassword(string userName, string password)
+        {
+            var user = db.User.Where(u => u.UserName == userName).First();
+            user.Password = CryptoUtils.Encrypt(password);
+            db.SaveChanges();
         }
     }
 }

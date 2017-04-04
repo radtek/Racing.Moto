@@ -12,7 +12,7 @@
             <a href="/" class="del"></a>
             @Html.TextBoxFor(m => m.UserName, new { @class = "username" })
             @Html.PasswordFor(m => m.Password, new { @class = "psw" })
-            <a href="javascript:;" class="link1">忘记密码</a>
+            <a href="/Account/ForgetPassword" class="link1">忘记密码</a>
             <a href="/Account/Register" class="link2">注册</a>
             <a href="javascript:;" class="btn" id="btnSubmit"></a>
         </div>
