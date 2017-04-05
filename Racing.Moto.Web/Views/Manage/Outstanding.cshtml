@@ -13,7 +13,7 @@
                 <th>下注类型</th>
                 <th>注单明细</th>
                 <th>下注金额</th>
-                <th>退水后结果</th>
+                @*<th>退水后结果</th>*@
             </tr>
         </thead>
         <tbody>
@@ -28,16 +28,16 @@
                 </td>
                 <td><span class="z">{{item.RankName}} [{{item.NumName}}]</span> @@{{item.Rate}}</td>
                 <td>{{item.Amount}}</td>
-                <td>0</td>
+                @*<td>0</td>*@
             </tr>
             <tr class="footer">
-                <td colspan="2">合计</td>
-                <td style="padding: 6px;">{{pager.Statistics.BetCount}}笔</td>
+                <td colspan="1">合计</td>
+                <td colspan="2" style="padding: 6px;">{{pager.Statistics.BetCount}}笔</td>
                 <td>{{pager.Statistics.BetAmount}}</td>
-                <td>0</td>
+                @*<td>0</td>*@
             </tr>
             <tr class="footer">
-                <td colspan="2">共{{pager.RowCount}}条记录</td>
+                <td colspan="1">共{{pager.RowCount}}条记录</td>
                 <td colspan="3">
                     <div style="float:right;">
                         <pagination boundary-links="true" total-items="pager.RowCount" items-per-page="pager.PageSize" max-size="10" rotate="false"

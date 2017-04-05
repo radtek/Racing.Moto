@@ -52,6 +52,7 @@ a:hover{
 #a_span a {
     width:60px;float:left;height:18px;padding-top:5px;text-align:center;text-decoration: none;color: #f8ff2d !important;
 }
+#a_span span{padding: 5px;}
 
 .f_right {
 	text-align: right;

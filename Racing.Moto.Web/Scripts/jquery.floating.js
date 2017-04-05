@@ -89,7 +89,7 @@
                 case 'top': pos = $this.css("bottom"); break;
                 case 'bottom': pos = $this.css("top"); break;
             }
-            return pos;
+            return pos == 'auto' ? '0px' : pos;
         }
     };
 

@@ -192,6 +192,7 @@ body {
     right: 150px;
 }
 
+    /*------------------  car ------------------*/
     .car-list .car-10 {
         position: absolute;
         right: 5px;
@@ -261,6 +262,69 @@ body {
         top: 335px;
         width: 210px;
     }
+    /*------------------  car-run ------------------*/
+    .car-list .car-run-10 {
+        position: absolute;
+        right: 7px;
+        top: -97px;
+        width: 197px;
+    }
+
+    .car-list .car-run-9 {
+        position: absolute;
+        right: -13px;
+        top: -64px;
+        width: 209px;
+    }
+
+    .car-list .car-run-8 {
+        position: absolute;
+        right: -34px;
+        top: -18px;
+        width: 218px;
+    }
+
+    .car-list .car-run-7 {
+        position: absolute;
+        right: -31px;
+        top: 32px;
+        width: 205px;
+    }
+
+    .car-list .car-run-6 {
+        position: absolute;
+        right: -48px;
+        top: 78px;
+        width: 210px;
+    }
+
+    .car-list .car-run-5 {
+        position: absolute;
+        right: -73px;
+        top: 125px;
+        width: 225px;
+    }
+
+    .car-list .car-run-4 {
+        position: absolute;
+        right: -85px;
+        top: 182px;
+        width: 224px;
+    }
+
+    .car-list .car-run-3 {
+        position: absolute;
+        right: -100px;
+        top: 218px;
+        width: 228px;
+    }
+
+    .car-list .car-run-2 {
+        position: absolute;
+        right: -114px;
+        top: 268px;
+        width: 232px;
+    }
 
     .car-list .car-run-1 {
         position: absolute;
@@ -269,7 +333,7 @@ body {
         width: 238px;
     }
 
-/*game*/
+/*---------- game ---------------*/
 
 .saiqi {
     position: absolute;

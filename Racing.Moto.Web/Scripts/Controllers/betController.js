@@ -685,13 +685,14 @@
 
                 $scope.bet.setDisabled(true);
             } else {
-                var closeBeginTime = $app.convertToDate(pkModel.CloseBeginTime);
-                var year = closeBeginTime.getFullYear();
-                var month = closeBeginTime.getMonth();
-                var day = closeBeginTime.getDate();
-                var hour = closeBeginTime.getHours();
-                var minute = closeBeginTime.getMinutes();
-                var second = closeBeginTime.getSeconds();
+                //var beginTime = $app.convertToDate(pkModel.CloseBeginTime);
+                var beginTime = $app.convertToDate(pkModel.GameBeginTime);  // 比赛开始倒计时
+                var year = beginTime.getFullYear();
+                var month = beginTime.getMonth();
+                var day = beginTime.getDate();
+                var hour = beginTime.getHours();
+                var minute = beginTime.getMinutes();
+                var second = beginTime.getSeconds();
 
 
                 var d = Date.UTC(year, month, day, hour, minute, second);

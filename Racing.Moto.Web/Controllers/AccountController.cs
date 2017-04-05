@@ -175,8 +175,10 @@ namespace Racing.Moto.Web.Controllers
                 {
                     // 注册
                     var user = InitUser(model);
-                    _memberProvider.CreateUser(user);
+                    //_memberProvider.CreateUser(user);
 
+                    // 默认B盘
+                    var result = new UserService().SaveUser(RoleConst.Role_Id_Member, user, RebateType.B);
 
                     // 登录
                     var loginModel = new LoginModel
