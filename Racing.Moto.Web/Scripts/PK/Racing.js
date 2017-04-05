@@ -9,17 +9,17 @@
         ticker.server.getPKInfo().done(function (pkInfo) {
             console.log(pkInfo);
 
-            if (pkInfo == null) {
-                return;
-            }
+            //if (pkInfo == null) {
+            //    return;
+            //}
 
             // test
-            //pkInfo = {};
-            //pkInfo.GamingSeconds = -6;
-            //pkInfo.GamePassedSeconds = 0;
-            //pkInfo.GameRemainSeconds = 20;
-            //pkInfo.GameBeginTime = '2017/04/03 18:20:00';
-            //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
+            pkInfo = {};
+            pkInfo.GamingSeconds = -1;
+            pkInfo.GamePassedSeconds = 0;
+            pkInfo.GameRemainSeconds = 40;
+            pkInfo.GameBeginTime = '2017/04/03 18:20:00';
+            pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
             motoRacing.run(pkInfo);
         });
@@ -55,6 +55,8 @@
         //Easings: ['easeInQuad', 'easeInQuart', 'easeInOutSine', 'easeOutSine', 'easeOutQuad', 'linear', 'easeInCirc', 'easeInOutQuad', 'easeOutCubic', 'easeInOutCubic'],
         //Easings: ['easeInQuart', 'easeInOutExpo', 'easeOutCirc', 'swing', 'easeOutExpo', 'easeOutBack', 'swing', 'easeInOutSine', 'easeOutSine', 'easeInOutQuad'],
         Easings: ['easeOutElastic', 'easeInOutElastic', 'easeInElastic', 'easeInElastic', 'easeInOutBack', 'easeOutElastic', 'easeInOutElastic', 'easeInElastic', 'easeInElastic', 'easeInOutBack'],
+        Durations: [],
+        StepDurations: { Step1: [], Step2: [], Step3: [] },
         MotoInitPosition: [],
         EndMotos: [],// motos that at the end 
         resetElements: function () {
@@ -90,7 +92,8 @@
                 // move Road
                 motoRacing.moveRoad(pkInfo);
                 // run moto
-                motoRacing.runMoto(pkInfo);
+                //motoRacing.runMoto(pkInfo);
+                motoRacing.runMoto2(pkInfo);
             }
         },
         getcountdownClock: function () {
@@ -178,7 +181,7 @@
             }
             $('.car-list').html(html);
         },
-        appendRun: function () {
+        appendRunMotos: function () {
             var html = '';
             for (var i = 10; i > 0; i--) {
                 html += '<img id="moto' + i + '" src="/img/moto-' + i + '.run.gif" class="car-run-' + i + '" alt="' + i + '" />';
@@ -201,9 +204,9 @@
             $('body').oneTime(seconds, function () {
                 var speeds = motoRacing.calculateSpeeds();
                 // moto init position
-                motoRacing.MotoInitPosition = [];
+                motoRacing.MotoInitPosition = motoRacing.getMotoInitPositions();
                 // moto running 
-                motoRacing.appendRun();
+                motoRacing.appendRunMotos();
 
                 // run
                 for (var i = 0; i < speeds.length; i++) {
@@ -249,12 +252,12 @@
                         };
 
                     var $moto = $('#moto' + speeds[i].Num);
-                    var pos = parseInt($moto.css('right'), 10);
 
                     $moto.animate({ right: speeds[i].MoveLength }, param);    //speeds[i].MoveLength + pos 
 
                     // moto init position
-                    motoRacing.MotoInitPosition.push(pos);
+                    //var pos = parseInt($moto.css('right'), 10);
+                    //motoRacing.MotoInitPosition.push(pos);
                 }
 
                 // show ranks
@@ -263,8 +266,99 @@
                 });
             });
         },
-        runMoto2: function () {
+        getMotoInitPositions: function () {
+            var positons = [];
+            for (var num = 1; num <= 10; num++) {
+                var $moto = $('#moto' + num);
+                var pos = parseInt($moto.css('right'), 10);
+                positons.push(pos);
+            }
+            return positons;
+        },
+        runMoto2: function (pkInfo) {
+            var secondsToRun = (pkInfo.GamingSeconds < 0 ? Math.abs(pkInfo.GamingSeconds) : 0) + 's';
 
+            $('body').oneTime(secondsToRun, function () {
+                // moto init durations
+                motoRacing.Durations = motoRacing.getDurations();
+                // moto init position
+                motoRacing.MotoInitPosition = [];
+                // moto running 
+                motoRacing.appendRunMotos();
+
+                var step = motoRacing.getCurrentStep();
+                // step1
+                var speeds = motoRacing.calculateStepSpeeds(step)
+                // run
+                for (var i = 0; i < speeds.length; i++) {
+                    var param = {
+                        duration: speeds[i].Duration, easing: speeds[i].Easing, complete: function () {
+                            //step2
+                            var motoNum = $(this).attr('alt');
+                            //motoRacing.runMotoStep2(motoNum);
+                        }
+                    };
+
+                    var $moto = $('#moto' + speeds[i].Num);
+
+                    $moto.animate({ right: speeds[i].MoveLength }, param);
+                }
+
+                // show ranks
+                $('body').everyTime('1s', 'showRanks', function () {
+                    motoRacing.showRanks();
+                });
+            });
+        },
+        runMotoStep2: function (motoNum) {
+            // step2
+            var speeds = motoRacing.calculateStepSpeeds(2)
+            // run
+            for (var i = 0; i < speeds.length; i++) {
+                if (speeds[i].Num == motoNum) {
+                    var param = {
+                        duration: speeds[i].Duration, easing: speeds[i].Easing, complete: function () {
+                            //step3
+                            var motoNum = $(this).attr('alt');
+                            motoRacing.runMotoStep3(motoNum);
+                        }
+                    };
+
+                    var $moto = $('#moto' + speeds[i].Num);
+
+                    $moto.animate({ right: speeds[i].MoveLength }, param);
+                }
+            }
+        },
+        runMotoStep3: function (motoNum) {
+            // step3
+            var speeds = motoRacing.calculateStepSpeeds(3)
+            // run
+            for (var i = 0; i < speeds.length; i++) {
+                if (speeds[i].Num == motoNum) {
+                    var param = {
+                        duration: speeds[i].Duration, easing: speeds[i].Easing, complete: function () {
+                            // when the first moto at the end, moveEndFlag
+                            if (motoRacing.EndMotos.length == 0) {
+                                motoRacing.moveEndFlag(motoRacing.PKInfo);
+                            }
+
+                            var motoNum = $(this).attr('alt');
+                            motoRacing.EndMotos.push({
+                                Rank: motoRacing.EndMotos.length + 1,
+                                Num: parseInt(motoNum)
+                            });
+
+                            //resetMoto
+                            motoRacing.resetMoto(motoNum);
+                        }
+                    };
+
+                    var $moto = $('#moto' + speeds[i].Num);
+
+                    $moto.animate({ right: speeds[i].MoveLength }, param);
+                }
+            }
         },
         //moveEndDistance: function (num, right) {
         //    // when moto and the end, continue to move some instance
@@ -315,7 +409,7 @@
             //console.log(speeds);
             return speeds;
         },
-        calculateSpeeds2: function (step) {
+        calculateStepSpeeds: function (step) {
             var speeds = [];
             var pkInfo = motoRacing.PKInfo;
 
@@ -324,6 +418,41 @@
 
             // three steps - step 1 : 30 seconds : 300px, step 2 : 20 seconds : 200px, , step 3 : 10 seconds : 100px
             var moveLengths = [300, 200, 100];
+            //if (pkInfo.GameRemainSeconds > 30) {
+            //    step = 1;
+            //} else if (pkInfo.GameRemainSeconds > 20) {
+            //    step = 2;
+            //} else {
+            //    step = 3;
+            //}
+            var moveLength = moveLengths[step - 1];
+
+            var stepDurations = motoRacing.getStepDurations(step);
+            // speeds
+            for (var i = 0; i < rankArr.length; i++) {
+                var motoNum = rankArr[i];
+                var rank = i + 1;
+                var random = motoRacing.getRandomNum(0, 9);
+
+                var duration = stepDurations[i];
+
+                //var length = 1200 - 50 * rank;
+                speeds.push({
+                    'Num': motoNum,
+                    'Rank': rank,
+                    'Duration': duration * 1000,
+                    'Easing': motoRacing.Easings[random],
+                    'MoveLength': moveLength
+                });
+            }
+
+            //console.log(speeds);
+            return speeds;
+        },
+        getCurrentStep: function () {
+            var step = 1;
+            var pkInfo = motoRacing.PKInfo;
+
             if (pkInfo.GameRemainSeconds > 30) {
                 step = 1;
             } else if (pkInfo.GameRemainSeconds > 20) {
@@ -331,31 +460,87 @@
             } else {
                 step = 3;
             }
-            var moveLength = moveLengths[step - 1];
+            return step;
+        },
+        getDurations: function () {
+            var durations = [];
+
+            var pkInfo = motoRacing.PKInfo;
+            var seconds = 3;
+            var timeStep = seconds / 10;
+
+            //ranks: 3,2,5,6,8,7,10,1,9,4
+            var rankArr = pkInfo.PK.Ranks.split(',');
+            for (var i = 0; i < rankArr.length; i++) {
+                var rank = i + 1;
+                var duration = (pkInfo.GameRemainSeconds > seconds)
+                    ? ((pkInfo.PK.GameSeconds - seconds) + (rank - 1) * timeStep)
+                    : timeStep * rank;
+
+                durations.push(duration);
+            }
+            return durations;
+        },
+        getStepDurations: function (step) {
+            // three steps - step 1 : <=30 seconds : 300px, step 2 : <=20 seconds : 200px, , step 3 : <=10 seconds : 100px
+            var durations = [];
 
             if (step == 1) {
-                // speeds
-                for (var i = 0; i < rankArr.length; i++) {
-                    var motoNum = rankArr[i];
-                    var rank = i + 1;
-                    var random = motoRacing.getRandomNum(0, 9);
+                durations = motoRacing.getStep1Durations(1);
+                motoRacing.StepDurations.Step1 = durations;
+            } else if (step == 2) {
+                durations = motoRacing.getStep2Durations();
+                motoRacing.StepDurations.Step2 = durations;
+            } else {
+                durations = motoRacing.getStep3Durations();
+                motoRacing.StepDurations.Step3 = durations;
+            }
 
-                    var duration = (pkInfo.GameRemainSeconds > 10)
-                        ? (pkInfo.PK.GameSeconds - 10 + rank) * 500
-                        : (pkInfo.GameRemainSeconds / 10) * rank * 500;
+            return durations;
+        },
+        getStep1Durations: function (step) {
+            var durations = [];
 
-                    //var length = 1200 - 50 * rank;
-                    speeds.push({
-                        'Num': motoNum,
-                        'Rank': rank,
-                        'Duration': duration,
-                        'Easing': motoRacing.Easings[random],
-                        'MoveLength': moveLength
-                    });
+            for (var i = 0; i < 10; i++) {
+                if (step == 1) {
+                    var duration = motoRacing.getRandomNum(20, 30);
+                    durations.push(duration);
+                } else {
+                    durations.push(0);
                 }
             }
-            //console.log(speeds);
-            return speeds;
+
+            return durations
+        },
+        getStep2Durations: function () {
+            var durations = [];
+
+            var step1Durations = motoRacing.StepDurations.Step1.length > 0 ? motoRacing.StepDurations.Step1 : motoRacing.getStep1Durations(2);
+            var step3Durations = motoRacing.getStep3Durations();
+            for (var i = 0; i < 10; i++) {
+                var duration = motoRacing.Durations[i] - step1Durations[i] - step3Durations[i];
+                durations.push(duration);
+            }
+
+            return durations
+        },
+        getStep3Durations: function () {
+            var durations = [];
+
+            var pkInfo = motoRacing.PKInfo;
+            var rankArr = pkInfo.PK.Ranks.split(',');
+            for (var i = 0; i < rankArr.length; i++) {
+                if (pkInfo.GameRemainSeconds > 3) {
+                    durations.push(pkInfo.GameRemainSeconds - 3 + 0.3 * i);
+                } else {
+                    durations.push(0.3 * (i + 1));
+                }
+            }
+
+            return durations;
+        },
+        calculateDurations: function (step) {
+
         },
         getRandomNum: function (min, max) {
             var range = max - min;

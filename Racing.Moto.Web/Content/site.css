@@ -48,15 +48,15 @@ body {
 
     .game-wrap .bg-top {
         background: url(../img/bg_top.jpg) no-repeat;
-        width: 1366px;
+        /*width: 4084px;*/
         height: 200px;
         overflow: hidden;
     }
 
     .game-wrap .saidao {
         background: url(../img/bg_saidao.jpg) no-repeat;
-        width: 1366px;
-        height: 483px;
+        /*width: 4084px;*/
+        height: 484px;
         position: relative;
     }
 
