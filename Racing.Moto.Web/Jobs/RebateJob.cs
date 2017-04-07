@@ -15,7 +15,7 @@ namespace Racing.Moto.Web.Jobs
 
         /// <summary>
         /// 退水
-        /// 每隔600秒执行一次
+        /// 每隔10秒执行一次
         /// </summary>
         public void Execute(IJobExecutionContext context)
         {

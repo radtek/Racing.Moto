@@ -35,8 +35,8 @@ namespace Racing.Moto.JobManager.Jobs
                     .Build();
                 scheduler.ScheduleJob(rankJob, rankTrigger);
 
-                // 退水: 每10分钟执行一次
-                var rebateInterval = 600;
+                // 退水: 每10秒执行一次
+                var rebateInterval = 10;
                 IJobDetail rebateJob = JobBuilder.Create<RebateJob>().Build();
                 ITrigger rebateTrigger = TriggerBuilder.Create()
                     .WithIdentity("RebateJobTrigger", "RebateJobGroup")

@@ -9,6 +9,7 @@ namespace Racing.Moto.Services.Constants
     public class DBConst
     {
         public const string SP_PK_GeneratePK = "[dbo].[SP_PK_GeneratePK]";
+        public const string SP_PK_GeneratePKRate = "[dbo].[SP_PK_GeneratePKRate]";
         public const string User_Reset_Password = "123456";
     }
 

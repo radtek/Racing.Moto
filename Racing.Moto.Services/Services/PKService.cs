@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Racing.Moto.Core.Extentions;
+using System.Data.Entity;
 
 namespace Racing.Moto.Services
 {
@@ -50,9 +51,13 @@ namespace Racing.Moto.Services
             return db.PK.Where(pk => pk.Ranks == null).ToList();
         }
 
+        /// <summary>
+        /// 未退水且比赛结束
+        /// </summary>
+        /// <returns></returns>
         public List<PK> GetNotRebatePKs()
         {
-            return db.PK.Where(pk => !pk.IsRebated).ToList();
+            return db.PK.Where(pk => !pk.IsRebated && DbFunctions.DiffSeconds(DateTime.Now, pk.EndTime) <= AppConfigCache.Racing_Lottery_Seconds).ToList();
         }
 
         /// <summary>
@@ -100,7 +105,11 @@ namespace Racing.Moto.Services
 
         public PK AddPK()
         {
+            // 生成PK
             PK pk = db.Database.SqlQuery<PK>(string.Format("EXEC {0}", DBConst.SP_PK_GeneratePK)).First();
+
+            // 生成赔率
+            db.Database.ExecuteSqlCommand(string.Format("EXEC {0} {1}", DBConst.SP_PK_GeneratePKRate, pk.PKId));
 
             return pk;
         }
