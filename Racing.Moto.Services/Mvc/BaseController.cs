@@ -56,7 +56,8 @@ namespace Racing.Moto.Services.Mvc
             //}
 
 
-            var isAdminUrl = rawUrl.Contains("/admin");
+            var isAdminUrl = rawUrl.Contains("/admin");     // 后台管理端
+            var isManageUrl = rawUrl.Contains("/manage");   // 押注端
 
             // 浏览器有缓存 时, 关闭浏览器不会删除cookie, 此处判断如果session失效则强制删除cookie
             if (HttpContext.User.Identity.IsAuthenticated && System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
@@ -98,7 +99,7 @@ namespace Racing.Moto.Services.Mvc
                 }
                 else
                 {
-                    if (isAdminUrl)
+                    if (isAdminUrl || isManageUrl)
                     {
                         SetRedirect(filterContext);
                     }
@@ -113,12 +114,13 @@ namespace Racing.Moto.Services.Mvc
         {
             var returnUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower().TrimEnd('/');
             var isAdminUrl = returnUrl.Contains("/admin");
-            var loginUrl = isAdminUrl ? "/Admin/Account/Login" : "/Account/Login";
+            var isManageUrl = returnUrl.Contains("/manage");
+            var loginUrl = (isAdminUrl || isManageUrl) ? "/Route" : "/Account/Login"; ///Admin/Account/Login"
             var rdm = Guid.NewGuid().ToString("N");//防止浏览器缓存登录页面
-            var url = !string.IsNullOrEmpty(returnUrl) 
+            var url = !string.IsNullOrEmpty(returnUrl)
                 ? loginUrl + "?returnUrl=" + HttpUtility.UrlEncode(returnUrl + "&r=" + rdm)
                 : loginUrl + "?r=" + rdm;
-            
+
             filterContext.HttpContext.Response.Redirect(url);
         }
 

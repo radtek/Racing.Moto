@@ -10,7 +10,7 @@ namespace Racing.Moto.Data.Entities
 {
     /// <summary>
     /// 每一期的倍率: 每次PK 10 * 14 条数据, 10个名次, 每个名次对应 1-10号 + 大小单双
-    /// 由于倍率表(Rate), 可以修改, 所以需要记录下当前期的倍率
+    /// 由于赔率表(Rate), 可以修改, 所以需要记录下当前期的倍率
     /// </summary>
     [Table(nameof(PKRate))]
     public partial class PKRate

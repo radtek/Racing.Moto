@@ -128,7 +128,7 @@ namespace Racing.Moto.Services
                                     IsSettlementDone = true // 直接设置成已结算
                                 }).ToList();
                                 // 保存代理退水奖金
-                                db.PKBonus.AddRange(bonuses);
+                                db.PKBonus.AddRange(agentBonuses);
                                 db.SaveChanges();
                             }
 
@@ -153,7 +153,7 @@ namespace Racing.Moto.Services
                                         IsSettlementDone = true // 直接设置成已结算
                                     }).ToList();
                                     // 保存总代理退水奖金
-                                    db.PKBonus.AddRange(bonuses);
+                                    db.PKBonus.AddRange(generalAgentBonuses);
                                     db.SaveChanges();
                                 }
                             }

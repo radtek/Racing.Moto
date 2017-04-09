@@ -27,7 +27,7 @@ namespace Racing.Moto.Web
             MvcHandler.DisableMvcResponseHeader = true;
 
             //启动定时任务
-            JobScheduler.Start();
+            //JobScheduler.Start();
         }
     }
 }

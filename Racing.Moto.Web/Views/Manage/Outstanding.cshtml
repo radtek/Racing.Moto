@@ -13,32 +13,32 @@
                 <th>下注类型</th>
                 <th>注单明细</th>
                 <th>下注金额</th>
-                @*<th>退水后结果</th>*@
+                <th>可赢金额</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="item in pager.Results">
                 <td>
-                    <div>{{item.BetId}}#</div>
+                    <div>{{item.BetItemId}}#</div>
                     <div>{{item.CreateTime | date : 'yyyy-MM-dd HH:mm:ss'}} {{item.Week}}</div>
                 </td>
                 <td>
                     <div>速度与激情</div>
-                    <div><span class="z">{{item.PKId}}期</span></div>
+                    <div><span class="z">{{item.Bet.PKId}}期</span></div>
                 </td>
-                <td><span class="z">{{item.RankName}} [{{item.NumName}}]</span> @@{{item.Rate}}</td>
+                <td><span class="z">{{item.RankName}} [{{item.NumName}}]</span> @@{{item.Bet.Rate}}</td>
                 <td>{{item.Amount}}</td>
-                @*<td>0</td>*@
+                <td>{{item.BonusAmount}}</td>
             </tr>
             <tr class="footer">
                 <td colspan="1">合计</td>
                 <td colspan="2" style="padding: 6px;">{{pager.Statistics.BetCount}}笔</td>
                 <td>{{pager.Statistics.BetAmount}}</td>
-                @*<td>0</td>*@
+                <td>{{pager.Statistics.BonusAmount}}</td>
             </tr>
             <tr class="footer">
                 <td colspan="1">共{{pager.RowCount}}条记录</td>
-                <td colspan="3">
+                <td colspan="4">
                     <div style="float:right;">
                         <pagination boundary-links="true" total-items="pager.RowCount" items-per-page="pager.PageSize" max-size="10" rotate="false"
                                     ng-change="pager.pageChanged()" ng-model="pager.PageIndex" class="pagination"

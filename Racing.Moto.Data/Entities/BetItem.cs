@@ -33,6 +33,12 @@ namespace Racing.Moto.Data.Entities
         public decimal Amount { get; set; }
 
         /// <summary>
+        /// 奖金金额
+        /// </summary>
+        [NotMapped]
+        public decimal BonusAmount { get; set; }
+
+        /// <summary>
         /// 创建时间
         /// </summary>
         public DateTime CreateTime { get; set; }

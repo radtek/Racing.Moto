@@ -84,7 +84,9 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
                         //{
                         //    return Redirect("/Admin/News/Index");
                         //}
-                        return Redirect("/Admin/News/Index");
+                        //return Redirect("/Admin/News/Index");
+
+                        return Redirect("/Account/Agreement2");
                     }
 
                     ModelState.AddModelError("", "用户名或密码错误.");

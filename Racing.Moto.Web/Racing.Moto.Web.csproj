@@ -172,6 +172,7 @@
     <Content Include="Content\Admin\Top.css" />
     <Content Include="Content\bet.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\route.css" />
     <Content Include="Content\site.css" />
     <Content Include="Global.asax" />
     <Content Include="Areas\Admin\Views\web.config" />
@@ -255,6 +256,8 @@
     <Content Include="Images\admin\USER_0.gif" />
     <Content Include="Images\admin\USER_1.gif" />
     <Content Include="Images\agreement.jpg" />
+    <Content Include="Images\bar.png" />
+    <Content Include="Images\bodybg.png" />
     <Content Include="Img\forgetpwd.jpg" />
     <Content Include="Img\moto-1.run.gif" />
     <Content Include="Img\btn-login.png" />
@@ -314,6 +317,7 @@
     <Content Include="Scripts\datetimepicker\bootstrap-datetimepicker.min.css" />
     <Content Include="Scripts\datetimepicker\bootstrap-datetimepicker.zh-CN.js" />
     <Content Include="Scripts\Jquery.inputmask\jquery.inputmask.bundle-3.2.7.js" />
+    <Content Include="Scripts\jquery.quicksand.js" />
     <Content Include="Scripts\JqueryUI\jquery-ui.min.css" />
     <Content Include="Scripts\JqueryUI\jquery-ui.min.js" />
     <Content Include="Scripts\JqueryUI\jquery-ui.structure.min.css" />
@@ -714,7 +718,6 @@
     <Compile Include="ApiControllers\BonusController.cs" />
     <Compile Include="ApiControllers\UserController.cs" />
     <Compile Include="ApiControllers\PKController.cs" />
-    <Compile Include="ApiControllers\BetController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -735,6 +738,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MotoController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RouteController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -793,6 +797,8 @@
     <Content Include="Views\Account\Agreement.cshtml" />
     <Content Include="Views\Manage\History.cshtml" />
     <Content Include="Views\Account\ForgetPassword.cshtml" />
+    <Content Include="Views\Route\Index.cshtml" />
+    <Content Include="Views\Account\Agreement2.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

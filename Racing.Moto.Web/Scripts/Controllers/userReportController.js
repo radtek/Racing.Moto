@@ -62,7 +62,7 @@
                 item.Week = $app.getWeek(item.CreateTime);
                 item.RankName = $scope.Data.Ranks[item.Rank - 1];
                 item.NumName = item.Num <= 10 ? item.Num : $scope.pager.getBSOEName(item.Num);
-                item.RebateType = $scope.Data.RebateTypes[item.DefaultRebateType - 1];
+                item.RebateType = $scope.Data.RebateTypes[item.Bet.DefaultRebateType - 1];
             });
         },
         getBSOEName: function (num) {

@@ -99,7 +99,8 @@ namespace Racing.Moto.Web.Controllers
 
             try
             {
-                result.Data = new BetService().GetUserBetReport(model);
+                //result.Data = new BetService().GetUserBetReport(model);// 取Bet
+                result.Data = new BetService().GetUserBetItemReport(model); // 取BetItem
             }
             catch (Exception ex)
             {
@@ -123,7 +124,8 @@ namespace Racing.Moto.Web.Controllers
 
             try
             {
-                result.Data = new BetService().GetUserBetReportStatistics(model);
+                //result.Data = new BetService().GetUserBetReportStatistics(model);// 取Bet
+                result.Data = new BetService().GetUserBetItemReportStatistics(model);// 取BetItem
             }
             catch (Exception ex)
             {

@@ -52,5 +52,9 @@
             }
             $scope.pager.getResults(1);
         },
+        reset: function () {
+            $scope.pager.Params.Key = '';
+            $scope.pager.getResults(1);
+        },
     };
 }]);

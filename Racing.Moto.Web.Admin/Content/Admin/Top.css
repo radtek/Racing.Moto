@@ -1,0 +1,62 @@
+body{
+	background-image: url(/Images/Admin/top_right.jpg);
+	background-repeat: repeat-x;
+	margin:0;
+}
+.top{width:100%;}
+.top * {
+	margin:0;
+	padding:0;
+	letter-spacing:1px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+}
+a{
+	text-decoration:none;
+	color:#f8ff2d;
+}
+a:hover{
+	cursor: hand;
+	color:#f8ff2d;
+	/*background-color:#0D3B76;
+	border:1px #145398 solid;*/
+}
+.but_1, .but_1_m{
+	color: #FFFFFF;
+	border: 0px solid #FF9224; 
+	background-color: #B3C5EF; 
+	background-image: url('/Images/Admin/But_S.jpg');
+	height: 26px;
+	width: 78px;
+}
+
+.but_1 {
+	background-position:-78px
+}
+.but_1_m {
+	cursor: hand;
+	background-position:0px
+}
+
+.Font_New {
+	color: #deff00;
+}
+.Font_Count {
+	color: #d8f5ff;
+}
+
+.menu-game { }
+.menu-game .game{float:left;CURSOR: pointer;background-position: -206px;width: 101px;color: #8EA5B5; border: 0px solid #FF9224;background-color: #B3C5EF;background-image: url(/Images/Admin/But_S2.jpg);height: 29px;}
+.menu-game .game-active{float:left;CURSOR: pointer;background-position: -513px;width: 101px;color: #fff;border: 0px solid #FF9224;background-color: #B3C5EF;background-image: url(/Images/Admin/But_S2.jpg);height: 29px;}
+
+#a_span a {
+    width:60px;float:left;height:18px;padding-top:5px;text-align:center;text-decoration: none;color: #f8ff2d !important;
+}
+#a_span span{padding: 5px;}
+
+.f_right {
+	text-align: right;
+}
+.F_bold {
+	font-weight: bold;
+}

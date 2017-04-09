@@ -68,6 +68,29 @@ namespace Racing.Moto.Services
             return rebate;
         }
 
+        public static string GetCnRebate(int rebateNo)
+        {
+            var cnRebate = "";
+            switch (rebateNo)
+            {
+                case 1: cnRebate = "冠军"; break;
+                case 2: cnRebate = "亚军"; break;
+                case 3: cnRebate = "第三名"; break;
+                case 4: cnRebate = "第四名"; break;
+                case 5: cnRebate = "第五名"; break;
+                case 6: cnRebate = "第六名"; break;
+                case 7: cnRebate = "第七名"; break;
+                case 8: cnRebate = "第八名"; break;
+                case 9: cnRebate = "第九名"; break;
+                case 10: cnRebate = "第十名"; break;
+                case 11: cnRebate = "1-10 大"; break;
+                case 12: cnRebate = "1-10 小"; break;
+                case 13: cnRebate = "1-10 单"; break;
+                case 14: cnRebate = "1-10 双"; break;
+            }
+            return cnRebate;
+        }
+
         #endregion
     }
 }

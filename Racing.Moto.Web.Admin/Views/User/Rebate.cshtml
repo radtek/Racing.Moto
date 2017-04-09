@@ -1,0 +1,205 @@
+﻿@{
+    ViewBag.Title = "退水";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var rebateUser = ViewBag.RebateUser as Racing.Moto.Data.Entities.User;
+}
+<link href="~/Content/Admin/Common_k3.css" rel="stylesheet" />
+<link href="~/Content/Admin/Style_k3.css" rel="stylesheet" />
+@section headScripts {
+    <script src="~/Scripts/Controllers/admin/RebateController.js"></script>
+}
+<table width="100%" height="100%" border="0" cellspacing="0" class="a" ng-controller="rebateController" ng-init="init('@ViewBag.UserType','@ViewBag.UserId')">
+    <tbody>
+        <tr>
+            <td width="6" height="99%" bgcolor="#4E4E4E"></td>
+            <td class="c">
+                <table border="0" cellspacing="0" class="main">
+                    <tbody>
+                        <tr>
+                            <td width="12" height="30"><img src="/images/admin/tab_03.gif" alt=""></td>
+                            <td background="/images/admin/tab_05.gif">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <td width="20" align="right"><img style="margin-right:5px" src="/images/admin/tb.gif" width="16" height="16" alt=""></td>
+                                            <td id="titleName" class="Main_Title">退水設定 -&gt; @ViewBag.UserTypeName（<span style="font-weight:normal">@rebateUser.UserName</span>）</td>
+
+                                            <td id="F_Name" width="150" align="right"><span>@ViewBag.UserTypeName</span>名稱：@rebateUser.UserName</td>
+                                            <td style="text-align:right;"><a href="javascript:history.go(-1);" class="font_r F_bold"><img src="/images/admin/fh.gif">返囬</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td width="16"><img src="/images/admin/tab_07.gif" alt=""></td>
+                        </tr>
+                        <tr>
+                            <td class="t"></td>
+                            <td class="c">
+                                <table border="0" cellspacing="0" cellpadding="0" class="Man_Conter2 az">
+                                    <tbody>
+                                        <tr class="Conter_top_2">
+                                            <th colspan="7" style="border:none">大項快速設置【注意：設置高於上級最高限制時按最高可調】</th>
+                                        </tr>
+                                        <tr class="Conter_top_2 Ct">
+                                            <td width="35%">調整項目</td>
+                                            <td width="15%">A盤</td>
+                                            <td width="15%">B盤</td>
+                                            <td width="15%">C盤</td>
+                                            <td width="17%">單註限額</td>
+                                            <td width="17%">單期限額</td>
+                                            <td width="10%">…</td>
+                                        </tr>
+                                        <tr class="Ct tr-row">
+                                            <td class="t_list_tr_1_g">特碼類(第一名、第二名…)</td>
+                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type1.A" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type1.B" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type1.C" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:90px;" class="inp1" autocomplete="off" ng-model="data.Default.Type1.MaxPKAmount" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:90px;" class="inp1" autocomplete="off" ng-model="data.Default.Type1.MaxBetAmount" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td class="TD_TS1"><input type="button" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" ng-click="opt.saveBatch(1)" value="修改"></td>
+                                        </tr>
+                                        <tr class="Ct tr-row">
+                                            <td class="t_list_tr_1_g">兩面類(單雙、大小)</td>
+                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type2.A" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type2.B" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:60px;" class="inp1" autocomplete="off" ng-model="data.Default.Type2.C" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:90px;" class="inp1" autocomplete="off" ng-model="data.Default.Type2.MaxPKAmount" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td><input style="width:90px;" class="inp1" autocomplete="off" ng-model="data.Default.Type2.MaxBetAmount" input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" /></td>
+                                            <td class="TD_TS2"><input type="button" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" ng-click="opt.saveBatch(2)" value="修改"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2">
+                                                <table border="0" cellspacing="0" cellpadding="0" class="Man_Conter az auto">
+                                                    <tbody>
+                                                        <tr class="Conter_top">
+                                                            <th style="border:none;text-align: center;">速度与激情</th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top">
+                                                <table border="0" cellspacing="0" cellpadding="0" class="Man_Conter az auto">
+                                                    <tbody>
+                                                        <tr class="Conter_top">
+                                                            <td>交易類型</td>
+                                                            <td>A盤</td>
+                                                            <td>B盤</td>
+                                                            <td>C盤</td>
+                                                            <td>單註限額</td>
+                                                            <td>單期限額</td>
+                                                        </tr>
+                                                        <tr class="Conter_Report_List tr_row" ng-repeat="item in opt.Rebates1">
+                                                            <td class="t_Edit_caption ed TD_TS1">{{data.RankNames[$index]}}</td>
+                                                            <td>
+                                                                <input ng-model="item.RebateTypeA" ng-class="{true: 'inp1m', false: ''}[item.TypeAChanged]"
+                                                                       style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
+                                                            </td>
+                                                            <td>
+                                                                <input ng-model="item.RebateTypeB" ng-class="{true: 'inp1m', false: ''}[item.TypeBChanged]" 
+                                                                       style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
+                                                            </td>
+                                                            <td>
+                                                                <input ng-model="item.RebateTypeC"  ng-class="{true: 'inp1m', false: ''}[item.TypeCChanged]"
+                                                                       style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
+                                                            </td>
+                                                            <td>
+                                                                <input ng-model="item.MaxPKAmount" ng-class="{true: 'inp1m', false: ''}[item.MaxPKAmountChanged]"
+                                                                       style="width:90px;" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" maxlength="9" autocomplete="off" />		                         
+                                                            </td>
+                                                            <td>
+                                                                <input ng-model="item.MaxBetAmount" ng-class="{true: 'inp1m', false: ''}[item.MaxBetAmountChanged]"
+                                                                       style="width:90px;" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" maxlength="9" autocomplete="off" />		                         
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td valign="top">
+                                                <table border="0" cellspacing="0" cellpadding="0" class="Man_Conter az auto">
+                                                    <tbody>
+                                                        <tr class="Conter_top">
+                                                            <td>交易類型</td>
+                                                            <td>A盤</td>
+                                                            <td>B盤</td>
+                                                            <td>C盤</td>
+                                                            <td>單註限額</td>
+                                                            <td>單期限額</td>
+                                                        </tr>
+
+                                                        <tr class="Conter_Report_List tr_row" ng-repeat="item in opt.Rebates2">
+                                                            <td class="t_Edit_caption ed TD_TS1" ng-class="{true: 'TD_TS1', false: 'TD_TS2'}[item.RebateNo <= 10]">{{data.RankNames[$index + 7]}}</td>
+                                                            <td>
+                                                                <input ng-model="item.RebateTypeA"  ng-class="{true: 'inp1m', false: ''}[item.TypeAChanged]"
+                                                                       style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
+                                                            </td>
+                                                            <td>
+                                                                <input ng-model="item.RebateTypeB"  ng-class="{true: 'inp1m', false: ''}[item.TypeBChanged]"
+                                                                       style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
+                                                            </td>
+                                                            <td>
+                                                                <input ng-model="item.RebateTypeC"  ng-class="{true: 'inp1m', false: ''}[item.TypeCChanged]"
+                                                                       style="width:60px;" onfocus="this.className='inp1m gc'" onblur="this.className='inp1 gc'" class="inp1 gc" autocomplete="off" />
+                                                            </td>
+                                                            <td>
+                                                                <input ng-model="item.MaxPKAmount" ng-class="{true: 'inp1m', false: ''}[item.MaxPKAmountChanged]"
+                                                                       style="width:90px;" onfocus="this.className='inp1m ge'" onblur="this.className='inp1 ge'" class="inp1 ge" maxlength="9" autocomplete="off" />
+                                                            </td>
+                                                            <td>
+                                                                <input ng-model="item.MaxBetAmount" ng-class="{true: 'inp1m', false: ''}[item.MaxBetAmountChanged]"
+                                                                       style="width:90px;" onfocus="this.className='inp1m gf'" onblur="this.className='inp1 gf'" class="inp1 gf" maxlength="9" autocomplete="off" />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="r"></td>
+                        </tr>
+                        <tr>
+                            <td width="12"><img src="/images/admin/tab_18.gif" alt=""></td>
+                            <td background="/images/admin/tab_19.gif" align="center">
+                                <input type="button" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" ng-click="opt.saveRebates()" value="保存">&nbsp;&nbsp;
+                                <input type="button" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" ng-click="opt.cancel()" value="取消">
+                            </td>
+                            <td width="16"><img src="/images/admin/tab_20.gif" alt=""></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td width="6" bgcolor="#4E4E4E"></td>
+        </tr>
+        @*<tr>
+            <td class="Main_bottom_left"></td>
+            <td background="/images/admin/tab_19.gif" align="center">
+                <input type="submit" name="submit" id="submit" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" value="保存">&nbsp;&nbsp;
+                <input type="button" onmouseover="this.className='input2_2'" onmouseout="this.className='input2'" class="input2" onclick="historys()" value="取消">
+            </td>
+            <td class="Main_bottom_right"></td>
+        </tr>*@
+        <tr>
+            <td height="6" bgcolor="#4E4E4E"></td>
+            <td bgcolor="#4E4E4E"></td>
+            <td height="6" bgcolor="#4E4E4E"></td>
+        </tr>
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(function () {
+        //onfocus="this.className='inp1m'" onblur="this.className='inp1'"
+        $('.tr-row > td > input').focus(function () {
+            $(this).addClass('inp1m').removeClass('inp1');
+        }).blur(function () {
+            $(this).addClass('inp1').removeClass('inp1m');
+        })
+    })
+</script>

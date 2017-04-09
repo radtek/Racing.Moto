@@ -829,6 +829,7 @@ ul.listRight {
         text-align: center;
         background: #fff;
         vertical-align: middle;
+        height:26px;
     }
 
     .gray-box table .z {

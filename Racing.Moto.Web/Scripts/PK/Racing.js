@@ -7,7 +7,7 @@
 
     function init() {
         ticker.server.getPKInfo().done(function (pkInfo) {
-            console.log(pkInfo);
+            //console.log(pkInfo);
 
             //if (pkInfo == null) {
             //    return;
@@ -27,10 +27,12 @@
 
     // Add a client-side hub method that the server will call
     ticker.client.updatePKInfo = function (pkInfo) {
-        console.log(pkInfo);
+        //console.log(pkInfo);
         if (pkInfo == null) {
             return;
         }
+
+        return;
 
         // test
         //pkInfo.GamingSeconds = -5;
@@ -50,11 +52,11 @@
         ResultShowSeconds: 5,
         BonusShowSeconds: 30,
         Millisec: 5,
-        RoadLength: 910,//910
+        RoadLength: 610,//910
         Colors: ['red', 'blue', 'yellow', 'green', 'gray', 'aqua', 'blueviolet', 'brown', 'Highlight', 'aquamarine', 'teal'],
         //Easings: ['easeInQuad', 'easeInQuart', 'easeInOutSine', 'easeOutSine', 'easeOutQuad', 'linear', 'easeInCirc', 'easeInOutQuad', 'easeOutCubic', 'easeInOutCubic'],
         //Easings: ['easeInQuart', 'easeInOutExpo', 'easeOutCirc', 'swing', 'easeOutExpo', 'easeOutBack', 'swing', 'easeInOutSine', 'easeOutSine', 'easeInOutQuad'],
-        Easings: ['easeOutElastic', 'easeInOutElastic', 'easeInElastic', 'easeInElastic', 'easeInOutBack', 'easeOutElastic', 'easeInOutElastic', 'easeInElastic', 'easeInElastic', 'easeInOutBack'],
+        Easings: ['easeInBounce', 'easeOutBounce', 'easeInOutBounce', 'easeInElastic', 'easeInBounce', 'easeOutBounce', 'easeInOutBounce', 'easeInElastic', 'easeInBack', 'easeInOutBounce'],
         Durations: [],
         StepDurations: { Step1: [], Step2: [], Step3: [] },
         MotoInitPosition: [],
@@ -92,8 +94,8 @@
                 // move Road
                 motoRacing.moveRoad(pkInfo);
                 // run moto
-                //motoRacing.runMoto(pkInfo);
-                motoRacing.runMoto2(pkInfo);
+                motoRacing.runMoto(pkInfo);
+                //motoRacing.runMoto2(pkInfo);
             }
         },
         getcountdownClock: function () {
@@ -169,7 +171,7 @@
                     var name = 'countdown-' + (number >= 1 ? number : 1);
                     document.getElementById("countdown").src = '/img/' + name + ".png";
                 }
-                console.log(index);
+                //console.log(index);
 
                 index = index - 1;
             }, countdownSeconds);
@@ -223,10 +225,10 @@
                                     Rank: motoRacing.EndMotos.length + 1,
                                     Num: parseInt(num)
                                 });
-                                console.log(motoRacing.EndMotos);
+                                //console.log(motoRacing.EndMotos);
 
                                 // when moto and the end, continue to move some instance
-                                //motoRacing.moveEndDistance($(this).attr('alt'), $(this).css('right'));
+                                motoRacing.moveEndDistance($(this).attr('alt'), $(this).css('right'));
 
                                 //resetMoto
                                 motoRacing.resetMoto(num);
@@ -240,7 +242,7 @@
                                 motoRacing.showResult();
 
                                 // when moto and the end, continue to move some instance
-                                //motoRacing.moveEndDistance($(this).attr('alt'), $(this).css('right'));
+                                motoRacing.moveEndDistance($(this).attr('alt'), $(this).css('right'));
 
                                 //resetMoto
                                 var num = $(this).attr('alt');
@@ -295,7 +297,7 @@
                         duration: speeds[i].Duration, easing: speeds[i].Easing, complete: function () {
                             //step2
                             var motoNum = $(this).attr('alt');
-                            //motoRacing.runMotoStep2(motoNum);
+                            motoRacing.runMotoStep2(motoNum);
                         }
                     };
 
@@ -360,12 +362,12 @@
                 }
             }
         },
-        //moveEndDistance: function (num, right) {
-        //    // when moto and the end, continue to move some instance
-        //    var $moto = $('#moto' + num);
-        //    right = parseInt(right, 10) + 150;
-        //    $moto.animate({ right: right + 'px' }, 1000);
-        //},
+        moveEndDistance: function (num, right) {
+            // when moto and the end, continue to move some instance
+            var $moto = $('#moto' + num);
+            right = parseInt(right, 10) + 1000;
+            $moto.animate({ right: right + 'px' }, 2500);
+        },
         moveEndFlag: function (pkInfo) {
             var $endFlag = $('.end-flag');
 
@@ -391,13 +393,15 @@
                 var rank = i + 1;
                 var random = motoRacing.getRandomNum(0, 9);
 
-                //var remainSeconds = 
+                //var duration = (pkInfo.GameRemainSeconds > 10)
+                //    ? (pkInfo.GameRemainSeconds - 10 + rank) * 1000
+                //    : (pkInfo.GameRemainSeconds / 10) * rank * 1000;
+                var duration = (pkInfo.GameRemainSeconds > 2)
+                    ? (pkInfo.GameRemainSeconds - 2 + rank * 0.2) * 1000
+                    : (pkInfo.GameRemainSeconds / 10) * rank * 1000;
 
-                var duration = (pkInfo.GameRemainSeconds > 10)
-                    ? (pkInfo.PK.GameSeconds - 10 + rank) * 500
-                    : (pkInfo.GameRemainSeconds / 10) * rank * 500;
-
-                var length = 1200 - 50 * rank;
+                //var length = 1200 - 50 * rank;
+                var length = motoRacing.RoadLength;
                 speeds.push({
                     'Num': motoNum,
                     'Rank': rank,
@@ -406,7 +410,7 @@
                     'MoveLength': length
                 });
             }
-            //console.log(speeds);
+            console.log(speeds);
             return speeds;
         },
         calculateStepSpeeds: function (step) {
@@ -417,7 +421,7 @@
             var rankArr = pkInfo.PK.Ranks.split(',');
 
             // three steps - step 1 : 30 seconds : 300px, step 2 : 20 seconds : 200px, , step 3 : 10 seconds : 100px
-            var moveLengths = [300, 200, 100];
+            var moveLengths = [600, 600, 600];
             //if (pkInfo.GameRemainSeconds > 30) {
             //    step = 1;
             //} else if (pkInfo.GameRemainSeconds > 20) {
@@ -446,7 +450,7 @@
                 });
             }
 
-            //console.log(speeds);
+            console.log(speeds);
             return speeds;
         },
         getCurrentStep: function () {
@@ -509,6 +513,9 @@
                     durations.push(0);
                 }
             }
+
+            console.log(step);
+            console.log(durations);
 
             return durations
         },
@@ -685,7 +692,7 @@
                         //    { Rank: 5, Num: 6, Amount: 500 }
                         //];
                         var html = motoRacing.getBonusHtml(res.Data);
-                        console.log(html);
+                        //console.log(html);
                         $bonusResult.html(html);
                         $bonusResult.removeClass("hide");
 

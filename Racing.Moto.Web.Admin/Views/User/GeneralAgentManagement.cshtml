@@ -1,0 +1,114 @@
+﻿@{
+    ViewBag.Title = "总代理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section headScripts {
+    <script src="~/Scripts/Controllers/admin/UserManagementController.js"></script>
+}
+<table width="100%" height="100%" border="0" cellspacing="0" class="a" ng-controller="userManagementController" ng-init="init('@ViewBag.UserType', '@ViewBag.UserId', '@PKBag.LoginUser.UserId')">
+    <tbody>
+        <tr>
+            <td width="6" height="99%" bgcolor="#4E4E4E"></td>
+            <td class="c">
+                <table border="0" cellspacing="0" class="main">
+                    <tbody>
+                        <tr>
+                            <td width="12"><img src="/images/admin/tab_03.gif" alt=""></td>
+                            <td background="/images/admin/tab_05.gif">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <td width="17"><img src="/images/admin/tb.gif" width="16" height="16"></td>
+                                            <td width="99%">&nbsp;總代理</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td width="16"><img src="/images/admin/tab_07.gif" alt=""></td>
+                        </tr>
+                        <tr>
+                            <td class="t"></td>
+                            <td class="c">
+                                <!-- strat -->
+                                <table border="0" cellspacing="0" class="conter">
+                                    <tbody>
+                                        <tr class="tr_top">
+                                            <th>{{user.UserId == 0 ? '新增總代理' : '修改總代理'}}</th>
+                                            <th style="text-align:right;"><a href="javascript:history.go(-1);" class="font_r F_bold"><img src="/images/admin/fh.gif">返囬</a></th>
+
+                                        </tr>
+                                        <tr style="height:28px">
+                                            <td class="bj" id="bj">上級</td>
+                                            <td class="left_p5" id="pc">
+                                                <select ng-model="user.CurrentUser.ParentUserId" ng-options="item.UserId as item.UserName for item in data.ParentUsers">
+                                                    @*<option value="1">admin</option>*@
+                                                </select>&nbsp;&nbsp;
+                                                <span>@*上級餘額：1000000*@</span>
+                                            </td>
+                                        </tr>
+                                        <tr style="height:28px">
+                                            <td class="bj">總代理帳號</td>
+                                            <td class="left_p5">
+                                                <input type="text" class="text" ng-model="user.CurrentUser.UserName" maxlength="10" ng-disabled="user.CurrentUser.UserId > 0" />
+                                                『<span class="red">帳號长度为：3~10 的非中文字符</span>』
+                                                &nbsp;&nbsp;
+                                                【<input name="lock" type="radio" value="false" ng-model="user.CurrentUser.IsLocked" />啟用&nbsp;
+                                                <input name="lock" type="radio" value="true" ng-model="user.CurrentUser.IsLocked" />凍結&nbsp;】
+                                            </td>
+                                        </tr>
+
+                                        @*總代理名稱*@
+                                        <tr style="height:28px;display:none;">
+                                            <td class="bj">總代理名稱</td>
+                                            <td class="left_p5">
+                                                <input class="text" type="text" name="s_F_Name" maxlength="20">
+                                                『<span class="red">名稱长度为：2~8</span>』
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height:28px">
+                                            <td class="bj">新密碼</td>
+                                            <td class="left_p5"><input class="text" type="password" maxlength="20" ng-model="user.CurrentUser.Password"></td>
+                                        </tr>
+                                        <tr style="height:28px">
+                                            <td class="bj">账户餘額</td>
+                                            <td class="left_p5">
+                                                <input class="text" type="text" maxlength="20" ng-model="user.CurrentUser.UserExtension.Amount"
+                                                       input-mask data-inputmask="'alias': 'decimal', 'digits' : 4, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" />
+                                            </td>
+                                        </tr>
+                                        <tr style="height:28px">
+                                            <td class="bj">充值</td>
+                                            <td class="left_p5">
+                                                <input class="text" type="text" maxlength="20" ng-model="user.RechargeAmount"
+                                                       input-mask data-inputmask="'alias': 'decimal', 'digits' : 2, 'allowMinus': false, 'allowPlus': false, 'rightAlign':false" />
+                                            </td>
+                                        </tr>
+                                        @*<tr style="height:28px">
+                                            <td class="bj">退水</td>
+                                            <td class="left_p5"><input class="text" type="text" maxlength="20" ng-model="user.CurrentUser.UserExtension.Amount"></td>
+                                        </tr>*@
+                                    </tbody>
+                                </table>
+                                <!-- end -->
+                            </td>
+                            <td class="r"></td>
+                        </tr>
+                        <tr>
+                            <td width="12"><img src="/images/admin/tab_18.gif" alt=""></td>
+                            <td class="f" align="center"><input type="button" class="inputs" value="確認" ng-click="user.save()" /></td>
+                            <td width="16"><img src="/images/admin/tab_20.gif" alt=""></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td width="6" bgcolor="#4E4E4E"></td>
+        </tr>
+        <tr>
+            <td height="6" bgcolor="#4E4E4E"></td>
+            <td bgcolor="#4E4E4E"></td>
+            <td height="6" bgcolor="#4E4E4E"></td>
+        </tr>
+    </tbody>
+</table>

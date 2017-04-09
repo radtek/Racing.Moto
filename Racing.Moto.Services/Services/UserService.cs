@@ -176,13 +176,13 @@ namespace Racing.Moto.Services
         /// </summary>
         /// <param name="roleId">角色</param>
         /// <param name="user">用户信息</param>
-        public ResponseResult SaveUser(int roleId, User user, RebateType defaultRebateType)
+        public ResponseResult SaveUser(int roleId, User user, RebateType defaultRebateType, decimal? rechargeAmount)
         {
             var response = new ResponseResult();
 
             UserOperation userOperation = user.UserId == 0 ? UserOperation.Add : UserOperation.Edit;
 
-            if (user.UserId == 0)
+            if (userOperation == UserOperation.Add)
             {
                 var existUserName = db.User.Where(u => u.UserName.ToLower() == user.UserName.ToLower()).Any();
 
@@ -202,6 +202,9 @@ namespace Racing.Moto.Services
                 user.UserRebates = UserRebateService.GetDefaultRebates();   // 退水
                 user.DefaultRebateType = defaultRebateType;// 默认退水
 
+                // UserExtension
+                user.UserExtension.Amount = rechargeAmount ?? 0;
+
                 db.User.Add(user);
             }
             else
@@ -215,7 +218,7 @@ namespace Racing.Moto.Services
                     dbUser.UserName = user.UserName;
                     dbUser.Password = !string.IsNullOrEmpty(user.Password) ? CryptoUtils.Encrypt(user.Password) : dbUser.Password;
                     dbUser.IsLocked = user.IsLocked;
-                    dbUser.UserExtension.Amount = user.UserExtension.Amount;
+                    dbUser.UserExtension.Amount += rechargeAmount ?? 0;
                     dbUser.DefaultRebateType = defaultRebateType;// 默认退水
 
                     if (dbUser.UserRebates == null || dbUser.UserRebates.Count() == 0)
@@ -379,6 +382,10 @@ namespace Racing.Moto.Services
 
             // 今日盈亏
             model.TodayProfitAndLossAmount = model.TodayRebateAmount + model.TodayProfitAmount - model.TodayBetAmount;
+
+            // 退水+限额
+            //model.User = new UserService().GetUser(userId);
+            model.UserRebates = new UserRebateService().GetUserRebates(userId);
 
             return model;
         }

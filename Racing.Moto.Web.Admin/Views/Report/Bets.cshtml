@@ -1,0 +1,93 @@
+﻿@{
+    ViewBag.Title = "下注明細";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section headScripts {
+    <script src="~/Scripts/Controllers/admin/ReportController.js"></script>
+}
+
+<table width="100%" height="100%" border="0" cellspacing="0" class="a" ng-controller="reportBetsController" ng-init="init('@ViewBag.SearchParams')">
+    <tbody>
+        <tr>
+            <td width="6" height="99%" bgcolor="#4E4E4E"></td>
+            <td class="c">
+                <table border="0" cellspacing="0" class="main">
+                    <tbody>
+                        <tr>
+                            <td width="12"><img src="/images/admin/tab_03.gif" alt=""></td>
+                            <td background="/images/admin/tab_05.gif">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <td width="17"><img src="/images/admin/tb.gif" width="16" height="16"></td>
+                                            <td width="99%">&nbsp;下注明細</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td width="16"><img src="/images/admin/tab_07.gif" alt=""></td>
+                        </tr>
+                        <tr>
+                            <td class="t"></td>
+                            <td class="c">
+                                <!-- strat -->
+                                <table border="0" cellspacing="0" class="conter">
+                                    <tbody>
+                                        <tr class="tr_top">
+                                            <td width="170">注單號碼/時間</td>
+                                            <td width="130">下注類型</td>
+                                            <td>帳號</td>
+                                            <td>下注明細</td>
+                                            <td>會員下注</td>
+                                            <td>會員輸贏</td>
+                                            <td>代理占成</td>
+                                            <td>總代理占成</td>
+                                            <td>总公司占成</td>
+                                            <td><b>您的結果</b></td>
+                                        </tr>
+                                        <tr align="center" onmouseover="this.style.backgroundColor='#FFFFA2'" onmouseout="this.style.backgroundColor=''"
+                                            ng-repeat="item in pager.Results">
+                                            <td>{{item.BetId}}#<br>{{item.CreateTime | date : 'yyyy-MM-dd HH:mm:ss'}} {{item.Week}}</td>
+                                            <td>速度与激情<br><font color="#009933">{{item.PKId}}期</font></td>
+                                            <td>
+                                                {{item.User.UserName}}<br>{{item.RebateType}}盤
+                                            </td>
+                                            <td><font color="#0066FF">{{item.RankName}}『{{item.NumName}}』</font>@@ <font color="red"><b>{{item.Rate}}</b></font></td>
+                                            <td>{{item.Amount}}</td>
+                                            <td>{{item.BonusAmount}}</td>
+                                            <td><b>0</b>%<br>0</td>
+                                            <td><b>0</b>%<br>0</td>
+                                            <td><b>0</b>%<br>0</td>
+                                            <td align="right" style="padding-right:2px;">
+                                                {{item.BonusAmount}}<br> {{item.RebateAmount}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- end -->
+                            </td>
+                            <td class="r"></td>
+                        </tr>
+                        <tr>
+                            <td width="12"><img src="/images/admin/tab_18.gif" alt=""></td>
+                            <td class="f" align="right">
+                                <pagination boundary-links="true" total-items="pager.RowCount" items-per-page="pager.PageSize" max-size="10" rotate="false"
+                                            ng-change="pager.pageChanged()" ng-model="pager.PageIndex" class="pagination"
+                                            previous-text="上一页" next-text="下一页" first-text="首页" last-text="末页">
+                                </pagination>
+                            </td>
+                            <td width="16"><img src="/images/admin/tab_20.gif" alt=""></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td width="6" bgcolor="#4E4E4E"></td>
+        </tr>
+        <tr>
+            <td height="6" bgcolor="#4E4E4E"></td>
+            <td bgcolor="#4E4E4E"></td>
+            <td height="6" bgcolor="#4E4E4E"></td>
+        </tr>
+    </tbody>
+</table>

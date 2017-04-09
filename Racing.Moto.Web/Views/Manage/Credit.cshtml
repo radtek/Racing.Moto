@@ -1,4 +1,5 @@
-﻿@model Racing.Moto.Data.Models.UserCreditModel
+﻿@using Racing.Moto.Services
+@model Racing.Moto.Data.Models.UserCreditModel
 @{
     ViewBag.Title = "信用资料";
     Layout = "~/Views/Shared/_NgLayout.cshtml";
@@ -6,7 +7,8 @@
     var user = PKBag.LoginUser;
 }
 
-<div class="gray-box">
+<div style="clear:both;"></div>
+<div class="gray-box" style="width:300px; float:left; padding-right:20px">
     <div class="userInfo">
         <span class="a">用户名称:</span><span class="b">@user.UserName</span>
     </div>
@@ -34,4 +36,26 @@
     <div class="userInfo">
         <span class="a">今日盈亏:</span><span class="b">@Model.TodayProfitAndLossAmount</span>
     </div>
+</div>
+
+<div class="gray-box" style="width:658px; float:left;">
+    <table>
+        <tr>
+            <th>C盘</th>
+            <th>退水</th>
+            <th>单注限额</th>
+            <th>单期限额</th>
+        </tr>
+        @foreach (var rebate in Model.UserRebates)
+        {
+            var rebateAmount = UserRebateService.GetDefaultRebate(rebate, user.DefaultRebateType) * 100;
+            rebateAmount = Math.Round(rebateAmount, 2);
+            <tr>
+                <td>@UserRebateService.GetCnRebate(rebate.RebateNo)</td>
+                <td>@rebateAmount %</td>
+                <td>@Math.Round(rebate.MaxBetAmount, 2)</td>
+                <td>@Math.Round(rebate.MaxPKAmount, 2)</td>
+            </tr>
+        }
+    </table>
 </div>

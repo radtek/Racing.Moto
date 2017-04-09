@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "总代理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section headScripts {
+    <script src="~/Scripts/Controllers/admin/UserController.js"></script>
+}
+<table width="100%" height="100%" border="0" cellspacing="0" class="a" ng-controller="userListController" ng-init="init('@ViewBag.UserType')">
+    <tbody>
+        <tr>
+            <td width="6" height="99%" bgcolor="#4E4E4E"></td>
+            <td class="c">
+                <table border="0" cellspacing="0" class="main">
+                    <tbody>
+                        <tr>
+                            <td width="12" height="30"><img src="/images/admin/tab_03.gif" alt=""></td>
+                            <td background="/images/admin/tab_05.gif">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tbody>
+                                        <tr>
+                                            <td width="17" height="30"><img src="/images/admin/tb.gif" width="16" height="16"></td>
+                                            <td width="18%" style="font-weight:bold;">&nbsp;总代理管理</td>
+                                            <td width="18"></td>
+                                            <td width="30">@*<a href="javascript:history.go(-1);" class="font_r F_bold"><img src="/images/admin/fh.gif">返囬</a>*@</td>
+                                            <td width="45" align="right">@*篩選：*@</td>
+                                            <td width="45" align="right">@*狀態：*@</td>
+                                            <td width="30">
+                                                @*<select style="cursor: pointer" ng-model="pager.Params.IsLocked">
+                                                    <option value="" selected="selected">狀態</option>
+                                                    <option value="false">啟用</option>
+                                                    <option value="true">凍結</option>
+                                                    <option value="3">停用</option>
+                                                </select>*@
+                                            </td>
+                                            <td width="210">
+                                                @*<select id="FindType">
+                                                    <option value="g_name">帳號：</option>
+                                                    <option value="g_f_name">名稱：</option>
+                                                </select>*@
+                                                狀態：
+                                                <select style="cursor: pointer" ng-model="pager.Params.IsLocked">
+                                                    @*<option value="" selected="selected">狀態</option>*@
+                                                    <option value="false">啟用</option>
+                                                    <option value="true">凍結</option>
+                                                    @*<option value="3">停用</option>*@
+                                                </select>
+                                                <span style="width:30px;">&nbsp;</span>
+                                                帳號：
+                                                <input type="text" maxlength="30" class="textb" style="position: relative; top: -1px;" ng-model="pager.Params.UserName">&nbsp;
+                                                <input type="button" value="查找" ng-click="pager.getResults(1)" />
+                                            </td>
+                                            <td width="18"></td>
+                                            <td width="60">
+                                                <a style="cursor: pointer" ng-click="user.addUser()"><img src="~/Images/admin/22.gif" width="14" height="14"> 新增總代理</a>
+                                                <!-- <a href="Account_Edit.aspx?aid=add&cid=3&sid=1">新增總代理</a> -->
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td width="16"><img src="/images/admin/tab_07.gif" alt=""></td>
+                        </tr>
+                        <tr>
+                            <td class="t"></td>
+                            <td class="c">
+                                <!-- strat -->
+                                <table border="0" cellspacing="0" class="conter">
+                                    <tbody>
+                                        <tr class="tr_top">
+                                            <td width="30">在綫</td>
+                                            <td>名稱</td>
+                                            @*<td>上級</td>*@
+                                            @*<td>信用額度</td>*@
+                                            <td>可用餘額</td>
+                                            <td>代理</td>
+                                            <td>會員</td>
+                                            <td>新增日期</td>
+                                            <td width="230">功能</td>
+                                            <td width="60">狀態</td>
+                                        </tr>
+                                        <tr align="center" class="tr-row" ng-repeat="item in pager.Results">
+                                            <td width="30">
+                                                <img src="/images/admin/USER_0.gif" ng-show="!item.IsOnline"/>
+                                                <img src="/images/admin/USER_1.gif" ng-show="item.IsOnline" />
+                                            </td>
+                                            <td class="dfg bg_l"><a href="javascript:;">{{item.UserName}}</a></td>
+                                            @*<td>{{item.ParentUser.UserName}}</td>*@
+                                            <td style="font-size:104%">{{item.UserExtension.Amount}}</td>
+                                            <td><a href="/User/Agent/{{item.UserId}}">{{item.UserExtension.AgentCount}}</a></td>
+                                            <td><a href="/User/Member/0/{{item.UserId}}">{{item.UserExtension.MemberCount}}</a></td>
+                                            <td>{{item.CreateDate | date : 'yyyy-MM-dd'}}</td>
+                                            <td>
+                                                <table border="0" cellspacing="0" cellpadding="0">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="nones" width="14" height="18"><img src="/images/admin/edt.gif"></td>
+                                                            <td class="nones" width="30"><a style="cursor: pointer" ng-click="user.rebate(item.UserId)">退水</a></td>
+
+                                                            <td class="nones" width="15"><img src="/images/admin/edit.gif"></td>
+                                                            <td class="nones" width="30"><a style="cursor: pointer" ng-click="user.editUser(item.UserId)">修改</a></td>
+                                                            @*<td class="nones" width="16"><img src="/images/admin/55.gif"></td>
+                                                                <td class="nones" width="30"><a style="cursor: pointer">日誌</a></td>
+                                                                <td class="nones" width="16"><img src="/images/admin/44.gif"></td>
+                                                                <td class="nones" width="26"><a style="cursor: pointer">記錄</a></td>*@
+                                                            <td class="nones" width="16"><img src="/images/admin/del.gif"></td>
+                                                            <td class="nones" width="30"><a href="javascript:void(0)" ng-click="user.removeUser(item.UserId, false)">刪除</a></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                            <td>
+                                                <font class="red" ng-show="!item.IsLocked" ng-click="user.lockUser(item.UserId, true)"><a style="cursor: pointer">凍結</a></font>
+                                                <a style="cursor: pointer" ng-show="item.IsLocked" ng-click="user.lockUser(item.UserId, false)">啟用</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- end -->
+                            </td>
+                            <td class="r"></td>
+                        </tr>
+                        <tr>
+                            <td width="12"><img src="/images/admin/tab_18.gif" alt=""></td>
+                            <td class="f" align="right">
+                                @*&nbsp;&nbsp;共&nbsp;<b>1</b>&nbsp;條記錄&nbsp;&nbsp;&nbsp;&nbsp;每頁顯示<b>1</b>條，本頁<b>1-1</b>條&nbsp;&nbsp;前一頁『&nbsp;1&nbsp;』*@
+
+                                <pagination boundary-links="true" total-items="pager.RowCount" items-per-page="pager.PageSize" max-size="10" rotate="false"
+                                            ng-change="pager.pageChanged()" ng-model="pager.PageIndex" class="pagination"
+                                            previous-text="上一页" next-text="下一页" first-text="首页" last-text="末页">
+                                </pagination>
+                            </td>
+                            <td width="16"><img src="/images/admin/tab_20.gif" alt=""></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+            <td width="6" bgcolor="#4E4E4E"></td>
+        </tr>
+        <tr>
+            <td height="6" bgcolor="#4E4E4E"></td>
+            <td bgcolor="#4E4E4E"></td>
+            <td height="6" bgcolor="#4E4E4E"></td>
+        </tr>
+    </tbody>
+</table>

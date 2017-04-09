@@ -71,6 +71,11 @@ namespace Racing.Moto.Web.Controllers
             return View();
         }
 
+        public ActionResult Agreement2()
+        {
+            return View();
+        }
+
         #endregion
 
         #region logout
@@ -178,7 +183,7 @@ namespace Racing.Moto.Web.Controllers
                     //_memberProvider.CreateUser(user);
 
                     // 默认B盘
-                    var result = new UserService().SaveUser(RoleConst.Role_Id_Member, user, RebateType.B);
+                    var result = new UserService().SaveUser(RoleConst.Role_Id_Member, user, RebateType.B, 0);
 
                     // 登录
                     var loginModel = new LoginModel

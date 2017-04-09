@@ -40,11 +40,12 @@
             <tr class="footer">
                 <td colspan="2">共{{pager.RowCount}}条记录</td>
                 <td colspan="2">
-                    <div style="float:left; width:25%; padding:10px 5px;">
-                        <input type="text" style="width:120px;" maxlength="12" placeholder="期数" ng-model="pager.Params.Key" />
+                    <div style="float:left; min-width:150px; padding:10px 5px;">
+                        <input type="text" style="width:80px;height: 18px;margin-right:5px;" maxlength="12" placeholder="期数" ng-model="pager.Params.Key" />
                         <button ng-click="pager.search()">查询</button>
+                        <button ng-click="pager.reset();">返回</button>
                     </div>
-                    <div style="float:right; width:70%">
+                    <div style="float:right; width:60%">
                         <pagination boundary-links="true" total-items="pager.RowCount" items-per-page="pager.PageSize" max-size="5" rotate="false"
                                     ng-change="pager.pageChanged()" ng-model="pager.PageIndex" class="pagination"
                                     previous-text="上一页" next-text="下一页" first-text="首页" last-text="末页">

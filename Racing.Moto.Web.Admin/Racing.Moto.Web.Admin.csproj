@@ -1,0 +1,406 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{10CC3968-70B6-4B28-A833-258A56254B2E}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Racing.Moto.Web.Admin</RootNamespace>
+    <AssemblyName>Racing.Moto.Web.Admin</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.5\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiControllers\UserController.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BetController.cs" />
+    <Compile Include="Controllers\CaptchaController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
+    <Compile Include="Controllers\LotteryController.cs" />
+    <Compile Include="Controllers\MyCenterController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Controllers\OnlineController.cs" />
+    <Compile Include="Controllers\PKController.cs" />
+    <Compile Include="Controllers\RateController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\Admin\ball_3.css" />
+    <Content Include="Content\Admin\common.css" />
+    <Content Include="Content\Admin\Common_k3.css" />
+    <Content Include="Content\Admin\main.css" />
+    <Content Include="Content\Admin\Style_k3.css" />
+    <Content Include="Content\Admin\Top.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\admin\22.gif" />
+    <Content Include="Images\admin\55.gif" />
+    <Content Include="Images\admin\ball_3.gif" />
+    <Content Include="Images\admin\bg.gif" />
+    <Content Include="Images\admin\bg2.jpg" />
+    <Content Include="Images\admin\But.jpg" />
+    <Content Include="Images\admin\But_S.jpg" />
+    <Content Include="Images\admin\But_S2.jpg" />
+    <Content Include="Images\admin\del.gif" />
+    <Content Include="Images\admin\edit.gif" />
+    <Content Include="Images\admin\edt.gif" />
+    <Content Include="Images\admin\fh.gif" />
+    <Content Include="Images\admin\frame1.gif" />
+    <Content Include="Images\admin\login_1.jpg" />
+    <Content Include="Images\admin\login_2.jpg" />
+    <Content Include="Images\admin\login_3.jpg" />
+    <Content Include="Images\admin\logo.jpg" />
+    <Content Include="Images\admin\main_34.gif" />
+    <Content Include="Images\admin\main_59.gif" />
+    <Content Include="Images\admin\main_62.gif" />
+    <Content Include="Images\admin\onlie.gif" />
+    <Content Include="Images\admin\refresh.png" />
+    <Content Include="Images\admin\tab_03.gif" />
+    <Content Include="Images\admin\tab_05.gif" />
+    <Content Include="Images\admin\tab_07.gif" />
+    <Content Include="Images\admin\tab_12.gif" />
+    <Content Include="Images\admin\tab_15.gif" />
+    <Content Include="Images\admin\tab_18.gif" />
+    <Content Include="Images\admin\tab_19.gif" />
+    <Content Include="Images\admin\tab_20.gif" />
+    <Content Include="Images\admin\tb.gif" />
+    <Content Include="Images\admin\TD_R.jpg" />
+    <Content Include="Images\admin\TD_TS1.jpg" />
+    <Content Include="Images\admin\TD_TS2.jpg" />
+    <Content Include="Images\admin\TD_TS3.jpg" />
+    <Content Include="Images\admin\TD_TS4.jpg" />
+    <Content Include="Images\admin\top_right.jpg" />
+    <Content Include="Images\admin\USER_0.gif" />
+    <Content Include="Images\admin\USER_1.gif" />
+    <Content Include="Images\agreement.jpg" />
+    <Content Include="Img\houtai\bisai.png" />
+    <Content Include="Img\houtai\btn-sousuo.png" />
+    <Content Include="Img\houtai\btn-xinzheng.png" />
+    <Content Include="Img\houtai\btn-xiugai2.png" />
+    <Content Include="Img\houtai\del.png" />
+    <Content Include="Img\houtai\guanggao.png" />
+    <Content Include="Img\houtai\huifuyuanlai.png" />
+    <Content Include="Img\houtai\jia.png" />
+    <Content Include="Img\houtai\jishiqi.png" />
+    <Content Include="Img\houtai\lijitouzhu.png" />
+    <Content Include="Img\houtai\logo.png" />
+    <Content Include="Img\houtai\nav-1.png" />
+    <Content Include="Img\houtai\nav-2.png" />
+    <Content Include="Img\houtai\nav-3.png" />
+    <Content Include="Img\houtai\piliangxiugai.png" />
+    <Content Include="Img\houtai\queren.png" />
+    <Content Include="Img\houtai\querenxiugai.png" />
+    <Content Include="Img\houtai\quxiao.png" />
+    <Content Include="Img\houtai\sahlou.png" />
+    <Content Include="Img\houtai\tiaozhuan.png" />
+    <Content Include="Img\houtai\user.png" />
+    <Content Include="Img\houtai\xiugaibeilv.png" />
+    <Content Include="Img\houtai\yulea.png" />
+    <Content Include="Img\houtai\yuleb.png" />
+    <Content Include="Img\houtai\yulec.png" />
+    <Content Include="Img\loading.gif" />
+    <Content Include="Scripts\admin.js" />
+    <Content Include="Scripts\AngularJs\angular-filter-0.5.7.js" />
+    <Content Include="Scripts\AngularJs\angular-filter-0.5.7.min.js" />
+    <Content Include="Scripts\AngularJs\angular-ui-bootstrap.js" />
+    <Content Include="Scripts\AngularJs\angular.js" />
+    <Content Include="Scripts\AngularJs\angular.min.js" />
+    <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\Controllers\Admin\LogController.js" />
+    <Content Include="Scripts\Controllers\Admin\LotteryController.js" />
+    <Content Include="Scripts\Controllers\Admin\NewsController.js" />
+    <Content Include="Scripts\Controllers\Admin\OnlineController.js" />
+    <Content Include="Scripts\Controllers\Admin\RateController.js" />
+    <Content Include="Scripts\Controllers\Admin\RebateController.js" />
+    <Content Include="Scripts\Controllers\Admin\ReportController.js" />
+    <Content Include="Scripts\Controllers\Admin\UserController.js" />
+    <Content Include="Scripts\Controllers\Admin\UserManagementController.js" />
+    <Content Include="Scripts\datetimepicker\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\datetimepicker\bootstrap-datetimepicker.min.css" />
+    <Content Include="Scripts\datetimepicker\bootstrap-datetimepicker.zh-CN.js" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="App_Data\17monipdb.dat" />
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Scripts\Jquery\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\Jquery.inputmask\jquery.inputmask.bundle-3.2.7.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
+    <Content Include="Scripts\jquery.timer.js" />
+    <Content Include="Scripts\JqueryUI\jquery-ui.min.css" />
+    <Content Include="Scripts\JqueryUI\jquery-ui.min.js" />
+    <Content Include="Scripts\JqueryUI\jquery-ui.structure.min.css" />
+    <Content Include="Scripts\JqueryUI\jquery-ui.theme.min.css" />
+    <Content Include="Scripts\Jquery\jquery-3.1.1.js" />
+    <Content Include="Scripts\Jquery\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\Jquery\jquery-3.1.1.slim.js" />
+    <Content Include="Scripts\Jquery\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\ngApp.js" />
+    <Content Include="Scripts\timeCountDown.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Scripts\Jquery\jquery-3.1.1.min.map" />
+    <Content Include="Scripts\Jquery\jquery-3.1.1.slim.min.map" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Bet\Raise.cshtml" />
+    <Content Include="Views\Log\LoginRecord.cshtml" />
+    <Content Include="Views\Lottery\History.cshtml" />
+    <Content Include="Views\MyCenter\BetHistory.cshtml" />
+    <Content Include="Views\MyCenter\Bonus.cshtml" />
+    <Content Include="Views\MyCenter\ChangePwd.cshtml" />
+    <Content Include="Views\MyCenter\UserInfo.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\Online\Internal.cshtml" />
+    <Content Include="Views\Online\Management.cshtml" />
+    <Content Include="Views\PK\Bet.cshtml" />
+    <Content Include="Views\PK\History.cshtml" />
+    <Content Include="Views\PK\NewsAnnouncement.cshtml" />
+    <Content Include="Views\PK\NewsMarquee.cshtml" />
+    <Content Include="Views\PK\Rate.cshtml" />
+    <Content Include="Views\Rate\Setting.cshtml" />
+    <Content Include="Views\Report\Agent.cshtml" />
+    <Content Include="Views\Report\Bets.cshtml" />
+    <Content Include="Views\Report\GeneralAgent.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Report\Member.cshtml" />
+    <Content Include="Views\Report\Rank.cshtml" />
+    <Content Include="Views\User\Agent.cshtml" />
+    <Content Include="Views\User\AgentManagement.cshtml" />
+    <Content Include="Views\User\All.cshtml" />
+    <Content Include="Views\User\GeneralAgent.cshtml" />
+    <Content Include="Views\User\GeneralAgentManagement.cshtml" />
+    <Content Include="Views\User\Member.cshtml" />
+    <Content Include="Views\User\MemberManagement.cshtml" />
+    <Content Include="Views\User\Online.cshtml" />
+    <Content Include="Views\User\Rebate.cshtml" />
+    <Content Include="Views\User\Vistor.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\JqueryUI\images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Racing.Moto.Core\Racing.Moto.Core.csproj">
+      <Project>{5920a931-7cd3-45b7-a71b-e3754b3babf0}</Project>
+      <Name>Racing.Moto.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Racing.Moto.Data\Racing.Moto.Data.csproj">
+      <Project>{87286c96-6a07-49d0-b162-225195dad6f5}</Project>
+      <Name>Racing.Moto.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Racing.Moto.Services\Racing.Moto.Services.csproj">
+      <Project>{5f9f188a-ec4c-4e77-bb5b-adfe3a32587c}</Project>
+      <Name>Racing.Moto.Services</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>17565</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:17565/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

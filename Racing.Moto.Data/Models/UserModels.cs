@@ -1,4 +1,5 @@
-﻿using Racing.Moto.Data.Enums;
+﻿using Racing.Moto.Data.Entities;
+using Racing.Moto.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,6 +78,13 @@ namespace Racing.Moto.Data.Models
         /// 今日盈亏
         /// </summary>
         public decimal TodayProfitAndLossAmount { get; set; }
+
+        //public User User { get; set; }
+
+        /// <summary>
+        /// 退水, 限额
+        /// </summary>
+        public List<UserRebate> UserRebates { get; set; }
     }
 
     public class UserBonusReportStatistics

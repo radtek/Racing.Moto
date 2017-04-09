@@ -15,14 +15,16 @@ namespace Racing.Moto.Test
         [TestMethod]
         public void JobServiceTest()
         {
-            //var pkService = new PKService();
-            //var bonusService = new PKBonusService();
+            var pkService = new PKService();
+            var bonusService = new PKBonusService();
 
-            //var pk = pkService.GetPK(87);
-            //// 生成奖金
+            var pk = pkService.GetPK(1956);
+            // 生成奖金
             //bonusService.GenerateBonus(pk);
+            // 生成退水
+            bonusService.GenerateRebate(pk);
 
-            new RebateJob().Execute(null);
+            //new RebateJob().Execute(null);
         }
     }
 }

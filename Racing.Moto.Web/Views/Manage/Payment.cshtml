@@ -19,14 +19,14 @@
         <tbody>
             <tr ng-repeat="item in pager.Results">
                 <td>
-                    <div>{{item.BetId}}#</div>
+                    <div>{{item.BetItemId}}#</div>
                     <div>{{item.CreateTime | date : 'yyyy-MM-dd HH:mm:ss'}} {{item.Week}}</div>
                 </td>
                 <td>
                     <div>速度与激情</div>
-                    <div><span class="z">{{item.PKId}}期</span></div>
+                    <div><span class="z">{{item.Bet.PKId}}期</span></div>
                 </td>
-                <td><span class="z">{{item.RankName}} [{{item.NumName}}]</span> @@{{item.Rate}}</td>
+                <td><span class="z">{{item.RankName}} [{{item.NumName}}]</span> @@{{item.Bet.Rate}}</td>
                 <td>{{item.Amount}}</td>
                 <td>{{item.BonusAmount}}</td>
             </tr>
