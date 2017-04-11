@@ -421,15 +421,10 @@
             var rankArr = pkInfo.PK.Ranks.split(',');
 
             // three steps - step 1 : 30 seconds : 300px, step 2 : 20 seconds : 200px, , step 3 : 10 seconds : 100px
-            var moveLengths = [600, 600, 600];
-            //if (pkInfo.GameRemainSeconds > 30) {
-            //    step = 1;
-            //} else if (pkInfo.GameRemainSeconds > 20) {
-            //    step = 2;
-            //} else {
-            //    step = 3;
-            //}
+            var moveLengths = [400, 900, 1200];
             var moveLength = moveLengths[step - 1];
+
+            var esings = ["easeOutBack2", "easeOutBack2", "easeOutQuint"];
 
             var stepDurations = motoRacing.getStepDurations(step);
             // speeds
@@ -536,18 +531,16 @@
 
             var pkInfo = motoRacing.PKInfo;
             var rankArr = pkInfo.PK.Ranks.split(',');
+            var unit = 2;
             for (var i = 0; i < rankArr.length; i++) {
-                if (pkInfo.GameRemainSeconds > 3) {
-                    durations.push(pkInfo.GameRemainSeconds - 3 + 0.3 * i);
+                if (pkInfo.GameRemainSeconds > unit) {
+                    durations.push(pkInfo.GameRemainSeconds - unit + unit / 10 * i);
                 } else {
-                    durations.push(0.3 * (i + 1));
+                    durations.push(unit / 10 * (i + 1));
                 }
             }
 
             return durations;
-        },
-        calculateDurations: function (step) {
-
         },
         getRandomNum: function (min, max) {
             var range = max - min;
