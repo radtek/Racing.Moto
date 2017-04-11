@@ -7,19 +7,19 @@
 
     function init() {
         ticker.server.getPKInfo().done(function (pkInfo) {
-            //console.log(pkInfo);
+            console.log(pkInfo);
 
-            //if (pkInfo == null) {
-            //    return;
-            //}
+            if (pkInfo == null) {
+                return;
+            }
 
             // test
-            pkInfo = {};
-            pkInfo.GamingSeconds = -1;
-            pkInfo.GamePassedSeconds = 0;
-            pkInfo.GameRemainSeconds = 40;
-            pkInfo.GameBeginTime = '2017/04/03 18:20:00';
-            pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
+            //pkInfo = {};
+            //pkInfo.GamingSeconds = -1;
+            //pkInfo.GamePassedSeconds = 0;
+            //pkInfo.GameRemainSeconds = 40;
+            //pkInfo.GameBeginTime = '2017/04/03 18:20:00';
+            //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
             motoRacing.run(pkInfo);
         });
@@ -31,8 +31,6 @@
         if (pkInfo == null) {
             return;
         }
-
-        return;
 
         // test
         //pkInfo.GamingSeconds = -5;

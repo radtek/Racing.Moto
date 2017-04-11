@@ -278,6 +278,7 @@
     <None Include="NLog.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\PKAdmin.pubxml" />
     <None Include="Scripts\Jquery\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\Jquery.inputmask\jquery.inputmask.bundle-3.2.7.js" />
     <Content Include="Scripts\jquery.signalR-2.2.1.js" />
