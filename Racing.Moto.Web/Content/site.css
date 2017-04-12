@@ -140,20 +140,20 @@ body {
 
 .start-flag .start {
     width: 220px;
-    height: 467px;
+    height: 484px;
     background: url(../img/start-line.png) no-repeat;
     position: absolute;
     right: 185px;
-    top: 9px;
+    top: 0px;
 }
 
 .start-flag .road-num {
     width: 180px;
-    height: 467px;
+    height: 484px;
     background: url(../img/road-num.png) no-repeat;
     position: absolute;
     right: 300px;
-    top: 9px;
+    top: 0px;
 }
 /* end-flag */
 .end-flag .zhu-a {
@@ -195,142 +195,143 @@ body {
     /*------------------  car ------------------*/
     .car-list .car-10 {
         position: absolute;
-        right: 5px;
-        top: -95px;
-        width: 192px;
+        right: 26px;
+        top: -75px;
+        width: 172px;
     }
 
     .car-list .car-9 {
         position: absolute;
-        right: -8px;
-        top: -56px;
-        width: 194px;
+        right: 9px;
+        top: -38px;
+        width: 178px;
     }
 
     .car-list .car-8 {
         position: absolute;
-        right: -22px;
-        top: -7px;
-        width: 196px;
+        right: 2px;
+        top: 14px;
+        width: 172px;
     }
 
     .car-list .car-7 {
         position: absolute;
-        right: -34px;
-        top: 38px;
-        width: 198px;
+        right: -20px;
+        top: 60px;
+        width: 182px;
     }
 
     .car-list .car-6 {
         position: absolute;
-        right: -45px;
-        top: 90px;
-        width: 200px;
+        right: -35px;
+        top: 112px;
+        width: 183px;
     }
 
     .car-list .car-5 {
         position: absolute;
-        right: -56px;
-        top: 140px;
-        width: 202px;
+        right: -38px;
+        top: 158px;
+        width: 180px;
     }
 
     .car-list .car-4 {
         position: absolute;
-        right: -76px;
-        top: 190px;
-        width: 204px;
+        right: -56px;
+        top: 203px;
+        width: 180px;
     }
 
     .car-list .car-3 {
         position: absolute;
-        right: -88px;
-        top: 232px;
-        width: 206px;
+        right: -64px;
+        top: 259px;
+        width: 180px;
     }
 
     .car-list .car-2 {
         position: absolute;
-        right: -102px;
-        top: 280px;
-        width: 208px;
+        right: -88px;
+        top: 288px;
+        width: 200px;
     }
 
     .car-list .car-1 {
         position: absolute;
-        right: -116px;
-        top: 335px;
-        width: 210px;
+        right: -88px;
+        top: 360px;
+        width: 180px;
     }
     /*------------------  car-run ------------------*/
+
     .car-list .car-run-10 {
         position: absolute;
-        right: 7px;
-        top: -97px;
-        width: 197px;
+        right: 28px;
+        top: -77px;
+        width: 175px;
     }
 
     .car-list .car-run-9 {
         position: absolute;
-        right: -13px;
-        top: -64px;
-        width: 209px;
+        right: 5px;
+        top: -45px;
+        width: 190px;
     }
 
     .car-list .car-run-8 {
         position: absolute;
-        right: -34px;
-        top: -18px;
-        width: 218px;
+        right: -8px;
+        top: 5px;
+        width: 190px;
     }
 
     .car-list .car-run-7 {
         position: absolute;
-        right: -31px;
-        top: 32px;
-        width: 205px;
+        right: -15px;
+        top: 58px;
+        width: 185px;
     }
 
     .car-list .car-run-6 {
         position: absolute;
-        right: -48px;
-        top: 78px;
-        width: 210px;
+        right: -35px;
+        top: 98px;
+        width: 195px;
     }
 
     .car-list .car-run-5 {
         position: absolute;
-        right: -73px;
-        top: 125px;
-        width: 225px;
+        right: -53px;
+        top: 145px;
+        width: 200px;
     }
 
     .car-list .car-run-4 {
         position: absolute;
-        right: -85px;
-        top: 182px;
-        width: 224px;
+        right: -65px;
+        top: 198px;
+        width: 200px;
     }
 
     .car-list .car-run-3 {
         position: absolute;
-        right: -100px;
-        top: 218px;
-        width: 228px;
+        right: -75px;
+        top: 245px;
+        width: 200px;
     }
 
     .car-list .car-run-2 {
         position: absolute;
-        right: -114px;
-        top: 268px;
-        width: 232px;
+        right: -88px;
+        top: 288px;
+        width: 200px;
     }
 
     .car-list .car-run-1 {
         position: absolute;
-        right: -132px;
-        top: 316px;
-        width: 238px;
+        right: -100px;
+        top: 346px;
+        width: 200px;
     }
 
 /*---------- game ---------------*/

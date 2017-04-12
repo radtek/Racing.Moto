@@ -328,8 +328,8 @@
         },
         getDistances2: function (rank) {
             var unit = 200;
-            var step1 = unit + 20 * (rank % 2 == 0 ? 10 : -10) + rank * 20;
-            var step2 = step1 + 10 * (rank % 2 == 0 ? 10 : 30) + rank * 20;
+            var step1 = unit + 20 * (rank % 2 == 0 ? 10 : -10) + rank * 10;
+            var step2 = step1 + 10 * (rank % 2 == 0 ? 10 : 20) + rank * 10;
             var step3 = step1 + step2 + 800
             var distances = [step1, step2, step3];
             return distances;
