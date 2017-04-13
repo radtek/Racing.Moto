@@ -147,7 +147,7 @@ jQuery.extend( jQuery.easing,
 		return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
 	},
 	easeOutBack2: function (x, t, b, c, d, s) {
-	    if (s == undefined) s = 8;
+	    if (s == undefined) s = 12;
 	    return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
 	},
 	easeInOutBack: function (x, t, b, c, d, s) {
