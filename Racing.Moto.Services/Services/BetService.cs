@@ -365,15 +365,36 @@ namespace Racing.Moto.Services
         /// minCostMatrix 的计数从0开始, 加1返回
         /// </summary>
         /// <returns></returns>
-        private List<int> GetRanks(int[] minCostMatrix)
+        private List<int> GetRanks(int[] minCostMatrix, List<BetRateModel> betRates)
         {
             var ranks = minCostMatrix.Select(m => m + 1).ToList();
 
             // 自然数升序的情况, 通常是因为无论什么顺序, 奖金都相同, 如只有一个用户下注1号车的10个名次都是大,且金额相同
             // 此时生成个随机数返回
-            if (string.Join(",", ranks) == "1,2,3,4,5,6,7,8,9,10")
+            var rankStr = string.Join(",", ranks);
+            if (rankStr == "1,2,3,4,5,6,7,8,9,10")
             {
                 ranks = RandomUtil.GetRandomList(1, 10);
+            }
+            else
+            {
+                // 用户下注1-9号车, 10没下注, 结果为 10,1,2,3,4,5,6,7,8,9, 后9位如果奖金相同, 后9位生成随机顺序
+                var motoRates = betRates.GroupBy(r => r.Num).Select(g => new { Num = g.Key, Val = g.Sum(r => r.Rate) }).ToList();
+                // 按奖金分组, 如果每组长度有超过2的, 这组如果在计算结果中是按升序存在的, 则打乱顺序
+                var valRates = motoRates.GroupBy(r => r.Val).Select(g => new { Val = g.Key, Count = g.Count() }).ToList();
+                foreach (var valRate in valRates)
+                {
+                    if (valRate.Count > 2)
+                    {
+                        var motoNums = motoRates.Where(r => r.Val == valRate.Val).Select(r => r.Num).OrderBy(num => num).ToList();
+                        var motoNumsStr = string.Join(",", motoNums);
+                        if (rankStr.IndexOf(motoNumsStr) > -1)
+                        {
+                            var disruptOrder = RandomUtil.DisruptOrder(motoNums);
+                            rankStr.Replace(rankStr, string.Join(",", disruptOrder));
+                        }
+                    }
+                }
             }
 
             return ranks;

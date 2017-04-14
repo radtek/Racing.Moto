@@ -49,5 +49,10 @@ namespace Racing.Moto.Core.Utils
             }
             return sb.ToString();
         }
+
+        public static List<int> DisruptOrder(List<int> nums)
+        {
+            return nums.OrderBy(i => Guid.NewGuid()).ToList();
+        }
     }
 }

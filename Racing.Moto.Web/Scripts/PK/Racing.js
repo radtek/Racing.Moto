@@ -17,7 +17,7 @@
             pkInfo = {};
             pkInfo.GamingSeconds = -1;
             pkInfo.GamePassedSeconds = 0;
-            pkInfo.GameRemainSeconds = 22;
+            pkInfo.GameRemainSeconds = 50;
             pkInfo.GameBeginTime = '2017/04/03 18:20:00';
             pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
@@ -261,10 +261,6 @@
                     var $moto = $('#moto' + speeds[i].Num);
 
                     $moto.animate({ right: speeds[i].MoveLength }, param);    //speeds[i].MoveLength + pos 
-
-                    // moto init position
-                    //var pos = parseInt($moto.css('right'), 10);
-                    //motoRacing.MotoInitPosition.push(pos);
                 }
 
                 // show ranks
@@ -289,7 +285,7 @@
                 // moto init durations
                 motoRacing.Durations = motoRacing.getDurations();
                 // moto init position
-                motoRacing.MotoInitPosition = [];
+                motoRacing.MotoInitPosition = motoRacing.getMotoInitPositions();
                 // moto running 
                 motoRacing.appendRunMotos();
 
@@ -320,24 +316,22 @@
             var random3 = motoRacing.getRandomNum(1, 30);
             var step3 = random3 * 13;
             var random4 = motoRacing.getRandomNum(0, 55);
-            var step4 = rank <= 3 ? 600 - 120 * rank : 4 * random4;
+            var step4 = rank <= 3 ? 620 - 120 * rank : 3 * random4;
             var distances = [step1, step2, step3, step4];
 
             return distances;
         },
         getDurations2: function (remainSeconds, rank) {
-            var unit = remainSeconds / 4;
-            var step1 = (unit + 0.1 * (10 - rank)) * 1000;
-            var step2 = (unit + 0.2 * rank) * 1000;
-            var step3 = (unit - 0.2 * rank) * 1000;
-            var step4 = unit * 1000;
-            if (step4 == 0) {
-                step1 = 0.01 * rank * 1000;
-                step2 = 0.02 * rank * 1000;
-                step3 = 0.01 * rank * 1000;
-                step4 = 0.01 * rank * 1000;
-            }
-            var durations = [step1, step2, step3, step4];
+            if (remainSeconds < 10) { remainSeconds = 10; }
+            var step4Seconds = 3;
+            var unit = remainSeconds <= 10 ? (remainSeconds - step4Seconds) / 3 : step4Seconds;
+            var step4 = remainSeconds <= 10 ? unit : step4Seconds;
+
+            var step1 = (unit + 0.1 * (10 - rank));
+            var step2 = (unit + 0.2 * rank);
+            var step3 = remainSeconds - step1 - step2 - step4; //(unit - 0.2 * rank) * 1000;
+            //var durations = [step1, step2, step3, step4];
+            var durations = [step1.toFixed(3) * 1000, step2.toFixed(3) * 1000, step3.toFixed(3) * 1000, step4.toFixed(3) * 1000];
             return durations;
         },
         runMotoSingle: function (motoNum, distances, durations) {
@@ -349,13 +343,13 @@
                     //step2
                     var motoNum = $(this).attr('alt');
                     $('#moto' + motoNum).animate({ right: distances[1] }, {
-                        easing: 'easeOutBack2',
+                        easing: 'easeInBack2',
                         duration: durations[1],
                         complete: function () {
                             //step3
                             var motoNum = $(this).attr('alt');
                             $('#moto' + motoNum).animate({ right: distances[2] }, {
-                                easing: 'easeOutQuint',
+                                easing: 'easeInOutBack2',
                                 duration: durations[2],
                                 complete: function () {
                                     //step4
@@ -400,19 +394,17 @@
             //ranks: 3,2,5,6,8,7,10,1,9,4
             var rankArr = motoRacing.PKInfo.PK.Ranks.split(',');
 
-            // speeds
             for (var i = 0; i < rankArr.length; i++) {
                 var $moto = $('#moto' + rankArr[i]);
-                //var right = parseInt($moto.css('right'), 10) + 1500;
-                var right = 1300 + (10 - i) * 60;
-                //$moto.animate({ right: right + 'px' }, 2000 + (i + 1) * 0.3 * 1000);
-                $moto.animate({ right: right + 'px' }, 2000 + (i + 1) * 0.5 * 1000);
+                var positon = 1800 - parseInt($moto.css('right'), 10);
+
+                $moto.floating({ direction: 'left', millisec: 6, position: positon });
             }
         },
         moveEndFlag: function (pkInfo) {
             var $endFlag = $('.end-flag');
 
-            var positon = 300;
+            var positon = 220;
             $endFlag.floating({ direction: 'right', millisec: motoRacing.Millisec, position: positon });
 
             $('body').everyTime('1ds', function () {
@@ -434,9 +426,6 @@
                 var rank = i + 1;
                 var random = motoRacing.getRandomNum(0, 9);
 
-                //var duration = (pkInfo.GameRemainSeconds > 10)
-                //    ? (pkInfo.GameRemainSeconds - 10 + rank) * 1000
-                //    : (pkInfo.GameRemainSeconds / 10) * rank * 1000;
                 var duration = (pkInfo.GameRemainSeconds > 2)
                     ? (pkInfo.GameRemainSeconds - 2 + rank * 0.2) * 1000
                     : (pkInfo.GameRemainSeconds / 10) * rank * 1000;
@@ -453,54 +442,6 @@
             }
             console.log(speeds);
             return speeds;
-        },
-        calculateStepSpeeds: function (step) {
-            var speeds = [];
-            var pkInfo = motoRacing.PKInfo;
-
-            //ranks: 3,2,5,6,8,7,10,1,9,4
-            var rankArr = pkInfo.PK.Ranks.split(',');
-
-            // three steps - step 1 : 30 seconds : 300px, step 2 : 20 seconds : 200px, , step 3 : 10 seconds : 100px
-            var moveLengths = [400, 900, 1200];
-            var moveLength = moveLengths[step - 1];
-
-            var easings = ["easeOutBack2", "easeOutBack2", "easeOutQuint"];
-
-            var stepDurations = motoRacing.getStepDurations(step);
-            // speeds
-            for (var i = 0; i < rankArr.length; i++) {
-                var motoNum = rankArr[i];
-                var rank = i + 1;
-                var random = motoRacing.getRandomNum(0, 9);
-
-                var duration = stepDurations[i];
-
-                //var length = 1200 - 50 * rank;
-                speeds.push({
-                    'Num': motoNum,
-                    'Rank': rank,
-                    'Duration': duration * 1000,
-                    'Easing': easings[step - 1],
-                    'MoveLength': moveLength
-                });
-            }
-
-            console.log(speeds);
-            return speeds;
-        },
-        getCurrentStep: function () {
-            var step = 1;
-            var pkInfo = motoRacing.PKInfo;
-
-            if (pkInfo.GameRemainSeconds > 30) {
-                step = 1;
-            } else if (pkInfo.GameRemainSeconds > 20) {
-                step = 2;
-            } else {
-                step = 3;
-            }
-            return step;
         },
         getDurations: function () {
             var durations = [];
@@ -519,68 +460,6 @@
 
                 durations.push(duration);
             }
-            return durations;
-        },
-        getStepDurations: function (step) {
-            // three steps - step 1 : <=30 seconds : 300px, step 2 : <=20 seconds : 200px, , step 3 : <=10 seconds : 100px
-            var durations = [];
-
-            if (step == 1) {
-                durations = motoRacing.getStep1Durations(1);
-                motoRacing.StepDurations.Step1 = durations;
-            } else if (step == 2) {
-                durations = motoRacing.getStep2Durations();
-                motoRacing.StepDurations.Step2 = durations;
-            } else {
-                durations = motoRacing.getStep3Durations();
-                motoRacing.StepDurations.Step3 = durations;
-            }
-
-            return durations;
-        },
-        getStep1Durations: function (step) {
-            var durations = [];
-
-            for (var i = 0; i < 10; i++) {
-                if (step == 1) {
-                    var duration = motoRacing.getRandomNum(20, 30);
-                    durations.push(duration);
-                } else {
-                    durations.push(0);
-                }
-            }
-
-            console.log(step);
-            console.log(durations);
-
-            return durations
-        },
-        getStep2Durations: function () {
-            var durations = [];
-
-            var step1Durations = motoRacing.StepDurations.Step1.length > 0 ? motoRacing.StepDurations.Step1 : motoRacing.getStep1Durations(2);
-            var step3Durations = motoRacing.getStep3Durations();
-            for (var i = 0; i < 10; i++) {
-                var duration = motoRacing.Durations[i] - step1Durations[i] - step3Durations[i];
-                durations.push(duration);
-            }
-
-            return durations
-        },
-        getStep3Durations: function () {
-            var durations = [];
-
-            var pkInfo = motoRacing.PKInfo;
-            var rankArr = pkInfo.PK.Ranks.split(',');
-            var unit = 2;
-            for (var i = 0; i < rankArr.length; i++) {
-                if (pkInfo.GameRemainSeconds > unit) {
-                    durations.push(pkInfo.GameRemainSeconds - unit + unit / 10 * i);
-                } else {
-                    durations.push(unit / 10 * (i + 1));
-                }
-            }
-
             return durations;
         },
         getRandomNum: function (min, max) {
@@ -719,12 +598,6 @@
                 data: { PKId: motoRacing.PKInfo.PK.PKId, UserId: $('#hidUserId').val() },
                 success: function (res) {
                     if (res.Success) {
-                        // test
-                        //res.Data = [
-                        //    { Rank: 1, Num: 2, Amount: 100 },
-                        //    { Rank: 2, Num: 3, Amount: 200 },
-                        //    { Rank: 5, Num: 6, Amount: 500 }
-                        //];
                         var html = motoRacing.getBonusHtml(res.Data);
                         //console.log(html);
                         $bonusResult.html(html);

@@ -146,10 +146,6 @@ jQuery.extend( jQuery.easing,
 		if (s == undefined) s = 1.70158;
 		return c*((t=t/d-1)*t*((s+1)*t + s) + 1) + b;
 	},
-	easeOutBack2: function (x, t, b, c, d, s) {
-	    if (s == undefined) s = 12;
-	    return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
-	},
 	easeInOutBack: function (x, t, b, c, d, s) {
 		if (s == undefined) s = 1.70158; 
 		if ((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
@@ -172,7 +168,21 @@ jQuery.extend( jQuery.easing,
 	easeInOutBounce: function (x, t, b, c, d) {
 		if (t < d/2) return jQuery.easing.easeInBounce (x, t*2, 0, c, d) * .5 + b;
 		return jQuery.easing.easeOutBounce (x, t*2-d, 0, c, d) * .5 + c*.5 + b;
-	}
+	},
+
+	easeInBack2: function (x, t, b, c, d, s) {
+	    if (s == undefined) s = 15;
+	    return c * (t /= d) * t * ((s + 1) * t - s) + b;
+	},
+	easeOutBack2: function (x, t, b, c, d, s) {
+	    if (s == undefined) s = 10;
+	    return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
+	},
+	easeInOutBack2: function (x, t, b, c, d, s) {
+	    if (s == undefined) s = 10;
+	    if ((t /= d / 2) < 1) return c / 2 * (t * t * (((s *= (1.525)) + 1) * t - s)) + b;
+	    return c / 2 * ((t -= 2) * t * (((s *= (1.525)) + 1) * t + s) + 2) + b;
+	},
 });
 
 /*
