@@ -9,36 +9,36 @@
         ticker.server.getPKInfo().done(function (pkInfo) {
             console.log(pkInfo);
 
-            //if (pkInfo == null) {
-            //    return;
-            //}
-
             // test
-            pkInfo = {};
-            pkInfo.GamingSeconds = -1;
-            pkInfo.GamePassedSeconds = 0;
-            pkInfo.GameRemainSeconds = 50;
-            pkInfo.GameBeginTime = '2017/04/03 18:20:00';
-            pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
+            //pkInfo = {};
+            //pkInfo.GamingSeconds = -1;
+            //pkInfo.GamePassedSeconds = 0;
+            //pkInfo.GameRemainSeconds = 50;
+            //pkInfo.GameBeginTime = '2017/04/03 18:20:00';
+            //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
+
+            if (pkInfo == null) {
+                return;
+            }
             motoRacing.run(pkInfo);
         });
     }
 
     // Add a client-side hub method that the server will call
     ticker.client.updatePKInfo = function (pkInfo) {
-        //console.log(pkInfo);
-        if (pkInfo == null) {
-            return;
-        }
-
         // test
         //pkInfo.GamingSeconds = -5;
         //pkInfo.GamePassedSeconds = 0;
         //pkInfo.GameRemainSeconds = 20;
         //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
-        //motoRacing.run(pkInfo);
+        console.log(pkInfo);
+        if (pkInfo == null) {
+            return;
+        }
+
+        motoRacing.run(pkInfo);
     }
 
     // Start the connection

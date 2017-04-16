@@ -263,6 +263,7 @@
     <Content Include="Scripts\Controllers\Admin\LotteryController.js" />
     <Content Include="Scripts\Controllers\Admin\NewsController.js" />
     <Content Include="Scripts\Controllers\Admin\OnlineController.js" />
+    <Content Include="Scripts\Controllers\Admin\BetController.js" />
     <Content Include="Scripts\Controllers\Admin\RateController.js" />
     <Content Include="Scripts\Controllers\Admin\RebateController.js" />
     <Content Include="Scripts\Controllers\Admin\ReportController.js" />
@@ -309,7 +310,7 @@
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Bet\Raise.cshtml" />
+    <Content Include="Views\Bet\Info.cshtml" />
     <Content Include="Views\Log\LoginRecord.cshtml" />
     <Content Include="Views\Lottery\History.cshtml" />
     <Content Include="Views\MyCenter\BetHistory.cshtml" />
@@ -342,6 +343,7 @@
     <Content Include="Views\User\Rebate.cshtml" />
     <Content Include="Views\User\Vistor.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Bet\Info2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\JqueryUI\images\" />

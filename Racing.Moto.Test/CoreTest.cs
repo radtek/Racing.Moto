@@ -87,7 +87,14 @@ namespace Racing.Moto.Test
             //// 生成奖金
             //bonusService.GenerateBonus(pk);
 
-            new RankJob().Run();
+            //new RankJob().Run();
+        }
+
+
+        [TestMethod]
+        public void RankTest()
+        {
+            var ranks = new BetService().CalculateRanks(2133);
         }
     }
 }

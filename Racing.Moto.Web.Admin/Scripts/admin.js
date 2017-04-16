@@ -2,7 +2,7 @@
     MinRoleId: 99,
     Actions: ['bet', 'user/generalagent|user/agent|user/member|user/rebate', 'log|account/changepassword', 'rate|online/internal', 'report', 'lottery', 'news', 'online', 'account'],
     SubMenus: [
-        [{ Name: '前五名', Link: '/Bet/Add/1', MaxRoleId: 3 }, { Name: '后五名', Link: '/Bet/Add/2', MaxRoleId: 3 }, { Name: '大小单双', Link: '/Bet/Add/3', MaxRoleId: 3 }],
+        [{ Name: '冠亞軍', Link: '/Bet/Info/1', MaxRoleId: 3 }, { Name: '三四五六名', Link: '/Bet/Info/2', MaxRoleId: 3 }, { Name: '七八九十名', Link: '/Bet/Info/3', MaxRoleId: 3 }],
         [
             { Name: '总代理', Link: '/User/GeneralAgent', MaxRoleId: 2 },
             { Name: '代理', Link: '/User/Agent', MaxRoleId: 3 },

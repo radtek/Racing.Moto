@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Racing.Moto.Core.Extentions;
 using System.Data.Entity;
+using Racing.Moto.Data;
 
 namespace Racing.Moto.Services
 {
@@ -20,8 +21,11 @@ namespace Racing.Moto.Services
         /// <returns></returns>
         public PK GetCurrentPK()
         {
-            var current = Convert.ToDateTime(DateTime.Now.ToString(DateFormatConst.yMd_Hms));// remove millisecond
-            return db.PK.Where(pk => pk.BeginTime <= current && current <= pk.EndTime).FirstOrDefault();
+            using (var db = new RacingDbContext())
+            {
+                var current = Convert.ToDateTime(DateTime.Now.ToString(DateFormatConst.yMd_Hms));// remove millisecond
+                return db.PK.Where(pk => pk.BeginTime <= current && current <= pk.EndTime).FirstOrDefault();
+            }
         }
 
         /// <summary>
@@ -30,7 +34,10 @@ namespace Racing.Moto.Services
         /// <returns></returns>
         public PK GetLastPK()
         {
-            return db.PK.OrderByDescending(pk => pk.PKId).FirstOrDefault();
+            using (var db = new RacingDbContext())
+            {
+                return db.PK.OrderByDescending(pk => pk.PKId).FirstOrDefault();
+            }
         }
 
         /// <summary>
@@ -38,17 +45,26 @@ namespace Racing.Moto.Services
         /// </summary>
         public PK GetPrevPK()
         {
-            return db.PK.Where(pk => pk.EndTime < DateTime.Now).OrderByDescending(pk => pk.PKId).FirstOrDefault();
+            using (var db = new RacingDbContext())
+            {
+                return db.PK.Where(pk => pk.EndTime < DateTime.Now).OrderByDescending(pk => pk.PKId).FirstOrDefault();
+            }
         }
 
         public PK GetPK(int pkId)
         {
-            return db.PK.Where(pk => pk.PKId == pkId).FirstOrDefault();
+            using (var db = new RacingDbContext())
+            {
+                return db.PK.Where(pk => pk.PKId == pkId).FirstOrDefault();
+            }
         }
 
         public List<PK> GetNotCalculatePKs()
         {
-            return db.PK.Where(pk => pk.Ranks == null).ToList();
+            using (var db = new RacingDbContext())
+            {
+                return db.PK.Where(pk => pk.Ranks == null).ToList();
+            }
         }
 
         /// <summary>
@@ -57,7 +73,10 @@ namespace Racing.Moto.Services
         /// <returns></returns>
         public List<PK> GetNotRebatePKs()
         {
-            return db.PK.Where(pk => !pk.IsRebated && DbFunctions.DiffSeconds(DateTime.Now, pk.EndTime) <= AppConfigCache.Racing_Lottery_Seconds).ToList();
+            using (var db = new RacingDbContext())
+            {
+                return db.PK.Where(pk => !pk.IsRebated && DbFunctions.DiffSeconds(DateTime.Now, pk.EndTime) <= AppConfigCache.Racing_Lottery_Seconds).ToList();
+            }
         }
 
         /// <summary>
@@ -66,15 +85,23 @@ namespace Racing.Moto.Services
         /// <returns></returns>
         public PKModel GetCurrentPKModel()
         {
-            var currentPK = GetCurrentPK();
-            //var currentPK = GetLastPK();
-
-            // job 设置5秒启动一次, 两次PK之间会有时间差, 故取不到PK数据
-            if (currentPK == null)
+            using (var db = new RacingDbContext())
             {
-                return null;
-            }
+                var currentPK = GetCurrentPK();
+                //var currentPK = GetLastPK();
 
+                // job 设置5秒启动一次, 两次PK之间会有时间差, 故取不到PK数据
+                if (currentPK == null)
+                {
+                    return null;
+                }
+
+                return ConvertToPKModel(currentPK);
+            }
+        }
+
+        public PKModel ConvertToPKModel(PK currentPK)
+        {
             var now = DateTime.Now;
 
             var passedSeconds = (int)(now - currentPK.BeginTime).TotalSeconds;
@@ -105,13 +132,16 @@ namespace Racing.Moto.Services
 
         public PK AddPK()
         {
-            // 生成PK
-            PK pk = db.Database.SqlQuery<PK>(string.Format("EXEC {0}", DBConst.SP_PK_GeneratePK)).First();
+            using (var db = new RacingDbContext())
+            {
+                // 生成PK
+                PK pk = db.Database.SqlQuery<PK>(string.Format("EXEC {0}", DBConst.SP_PK_GeneratePK)).First();
 
-            // 生成赔率
-            db.Database.ExecuteSqlCommand(string.Format("EXEC {0} {1}", DBConst.SP_PK_GeneratePKRate, pk.PKId));
+                // 生成赔率
+                db.Database.ExecuteSqlCommand(string.Format("EXEC {0} {1}", DBConst.SP_PK_GeneratePKRate, pk.PKId));
 
-            return pk;
+                return pk;
+            }
         }
         #region 添加到数据库 使用 存储过程 SP_PK_GeneratePK 代替
         [Obsolete]
@@ -164,7 +194,10 @@ namespace Racing.Moto.Services
 
         public bool ExistPK(DateTime dt)
         {
-            return db.PK.Where(pk => pk.BeginTime <= dt && dt <= pk.EndTime).Any();
+            using (var db = new RacingDbContext())
+            {
+                return db.PK.Where(pk => pk.BeginTime <= dt && dt <= pk.EndTime).Any();
+            }
         }
 
         /// <summary>
@@ -172,12 +205,15 @@ namespace Racing.Moto.Services
         /// </summary>
         public void UpdateRanks(int pkId, string ranks)
         {
-            var dbPK = db.PK.Where(pk => pk.PKId == pkId).FirstOrDefault();
-            if (dbPK != null)
+            using (var db = new RacingDbContext())
             {
-                dbPK.Ranks = ranks;
+                var dbPK = db.PK.Where(pk => pk.PKId == pkId).FirstOrDefault();
+                if (dbPK != null)
+                {
+                    dbPK.Ranks = ranks;
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
             }
         }
 
@@ -186,11 +222,14 @@ namespace Racing.Moto.Services
         /// </summary>
         public void UpdateIsBonused(int pkId, bool isBonused)
         {
-            var pk = db.PK.Where(p => p.PKId == pkId).FirstOrDefault();
-            if (pk != null)
+            using (var db = new RacingDbContext())
             {
-                pk.IsBonused = isBonused;
-                db.SaveChanges();
+                var pk = db.PK.Where(p => p.PKId == pkId).FirstOrDefault();
+                if (pk != null)
+                {
+                    pk.IsBonused = isBonused;
+                    db.SaveChanges();
+                }
             }
         }
 
@@ -199,11 +238,14 @@ namespace Racing.Moto.Services
         /// </summary>
         public void UpdateIsRebated(int pkId, bool isRebated)
         {
-            var pk = db.PK.Where(p => p.PKId == pkId).FirstOrDefault();
-            if (pk != null)
+            using (var db = new RacingDbContext())
             {
-                pk.IsRebated = isRebated;
-                db.SaveChanges();
+                var pk = db.PK.Where(p => p.PKId == pkId).FirstOrDefault();
+                if (pk != null)
+                {
+                    pk.IsRebated = isRebated;
+                    db.SaveChanges();
+                }
             }
         }
 
@@ -212,7 +254,10 @@ namespace Racing.Moto.Services
         /// </summary>
         public bool IsClosed(PK pk)
         {
-            return pk.BeginTime.AddSeconds(pk.OpeningSeconds) <= DateTime.Now && DateTime.Now <= pk.BeginTime.AddSeconds(pk.OpeningSeconds + pk.CloseSeconds);
+            using (var db = new RacingDbContext())
+            {
+                return pk.BeginTime.AddSeconds(pk.OpeningSeconds) <= DateTime.Now && DateTime.Now <= pk.BeginTime.AddSeconds(pk.OpeningSeconds + pk.CloseSeconds);
+            }
         }
 
         /// <summary>
@@ -220,15 +265,18 @@ namespace Racing.Moto.Services
         /// </summary>
         public bool IsOpening(int pkId)
         {
-            var dbPK = db.PK.Where(pk => pk.PKId == pkId).FirstOrDefault();
+            using (var db = new RacingDbContext())
+            {
+                var dbPK = db.PK.Where(pk => pk.PKId == pkId).FirstOrDefault();
 
-            if (dbPK != null && dbPK.BeginTime.AddSeconds(dbPK.OpeningSeconds) > DateTime.Now)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
+                if (dbPK != null && dbPK.BeginTime.AddSeconds(dbPK.OpeningSeconds) > DateTime.Now)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
@@ -237,14 +285,17 @@ namespace Racing.Moto.Services
         /// </summary>
         public PagerResult<PK> GetPKs(SearchModel searchModel)
         {
-            var query = db.PK.Where(pk => pk.Ranks != null);
-            if (searchModel.Key > 0)
+            using (var db = new RacingDbContext())
             {
-                query = query.Where(q => q.PKId == searchModel.Key);
-            }
+                var query = db.PK.Where(pk => pk.Ranks != null);
+                if (searchModel.Key > 0)
+                {
+                    query = query.Where(q => q.PKId == searchModel.Key);
+                }
 
-            var pks = query.OrderByDescending(pk => pk.PKId).Pager<PK>(searchModel.PageIndex, searchModel.PageSize);
-            return pks;
+                var pks = query.OrderByDescending(pk => pk.PKId).Pager<PK>(searchModel.PageIndex, searchModel.PageSize);
+                return pks;
+            }
         }
 
         /// <summary>
@@ -253,11 +304,14 @@ namespace Racing.Moto.Services
         /// <param name="count">期数</param>
         public List<PK> GetSettlementPKs(int count)
         {
-            return db.PK
-                .Where(pk => pk.EndTime < DateTime.Now)
-                .OrderByDescending(pk => pk.PKId)
-                .Take(count)
-                .ToList();
+            using (var db = new RacingDbContext())
+            {
+                return db.PK
+                    .Where(pk => pk.EndTime < DateTime.Now)
+                    .OrderByDescending(pk => pk.PKId)
+                    .Take(count)
+                    .ToList();
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Racing.Moto.Core.Utils;
 using Racing.Moto.Core.Extentions;
 using System.Data.Entity;
+using Racing.Moto.Data;
 
 namespace Racing.Moto.Services
 {
@@ -208,6 +209,8 @@ namespace Racing.Moto.Services
             var betRates = CalculateBetRates(betAmounts);
             // 奖池百分比 转换成 矩阵, 用于计算最小中奖名次 [TODO]大于1必不中
             var matrix = GetMatrix(betRates);
+            // 名次奖金百分比
+            var rankRates = GetRankRates(betRates);
 
             /////////////////////test//////////////////////////////
             //var matrixStr = GetMatrixStr(matrix);
@@ -220,7 +223,7 @@ namespace Racing.Moto.Services
             if (IsValidRanks(matrix, minCostMatrix))
             {
                 // 计算名次:比赛结果:车号顺序
-                var ranks = GetRanks(minCostMatrix);
+                var ranks = GetRanks(minCostMatrix, rankRates, betRates);
 
                 return ranks;
             }
@@ -315,6 +318,23 @@ namespace Racing.Moto.Services
             return matrix;
         }
 
+        /// <summary>
+        /// 奖池百分比 转换成 矩阵, 用于计算最小中奖名次
+        /// decimal * 100 取整
+        /// </summary>
+        private List<RankRateModel> GetRankRates(List<BetRateModel> betRates)
+        {
+            var models = new List<RankRateModel>();
+
+            for (var rank = 1; rank <= 10; rank++)// 10个名次
+            {
+                var rate = betRates.Where(r => r.Rank == rank).Sum(r => r.Rate);
+                models.Add(new RankRateModel { Rank = rank, Rate = rate });
+            }
+
+            return models;
+        }
+
         private string GetMatrixStr(int[,] matrix)
         {
             StringBuilder sb = new StringBuilder();
@@ -365,7 +385,7 @@ namespace Racing.Moto.Services
         /// minCostMatrix 的计数从0开始, 加1返回
         /// </summary>
         /// <returns></returns>
-        private List<int> GetRanks(int[] minCostMatrix, List<BetRateModel> betRates)
+        private List<int> GetRanks(int[] minCostMatrix, List<RankRateModel> rankRates, List<BetRateModel> betRates)
         {
             var ranks = minCostMatrix.Select(m => m + 1).ToList();
 
@@ -391,10 +411,58 @@ namespace Racing.Moto.Services
                         if (rankStr.IndexOf(motoNumsStr) > -1)
                         {
                             var disruptOrder = RandomUtil.DisruptOrder(motoNums);
-                            rankStr.Replace(rankStr, string.Join(",", disruptOrder));
+                            rankStr = rankStr.Replace(motoNumsStr, string.Join(",", disruptOrder));
                         }
+
+                        ranks = rankStr.Split(',').Select(r => int.Parse(r)).ToList();
                     }
                 }
+
+                // 如果存在超过2个以上的连续数字, 如: 10,1,2,3,4,5,6,7,8,9 中的1,2,3,4,5,6,7,8,9 , 则将1,2,3,4,5,6,7,8,9打乱
+                ranks = ReOrderRanks(ranks);
+            }
+
+            return ranks;
+        }
+
+        //如果存在超过2个以上的连续数字, 如: 10,1,2,3,4,5,6,7,8,9 中的1,2,3,4,5,6,7,8,9 , 则将1,2,3,4,5,6,7,8,9打乱
+        private List<int> ReOrderRanks(List<int> ranks)
+        {
+            var ranksStr = string.Join(",", ranks);//10,1,2,3,4,5,6,7,8,9
+
+            var max = ranks.Count;
+            var maxRanks = new List<int>();
+            for (var i = 1; i <= max; i++)
+            {
+                maxRanks.Add(i);
+            }
+            var maxRanksStr = string.Join(",", ranks);   // 1,2,3,4,5,6,7,8,9,10
+
+            for (var len = max; len >= 3; len--)
+            {
+                var ranksByLen = GetRanksByLen(maxRanks, len);
+                var rankSection = ranksByLen.Where(rl => ranksStr.IndexOf(rl) > -1).FirstOrDefault();
+                if (rankSection != null)
+                {
+                    var rList = rankSection.Split(',').Select(r => int.Parse(r)).ToList();
+                    var disruptOrder = RandomUtil.DisruptOrder(rList);
+                    ranksStr = ranksStr.Replace(rankSection, string.Join(",", disruptOrder));
+                    break;
+                }
+            }
+
+            return ranksStr.Split(',').Select(r => int.Parse(r)).ToList(); ;
+        }
+
+        private List<string> GetRanksByLen(List<int> maxRanks, int len)
+        {
+            var ranks = new List<string>();
+
+            var count = maxRanks.Count - len + 1;   // 如: maxRanks = 1,2,3,4,5,6,7,8,9,10, len =9, count=2, 既: 1,2,3,4,5,6,7,8,9 和2,3,4,5,6,7,8,9,10
+            for (var i = 1; i <= count; i++)
+            {
+                var rankList = maxRanks.Where(r => r >= i && r < len + i).ToList();
+                ranks.Add(string.Join(",", rankList));
             }
 
             return ranks;
@@ -431,7 +499,6 @@ namespace Racing.Moto.Services
             dbBets.ForEach(b => b.IsSettlementDone = true);
             db.SaveChanges();
         }
-
 
         #region User Report
 
@@ -712,6 +779,151 @@ namespace Racing.Moto.Services
         }
         #endregion
 
+
+        #endregion
+
+        #region 即時注單信息
+
+        public BetStatisticModel GetBetStatistic()
+        {
+            using (var db = new RacingDbContext())
+            {
+                var model = new BetStatisticModel();
+
+                var pk = new PKService().GetCurrentPK();
+                //var pk = new PKService().GetPK(2129);
+                if (pk == null)
+                {
+                    return null;
+                }
+                var pkModel = new PKService().ConvertToPKModel(pk);
+                var pkRates = new PKRateService().GetPKRates(pk.PKId);
+
+                var sql = "SELECT [Rank], Num, sum(Amount) Amount \n"
+                    + "    FROM [Racing.Moto].[dbo].[Bet] WHERE PKId = {0} \n"
+                    + "    GROUP BY Num, [Rank]";
+
+                var dbBetAmounts = db.Database.SqlQuery<BetAmountModel>(string.Format(sql, pk.PKId)).ToList();
+                model.BetAmountsAll = dbBetAmounts;
+
+                //pk
+                model.PKModel = pkModel;
+                //pkRates
+                model.PKRates = pkRates;
+                model.TotalAmount = dbBetAmounts.Count > 0 ? dbBetAmounts.Sum(a => a.Amount) : 0;
+
+                // betAmountRankModels
+                //var betAmountRankModels = new List<BetAmountRankModel>();
+                //for (var rank = 1; rank <= 10; rank++)
+                //{
+                //    betAmountRankModels.Add(new BetAmountRankModel
+                //    {
+                //        Rank = rank,
+                //        BetAmounts = GetBetAmounts(dbBetAmounts, pkRates, rank)
+                //    });
+                //}
+                //model.BetAmountRankModels = betAmountRankModels;
+
+                model.BetAmounts1 = GetBetAmounts(dbBetAmounts, pkRates, 1);
+                model.BetAmounts2 = GetBetAmounts(dbBetAmounts, pkRates, 2);
+                model.BetAmounts3 = GetBetAmounts(dbBetAmounts, pkRates, 3);
+                model.BetAmounts4 = GetBetAmounts(dbBetAmounts, pkRates, 4);
+                model.BetAmounts5 = GetBetAmounts(dbBetAmounts, pkRates, 5);
+                model.BetAmounts6 = GetBetAmounts(dbBetAmounts, pkRates, 6);
+                model.BetAmounts7 = GetBetAmounts(dbBetAmounts, pkRates, 7);
+                model.BetAmounts8 = GetBetAmounts(dbBetAmounts, pkRates, 8);
+                model.BetAmounts9 = GetBetAmounts(dbBetAmounts, pkRates, 9);
+                model.BetAmounts10 = GetBetAmounts(dbBetAmounts, pkRates, 10);
+
+                //總投注額
+                //model.BetAmount1 = model.BetAmounts1.Sum(a => a.Amount);
+                //model.BetAmount2 = model.BetAmounts2.Sum(a => a.Amount);
+                //model.BetAmount3 = model.BetAmounts3.Sum(a => a.Amount);
+                //model.BetAmount4 = model.BetAmounts4.Sum(a => a.Amount);
+                //model.BetAmount5 = model.BetAmounts5.Sum(a => a.Amount);
+                //model.BetAmount6 = model.BetAmounts6.Sum(a => a.Amount);
+                //model.BetAmount7 = model.BetAmounts7.Sum(a => a.Amount);
+                //model.BetAmount8 = model.BetAmounts8.Sum(a => a.Amount);
+                //model.BetAmount9 = model.BetAmounts9.Sum(a => a.Amount);
+                //model.BetAmount10 = model.BetAmounts10.Sum(a => a.Amount);
+
+                //最高盈利
+                model.MaxProfit = model.TotalAmount * (1 - AppConfigCache.Rate_Rebate_A);
+                //model.MaxProfit1 = model.BetAmount1 * (1 - AppConfigCache.Rate_Rebate_A);
+                //model.MaxProfit2 = model.BetAmount2 * (1 - AppConfigCache.Rate_Rebate_A);
+                //model.MaxProfit3 = model.BetAmount3 * (1 - AppConfigCache.Rate_Rebate_A);
+                //model.MaxProfit4 = model.BetAmount4 * (1 - AppConfigCache.Rate_Rebate_A);
+                //model.MaxProfit5 = model.BetAmount5 * (1 - AppConfigCache.Rate_Rebate_A);
+                //model.MaxProfit6 = model.BetAmount6 * (1 - AppConfigCache.Rate_Rebate_A);
+                //model.MaxProfit7 = model.BetAmount7 * (1 - AppConfigCache.Rate_Rebate_A);
+                //model.MaxProfit8 = model.BetAmount8 * (1 - AppConfigCache.Rate_Rebate_A);
+                //model.MaxProfit9 = model.BetAmount9 * (1 - AppConfigCache.Rate_Rebate_A);
+                //model.MaxProfit10 = model.BetAmount10 * (1 - AppConfigCache.Rate_Rebate_A);
+
+                //最高虧損
+                model.MaxLoss = dbBetAmounts.Sum(a => a.Amount * a.PKRate) - model.TotalAmount;
+                //model.MaxLoss1 = model.BetAmounts1.Sum(m => m.Amount * m.PKRate) - model.BetAmount1;
+                //model.MaxLoss2 = model.BetAmounts2.Sum(m => m.Amount * m.PKRate) - model.BetAmount2;
+                //model.MaxLoss3 = model.BetAmounts3.Sum(m => m.Amount * m.PKRate) - model.BetAmount3;
+                //model.MaxLoss4 = model.BetAmounts4.Sum(m => m.Amount * m.PKRate) - model.BetAmount4;
+                //model.MaxLoss5 = model.BetAmounts5.Sum(m => m.Amount * m.PKRate) - model.BetAmount5;
+                //model.MaxLoss6 = model.BetAmounts6.Sum(m => m.Amount * m.PKRate) - model.BetAmount6;
+                //model.MaxLoss7 = model.BetAmounts7.Sum(m => m.Amount * m.PKRate) - model.BetAmount7;
+                //model.MaxLoss8 = model.BetAmounts8.Sum(m => m.Amount * m.PKRate) - model.BetAmount8;
+                //model.MaxLoss9 = model.BetAmounts9.Sum(m => m.Amount * m.PKRate) - model.BetAmount9;
+                //model.MaxLoss10 = model.BetAmounts10.Sum(m => m.Amount * m.PKRate) - model.BetAmount10;
+
+                //RankAmountModels
+                model.RankAmounts = GetRankAmountModels(dbBetAmounts);
+
+                return model;
+            }
+        }
+
+        private List<BetAmountModel> GetBetAmounts(List<BetAmountModel> dbBetAmounts, List<PKRate> pkRates, int rank)
+        {
+            var betAmounts = new List<BetAmountModel>();
+            for (var num = 1; num <= 14; num++)
+            {
+                var pkRate = pkRates.Where(r => r.Rank == rank && r.Num == num).FirstOrDefault();
+                var betAmount = dbBetAmounts.Where(bA => bA.Rank == rank && bA.Num == num).FirstOrDefault();
+                if (betAmount == null)
+                {
+                    betAmount = new BetAmountModel
+                    {
+                        Rank = rank,
+                        Num = num,
+                        Amount = 0
+                    };
+                }
+                betAmount.PKRate = pkRate.Rate;
+
+                betAmounts.Add(betAmount);
+            }
+
+            return betAmounts;
+        }
+
+        private List<RankAmountModel> GetRankAmountModels(List<BetAmountModel> dbBetAmounts)
+        {
+            var models = new List<RankAmountModel>();
+            for (var i = 1; i <= 10; i++)
+            {
+                var amountList = dbBetAmounts.Where(a => a.Rank == i).ToList();
+
+                models.Add(new RankAmountModel
+                {
+                    Rank = i,
+                    Amount = amountList.Count > 0 ? amountList.Sum(a => a.Amount) : 0
+                });
+            }
+            return models;
+        }
+
+        private decimal GetLoss(List<BetAmountModel> models)
+        {
+            return models.Sum(m => m.Amount * m.PKRate);
+        }
 
         #endregion
     }
