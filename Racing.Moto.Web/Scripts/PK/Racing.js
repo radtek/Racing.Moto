@@ -13,7 +13,7 @@
             //pkInfo = {};
             //pkInfo.GamingSeconds = -1;
             //pkInfo.GamePassedSeconds = 0;
-            //pkInfo.GameRemainSeconds = 50;
+            //pkInfo.GameRemainSeconds = 10;
             //pkInfo.GameBeginTime = '2017/04/03 18:20:00';
             //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
@@ -28,10 +28,12 @@
     // Add a client-side hub method that the server will call
     ticker.client.updatePKInfo = function (pkInfo) {
         // test
+        //pkInfo = {};
         //pkInfo.GamingSeconds = -5;
         //pkInfo.GamePassedSeconds = 0;
         //pkInfo.GameRemainSeconds = 20;
-        //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
+        //pkInfo.GameBeginTime = '2017/04/03 18:30:00';
+        //pkInfo.PK = { PKId: 2, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
         console.log(pkInfo);
         if (pkInfo == null) {
@@ -48,7 +50,7 @@
     var motoRacing = {
         PKInfo: null,
         ResultShowSeconds: 5,
-        BonusShowSeconds: 30,
+        BonusShowSeconds: 5,
         Millisec: 3,
         RoadLength: 610,//910
         Colors: ['red', 'blue', 'yellow', 'green', 'gray', 'aqua', 'blueviolet', 'brown', 'Highlight', 'aquamarine', 'teal'],
@@ -84,6 +86,8 @@
             if (motoRacing.PKInfo == null || pkInfo.PK.PKId != motoRacing.PKInfo.PK.PKId) {
                 motoRacing.PKInfo = pkInfo;
                 motoRacing.EndMotos = [];
+
+                motoRacing.clear();
 
                 // append moto
                 motoRacing.append();
@@ -135,21 +139,23 @@
             var countdownSeconds = 5;
             var toGamingSeconds = Math.abs(pkInfo.GamingSeconds);
             //var seconds = countdownSeconds < toGamingSeconds ? toGamingSeconds - countdownSeconds : 0;
-            if (countdownSeconds <= toGamingSeconds && pkInfo.GamingSeconds < 0) {
-                var seconds = Math.abs(pkInfo.GamingSeconds + countdownSeconds) + 's';
-                $('body').oneTime(seconds, function () {
+            if (pkInfo.GamingSeconds < 0) {
+                if (countdownSeconds <= toGamingSeconds) {
+                    var seconds = Math.abs(pkInfo.GamingSeconds + countdownSeconds) + 's';
+                    $('body').oneTime(seconds, function () {
+                        $('.time-run2').hide();
+                        $('.time-run').show();
+
+                        motoRacing.countdown2(countdownSeconds, 4);
+                    });
+                } else {
                     $('.time-run2').hide();
                     $('.time-run').show();
 
-                    motoRacing.countdown2(countdownSeconds, 4);
-                });
-            } else if (countdownSeconds > toGamingSeconds && pkInfo.GamingSeconds < 0) {
-                $('.time-run2').hide();
-                $('.time-run').show();
-
-                motoRacing.countdown2(toGamingSeconds, toGamingSeconds - 1);
+                    motoRacing.countdown2(toGamingSeconds, toGamingSeconds - 1);
+                }
             } else {
-                $('.time-run2').show();
+                $('.time-run2').hide();
                 $('.time-run').hide();
             }
         },
@@ -373,6 +379,12 @@
                                                 Rank: motoRacing.EndMotos.length + 1,
                                                 Num: parseInt($(this).attr('alt'))
                                             });
+
+                                            // show Result
+                                            if (motoRacing.EndMotos.length == 10) {
+                                                //stop showRanks
+                                                $('body').stopTime('showRanks');
+                                            }
                                         }
                                     });
                                 }
@@ -410,6 +422,11 @@
             $('body').everyTime('1ds', function () {
                 if ($endFlag.css('left') == positon + 'px') {
                     motoRacing.clear();
+                    motoRacing.showFinalRanks(motoRacing.PKInfo);
+
+                    $('body').oneTime('3s', function () {
+                        motoRacing.showResult();
+                    });
                 }
             });
         },
@@ -540,6 +557,7 @@
             $('.saidao').floatingBg('destroy');
             $('.bg-top').floatingBg('destroy');
             $('.start-flag').floating('destroy');
+            $('.end-flag').floating('destroy');
 
             $('body').stopTime();
         },
@@ -610,7 +628,7 @@
                 }
             });
 
-            // close bonus dialog after 30 seconds
+            // close bonus dialog after 5 seconds
             $('body').oneTime(motoRacing.BonusShowSeconds + 's', function () {
                 // close
                 $bonusResult.addClass("hide");

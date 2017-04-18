@@ -17,8 +17,8 @@ namespace Racing.Moto.JobManager.Jobs
                 IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
                 scheduler.Start();
 
-                // 生成PK: 每5秒执行一次
-                var interval = 5;
+                // 生成PK: 每2秒执行一次
+                var interval = 2;
                 IJobDetail job = JobBuilder.Create<PkJob>().Build();
                 ITrigger trigger = TriggerBuilder.Create()
                     .WithIdentity("PkJobTrigger", "PkJobGroup")
@@ -27,7 +27,7 @@ namespace Racing.Moto.JobManager.Jobs
                 scheduler.ScheduleJob(job, trigger);
 
                 // 计算名次 + 生成奖金: 每6秒执行一次
-                var rankInterval = 6;
+                var rankInterval = 5;
                 IJobDetail rankJob = JobBuilder.Create<RankJob>().Build();
                 ITrigger rankTrigger = TriggerBuilder.Create()
                     .WithIdentity("RankJobTrigger", "RankJobGroup")
