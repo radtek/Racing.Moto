@@ -87,6 +87,7 @@ namespace Racing.Moto.JobManager.Jobs
                         // 计算名次
                         var rankList = betService.CalculateRanks(pk.PKId);
                         var ranks = string.Join(",", rankList);
+                        pk.Ranks = ranks;
                         pkService.UpdateRanks(pk.PKId, ranks);
 
                         var msg = string.Format("Calculate Ranks - PKId : {0} - Ranks : {1} - Time : {2}", pk.PKId, ranks, now.ToString(DateFormatConst.yMd_Hms));

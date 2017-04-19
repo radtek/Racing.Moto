@@ -256,7 +256,7 @@ app.controller('reportBetsController', ['$scope', '$rootScope', '$http', '$compi
 
 
 // 分类報表
-app.controller('reportListController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
+app.controller('reportList2Controller', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
     $scope.Data = {
         UserTypes: { All: 0, Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4, Vistor: 5 },
         Ranks: [

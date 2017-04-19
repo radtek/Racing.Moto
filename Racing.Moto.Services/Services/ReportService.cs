@@ -98,7 +98,7 @@ namespace Racing.Moto.Services
             foreach (var user in users)
             {
                 var betReport = dbBetReports.Where(b => b.UserId == user.UserId).FirstOrDefault();
-                var bonusReports = dbBonusReports.Where(b => b.UserId == user.UserId).ToList();
+                var bonusReports = GetBonusReportModels(model.UserType, dbBonusReports, user.UserId);
                 var betAmount = betReport != null ? betReport.Amount : 0;
                 var bonusAmount = bonusReports.Count() > 0 ? bonusReports.Sum(b => b.Amount) : 0;
                 var rebateAmount = bonusReports.Count() > 0
@@ -185,6 +185,25 @@ namespace Racing.Moto.Services
                 case RoleConst.Role_Id_Agent: userId = "UserId"; break;
             }
             return userId;
+        }
+
+
+        private List<BonusReportModel> GetBonusReportModels(int roleId, List<BonusReportModel> bonusReports, int userId)
+        {
+            var models = new List<BonusReportModel>(); ;
+            switch (roleId)
+            {
+                case RoleConst.Role_Id_Admin:
+                    models = bonusReports.Where(r => r.GeneralAgentUserId == userId).ToList();
+                    break;
+                case RoleConst.Role_Id_General_Agent:
+                    models = bonusReports.Where(r => r.AgentUserId == userId).ToList();
+                    break;
+                case RoleConst.Role_Id_Agent:
+                    models = bonusReports.Where(r => r.UserId == userId).ToList();
+                    break;
+            }
+            return models;
         }
         #endregion
 

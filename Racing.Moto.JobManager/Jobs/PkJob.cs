@@ -28,10 +28,20 @@ namespace Racing.Moto.JobManager.Jobs
 
                 // 每隔5秒查看一下, 生成PK
                 var now = DateTime.Now;
+
+#if DEBUG
+                if (!pkService.ExistPK(now))
+                {
+                    var pk = new PKService().AddPK();
+
+                    var msg = string.Format("Add new PK - PKId : {0} - Time : {1}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
+                    _logger.Info(msg);
+                }
+#else
+
+                _logger.Info("release");
                 var start = new DateTime(now.Year, now.Month, now.Day, 9, 2, 0);
                 var end = new DateTime(now.Year, now.Month, now.Day, 23, 52, 5);
-                //var start = new DateTime(now.Year, now.Month, now.Day - 1, 9, 2, 0);
-                //var end = new DateTime(now.Year, now.Month, now.Day + 1, 23, 52, 5);
 
                 if (start <= now && now <= end)
                 {
@@ -43,13 +53,7 @@ namespace Racing.Moto.JobManager.Jobs
                         _logger.Info(msg);
                     }
                 }
-                //if (!pkService.ExistPK(now))
-                //{
-                //    var pk = new PKService().AddPK();
-
-                //    var msg = string.Format("Add new PK - PKId : {0} - Time : {1}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
-                //    _logger.Info(msg);
-                //}
+#endif
             }
             catch (Exception ex)
             {

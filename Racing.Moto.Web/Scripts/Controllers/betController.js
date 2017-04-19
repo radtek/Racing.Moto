@@ -44,7 +44,7 @@
                     $scope.bet.initPKRates($scope.bet.PKRates);
 
                     $scope.bet.initBetItems($scope.bet.Bets);
-                    $scope.bet.setBets($scope.bet.PKRates, $scope.bet.Bets);
+                    //$scope.bet.setBets($scope.bet.PKRates, $scope.bet.Bets);
                     // 重置输入框背景色
                     //$scope.bet.resetBgColor();
 

@@ -104,6 +104,10 @@
       <Project>{87286c96-6a07-49d0-b162-225195dad6f5}</Project>
       <Name>Racing.Moto.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Racing.Moto.JobManager\Racing.Moto.JobManager.csproj">
+      <Project>{BE4CC0A6-5668-4583-A82B-066ADF64FB81}</Project>
+      <Name>Racing.Moto.JobManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Racing.Moto.Services\Racing.Moto.Services.csproj">
       <Project>{5F9F188A-EC4C-4E77-BB5B-ADFE3A32587C}</Project>
       <Name>Racing.Moto.Services</Name>

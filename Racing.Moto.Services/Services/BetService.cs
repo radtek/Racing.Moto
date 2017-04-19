@@ -22,38 +22,41 @@ namespace Racing.Moto.Services
         /// </summary>
         public void SaveBets(int pkId, int userId, List<Bet> bets)
         {
-            //int? agentUserId = null;            // 报表使用
-            //int? genearlAgentUserId = null;     // 报表使用
+            int? agentUserId = null;            // 报表使用
+            int? generalAgentUserId = null;     // 报表使用
 
             var user = db.User
                 .Include(nameof(User.ParentUser))
                 .Include(nameof(User.UserRoles))
                 .Where(u => u.UserId == userId).First();
 
-            //// 下注用户是会员
-            //if (user.UserRoles.First().RoleId == RoleConst.Role_Id_Member)
-            //{
-            //    agentUserId = user.ParentUserId;
-            //    genearlAgentUserId = db.User.Where(u => u.UserId == user.ParentUser.ParentUserId).First().UserId;
-            //}
-            //// 下注用户是代理
-            //else if (user.UserRoles.First().RoleId == RoleConst.Role_Id_Agent)
-            //{
-            //    agentUserId = user.UserId;
-            //    genearlAgentUserId = user.ParentUserId;
-            //}
-            //// 下注用户是代理
-            //else if (user.UserRoles.First().RoleId == RoleConst.Role_Id_General_Agent)
-            //{
-            //    agentUserId = user.UserId;
-            //    genearlAgentUserId = user.UserId;
-            //}
+            // 下注用户是会员
+            if (user.UserRoles.First().RoleId == RoleConst.Role_Id_Member)
+            {
+                agentUserId = user.ParentUserId;
+                generalAgentUserId = db.User.Where(u => u.UserId == user.ParentUser.ParentUserId).First().UserId;
+            }
+            // 下注用户是代理
+            else if (user.UserRoles.First().RoleId == RoleConst.Role_Id_Agent)
+            {
+                agentUserId = user.UserId;
+                generalAgentUserId = user.ParentUserId;
+            }
+            // 下注用户是代理
+            else if (user.UserRoles.First().RoleId == RoleConst.Role_Id_General_Agent)
+            {
+                agentUserId = user.UserId;
+                generalAgentUserId = user.UserId;
+            }
 
             bets.ForEach(b =>
             {
                 b.PKId = pkId;
                 b.UserId = userId;
                 b.CreateTime = DateTime.Now;
+                b.AgentUserId = agentUserId;
+                b.GeneralAgentUserId = generalAgentUserId;
+
                 b.BetItems = new List<BetItem>
                 {
                     new BetItem
