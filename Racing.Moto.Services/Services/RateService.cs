@@ -1,4 +1,5 @@
-﻿using Racing.Moto.Data.Entities;
+﻿using Racing.Moto.Data;
+using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Enums;
 using System;
 using System.Collections.Generic;
@@ -12,39 +13,48 @@ namespace Racing.Moto.Services
     {
         public List<Rate> GetAll()
         {
-            return db.Rate.OrderBy(r => r.RateType).ThenBy(r => r.Rank).ToList();
+            using (var db = new RacingDbContext())
+            {
+                return db.Rate.OrderBy(r => r.RateType).ThenBy(r => r.Rank).ToList();
+            }
         }
 
         public List<Rate> GetRatesByType(RateType type)
         {
-            return db.Rate.Where(r => r.RateType == type).OrderBy(r => r.Rank).ToList();
+            using (var db = new RacingDbContext())
+            {
+                return db.Rate.Where(r => r.RateType == type).OrderBy(r => r.Rank).ToList();
+            }
         }
 
         public void UpdateRates(RateType type, List<Rate> rates)
         {
-            var dbRates = db.Rate.Where(r => r.RateType == type).OrderBy(r => r.Rank).ToList();
-            foreach (var dbRate in dbRates)
+            using (var db = new RacingDbContext())
             {
-                var rate = rates.Where(r => r.RateId == dbRate.RateId).FirstOrDefault();
-                if (rate != null)
+                var dbRates = db.Rate.Where(r => r.RateType == type).OrderBy(r => r.Rank).ToList();
+                foreach (var dbRate in dbRates)
                 {
-                    dbRate.Rate1 = rate.Rate1;
-                    dbRate.Rate2 = rate.Rate2;
-                    dbRate.Rate3 = rate.Rate3;
-                    dbRate.Rate4 = rate.Rate4;
-                    dbRate.Rate5 = rate.Rate5;
-                    dbRate.Rate6 = rate.Rate6;
-                    dbRate.Rate7 = rate.Rate7;
-                    dbRate.Rate8 = rate.Rate8;
-                    dbRate.Rate9 = rate.Rate9;
-                    dbRate.Rate10 = rate.Rate10;
-                    dbRate.Big = rate.Big;
-                    dbRate.Small = rate.Small;
-                    dbRate.Odd = rate.Odd;
-                    dbRate.Even = rate.Even;
+                    var rate = rates.Where(r => r.RateId == dbRate.RateId).FirstOrDefault();
+                    if (rate != null)
+                    {
+                        dbRate.Rate1 = rate.Rate1;
+                        dbRate.Rate2 = rate.Rate2;
+                        dbRate.Rate3 = rate.Rate3;
+                        dbRate.Rate4 = rate.Rate4;
+                        dbRate.Rate5 = rate.Rate5;
+                        dbRate.Rate6 = rate.Rate6;
+                        dbRate.Rate7 = rate.Rate7;
+                        dbRate.Rate8 = rate.Rate8;
+                        dbRate.Rate9 = rate.Rate9;
+                        dbRate.Rate10 = rate.Rate10;
+                        dbRate.Big = rate.Big;
+                        dbRate.Small = rate.Small;
+                        dbRate.Odd = rate.Odd;
+                        dbRate.Even = rate.Even;
+                    }
                 }
+                db.SaveChanges();
             }
-            db.SaveChanges();
         }
 
         /// <summary>
@@ -55,44 +65,47 @@ namespace Racing.Moto.Services
         /// <param name="rate">赔率</param>
         public void UpdateBatchRates(RateType type, BatchRateType batchType, decimal rate)
         {
-            var dbRates = db.Rate.Where(r => r.RateType == type).OrderBy(r => r.Rank).ToList();
-
-            foreach (var dbRate in dbRates)
+            using (var db = new RacingDbContext())
             {
-                #region 名次 or 全部
-                if (batchType == BatchRateType.Rank || batchType == BatchRateType.All)
-                {
-                    dbRate.Rate1 = rate;
-                    dbRate.Rate2 = rate;
-                    dbRate.Rate3 = rate;
-                    dbRate.Rate4 = rate;
-                    dbRate.Rate5 = rate;
-                    dbRate.Rate6 = rate;
-                    dbRate.Rate7 = rate;
-                    dbRate.Rate8 = rate;
-                    dbRate.Rate9 = rate;
-                    dbRate.Rate10 = rate;
-                }
-                #endregion
+                var dbRates = db.Rate.Where(r => r.RateType == type).OrderBy(r => r.Rank).ToList();
 
-                #region 大小 or 全部
-                if (batchType == BatchRateType.BigSmall || batchType == BatchRateType.All)
+                foreach (var dbRate in dbRates)
                 {
-                    dbRate.Big = rate;
-                    dbRate.Small = rate;
-                }
-                #endregion
+                    #region 名次 or 全部
+                    if (batchType == BatchRateType.Rank || batchType == BatchRateType.All)
+                    {
+                        dbRate.Rate1 = rate;
+                        dbRate.Rate2 = rate;
+                        dbRate.Rate3 = rate;
+                        dbRate.Rate4 = rate;
+                        dbRate.Rate5 = rate;
+                        dbRate.Rate6 = rate;
+                        dbRate.Rate7 = rate;
+                        dbRate.Rate8 = rate;
+                        dbRate.Rate9 = rate;
+                        dbRate.Rate10 = rate;
+                    }
+                    #endregion
 
-                #region 大小 or 全部
-                if (batchType == BatchRateType.OddEven || batchType == BatchRateType.All)
-                {
-                    dbRate.Odd = rate;
-                    dbRate.Even = rate;
+                    #region 大小 or 全部
+                    if (batchType == BatchRateType.BigSmall || batchType == BatchRateType.All)
+                    {
+                        dbRate.Big = rate;
+                        dbRate.Small = rate;
+                    }
+                    #endregion
+
+                    #region 大小 or 全部
+                    if (batchType == BatchRateType.OddEven || batchType == BatchRateType.All)
+                    {
+                        dbRate.Odd = rate;
+                        dbRate.Even = rate;
+                    }
+                    #endregion
                 }
-                #endregion
+
+                db.SaveChanges();
             }
-
-            db.SaveChanges();
         }
 
         #region static

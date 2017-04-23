@@ -22,42 +22,44 @@ namespace Racing.Moto.Services
         /// </summary>
         public void SaveBets(int pkId, int userId, List<Bet> bets)
         {
-            int? agentUserId = null;            // 报表使用
-            int? generalAgentUserId = null;     // 报表使用
-
-            var user = db.User
-                .Include(nameof(User.ParentUser))
-                .Include(nameof(User.UserRoles))
-                .Where(u => u.UserId == userId).First();
-
-            // 下注用户是会员
-            if (user.UserRoles.First().RoleId == RoleConst.Role_Id_Member)
+            using (var db = new RacingDbContext())
             {
-                agentUserId = user.ParentUserId;
-                generalAgentUserId = db.User.Where(u => u.UserId == user.ParentUser.ParentUserId).First().UserId;
-            }
-            // 下注用户是代理
-            else if (user.UserRoles.First().RoleId == RoleConst.Role_Id_Agent)
-            {
-                agentUserId = user.UserId;
-                generalAgentUserId = user.ParentUserId;
-            }
-            // 下注用户是代理
-            else if (user.UserRoles.First().RoleId == RoleConst.Role_Id_General_Agent)
-            {
-                agentUserId = user.UserId;
-                generalAgentUserId = user.UserId;
-            }
+                int? agentUserId = null;            // 报表使用
+                int? generalAgentUserId = null;     // 报表使用
 
-            bets.ForEach(b =>
-            {
-                b.PKId = pkId;
-                b.UserId = userId;
-                b.CreateTime = DateTime.Now;
-                b.AgentUserId = agentUserId;
-                b.GeneralAgentUserId = generalAgentUserId;
+                var user = db.User
+                    .Include(nameof(User.ParentUser))
+                    .Include(nameof(User.UserRoles))
+                    .Where(u => u.UserId == userId).First();
 
-                b.BetItems = new List<BetItem>
+                // 下注用户是会员
+                if (user.UserRoles.First().RoleId == RoleConst.Role_Id_Member)
+                {
+                    agentUserId = user.ParentUserId;
+                    generalAgentUserId = db.User.Where(u => u.UserId == user.ParentUser.ParentUserId).First().UserId;
+                }
+                // 下注用户是代理
+                else if (user.UserRoles.First().RoleId == RoleConst.Role_Id_Agent)
+                {
+                    agentUserId = user.UserId;
+                    generalAgentUserId = user.ParentUserId;
+                }
+                // 下注用户是代理
+                else if (user.UserRoles.First().RoleId == RoleConst.Role_Id_General_Agent)
+                {
+                    agentUserId = user.UserId;
+                    generalAgentUserId = user.UserId;
+                }
+
+                bets.ForEach(b =>
+                {
+                    b.PKId = pkId;
+                    b.UserId = userId;
+                    b.CreateTime = DateTime.Now;
+                    b.AgentUserId = agentUserId;
+                    b.GeneralAgentUserId = generalAgentUserId;
+
+                    b.BetItems = new List<BetItem>
                 {
                     new BetItem
                     {
@@ -67,50 +69,51 @@ namespace Racing.Moto.Services
                         CreateTime = DateTime.Now
                     }
                 };
-            });
+                });
 
-            var dbBets = db.Bet.Where(b => b.PKId == pkId && b.UserId == userId).ToList();
-            if (dbBets.Count == 0)
-            {
-                // 第一次添加
-                db.Bet.AddRange(bets);
-            }
-            else
-            {
-                // 追加投注
-                foreach (var dbBet in dbBets)
+                var dbBets = db.Bet.Where(b => b.PKId == pkId && b.UserId == userId).ToList();
+                if (dbBets.Count == 0)
                 {
-                    var newBet = bets.Where(b => b.Rank == dbBet.Rank && b.Num == dbBet.Num).FirstOrDefault();
-                    if (newBet != null)
+                    // 第一次添加
+                    db.Bet.AddRange(bets);
+                }
+                else
+                {
+                    // 追加投注
+                    foreach (var dbBet in dbBets)
                     {
-                        // 追加投注
-                        dbBet.Amount += newBet.Amount;
-
-                        // 追加投注条目
-                        var betItem = new BetItem
+                        var newBet = bets.Where(b => b.Rank == dbBet.Rank && b.Num == dbBet.Num).FirstOrDefault();
+                        if (newBet != null)
                         {
-                            BetId = dbBet.BetId,
-                            Rank = newBet.Rank,
-                            Num = newBet.Num,
-                            Amount = newBet.Amount,
-                            CreateTime = DateTime.Now
-                        };
-                        db.BetItem.Add(betItem);
-                    }
-                }
+                            // 追加投注
+                            dbBet.Amount += newBet.Amount;
 
-                // 新投注
-                foreach (var bet in bets)
-                {
-                    var dbBet = dbBets.Where(b => b.Rank == bet.Rank && b.Num == bet.Num).FirstOrDefault();
-                    if (dbBet == null)
+                            // 追加投注条目
+                            var betItem = new BetItem
+                            {
+                                BetId = dbBet.BetId,
+                                Rank = newBet.Rank,
+                                Num = newBet.Num,
+                                Amount = newBet.Amount,
+                                CreateTime = DateTime.Now
+                            };
+                            db.BetItem.Add(betItem);
+                        }
+                    }
+
+                    // 新投注
+                    foreach (var bet in bets)
                     {
-                        db.Bet.Add(bet);// 新投注
+                        var dbBet = dbBets.Where(b => b.Rank == bet.Rank && b.Num == bet.Num).FirstOrDefault();
+                        if (dbBet == null)
+                        {
+                            db.Bet.Add(bet);// 新投注
+                        }
                     }
                 }
-            }
 
-            db.SaveChanges();
+                db.SaveChanges();
+            }
         }
 
         /// <summary>
@@ -118,8 +121,11 @@ namespace Racing.Moto.Services
         /// </summary>
         public List<Bet> GetBets(int pkId, int userId)
         {
-            return db.Bet.Include(nameof(Bet.BetItems))
-                .Where(b => b.PKId == pkId && b.UserId == userId).ToList();
+            using (var db = new RacingDbContext())
+            {
+                return db.Bet.Include(nameof(Bet.BetItems))
+                    .Where(b => b.PKId == pkId && b.UserId == userId).ToList();
+            }
         }
 
         /// <summary>
@@ -127,7 +133,10 @@ namespace Racing.Moto.Services
         /// </summary>
         public List<Bet> GetBets(int pkId, int rank, int num)
         {
-            return db.Bet.Where(b => b.PKId == pkId && b.Rank == rank && b.Num == num).ToList();
+            using (var db = new RacingDbContext())
+            {
+                return db.Bet.Where(b => b.PKId == pkId && b.Rank == rank && b.Num == num).ToList();
+            }
         }
 
         #region 转换PK表中Ranks
@@ -208,11 +217,11 @@ namespace Racing.Moto.Services
                 return ranks;
             }
 
-            // 计算奖池百分比
+            // 计算下注百分比
             var betRates = CalculateBetRates(betAmounts);
             // 奖池百分比 转换成 矩阵, 用于计算最小中奖名次 [TODO]大于1必不中
             var matrix = GetMatrix(betRates);
-            // 名次奖金百分比
+            // 名次下注百分比
             var rankRates = GetRankRates(betRates);
 
             /////////////////////test//////////////////////////////
@@ -243,19 +252,22 @@ namespace Racing.Moto.Services
         /// </summary>
         private List<BetAmountModel> GetBetAmounts(int pkId)
         {
-            var sql = new StringBuilder();
-            sql.AppendLine("SELECT [Rank], [Num], SUM(Amount) Amount, SUM(RateAmount) RateAmount");
-            sql.AppendLine("FROM (");
-            sql.AppendLine("	SELECT [B].[Rank], [B].[Num], [B].[Amount], [B].[Amount] * [PR].[Rate] AS RateAmount, [PR].[Rate]");
-            sql.AppendLine("	FROM [dbo].[Bet] AS [B]");
-            sql.AppendLine("	INNER JOIN [dbo].[PKRate] AS [PR] ON [B].[PKId] = [PR].[PKId] AND [B].[Rank] = [PR].[Rank] AND [B].[Num] = [PR].[Num]");
-            sql.AppendLine("	WHERE [B].[PKId] = " + pkId);
-            sql.AppendLine(") AS TEMP");
-            sql.AppendLine("GROUP BY [Rank],[Num]");
+            using (var db = new RacingDbContext())
+            {
+                var sql = new StringBuilder();
+                sql.AppendLine("SELECT [Rank], [Num], SUM(Amount) Amount, SUM(RateAmount) RateAmount");
+                sql.AppendLine("FROM (");
+                sql.AppendLine("	SELECT [B].[Rank], [B].[Num], [B].[Amount], [B].[Amount] * [PR].[Rate] AS RateAmount, [PR].[Rate]");
+                sql.AppendLine("	FROM [dbo].[Bet] AS [B]");
+                sql.AppendLine("	INNER JOIN [dbo].[PKRate] AS [PR] ON [B].[PKId] = [PR].[PKId] AND [B].[Rank] = [PR].[Rank] AND [B].[Num] = [PR].[Num]");
+                sql.AppendLine("	WHERE [B].[PKId] = " + pkId);
+                sql.AppendLine(") AS TEMP");
+                sql.AppendLine("GROUP BY [Rank],[Num]");
 
-            var amounts = db.Database.SqlQuery<BetAmountModel>(sql.ToString()).ToList();
+                var amounts = db.Database.SqlQuery<BetAmountModel>(sql.ToString()).ToList();
 
-            return amounts;
+                return amounts;
+            }
         }
 
         /// <summary>
@@ -268,7 +280,8 @@ namespace Racing.Moto.Services
             var betRates = new List<BetRateModel>();
 
             var totalAmount = betAmounts.Sum(ba => ba.Amount);//押注总额
-            var bonusAmount = totalAmount * (1 - AppConfigCache.Rate_Admin - AppConfigCache.Rate_Return);// 1- 吃二出八 - 退水
+            //var bonusAmount = totalAmount * (1 - AppConfigCache.Rate_Admin - AppConfigCache.Rate_Return);// 1- 吃二出八 - 退水
+            var bonusAmount = totalAmount;
 
             for (var rank = 1; rank <= 10; rank++)// 10个名次
             {
@@ -322,8 +335,7 @@ namespace Racing.Moto.Services
         }
 
         /// <summary>
-        /// 奖池百分比 转换成 矩阵, 用于计算最小中奖名次
-        /// decimal * 100 取整
+        /// 名次中奖几率
         /// </summary>
         private List<RankRateModel> GetRankRates(List<BetRateModel> betRates)
         {
@@ -423,6 +435,9 @@ namespace Racing.Moto.Services
 
                 // 如果存在超过2个以上的连续数字, 如: 10,1,2,3,4,5,6,7,8,9 中的1,2,3,4,5,6,7,8,9 , 则将1,2,3,4,5,6,7,8,9打乱
                 ranks = ReOrderRanks(ranks);
+
+                // 调高中奖几率
+                ranks = ImproveWinningRate(betRates, ranks);
             }
 
             return ranks;
@@ -470,6 +485,146 @@ namespace Racing.Moto.Services
 
             return ranks;
         }
+
+        /// <summary>
+        /// 提高中奖率
+        /// </summary>
+        /// <returns></returns>
+        private List<int> ImproveWinningRate(List<BetRateModel> betRates, List<int> ranks)
+        {
+            // 计算中奖比率
+
+            var bonusRate = 1 - AppConfigCache.Rate_Admin - AppConfigCache.Rate_Return; // 吃二出八
+
+            var newRanks = new List<int>();
+
+            // 提高中奖率, 取 中奖比率< 出八 的放在中奖位置
+            betRates = betRates.OrderByDescending(br => br.Rate).ToList();//中奖比率倒叙
+            var sumBetRate = 0M;
+            foreach (var betRate in betRates)
+            {
+                sumBetRate += betRate.Rate;
+                if (sumBetRate <= bonusRate)
+                {
+                    var tempRanks = ResetRanks(ranks, betRate.Rank, betRate.Num);
+
+                    // 判断新名次是否超过中奖率
+                    if (IsValidRanks(tempRanks, betRates))
+                    {
+                        ranks = tempRanks;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return ranks;
+        }
+
+        /// <summary>
+        /// 设置第rank名为第num号车
+        /// </summary>
+        /// <param name="ranks"></param>
+        /// <param name="rank"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        private List<int> ResetRanks(List<int> ranks, int rank, int num)
+        {
+            var index = 0;    // 当前车(num)所在位置
+            for (var i = 0; i < ranks.Count; i++)
+            {
+                if (ranks[i] == num)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            // 两辆车互换位置
+            var motoNum = ranks[rank - 1];
+            ranks[rank - 1] = num;
+            ranks[index] = motoNum;
+
+            return ranks;
+        }
+
+        private bool IsValidRanks(List<int> ranks, List<BetRateModel> betRates)
+        {
+            var sumRate = 0M;
+            for (int i = 0; i < ranks.Count; i++)
+            {
+                sumRate += betRates.Where(r => r.Rank == (i + 1) && r.Num == ranks[i]).Sum(r => r.Rate);
+            }
+
+            return (sumRate <= 1 - AppConfigCache.Rate_Admin - AppConfigCache.Rate_Return);
+        }
+
+        /// <summary>
+        /// 取 名次比率中 求和 小于 拨出比率(出八)的
+        /// </summary>
+        /// <param name="bonusRate">拨出比率(出八)</param>
+        /// <param name="rankRates">名次比率</param>
+        /// <returns></returns>
+        private List<RankRateModel> GetImproveWinningRankRates(decimal bonusRate, List<RankRateModel> rankRates)
+        {
+            var newRankRates = new List<RankRateModel>();
+
+            var rates = rankRates.Select(r => r.Rate).ToList();
+            var minRates = GetClosestSum(bonusRate, rates, 0);
+            foreach (var minRate in minRates)
+            {
+                var rankRate = rankRates.Where(r => r.Rate == minRate).First();
+                newRankRates.Add(rankRate);
+            }
+
+            return newRankRates;
+        }
+        #region GetClosestSum
+        /*
+             List<int> input = new List<int>() { 3, 9, 8, 4, 5, 7, 10 };
+             int targetSum = 15;
+             SumUp(input, targetSum);             
+        */
+        private bool InRange(decimal num, decimal value, decimal range)
+        {
+            //return ((num >= value - range) && (num < value + range));
+            return ((num >= range) && (num < value));
+        }
+
+        private List<decimal> GetClosestSum(decimal value, List<decimal> elements, decimal range)
+        {
+            elements.Sort();
+            var possibleResults = new List<decimal>();
+            for (int x = elements.Count - 1; x > 0; x--)
+            {
+                if (InRange(elements[x], value, range)) possibleResults.Add(elements[x]);
+                decimal possibleResult = elements[x];
+                for (int i = x - 1; i > -1; i--)
+                {
+                    possibleResult += elements[i];
+                    if (possibleResult > (value + range - 1)) possibleResult -= elements[i];
+                    if (InRange(possibleResult, value, range)) possibleResults.Add(possibleResult);
+                }
+            }
+            decimal bestResult = -1;
+            for (int x = 0; x < possibleResults.Count; x++)
+            {
+                if (bestResult == -1)
+                    bestResult = possibleResults[x];
+                if (Math.Abs(value - possibleResults[x]) < Math.Abs(value - bestResult))
+                    bestResult = possibleResults[x];
+            }
+            return possibleResults;
+        }
+
+        #endregion
+
         #endregion
 
         #endregion
@@ -482,15 +637,18 @@ namespace Racing.Moto.Services
         /// <returns>已下注金额</returns>
         public List<BetAmountModel> GetSumAmounts(int userId, int pkId)
         {
-            return db.Bet
-                .Where(b => b.UserId == userId && b.PKId == pkId)
-                .GroupBy(b => new { b.Rank, b.Num })
-                .Select(g => new BetAmountModel
-                {
-                    Rank = g.Key.Rank,
-                    Num = g.Key.Num,
-                    Amount = g.Sum(b => b.Amount)
-                }).ToList();
+            using (var db = new RacingDbContext())
+            {
+                return db.Bet
+                    .Where(b => b.UserId == userId && b.PKId == pkId)
+                    .GroupBy(b => new { b.Rank, b.Num })
+                    .Select(g => new BetAmountModel
+                    {
+                        Rank = g.Key.Rank,
+                        Num = g.Key.Num,
+                        Amount = g.Sum(b => b.Amount)
+                    }).ToList();
+            }
         }
 
         /// <summary>
@@ -498,9 +656,12 @@ namespace Racing.Moto.Services
         /// </summary>
         public void UpdateSettlementDone()
         {
-            var dbBets = db.Bet.Where(b => !b.IsSettlementDone && DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0).ToList();
-            dbBets.ForEach(b => b.IsSettlementDone = true);
-            db.SaveChanges();
+            using (var db = new RacingDbContext())
+            {
+                var dbBets = db.Bet.Where(b => !b.IsSettlementDone && DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0).ToList();
+                dbBets.ForEach(b => b.IsSettlementDone = true);
+                db.SaveChanges();
+            }
         }
 
         #region User Report
@@ -514,56 +675,59 @@ namespace Racing.Moto.Services
         /// <returns></returns>
         public PagerResult<Bet> GetUserBetReport(UserReportSearchModel model)
         {
-            var query = db.Bet.Where(b => b.UserId == model.UserId
-                && b.IsSettlementDone == model.IsSettlementDone
-                && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);//今日
-
-
-            if (model.IsSettlementDone)
+            using (var db = new RacingDbContext())
             {
-                //已结
-                query = query.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
-            }
-            else
-            {
-                //未结
-                query = query.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) < 0);
-            }
+                var query = db.Bet.Where(b => b.UserId == model.UserId
+                    && b.IsSettlementDone == model.IsSettlementDone
+                    && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);//今日
 
-            var result = query
-                .OrderByDescending(b => b.BetId)
-                .Pager(model.PageIndex, model.PageSize);
 
-            // 奖金
-            if (model.IsSettlementDone)
-            {
-                //已结
-                var betIds = result.Items.Select(b => b.BetId).ToList();
-                var pkBonus = db.PKBonus.Where(b => betIds.Contains(b.BetId)).ToList();
-                foreach (var bet in result.Items)
+                if (model.IsSettlementDone)
                 {
-                    var bonus = pkBonus.Where(b => b.BetId == bet.BetId).ToList();
-                    var amount = bonus.Count() > 0 ? bonus.Sum(b => b.Amount) : 0;
-                    bet.BonusAmount = amount - bet.Amount;  // 退水后奖金 = 中奖金额+退水-本金, 奖金+退水 job生成
+                    //已结
+                    query = query.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
                 }
-            }
-            else
-            {
-                //未结
-                var pkIds = result.Items.Select(b => b.PKId).ToList();
-                var pkRates = db.PKRate.Where(r => pkIds.Contains(r.PKId)).ToList();
-                var userRebates = db.UserRebate.Include(nameof(UserRebate.User)).Where(u => u.UserId == model.UserId).ToList();
-                foreach (var bet in result.Items)
+                else
                 {
-                    var pkRate = pkRates.Where(r => r.PKId == bet.PKId && r.Num == bet.Num && r.Rank == bet.Rank).First();
-                    var bonus = bet.Amount * pkRate.Rate;
-                    var userRebate = userRebates.Where(u => u.UserId == bet.UserId && u.RebateNo == bet.Num).First();
-                    var rebate = bet.Amount * UserRebateService.GetDefaultRebate(userRebate, userRebate.User.DefaultRebateType);
-                    bet.BonusAmount = bonus + rebate - bet.Amount;  // 退水后奖金 = 中奖金额+退水-本金, 奖金+退水 job生成
+                    //未结
+                    query = query.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) < 0);
                 }
-            }
 
-            return result;
+                var result = query
+                    .OrderByDescending(b => b.BetId)
+                    .Pager(model.PageIndex, model.PageSize);
+
+                // 奖金
+                if (model.IsSettlementDone)
+                {
+                    //已结
+                    var betIds = result.Items.Select(b => b.BetId).ToList();
+                    var pkBonus = db.PKBonus.Where(b => betIds.Contains(b.BetId)).ToList();
+                    foreach (var bet in result.Items)
+                    {
+                        var bonus = pkBonus.Where(b => b.BetId == bet.BetId).ToList();
+                        var amount = bonus.Count() > 0 ? bonus.Sum(b => b.Amount) : 0;
+                        bet.BonusAmount = amount - bet.Amount;  // 退水后奖金 = 中奖金额+退水-本金, 奖金+退水 job生成
+                    }
+                }
+                else
+                {
+                    //未结
+                    var pkIds = result.Items.Select(b => b.PKId).ToList();
+                    var pkRates = db.PKRate.Where(r => pkIds.Contains(r.PKId)).ToList();
+                    var userRebates = db.UserRebate.Include(nameof(UserRebate.User)).Where(u => u.UserId == model.UserId).ToList();
+                    foreach (var bet in result.Items)
+                    {
+                        var pkRate = pkRates.Where(r => r.PKId == bet.PKId && r.Num == bet.Num && r.Rank == bet.Rank).First();
+                        var bonus = bet.Amount * pkRate.Rate;
+                        var userRebate = userRebates.Where(u => u.UserId == bet.UserId && u.RebateNo == bet.Num).First();
+                        var rebate = bet.Amount * UserRebateService.GetDefaultRebate(userRebate, userRebate.User.DefaultRebateType);
+                        bet.BonusAmount = bonus + rebate - bet.Amount;  // 退水后奖金 = 中奖金额+退水-本金, 奖金+退水 job生成
+                    }
+                }
+
+                return result;
+            }
         }
 
         /// <summary>
@@ -574,68 +738,71 @@ namespace Racing.Moto.Services
         /// <returns></returns>
         public UserBonusReportStatistics GetUserBetReportStatistics(UserReportSearchModel model)
         {
-            var statistics = new UserBonusReportStatistics();
-
-            var queryBet = db.Bet.Where(b => b.UserId == model.UserId
-                && b.IsSettlementDone == model.IsSettlementDone     //今日已结/未结明细 
-                && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);  //今日
-
-
-            #region Bonus 今日已结在封盘时job生成, 包括奖金+退水
-            //var queryBonus = db.PKBonus
-            //    .Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);
-
-            //if (model.IsSettlementDone)
-            //{
-            //    //已结
-            //    queryBonus = queryBonus.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
-            //}
-            //else
-            //{
-            //    //未结
-            //    queryBonus = queryBonus.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) < 0);
-            //}
-            #endregion
-
-            // 注单数量
-            statistics.BetCount = queryBet.Count();
-
-            // 下注金额
-            statistics.BetAmount = statistics.BetCount > 0 ? queryBet.Sum(b => b.Amount) : 0;
-
-            // 中奖金额+退水-本金, 奖金+退水 job生成
-            if (model.IsSettlementDone)
+            using (var db = new RacingDbContext())
             {
-                //今日已结在封盘时job生成, 包括奖金+退水
-                var queryBonus = db.PKBonus
-                    .Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);
+                var statistics = new UserBonusReportStatistics();
 
-                //已结
-                queryBonus = queryBonus.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+                var queryBet = db.Bet.Where(b => b.UserId == model.UserId
+                    && b.IsSettlementDone == model.IsSettlementDone     //今日已结/未结明细 
+                    && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);  //今日
 
-                statistics.BonusAmount = queryBonus.Any() ? queryBonus.Sum(b => b.Amount) - statistics.BetAmount : 0 - statistics.BetAmount;
-            }
-            else
-            {
-                //未结(可赢金额),按一定中奖计算 
-                var bets = queryBet.ToList();
-                var pkIds = bets.Select(b => b.PKId).ToList();
-                var pkRates = db.PKRate.Where(r => pkIds.Contains(r.PKId)).ToList();
-                var userRebates = db.UserRebate.Include(nameof(UserRebate.User)).Where(u => u.UserId == model.UserId).ToList();
-                foreach (var bet in bets)
+
+                #region Bonus 今日已结在封盘时job生成, 包括奖金+退水
+                //var queryBonus = db.PKBonus
+                //    .Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);
+
+                //if (model.IsSettlementDone)
+                //{
+                //    //已结
+                //    queryBonus = queryBonus.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+                //}
+                //else
+                //{
+                //    //未结
+                //    queryBonus = queryBonus.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) < 0);
+                //}
+                #endregion
+
+                // 注单数量
+                statistics.BetCount = queryBet.Count();
+
+                // 下注金额
+                statistics.BetAmount = statistics.BetCount > 0 ? queryBet.Sum(b => b.Amount) : 0;
+
+                // 中奖金额+退水-本金, 奖金+退水 job生成
+                if (model.IsSettlementDone)
                 {
-                    var pkRate = pkRates.Where(r => r.PKId == bet.PKId && r.Num == bet.Num && r.Rank == bet.Rank).First();
-                    var bonus = bet.Amount * pkRate.Rate;
-                    var userRebate = userRebates.Where(u => u.UserId == bet.UserId && u.RebateNo == bet.Num).First();
-                    var rebate = bet.Amount * UserRebateService.GetDefaultRebate(userRebate, userRebate.User.DefaultRebateType);
-                    bet.BonusAmount = bonus + rebate - bet.Amount;  // 退水后奖金 = 中奖金额+退水-本金, 奖金+退水 job生成
+                    //今日已结在封盘时job生成, 包括奖金+退水
+                    var queryBonus = db.PKBonus
+                        .Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);
+
+                    //已结
+                    queryBonus = queryBonus.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+
+                    statistics.BonusAmount = queryBonus.Any() ? queryBonus.Sum(b => b.Amount) - statistics.BetAmount : 0 - statistics.BetAmount;
+                }
+                else
+                {
+                    //未结(可赢金额),按一定中奖计算 
+                    var bets = queryBet.ToList();
+                    var pkIds = bets.Select(b => b.PKId).ToList();
+                    var pkRates = db.PKRate.Where(r => pkIds.Contains(r.PKId)).ToList();
+                    var userRebates = db.UserRebate.Include(nameof(UserRebate.User)).Where(u => u.UserId == model.UserId).ToList();
+                    foreach (var bet in bets)
+                    {
+                        var pkRate = pkRates.Where(r => r.PKId == bet.PKId && r.Num == bet.Num && r.Rank == bet.Rank).First();
+                        var bonus = bet.Amount * pkRate.Rate;
+                        var userRebate = userRebates.Where(u => u.UserId == bet.UserId && u.RebateNo == bet.Num).First();
+                        var rebate = bet.Amount * UserRebateService.GetDefaultRebate(userRebate, userRebate.User.DefaultRebateType);
+                        bet.BonusAmount = bonus + rebate - bet.Amount;  // 退水后奖金 = 中奖金额+退水-本金, 奖金+退水 job生成
+                    }
+
+                    statistics.BonusAmount = bets.Any() ? bets.Sum(b => b.BonusAmount) : 0;
                 }
 
-                statistics.BonusAmount = bets.Any() ? bets.Sum(b => b.BonusAmount) : 0;
+
+                return statistics;
             }
-
-
-            return statistics;
         }
 
         #endregion
@@ -650,64 +817,67 @@ namespace Racing.Moto.Services
         /// <returns></returns>
         public PagerResult<BetItem> GetUserBetItemReport(UserReportSearchModel model)
         {
-            var query = db.BetItem
-                .Include(nameof(BetItem.Bet))
-                .Where(b => b.Bet.UserId == model.UserId
-                    && b.Bet.IsSettlementDone == model.IsSettlementDone
-                    && DbFunctions.DiffDays(b.Bet.PK.EndTime, DateTime.Now) == 0);//今日
-
-
-            if (model.IsSettlementDone)
+            using (var db = new RacingDbContext())
             {
-                //已结
-                query = query.Where(b => DbFunctions.DiffSeconds(b.Bet.PK.EndTime, DateTime.Now) > 0);
-            }
-            else
-            {
-                //未结
-                query = query.Where(b => DbFunctions.DiffSeconds(b.Bet.PK.EndTime, DateTime.Now) < 0);
-            }
-
-            var result = query
-                .OrderByDescending(b => b.BetId).ThenBy(b => b.BetItemId)
-                .Pager(model.PageIndex, model.PageSize);
+                var query = db.BetItem
+                    .Include(nameof(BetItem.Bet))
+                    .Where(b => b.Bet.UserId == model.UserId
+                        && b.Bet.IsSettlementDone == model.IsSettlementDone
+                        && DbFunctions.DiffDays(b.Bet.PK.EndTime, DateTime.Now) == 0);//今日
 
 
-            var pkIds = result.Items.Select(b => b.Bet.PKId).ToList();
-            var pkRates = db.PKRate.Where(r => pkIds.Contains(r.PKId)).ToList();
-            var userRebates = db.UserRebate.Include(nameof(UserRebate.User)).Where(u => u.UserId == model.UserId).ToList();
-            // 奖金
-            if (model.IsSettlementDone)
-            {
-                //已结
-                var betIds = result.Items.Select(b => b.BetId).ToList();
-                var pkBonus = db.PKBonus.Where(b => betIds.Contains(b.BetId)).ToList();// 多条 BetItem 生成的退水+奖金
-                foreach (var betItem in result.Items)
+                if (model.IsSettlementDone)
                 {
-                    var pkRate = pkRates.Where(r => r.PKId == betItem.Bet.PKId && r.Num == betItem.Num && r.Rank == betItem.Rank).First();
-                    var hasBonus = pkBonus.Where(b => b.BetId == betItem.BetId && b.Rank == betItem.Rank && b.Num == betItem.Num && b.BonusType == Data.Enums.BonusType.Bonus).Any();
-                    var bonusAmount = hasBonus ? betItem.Amount * pkRate.Rate : 0;
-
-                    var userRebate = userRebates.Where(u => u.UserId == betItem.Bet.UserId && u.RebateNo == betItem.Num).First();
-                    var rebateAmount = betItem.Amount * UserRebateService.GetDefaultRebate(userRebate, userRebate.User.DefaultRebateType);
-
-                    betItem.BonusAmount = bonusAmount + rebateAmount - betItem.Amount;  // 退水后奖金 = 中奖金额+退水-本金, 奖金+退水 job生成
+                    //已结
+                    query = query.Where(b => DbFunctions.DiffSeconds(b.Bet.PK.EndTime, DateTime.Now) > 0);
                 }
-            }
-            else
-            {
-                //未结
-                foreach (var betItem in result.Items)
+                else
                 {
-                    var pkRate = pkRates.Where(r => r.PKId == betItem.Bet.PKId && r.Num == betItem.Num && r.Rank == betItem.Rank).First();
-                    var bonusAmount = betItem.Amount * pkRate.Rate;
-                    var userRebate = userRebates.Where(u => u.UserId == betItem.Bet.UserId && u.RebateNo == betItem.Num).First();
-                    var rebateAmount = betItem.Amount * UserRebateService.GetDefaultRebate(userRebate, userRebate.User.DefaultRebateType);
-                    betItem.BonusAmount = bonusAmount + rebateAmount - betItem.Amount;  // 退水后奖金 = 中奖金额+退水-本金
+                    //未结
+                    query = query.Where(b => DbFunctions.DiffSeconds(b.Bet.PK.EndTime, DateTime.Now) < 0);
                 }
-            }
 
-            return result;
+                var result = query
+                    .OrderByDescending(b => b.BetId).ThenBy(b => b.BetItemId)
+                    .Pager(model.PageIndex, model.PageSize);
+
+
+                var pkIds = result.Items.Select(b => b.Bet.PKId).ToList();
+                var pkRates = db.PKRate.Where(r => pkIds.Contains(r.PKId)).ToList();
+                var userRebates = db.UserRebate.Include(nameof(UserRebate.User)).Where(u => u.UserId == model.UserId).ToList();
+                // 奖金
+                if (model.IsSettlementDone)
+                {
+                    //已结
+                    var betIds = result.Items.Select(b => b.BetId).ToList();
+                    var pkBonus = db.PKBonus.Where(b => betIds.Contains(b.BetId)).ToList();// 多条 BetItem 生成的退水+奖金
+                    foreach (var betItem in result.Items)
+                    {
+                        var pkRate = pkRates.Where(r => r.PKId == betItem.Bet.PKId && r.Num == betItem.Num && r.Rank == betItem.Rank).First();
+                        var hasBonus = pkBonus.Where(b => b.BetId == betItem.BetId && b.Rank == betItem.Rank && b.Num == betItem.Num && b.BonusType == Data.Enums.BonusType.Bonus).Any();
+                        var bonusAmount = hasBonus ? betItem.Amount * pkRate.Rate : 0;
+
+                        var userRebate = userRebates.Where(u => u.UserId == betItem.Bet.UserId && u.RebateNo == betItem.Num).First();
+                        var rebateAmount = betItem.Amount * UserRebateService.GetDefaultRebate(userRebate, userRebate.User.DefaultRebateType);
+
+                        betItem.BonusAmount = bonusAmount + rebateAmount - betItem.Amount;  // 退水后奖金 = 中奖金额+退水-本金, 奖金+退水 job生成
+                    }
+                }
+                else
+                {
+                    //未结
+                    foreach (var betItem in result.Items)
+                    {
+                        var pkRate = pkRates.Where(r => r.PKId == betItem.Bet.PKId && r.Num == betItem.Num && r.Rank == betItem.Rank).First();
+                        var bonusAmount = betItem.Amount * pkRate.Rate;
+                        var userRebate = userRebates.Where(u => u.UserId == betItem.Bet.UserId && u.RebateNo == betItem.Num).First();
+                        var rebateAmount = betItem.Amount * UserRebateService.GetDefaultRebate(userRebate, userRebate.User.DefaultRebateType);
+                        betItem.BonusAmount = bonusAmount + rebateAmount - betItem.Amount;  // 退水后奖金 = 中奖金额+退水-本金
+                    }
+                }
+
+                return result;
+            }
         }
         /// <summary>
         /// 用户.今日已结/未结明细 统计
@@ -717,68 +887,71 @@ namespace Racing.Moto.Services
         /// <returns></returns>
         public UserBonusReportStatistics GetUserBetItemReportStatistics(UserReportSearchModel model)
         {
-            var statistics = new UserBonusReportStatistics();
-
-            var queryBet = db.BetItem.Include(nameof(BetItem.Bet)).Where(b => b.Bet.UserId == model.UserId
-                && b.Bet.IsSettlementDone == model.IsSettlementDone     //今日已结/未结明细 
-                && DbFunctions.DiffDays(b.Bet.PK.EndTime, DateTime.Now) == 0);  //今日
-
-
-            #region Bonus 今日已结在封盘时job生成, 包括奖金+退水
-            //var queryBonus = db.PKBonus
-            //    .Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);
-
-            //if (model.IsSettlementDone)
-            //{
-            //    //已结
-            //    queryBonus = queryBonus.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
-            //}
-            //else
-            //{
-            //    //未结
-            //    queryBonus = queryBonus.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) < 0);
-            //}
-            #endregion
-
-            // 注单数量
-            statistics.BetCount = queryBet.Count();
-
-            // 下注金额
-            statistics.BetAmount = statistics.BetCount > 0 ? queryBet.Sum(b => b.Amount) : 0;
-
-            // 中奖金额+退水-本金, 奖金+退水 job生成
-            if (model.IsSettlementDone)
+            using (var db = new RacingDbContext())
             {
-                //今日已结在封盘时job生成, 包括奖金+退水
-                var queryBonus = db.PKBonus
-                    .Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);
+                var statistics = new UserBonusReportStatistics();
 
-                //已结
-                queryBonus = queryBonus.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+                var queryBet = db.BetItem.Include(nameof(BetItem.Bet)).Where(b => b.Bet.UserId == model.UserId
+                    && b.Bet.IsSettlementDone == model.IsSettlementDone     //今日已结/未结明细 
+                    && DbFunctions.DiffDays(b.Bet.PK.EndTime, DateTime.Now) == 0);  //今日
 
-                statistics.BonusAmount = queryBonus.Any() ? queryBonus.Sum(b => b.Amount) - statistics.BetAmount : 0 - statistics.BetAmount;
-            }
-            else
-            {
-                //未结(可赢金额),按一定中奖计算 
-                var bets = queryBet.ToList();
-                var pkIds = bets.Select(b => b.Bet.PKId).ToList();
-                var pkRates = db.PKRate.Where(r => pkIds.Contains(r.PKId)).ToList();
-                var userRebates = db.UserRebate.Include(nameof(UserRebate.User)).Where(u => u.UserId == model.UserId).ToList();
-                foreach (var betItem in bets)
+
+                #region Bonus 今日已结在封盘时job生成, 包括奖金+退水
+                //var queryBonus = db.PKBonus
+                //    .Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);
+
+                //if (model.IsSettlementDone)
+                //{
+                //    //已结
+                //    queryBonus = queryBonus.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+                //}
+                //else
+                //{
+                //    //未结
+                //    queryBonus = queryBonus.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) < 0);
+                //}
+                #endregion
+
+                // 注单数量
+                statistics.BetCount = queryBet.Count();
+
+                // 下注金额
+                statistics.BetAmount = statistics.BetCount > 0 ? queryBet.Sum(b => b.Amount) : 0;
+
+                // 中奖金额+退水-本金, 奖金+退水 job生成
+                if (model.IsSettlementDone)
                 {
-                    var pkRate = pkRates.Where(r => r.PKId == betItem.Bet.PKId && r.Num == betItem.Num && r.Rank == betItem.Rank).First();
-                    var bonus = betItem.Amount * pkRate.Rate;
-                    var userRebate = userRebates.Where(u => u.UserId == betItem.Bet.UserId && u.RebateNo == betItem.Num).First();
-                    var rebate = betItem.Amount * UserRebateService.GetDefaultRebate(userRebate, userRebate.User.DefaultRebateType);
-                    betItem.BonusAmount = bonus + rebate - betItem.Amount;  // 退水后奖金 = 中奖金额+退水-本金, 奖金+退水 job生成
+                    //今日已结在封盘时job生成, 包括奖金+退水
+                    var queryBonus = db.PKBonus
+                        .Where(b => b.UserId == model.UserId && b.IsSettlementDone == model.IsSettlementDone && DbFunctions.DiffDays(b.PK.EndTime, DateTime.Now) == 0);
+
+                    //已结
+                    queryBonus = queryBonus.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+
+                    statistics.BonusAmount = queryBonus.Any() ? queryBonus.Sum(b => b.Amount) - statistics.BetAmount : 0 - statistics.BetAmount;
+                }
+                else
+                {
+                    //未结(可赢金额),按一定中奖计算 
+                    var bets = queryBet.ToList();
+                    var pkIds = bets.Select(b => b.Bet.PKId).ToList();
+                    var pkRates = db.PKRate.Where(r => pkIds.Contains(r.PKId)).ToList();
+                    var userRebates = db.UserRebate.Include(nameof(UserRebate.User)).Where(u => u.UserId == model.UserId).ToList();
+                    foreach (var betItem in bets)
+                    {
+                        var pkRate = pkRates.Where(r => r.PKId == betItem.Bet.PKId && r.Num == betItem.Num && r.Rank == betItem.Rank).First();
+                        var bonus = betItem.Amount * pkRate.Rate;
+                        var userRebate = userRebates.Where(u => u.UserId == betItem.Bet.UserId && u.RebateNo == betItem.Num).First();
+                        var rebate = betItem.Amount * UserRebateService.GetDefaultRebate(userRebate, userRebate.User.DefaultRebateType);
+                        betItem.BonusAmount = bonus + rebate - betItem.Amount;  // 退水后奖金 = 中奖金额+退水-本金, 奖金+退水 job生成
+                    }
+
+                    statistics.BonusAmount = bets.Any() ? bets.Sum(b => b.BonusAmount) : 0;
                 }
 
-                statistics.BonusAmount = bets.Any() ? bets.Sum(b => b.BonusAmount) : 0;
+
+                return statistics;
             }
-
-
-            return statistics;
         }
         #endregion
 

@@ -66,7 +66,7 @@ namespace Racing.Moto.Data.Models
     }
 
     /// <summary>
-    /// 名次中奖百分比*100
+    /// 名次中奖百分比
     /// </summary>
     public class RankRateModel
     {
@@ -76,7 +76,7 @@ namespace Racing.Moto.Data.Models
         public int Rank { get; set; }
 
         /// <summary>
-        /// 百分比*100
+        /// 百分比
         /// </summary>
         public decimal Rate { get; set; }
     }

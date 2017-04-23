@@ -52,6 +52,9 @@
                     $scope.user.DataBak = angular.copy($scope.user.Data);
 
                     if (!isNaN($scope.user.RechargeAmount) && $scope.user.RechargeAmount > 0) {
+                        if ($scope.user.CurrentUser.UserExtension == null) {
+                            $scope.user.CurrentUser.UserExtension = { Amount: 0 };
+                        }
                         $scope.user.CurrentUser.UserExtension.Amount = parseFloat($scope.user.CurrentUser.UserExtension.Amount, 10) + parseFloat($scope.user.RechargeAmount, 10);
                     }
 

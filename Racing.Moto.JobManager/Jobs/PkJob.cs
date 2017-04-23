@@ -34,12 +34,19 @@ namespace Racing.Moto.JobManager.Jobs
                 {
                     var pk = new PKService().AddPK();
 
-                    var msg = string.Format("Add new PK - PKId : {0} - Time : {1}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
-                    _logger.Info(msg);
+                    if (pk != null)
+                    {
+                        var msg = string.Format("Add new PK - PKId : {0} - Time : {1}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
+                        _logger.Info(msg);
+                    }
+                    else
+                    {
+                        var msg = string.Format("Add new PK - PKId : {0} - Time : {1}", "重复数据, 未进行插入", now.ToString(DateFormatConst.yMd_Hms));
+                    }
                 }
 #else
 
-                _logger.Info("release");
+                //_logger.Info("release");
                 var start = new DateTime(now.Year, now.Month, now.Day, 9, 2, 0);
                 var end = new DateTime(now.Year, now.Month, now.Day, 23, 52, 5);
 
@@ -49,8 +56,15 @@ namespace Racing.Moto.JobManager.Jobs
                     {
                         var pk = new PKService().AddPK();
 
-                        var msg = string.Format("Add new PK - PKId : {0} - Time : {1}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
-                        _logger.Info(msg);
+                        if (pk != null)
+                        {
+                            var msg = string.Format("Add new PK - PKId : {0} - Time : {1}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
+                            _logger.Info(msg);
+                        }
+                        else
+                        {
+                            var msg = string.Format("Add new PK - PKId : {0} - Time : {1}", "重复数据, 未进行插入", now.ToString(DateFormatConst.yMd_Hms));
+                        }
                     }
                 }
 #endif

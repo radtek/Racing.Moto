@@ -9,23 +9,23 @@ namespace Racing.Moto.Services
 {
     public abstract class BaseServcice : IDisposable
     {
-        protected RacingDbContext _context = null;
-        protected RacingDbContext db
-        {
-            get { return _context; }
-        }
+        //protected RacingDbContext _context = null;
+        //protected RacingDbContext db
+        //{
+        //    get { return _context; }
+        //}
 
-        public BaseServcice()
-        {
-            _context = new RacingDbContext();
-        }
+        //public BaseServcice()
+        //{
+        //    _context = new RacingDbContext();
+        //}
 
         public void Dispose()
         {
-            if (_context != null)
-            {
-                _context.Dispose();
-            }
+            //if (_context != null)
+            //{
+            //    _context.Dispose();
+            //}
         }
     }
 

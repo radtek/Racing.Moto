@@ -1,4 +1,5 @@
-﻿using Racing.Moto.Data.Entities;
+﻿using Racing.Moto.Data;
+using Racing.Moto.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +12,22 @@ namespace Racing.Moto.Services
     {
         public UserExtension GetUserUserExtension(int userId)
         {
-            var userExtend = db.UserExtension.Where(u => u.UserId == userId).FirstOrDefault();
-            if (userExtend == null)
+            using (var db = new RacingDbContext())
             {
-                userExtend = new UserExtension
+                var userExtend = db.UserExtension.Where(u => u.UserId == userId).FirstOrDefault();
+                if (userExtend == null)
                 {
-                    UserId = userId,
-                    Amount = 0
-                };
+                    userExtend = new UserExtension
+                    {
+                        UserId = userId,
+                        Amount = 0
+                    };
 
-                db.UserExtension.Add(userExtend);
-                db.SaveChanges();
+                    db.UserExtension.Add(userExtend);
+                    db.SaveChanges();
+                }
+                return userExtend;
             }
-            return userExtend;
         }
 
         /// <summary>
@@ -31,22 +35,25 @@ namespace Racing.Moto.Services
         /// </summary>
         public void AddAmount(int userId, decimal amount)
         {
-            var userExtend = db.UserExtension.Where(u => u.UserId == userId).FirstOrDefault();
-            if (userExtend == null)
+            using (var db = new RacingDbContext())
             {
-                userExtend = new UserExtension
+                var userExtend = db.UserExtension.Where(u => u.UserId == userId).FirstOrDefault();
+                if (userExtend == null)
                 {
-                    UserId = userId,
-                    Amount = amount
-                };
+                    userExtend = new UserExtension
+                    {
+                        UserId = userId,
+                        Amount = amount
+                    };
 
-                db.UserExtension.Add(userExtend);
+                    db.UserExtension.Add(userExtend);
+                }
+                else
+                {
+                    userExtend.Amount += amount;
+                }
+                db.SaveChanges();
             }
-            else
-            {
-                userExtend.Amount += amount;
-            }
-            db.SaveChanges();
         }
 
         /// <summary>
@@ -56,9 +63,12 @@ namespace Racing.Moto.Services
         /// <param name="amount"></param>
         public void MinusAmount(int userId, decimal amount)
         {
-            var userExtend = db.UserExtension.Where(u => u.UserId == userId).FirstOrDefault();
-            userExtend.Amount = userExtend.Amount - amount;
-            db.SaveChanges();
+            using (var db = new RacingDbContext())
+            {
+                var userExtend = db.UserExtension.Where(u => u.UserId == userId).FirstOrDefault();
+                userExtend.Amount = userExtend.Amount - amount;
+                db.SaveChanges();
+            }
         }
 
         /// <summary>
@@ -68,27 +78,33 @@ namespace Racing.Moto.Services
         /// <param name="validateCode"></param>
         public void SaveValidateCode(string userName, string validateCode)
         {
-            var userExtention = db.UserExtension.Where(u => u.User.UserName == userName).FirstOrDefault();
-            if (userExtention != null)
+            using (var db = new RacingDbContext())
             {
-                userExtention.ValidateCodeForForgetPwd = validateCode;
-                userExtention.ValidateCodeCreateDate = DateTime.Now;
+                var userExtention = db.UserExtension.Where(u => u.User.UserName == userName).FirstOrDefault();
+                if (userExtention != null)
+                {
+                    userExtention.ValidateCodeForForgetPwd = validateCode;
+                    userExtention.ValidateCodeCreateDate = DateTime.Now;
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
             }
         }
 
         public bool CheckValidateCodeForForgetPwd(string userName, string code)
         {
-            var extention = db.UserExtension.Where(u => u.User.UserName == userName && u.ValidateCodeForForgetPwd == code).FirstOrDefault();
-            if (extention != null)
+            using (var db = new RacingDbContext())
             {
-                extention.ValidateCodeForForgetPwd = null;
-                extention.ValidateCodeCreateDate = null;
+                var extention = db.UserExtension.Where(u => u.User.UserName == userName && u.ValidateCodeForForgetPwd == code).FirstOrDefault();
+                if (extention != null)
+                {
+                    extention.ValidateCodeForForgetPwd = null;
+                    extention.ValidateCodeCreateDate = null;
 
-                db.SaveChanges();
+                    db.SaveChanges();
+                }
+                return extention != null;
             }
-            return extention != null;
         }
     }
 }

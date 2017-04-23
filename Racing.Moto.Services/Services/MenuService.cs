@@ -1,4 +1,5 @@
-﻿using Racing.Moto.Data.Entities;
+﻿using Racing.Moto.Data;
+using Racing.Moto.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,10 @@ namespace Racing.Moto.Services
     {
         public List<Menu> GetMenuByRoles(List<int> roleIds)
         {
-            return db.Menu.Where(m => m.MenuRoles.Where(mr => roleIds.Contains(mr.RoleId)).Any()).ToList();
+            using (var db = new RacingDbContext())
+            {
+                return db.Menu.Where(m => m.MenuRoles.Where(mr => roleIds.Contains(mr.RoleId)).Any()).ToList();
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Racing.Moto.Data.Entities;
+﻿using Racing.Moto.Data;
+using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Enums;
 using Racing.Moto.Services.Caches;
 using System;
@@ -13,22 +14,28 @@ namespace Racing.Moto.Services
     {
         public List<UserRebate> GetUserRebates(int userId)
         {
-            return db.UserRebate.Where(u => u.UserId == userId).OrderBy(u => u.RebateNo).ToList();
+            using (var db = new RacingDbContext())
+            {
+                return db.UserRebate.Where(u => u.UserId == userId).OrderBy(u => u.RebateNo).ToList();
+            }
         }
 
         public void UpdateUserRebates(int userId, List<UserRebate> userRebates)
         {
-            var dbRebates = db.UserRebate.Where(u => u.UserId == userId).OrderBy(u => u.RebateNo).ToList();
-            foreach (var dbRebate in dbRebates)
+            using (var db = new RacingDbContext())
             {
-                var rebate = userRebates.Where(r => r.RebateNo == dbRebate.RebateNo).FirstOrDefault();
-                dbRebate.RebateTypeA = rebate.RebateTypeA;
-                dbRebate.RebateTypeB = rebate.RebateTypeB;
-                dbRebate.RebateTypeC = rebate.RebateTypeC;
-                dbRebate.MaxPKAmount = rebate.MaxPKAmount;
-                dbRebate.MaxBetAmount = rebate.MaxBetAmount;
+                var dbRebates = db.UserRebate.Where(u => u.UserId == userId).OrderBy(u => u.RebateNo).ToList();
+                foreach (var dbRebate in dbRebates)
+                {
+                    var rebate = userRebates.Where(r => r.RebateNo == dbRebate.RebateNo).FirstOrDefault();
+                    dbRebate.RebateTypeA = rebate.RebateTypeA;
+                    dbRebate.RebateTypeB = rebate.RebateTypeB;
+                    dbRebate.RebateTypeC = rebate.RebateTypeC;
+                    dbRebate.MaxPKAmount = rebate.MaxPKAmount;
+                    dbRebate.MaxBetAmount = rebate.MaxBetAmount;
+                }
+                db.SaveChanges();
             }
-            db.SaveChanges();
         }
 
         #region static

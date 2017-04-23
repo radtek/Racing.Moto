@@ -29,11 +29,11 @@
     ticker.client.updatePKInfo = function (pkInfo) {
         // test
         //pkInfo = {};
-        //pkInfo.GamingSeconds = -5;
+        //pkInfo.GamingSeconds = -10;
         //pkInfo.GamePassedSeconds = 0;
         //pkInfo.GameRemainSeconds = 20;
         //pkInfo.GameBeginTime = '2017/04/03 18:30:00';
-        //pkInfo.PK = { PKId: 2, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
+        //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
         console.log(pkInfo);
         if (pkInfo == null) {
@@ -49,6 +49,7 @@
     // moto
     var motoRacing = {
         PKInfo: null,
+        MaxPKCount: 1,
         ResultShowSeconds: 5,
         BonusShowSeconds: 5,
         Millisec: 3,
@@ -76,6 +77,7 @@
                 if (clock == '::' || clock == '00:00:00') {
                     motoRacing.countdownClock(pkInfo);
                 }
+                //motoRacing.countdownClock(pkInfo);
             }
 
             if (pkInfo == null || pkInfo.PK.Ranks == null) {
@@ -112,28 +114,39 @@
             var eleMinute = document.getElementById('minute');
             var eleSecond = document.getElementById('second');
 
-            if (pkInfo.OpeningRemainSeconds <= 0) {
+            if (pkInfo.GamingSeconds >= 0) {
                 eleHour.innerHTML = '00';
                 eleMinute.innerHTML = '00';
                 eleSecond.innerHTML = '00';
             } else {
-                var closeBeginTime = $app.convertToDate(pkInfo.GameBeginTime);
-                var year = closeBeginTime.getFullYear();
-                var month = closeBeginTime.getMonth();
-                var day = closeBeginTime.getDate();
-                var hour = closeBeginTime.getHours();
-                var minute = closeBeginTime.getMinutes();
-                var second = closeBeginTime.getSeconds();
+                var future = motoRacing.getUtc($app.convertToDate(pkInfo.GameBeginTime));
+                //var now = motoRacing.getUtc($app.convertToDate(pkInfo.Now));
+                //var year = time.getFullYear();
+                //var month = time.getMonth();
+                //var day = time.getDate();
+                //var hour = time.getHours();
+                //var minute = time.getMinutes();
+                //var second = time.getSeconds();
 
+                var toGamingSeconds = Math.abs(pkInfo.GamingSeconds);
                 // 倒计时结束时间
-                var d = Date.UTC(year, month, day, hour, minute, second);
                 var obj = {
                     sec: eleSecond,
                     mini: eleMinute,
                     hour: eleHour
                 }
-                fnTimeCountDown(d, obj);
+                fnTimeCountDown(future, toGamingSeconds, obj);
             }
+        },
+        getUtc: function (time) {
+            var year = time.getFullYear();
+            var month = time.getMonth();
+            var day = time.getDate();
+            var hour = time.getHours();
+            var minute = time.getMinutes();
+            var second = time.getSeconds();
+
+            return Date.UTC(year, month, day, hour, minute, second);
         },
         countdown: function (pkInfo) {
             var countdownSeconds = 5;
@@ -238,7 +251,7 @@
                                 });
                                 //console.log(motoRacing.EndMotos);
 
-                                // when moto and the end, continue to move some instance
+                                // when moto at the end, continue to move some instance
                                 motoRacing.moveEndDistance($(this).attr('alt'), $(this).css('right'));
 
                                 //resetMoto
@@ -252,7 +265,7 @@
 
                                 motoRacing.showResult();
 
-                                // when moto and the end, continue to move some instance
+                                // when moto at the end, continue to move some instance
                                 motoRacing.moveEndDistance($(this).attr('alt'), $(this).css('right'));
 
                                 //resetMoto
@@ -368,7 +381,7 @@
                                             //console.log("motoNum: " + motoNum);
 
                                             if (motoRacing.EndMotos.length == 0) {
-                                                // when moto and the end, continue to move some instance
+                                                // when moto at the end, continue to move some instance
                                                 motoRacing.moveEndDistance2();
 
                                                 // when the first moto at the end, moveEndFlag
@@ -395,13 +408,13 @@
             });
         },
         moveEndDistance: function (num, right) {
-            // when moto and the end, continue to move some instance
+            // when moto at the end, continue to move some instance
             var $moto = $('#moto' + num);
             right = parseInt(right, 10) + 1500;
             $moto.animate({ right: right + 'px' }, 2500);
         },
         moveEndDistance2: function () {
-            // when moto and the end, continue to move some instance
+            // when moto at the end, continue to move some instance
 
             //ranks: 3,2,5,6,8,7,10,1,9,4
             var rankArr = motoRacing.PKInfo.PK.Ranks.split(',');
@@ -683,6 +696,15 @@
                 num = num == '' ? motoRacing.BonusShowSeconds : num - 1;
                 $cuntdown.text(num);
             }, motoRacing.BonusShowSeconds);
+
+            // reload page
+            $('body').oneTime(motoRacing.BonusShowSeconds + 's', function () {
+                motoRacing.MaxPKCount--;
+
+                if (motoRacing.MaxPKCount == 0) {
+                    location.href = location.href;
+                }
+            });
         },
     };
 });

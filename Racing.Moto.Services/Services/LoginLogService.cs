@@ -1,4 +1,5 @@
 ﻿using Racing.Moto.Core.Extentions;
+using Racing.Moto.Data;
 using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Models;
 using System;
@@ -13,20 +14,26 @@ namespace Racing.Moto.Services
     {
         public void AddLoginLog(LoginLog loginLog)
         {
-            if(loginLog.LoginTime == DateTime.MinValue)
+            using (var db = new RacingDbContext())
             {
-                loginLog.LoginTime = DateTime.Now;
-            }
+                if (loginLog.LoginTime == DateTime.MinValue)
+                {
+                    loginLog.LoginTime = DateTime.Now;
+                }
 
-            db.LoginLog.Add(loginLog);
-            db.SaveChanges();
+                db.LoginLog.Add(loginLog);
+                db.SaveChanges();
+            }
         }
 
         public PagerResult<LoginLog> GetLoginLogRecords(SearchModel searchModel)
         {
-            var logs = db.LoginLog.OrderByDescending(l => l.LoginLogId).Pager<LoginLog>(searchModel.PageIndex, searchModel.PageSize);
+            using (var db = new RacingDbContext())
+            {
+                var logs = db.LoginLog.OrderByDescending(l => l.LoginLogId).Pager<LoginLog>(searchModel.PageIndex, searchModel.PageSize);
 
-            return logs;
+                return logs;
+            }
         }
     }
 }

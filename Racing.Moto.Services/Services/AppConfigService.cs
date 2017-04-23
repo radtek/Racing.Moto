@@ -1,4 +1,5 @@
-﻿using Racing.Moto.Data.Entities;
+﻿using Racing.Moto.Data;
+using Racing.Moto.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,37 +12,49 @@ namespace Racing.Moto.Services
     {
         public List<AppConfig> GetAll()
         {
-            return db.AppConfig.ToList();
+            using (var db = new RacingDbContext())
+            {
+                return db.AppConfig.ToList();
+            }
         }
         public AppConfig Add(string name, string val)
         {
-            var appConfig = new AppConfig();
-            appConfig.Name = name;
-            appConfig.Value = val;
+            using (var db = new RacingDbContext())
+            {
+                var appConfig = new AppConfig();
+                appConfig.Name = name;
+                appConfig.Value = val;
 
-            appConfig = db.AppConfig.Add(appConfig);
-            db.SaveChanges();
+                appConfig = db.AppConfig.Add(appConfig);
+                db.SaveChanges();
 
-            return appConfig;
+                return appConfig;
+            }
         }
 
         public void Update(string name, string val)
         {
-            var appConfig = db.AppConfig.Where(a => a.Name == name).FirstOrDefault();
-            if (appConfig != null)
+            using (var db = new RacingDbContext())
             {
-                appConfig.Value = val;
-                db.SaveChanges();
+                var appConfig = db.AppConfig.Where(a => a.Name == name).FirstOrDefault();
+                if (appConfig != null)
+                {
+                    appConfig.Value = val;
+                    db.SaveChanges();
+                }
             }
         }
 
         public void Delete(string name)
         {
-            var appConfig = db.AppConfig.Where(a => a.Name == name).FirstOrDefault();
-            if (appConfig != null)
+            using (var db = new RacingDbContext())
             {
-                db.AppConfig.Remove(appConfig);
-                db.SaveChanges();
+                var appConfig = db.AppConfig.Where(a => a.Name == name).FirstOrDefault();
+                if (appConfig != null)
+                {
+                    db.AppConfig.Remove(appConfig);
+                    db.SaveChanges();
+                }
             }
         }
     }

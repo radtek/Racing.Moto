@@ -108,8 +108,10 @@ namespace Racing.Moto.Services
             var remainSeconds = (int)(currentPK.EndTime - currentPK.BeginTime).TotalSeconds - passedSeconds;
             // 距离封盘的秒数, 负:已封盘, 正:距离封盘的秒数
             var openingRemainSeconds = (int)(currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds) - now).TotalSeconds;
+
             // 距离比赛开始的秒数, 负:未开始, 正:已开始
             var gamingSeconds = (int)(now - currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds + currentPK.CloseSeconds)).TotalSeconds;
+
             // 比赛已经开始n秒
             var gamePassedSeconds = gamingSeconds > 0 ? gamingSeconds : 0;
             // 比赛剩余n秒
@@ -119,12 +121,15 @@ namespace Racing.Moto.Services
             return new PKModel
             {
                 PK = currentPK,
+                Now = now,
                 PassedSeconds = passedSeconds,
                 RemainSeconds = remainSeconds,
                 OpeningRemainSeconds = openingRemainSeconds,
                 CloseBeginTime = currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds),
+
                 GameBeginTime = currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds + currentPK.CloseSeconds),
                 GamingSeconds = gamingSeconds,
+
                 GamePassedSeconds = gamePassedSeconds,
                 GameRemainSeconds = gameRemainSeconds
             };
@@ -135,10 +140,13 @@ namespace Racing.Moto.Services
             using (var db = new RacingDbContext())
             {
                 // 生成PK
-                PK pk = db.Database.SqlQuery<PK>(string.Format("EXEC {0}", DBConst.SP_PK_GeneratePK)).First();
+                PK pk = db.Database.SqlQuery<PK>(string.Format("EXEC {0}", DBConst.SP_PK_GeneratePK)).FirstOrDefault();
 
-                // 生成赔率
-                db.Database.ExecuteSqlCommand(string.Format("EXEC {0} {1}", DBConst.SP_PK_GeneratePKRate, pk.PKId));
+                if (pk != null)
+                {
+                    // 生成赔率
+                    db.Database.ExecuteSqlCommand(string.Format("EXEC {0} {1}", DBConst.SP_PK_GeneratePKRate, pk.PKId));
+                }
 
                 return pk;
             }
@@ -147,48 +155,54 @@ namespace Racing.Moto.Services
         [Obsolete]
         public PK AddPK(DateTime beginTime)
         {
-            var pk = new PK
+            using (var db = new RacingDbContext())
             {
-                CreateTime = DateTime.Now,
-                BeginTime = beginTime,
-                EndTime = DateTime.Now.AddSeconds(AppConfigCache.Racing_Total_Seconds),
-                OpeningSeconds = AppConfigCache.Racing_Opening_Seconds,
-                CloseSeconds = AppConfigCache.Racing_Close_Seconds,
-                GameSeconds = AppConfigCache.Racing_Game_Seconds,
-                LotterySeconds = AppConfigCache.Racing_Lottery_Seconds,
-                //PKRates = pkRates //pkRates 过多, 插入时间很长, 必须和PK新增分开
-            };
-
-            db.PK.Add(pk);
-            db.SaveChanges();
-
-            // pkRates 过多, 插入时间很长, 必须和PK新增分开
-            var pkRates = new List<PKRate>();
-            foreach (var rate in RateCache.GetRatesByType(Data.Enums.RateType.Arena))
-            {
-                for (var num = 1; num <= 14; num++)
+                var pk = new PK
                 {
-                    pkRates.Add(new PKRate { PKId = pk.PKId, Rank = rate.Rank, Num = num, Rate = RateService.GetRate(rate, num) });
-                }
-            }
-            db.PKRate.AddRange(pkRates);
-            db.SaveChanges();
+                    CreateTime = DateTime.Now,
+                    BeginTime = beginTime,
+                    EndTime = DateTime.Now.AddSeconds(AppConfigCache.Racing_Total_Seconds),
+                    OpeningSeconds = AppConfigCache.Racing_Opening_Seconds,
+                    CloseSeconds = AppConfigCache.Racing_Close_Seconds,
+                    GameSeconds = AppConfigCache.Racing_Game_Seconds,
+                    LotterySeconds = AppConfigCache.Racing_Lottery_Seconds,
+                    //PKRates = pkRates //pkRates 过多, 插入时间很长, 必须和PK新增分开
+                };
 
-            return pk;
+                db.PK.Add(pk);
+                db.SaveChanges();
+
+                // pkRates 过多, 插入时间很长, 必须和PK新增分开
+                var pkRates = new List<PKRate>();
+                foreach (var rate in RateCache.GetRatesByType(Data.Enums.RateType.Arena))
+                {
+                    for (var num = 1; num <= 14; num++)
+                    {
+                        pkRates.Add(new PKRate { PKId = pk.PKId, Rank = rate.Rank, Num = num, Rate = RateService.GetRate(rate, num) });
+                    }
+                }
+                db.PKRate.AddRange(pkRates);
+                db.SaveChanges();
+
+                return pk;
+            }
         }
 
         [Obsolete]
         public PK SavePK(DateTime dt)
         {
-            var currentPK = db.PK.Where(pk => pk.BeginTime <= dt && dt <= pk.EndTime).FirstOrDefault();
-
-            // 不存在PK, 创建新的PK
-            if (currentPK == null)
+            using (var db = new RacingDbContext())
             {
-                currentPK = AddPK(dt);
-            }
+                var currentPK = db.PK.Where(pk => pk.BeginTime <= dt && dt <= pk.EndTime).FirstOrDefault();
 
-            return currentPK;
+                // 不存在PK, 创建新的PK
+                if (currentPK == null)
+                {
+                    currentPK = AddPK(dt);
+                }
+
+                return currentPK;
+            }
         }
         #endregion
 

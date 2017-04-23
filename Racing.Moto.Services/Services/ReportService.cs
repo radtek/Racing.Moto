@@ -1,4 +1,5 @@
 ﻿using Racing.Moto.Core.Extentions;
+using Racing.Moto.Data;
 using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Enums;
 using Racing.Moto.Data.Models;
@@ -72,55 +73,57 @@ namespace Racing.Moto.Services
         #region 总代理/代理/会员
         public PagerResult<ReportModel> GetAgentReports(ReportSearchModel model)
         {
-            var reports = new PagerResult<ReportModel>();
-            reports.Items = new List<ReportModel>();
-
-            var agentSql = GetAgentUserIdsSql(model);
-            var agentQuery = db.Database.SqlQuery<int>(agentSql);
-            var agentCount = agentQuery.Count();
-            var agentUserIds = agentQuery.Skip((model.PageIndex - 1) * model.PageSize).Take(model.PageSize).ToList();
-
-            reports.RowCount = agentCount;
-            reports.PageCount = (int)Math.Ceiling(agentCount * 1.0 / model.PageSize);
-
-            // 取用户
-            var users = db.User.Where(u => agentUserIds.Contains(u.UserId)).ToList();
-
-            // 取下注: 笔数
-            var betReportSql = GetAgentBetReportSql(model);
-            var dbBetReports = db.Database.SqlQuery<BetReportModel>(betReportSql).ToList();
-
-            // 取奖金
-            var bonusReportSql = GetAgentBonusReportSql(model);
-            var dbBonusReports = db.Database.SqlQuery<BonusReportModel>(bonusReportSql).ToList();
-
-
-            foreach (var user in users)
+            using (var db = new RacingDbContext())
             {
-                var betReport = dbBetReports.Where(b => b.UserId == user.UserId).FirstOrDefault();
-                var bonusReports = GetBonusReportModels(model.UserType, dbBonusReports, user.UserId);
-                var betAmount = betReport != null ? betReport.Amount : 0;
-                var bonusAmount = bonusReports.Count() > 0 ? bonusReports.Sum(b => b.Amount) : 0;
-                var rebateAmount = bonusReports.Count() > 0
-                    ? bonusReports.Where(b => b.BonusType == BonusType.Rebate && b.UserId == b.GeneralAgentUserId).Sum(b => b.Amount)
-                    : 0;
+                var reports = new PagerResult<ReportModel>();
+                reports.Items = new List<ReportModel>();
 
-                reports.Items.Add(new ReportModel
+                var agentSql = GetAgentUserIdsSql(model);
+                var agentQuery = db.Database.SqlQuery<int>(agentSql);
+                var agentCount = agentQuery.Count();
+                var agentUserIds = agentQuery.Skip((model.PageIndex - 1) * model.PageSize).Take(model.PageSize).ToList();
+
+                reports.RowCount = agentCount;
+                reports.PageCount = (int)Math.Ceiling(agentCount * 1.0 / model.PageSize);
+
+                // 取用户
+                var users = db.User.Where(u => agentUserIds.Contains(u.UserId)).ToList();
+
+                // 取下注: 笔数
+                var betReportSql = GetAgentBetReportSql(model);
+                var dbBetReports = db.Database.SqlQuery<BetReportModel>(betReportSql).ToList();
+
+                // 取奖金
+                var bonusReportSql = GetAgentBonusReportSql(model);
+                var dbBonusReports = db.Database.SqlQuery<BonusReportModel>(bonusReportSql).ToList();
+
+
+                foreach (var user in users)
                 {
-                    UserId = user.UserId,
-                    UserName = user.UserName,
-                    BetCount = betReport != null ? betReport.BetCount : 0,
-                    BetAmount = betAmount,
-                    MemberWinOrLoseAmount = bonusAmount - betAmount,
-                    ReceiveAmount = betAmount,
-                    RebateAmount = rebateAmount,
-                    ContributeHigherLevelAmount = betAmount,
-                    PayHigherLevelAmount = betAmount
-                });
+                    var betReport = dbBetReports.Where(b => b.UserId == user.UserId).FirstOrDefault();
+                    var bonusReports = GetBonusReportModels(model.UserType, dbBonusReports, user.UserId);
+                    var betAmount = betReport != null ? betReport.Amount : 0;
+                    var bonusAmount = bonusReports.Count() > 0 ? bonusReports.Sum(b => b.Amount) : 0;
+                    var rebateAmount = bonusReports.Count() > 0
+                        ? bonusReports.Where(b => b.BonusType == BonusType.Rebate && b.UserId == b.GeneralAgentUserId).Sum(b => b.Amount)
+                        : 0;
+
+                    reports.Items.Add(new ReportModel
+                    {
+                        UserId = user.UserId,
+                        UserName = user.UserName,
+                        BetCount = betReport != null ? betReport.BetCount : 0,
+                        BetAmount = betAmount,
+                        MemberWinOrLoseAmount = bonusAmount - betAmount,
+                        ReceiveAmount = betAmount,
+                        RebateAmount = rebateAmount,
+                        ContributeHigherLevelAmount = betAmount,
+                        PayHigherLevelAmount = betAmount
+                    });
+                }
+
+                return reports;
             }
-
-
-            return reports;
         }
 
         private string GetAgentUserIdsSql(ReportSearchModel model)
@@ -216,32 +219,35 @@ namespace Racing.Moto.Services
         /// <returns></returns>
         public PagerResult<Bet> GetUserBetReports(ReportSearchModel model)
         {
-            var isSettlementDone = model.SettlementType == 1 ? true : false;
-            var query = db.Bet
-                .Include(nameof(Bet.User))
-                .Where(b => b.UserId == model.UserId && b.IsSettlementDone == isSettlementDone);
-
-            //已开奖
-            query = query.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
-
-            var result = query
-                .OrderByDescending(b => b.BetId)
-                .Pager(model.PageIndex, model.PageSize);
-
-            // 奖金
-            var betIds = result.Items.Select(b => b.BetId).ToList();
-            var pkBonus = db.PKBonus.Where(b => betIds.Contains(b.BetId)).ToList();
-            foreach (var bet in result.Items)
+            using (var db = new RacingDbContext())
             {
-                var rebateBonus = pkBonus.Where(b => b.BetId == bet.BetId && b.BonusType == BonusType.Rebate).FirstOrDefault();
-                var bonus = pkBonus.Where(b => b.BetId == bet.BetId).ToList();
-                var amount = bonus.Count() > 0 ? bonus.Sum(b => b.Amount) : 0;
+                var isSettlementDone = model.SettlementType == 1 ? true : false;
+                var query = db.Bet
+                    .Include(nameof(Bet.User))
+                    .Where(b => b.UserId == model.UserId && b.IsSettlementDone == isSettlementDone);
 
-                bet.RebateAmount = rebateBonus != null ? rebateBonus.Amount : 0;// 退水
-                bet.BonusAmount = amount - bet.Amount;  // 退水后奖金 = 中奖金额+退水-本金
+                //已开奖
+                query = query.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+
+                var result = query
+                    .OrderByDescending(b => b.BetId)
+                    .Pager(model.PageIndex, model.PageSize);
+
+                // 奖金
+                var betIds = result.Items.Select(b => b.BetId).ToList();
+                var pkBonus = db.PKBonus.Where(b => betIds.Contains(b.BetId)).ToList();
+                foreach (var bet in result.Items)
+                {
+                    var rebateBonus = pkBonus.Where(b => b.BetId == bet.BetId && b.BonusType == BonusType.Rebate).FirstOrDefault();
+                    var bonus = pkBonus.Where(b => b.BetId == bet.BetId).ToList();
+                    var amount = bonus.Count() > 0 ? bonus.Sum(b => b.Amount) : 0;
+
+                    bet.RebateAmount = rebateBonus != null ? rebateBonus.Amount : 0;// 退水
+                    bet.BonusAmount = amount - bet.Amount;  // 退水后奖金 = 中奖金额+退水-本金
+                }
+
+                return result;
             }
-
-            return result;
         }
 
         #endregion
@@ -287,35 +293,38 @@ namespace Racing.Moto.Services
 
         public List<ReportModel> GetRankReports(ReportSearchModel model)
         {
-            var reports = new List<ReportModel>();
-
-            // 下注
-            var betReportSql = GetBetReportSql(model);
-            var betReports = db.Database.SqlQuery<BetReportModel>(betReportSql);
-
-            // 奖金
-            var bonusReportSql = GetBonusReportSql(model);
-            var bonusReports = db.Database.SqlQuery<BonusReportModel>(bonusReportSql);
-
-            foreach (var betReport in betReports)
+            using (var db = new RacingDbContext())
             {
-                var bonusReport = bonusReports.Where(r => r.Num > 0 && r.Num == betReport.Num).FirstOrDefault();
-                var bonusAmount = bonusReport != null ? bonusReport.Amount : 0;
+                var reports = new List<ReportModel>();
 
-                reports.Add(new ReportModel
+                // 下注
+                var betReportSql = GetBetReportSql(model);
+                var betReports = db.Database.SqlQuery<BetReportModel>(betReportSql);
+
+                // 奖金
+                var bonusReportSql = GetBonusReportSql(model);
+                var bonusReports = db.Database.SqlQuery<BonusReportModel>(bonusReportSql);
+
+                foreach (var betReport in betReports)
                 {
-                    Num = betReport.Num,
-                    BetCount = betReport.BetCount,
-                    BetAmount = betReport.Amount,
-                    MemberWinOrLoseAmount = bonusAmount - betReport.Amount,
-                    ReceiveAmount = bonusAmount - betReport.Amount,
-                    //RebateAmount = 0,
-                    ContributeHigherLevelAmount = 0,
-                    PayHigherLevelAmount = 0
-                });
-            }
+                    var bonusReport = bonusReports.Where(r => r.Num > 0 && r.Num == betReport.Num).FirstOrDefault();
+                    var bonusAmount = bonusReport != null ? bonusReport.Amount : 0;
 
-            return reports;
+                    reports.Add(new ReportModel
+                    {
+                        Num = betReport.Num,
+                        BetCount = betReport.BetCount,
+                        BetAmount = betReport.Amount,
+                        MemberWinOrLoseAmount = bonusAmount - betReport.Amount,
+                        ReceiveAmount = bonusAmount - betReport.Amount,
+                        //RebateAmount = 0,
+                        ContributeHigherLevelAmount = 0,
+                        PayHigherLevelAmount = 0
+                    });
+                }
+
+                return reports;
+            }
         }
 
 

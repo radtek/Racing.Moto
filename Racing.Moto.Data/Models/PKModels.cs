@@ -18,6 +18,11 @@ namespace Racing.Moto.Data.Models
         public PK PK { get; set; }
 
         /// <summary>
+        /// 当前时间: 服务器时间可能与用户机器时间不同, 返回服务器当前时间 用于计算倒计时
+        /// </summary>
+        public DateTime Now { get; set; }
+
+        /// <summary>
         /// 开盘的秒数: 当前时间 - 开盘开始时间 的秒数
         /// </summary>
         public int PassedSeconds { get; set; }
