@@ -221,6 +221,7 @@
                     //$('.start-flag').floating({ direction: 'right', millisec: motoRacing.Millisec });
 
                     $('.start-flag').floating('destroy');
+                    $('.start-flag').hide();
                 });
             });
         },
