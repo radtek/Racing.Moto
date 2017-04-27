@@ -490,6 +490,9 @@
                 };
                 $http.post('/Moto/SaveBets', data).then(function (res) {
                     if (!res.data.Success) {
+                        if (res.data.Code != '' && res.data.Data != null) {
+                            $('#balance').text(res.data.Data);
+                        }
                         alert(res.data.Message);
                         return;
                     }

@@ -84,7 +84,11 @@ namespace Racing.Moto.Web.Controllers
                     if (betAmount > userExtend.Amount)
                     {
                         result.Success = false;
+                        result.Code = MessageConst.USER_BALANCE_IS_NOT_ENOUGH_CODE;//余额不足
+                        result.Data = userExtend.Amount;
                         result.Message = MessageConst.USER_BALANCE_IS_NOT_ENOUGH + " 当前余额 : " + userExtend.Amount;
+
+                        PKBag.LoginUser.UserExtension.Amount = userExtend.Amount;
                     }
                     else
                     {
