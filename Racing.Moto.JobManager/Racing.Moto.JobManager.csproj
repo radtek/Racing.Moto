@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Jobs\JobScheduler.cs" />
     <Compile Include="Jobs\PkJob.cs" />
+    <Compile Include="Jobs\BonusJob.cs" />
     <Compile Include="Jobs\RankJob.cs" />
     <Compile Include="Jobs\RebateJob.cs" />
     <Compile Include="Program.cs" />

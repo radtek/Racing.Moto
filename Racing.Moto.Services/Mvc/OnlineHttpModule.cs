@@ -47,6 +47,12 @@ namespace Racing.Moto.Services.Mvc
             // 获取在线用户记录器
             OnlineUserRecorder recorder = HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
 
+            if(recorder == null)
+            {
+                Register();
+                recorder = HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
+            }
+
             OnlineUser onlineUser = new OnlineUser();
 
             Data.Entities.User user = (Data.Entities.User)HttpContext.Current.Session[SessionConst.LoginUser];//注意session的名称是和登录保存的名称一致
