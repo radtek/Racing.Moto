@@ -311,7 +311,8 @@ namespace Racing.Moto.Services
 
         private decimal GetAmount(BetAmountModel model)
         {
-            return model != null ? model.Amount : 0;
+            //return model != null ? model.Amount : 0;
+            return model != null ? model.RateAmount : 0;
         }
 
         /// <summary>
