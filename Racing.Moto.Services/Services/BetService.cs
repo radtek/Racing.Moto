@@ -496,9 +496,7 @@ namespace Racing.Moto.Services
             // 计算中奖比率
 
             var bonusRate = 1 - AppConfigCache.Rate_Admin - AppConfigCache.Rate_Return; // 吃二出八
-
-            var newRanks = new List<int>();
-
+            
             // 提高中奖率, 取 中奖比率< 出八 的放在中奖位置
             //betRates = betRates.Where(br => br.Rate > 0).OrderByDescending(br => br.Rate).ToList();//中奖比率倒序
             //var sumBetRate = 0M;
@@ -525,47 +523,76 @@ namespace Racing.Moto.Services
             //    }
             //}
 
-            // 已经排过序的车号+比率
-            var rankedRates = new List<BetRateModel>();
-            var startRank = 1;
+            //var startRank = 1;
 
-            // 取小于0.8(吃二出八) 且最大的比率
-            var maxRate = betRates.Where(br => br.Rate > 0 && br.Rate < bonusRate).OrderByDescending(br => br.Rate).FirstOrDefault();
-            if (maxRate != null)
+            //// 取小于0.8(吃二出八) 且最大的比率
+            //var maxRate = betRates.Where(br => br.Rate > 0 && br.Rate < bonusRate).OrderByDescending(br => br.Rate).FirstOrDefault();
+            //if (maxRate != null)
+            //{
+            //    // 第一名设置成 此车号
+            //    ranks = ResetRanks(ranks, maxRate.Rank, maxRate.Num);
+
+            //    // 如果第一名已经设置, 下边循环从第二名开始
+            //    startRank = 2;
+
+            //    // 已经排过序的车号+比率
+            //    rankedRates.Add(maxRate);
+            //}
+
+            var orderedBetRates = betRates.Where(br => br.Rate > 0 && br.Rate < bonusRate).OrderByDescending(br => br.Rate).ToList();
+
+            var tempRanks = ranks.Select(r => r).ToList();
+            var maxSumRankedRate = 0M;
+            var tempSumRankedRate = 0M;
+            foreach (var betRate in orderedBetRates)
             {
-                // 第一名设置成 此车号
-                ranks = ResetRanks(ranks, maxRate.Rank, maxRate.Num);
-
-                // 如果第一名已经设置, 下边循环从第二名开始
-                startRank = 2;
+                tempRanks = ranks.Select(r => r).ToList();
 
                 // 已经排过序的车号+比率
-                rankedRates.Add(maxRate);
-            }
+                var rankedRates = new List<BetRateModel>();
 
-            for (var rank = startRank; rank <= 10; rank++)
-            {
-                var rankedNums = rankedRates.Select(r => r.Num).ToList();
-                var sumRankedRate = rankedRates.Count > 0 ? rankedRates.Sum(r => r.Rate) : 0;
-                // 第n名 未排过序的 下注车号+比率 中奖比率倒序
-                var rankRates = betRates.Where(br => br.Rate > 0 && br.Rank == rank && !rankedNums.Contains(br.Num)).OrderByDescending(br => br.Rate).ToList();
-                foreach (var rankRate in rankRates)
+                // 第一名设置成 此车号
+                tempRanks = ResetRanks(tempRanks, betRate.Rank, betRate.Num);
+                
+                // 已经排过序的车号+比率
+                rankedRates.Add(betRate);
+
+
+                // 如果第一名已经设置, 下边循环从第二名开始
+                for (var rank = 2; rank <= 10; rank++)
                 {
-                    if (rankRate.Rate + sumRankedRate <= bonusRate)
+                    var rankedNums = rankedRates.Select(r => r.Num).ToList();
+                    var sumRankedRate = rankedRates.Count > 0 ? rankedRates.Sum(r => r.Rate) : 0;
+                    // 第n名 未排过序的 下注车号+比率 中奖比率倒序
+                    var rankRates = betRates.Where(br => br.Rate > 0 && br.Rank == rank && !rankedNums.Contains(br.Num)).OrderByDescending(br => br.Rate).ToList();
+                    foreach (var rankRate in rankRates)
                     {
-                        // 第n名设置成 此车号
-                        ranks = ResetRanks(ranks, rankRate.Rank, rankRate.Num);
+                        if (rankRate.Rate + sumRankedRate <= bonusRate)
+                        {
+                            // 第n名设置成 此车号
+                            tempRanks = ResetRanks(tempRanks, rankRate.Rank, rankRate.Num);
 
-                        // 已经排过序的车号+比率
-                        rankedRates.Add(rankRate);
-                        break;
+                            // 已经排过序的车号+比率
+                            rankedRates.Add(rankRate);
+                            break;
+                        }
                     }
+                }
+                if(tempSumRankedRate > maxSumRankedRate)
+                {
+                    maxSumRankedRate = tempSumRankedRate;
+                }
+                tempSumRankedRate = rankedRates.Count > 0 ? rankedRates.Sum(r => r.Rate) : 0;
+
+                if(tempSumRankedRate > maxSumRankedRate)
+                {
+                    ranks = tempRanks.Select(r => r).ToList();
                 }
             }
 
             return ranks;
         }
-
+        
         /// <summary>
         /// 设置第rank名为第num号车
         /// </summary>
