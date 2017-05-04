@@ -704,6 +704,15 @@ body {
     font-family: "Microsoft YaHei","微软雅黑","SimSun","宋体";
     margin: 0 auto;
 }
+.dating-wrap-no-header {
+    width: 1366px;
+    height: 858px;
+    /*background: url(../img/bg_dating.jpg) no-repeat;*/
+    position: relative;
+    overflow: hidden;
+    font-family: "Microsoft YaHei","微软雅黑","SimSun","宋体";
+    margin: 0 auto;
+}
 
 .dating-wrap-b {
     width: 1366px;

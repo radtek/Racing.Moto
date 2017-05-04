@@ -11,11 +11,13 @@
 
             // test
             //pkInfo = {};
-            //pkInfo.GamingSeconds = -1;
+            //var now = new Date();
+            //var seconds = 10;
+            //pkInfo.GameBeginTime = $app.formatDate(now.addSeconds(seconds), 'yyyy-MM-dd HH:mm:ss');
+            //pkInfo.GamingSeconds = -seconds;
             //pkInfo.GamePassedSeconds = 0;
-            //pkInfo.GameRemainSeconds = 10;
-            //pkInfo.GameBeginTime = '2017/04/03 18:20:00';
-            //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
+            //pkInfo.GameRemainSeconds = 60;
+            //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 30 };
 
 
             if (pkInfo == null) {
@@ -29,7 +31,7 @@
     ticker.client.updatePKInfo = function (pkInfo) {
         // test
         //pkInfo = {};
-        //pkInfo.GamingSeconds = -10;
+        //pkInfo.GamingSeconds = 10;
         //pkInfo.GamePassedSeconds = 0;
         //pkInfo.GameRemainSeconds = 20;
         //pkInfo.GameBeginTime = '2017/04/03 18:30:00';
@@ -95,11 +97,11 @@
                 motoRacing.append();
                 // countdown
                 motoRacing.countdown(pkInfo);
-                // move Road
-                motoRacing.moveRoad(pkInfo);
-                // run moto
-                //motoRacing.runMoto(pkInfo);
-                motoRacing.runMoto2(pkInfo);
+                //// move Road
+                //motoRacing.moveRoad(pkInfo);
+                //// run moto
+                ////motoRacing.runMoto(pkInfo);
+                //motoRacing.runMoto2(pkInfo);
             }
         },
         getcountdownClock: function () {
@@ -153,24 +155,56 @@
             var toGamingSeconds = Math.abs(pkInfo.GamingSeconds);
             //var seconds = countdownSeconds < toGamingSeconds ? toGamingSeconds - countdownSeconds : 0;
             if (pkInfo.GamingSeconds < 0) {
-                if (countdownSeconds <= toGamingSeconds) {
-                    var seconds = Math.abs(pkInfo.GamingSeconds + countdownSeconds) + 's';
-                    $('body').oneTime(seconds, function () {
-                        $('.time-run2').hide();
-                        $('.time-run').show();
+                //if (countdownSeconds <= toGamingSeconds) {
+                //    var seconds = Math.abs(pkInfo.GamingSeconds + countdownSeconds) + 's';
+                //    $('body').oneTime(seconds, function () {
+                //        $('.time-run2').hide();
+                //        $('.time-run').show();
 
-                        motoRacing.countdown2(countdownSeconds, 4);
+                //        motoRacing.countdown2(countdownSeconds, 4);
+                //    });
+                //} else {
+                //    $('.time-run2').hide();
+                //    $('.time-run').show();
+
+                //    motoRacing.countdown2(toGamingSeconds, toGamingSeconds - 1);
+                //}
+                if (countdownSeconds <= toGamingSeconds) {
+                    $('.time-run2').show();
+                    $('.time-run').hide();
+
+                    $('body').everyTime('1s', function () {
+                        var clock = motoRacing.getcountdownClock();
+                        console.log(clock);
+                        if (clock == '00:00:05') {
+                            $('.time-run2').hide();
+                            $('.time-run').show();
+                            var countdownSeconds = 5;
+                            motoRacing.countdown2(countdownSeconds, countdownSeconds - 1);
+
+                            motoRacing.startGame();
+                        }
                     });
                 } else {
                     $('.time-run2').hide();
                     $('.time-run').show();
 
-                    motoRacing.countdown2(toGamingSeconds, toGamingSeconds - 1);
+                    motoRacing.startGame();
                 }
             } else {
                 $('.time-run2').hide();
                 $('.time-run').hide();
+
+                motoRacing.startGame();
             }
+        },
+        startGame: function () {
+            var pkInfo = motoRacing.PKInfo;
+            pkInfo.GamingSeconds = -5;
+            // move Road
+            motoRacing.moveRoad(pkInfo);
+            // run moto
+            motoRacing.runMoto2(pkInfo);
         },
         countdown2: function (countdownSeconds, index) {
             //var index = 4;

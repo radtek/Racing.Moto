@@ -148,6 +148,10 @@ Date.prototype.addDays = Date.prototype.addDays || function (n) {
     this.setDate(this.getDate() + n);
     return this;
 }
+Date.prototype.addSeconds = Date.prototype.addSeconds || function (n) {
+    this.setSeconds(this.getSeconds() + n);
+    return this;
+}
 Array.prototype.insert = function (index, item) {
     this.splice(index, 0, item);
 };
