@@ -40,6 +40,14 @@
             });
         },
         save: function () {
+            var pwd = $scope.user.CurrentUser.Password;
+            if (pwd != null && pwd.length > 0) {
+                var regex = new RegExp('(?=.*[0-9])(?=.*[a-zA-Z]).{6,20}');
+                if (!regex.test(pwd)) {
+                    alert('密码过于简单, 请输入至少6位的数字与字母组合密码')
+                    return;
+                }
+            }
             var data = {
                 type: $scope.user.UserType,
                 user: $scope.user.CurrentUser,
