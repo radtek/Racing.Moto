@@ -9,12 +9,14 @@ namespace Racing.Moto.Data.Models
     public class ResponseResult
     {
         public bool Success { get; set; }
+        public string Code { get; set; }
         public string Message { get; set; }
         public object Data { get; set; }
 
         public ResponseResult(bool success = true, string message = null, object data = null)
         {
             Success = success;
+            Code = "";
             Message = message;
             Data = data;
         }

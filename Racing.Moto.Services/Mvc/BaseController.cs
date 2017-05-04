@@ -1,6 +1,7 @@
 ﻿using App.Core.OnlineStat;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using NLog;
 using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Membership;
 using Racing.Moto.Services.Constants;
@@ -17,6 +18,8 @@ namespace Racing.Moto.Services.Mvc
 {
     public class BaseController : Controller
     {
+        private ILogger _logger = LogManager.GetCurrentClassLogger();
+
         private User _loginUser = null;
         public User LoginUser
         {
@@ -30,108 +33,115 @@ namespace Racing.Moto.Services.Mvc
         {
             base.OnAuthorization(filterContext);
 
-            var rawUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower();
-            if (rawUrl.Contains("/account/login"))
+            try
             {
-                return;
-            }
-
-            // 踢出
-            if (HttpContext.User.Identity.IsAuthenticated && PKBag.OnlineUserRecorder.GetUser(HttpContext.User.Identity.Name) == null)
-            {
-                System.Web.Security.FormsAuthentication.SignOut();
-
-                //System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
-                PKBag.Clear();
-            }
-
-            //[TO BE REMOVED]
-            //if (HttpContext.User.Identity.IsAuthenticated && System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
-            //{
-            //    _loginUser = SqlMembershipProvider.Provider.GetUser(HttpContext.User.Identity.Name, true);
-            //    _loginUser.UserExtension = new UserExtensionService().GetUserUserExtension(_loginUser.UserId);
-
-            //    // LoginUser session
-            //    System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = _loginUser;
-            //}
-
-
-            var isAdminUrl = rawUrl.Contains("/admin");     // 后台管理端
-            var isManageUrl = rawUrl.Contains("/manage");   // 押注端
-
-            // 浏览器有缓存 时, 关闭浏览器不会删除cookie, 此处判断如果session失效则强制删除cookie
-            if (HttpContext.User.Identity.IsAuthenticated && System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
-            {
-                System.Web.Security.FormsAuthentication.SignOut();
-                System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
-
-                //var loginUrl = isAdminUrl ? "/Admin/Account/Login" : "/Account/Login";
-                //var url = !string.IsNullOrEmpty(rawUrl) ? loginUrl + "?returnUrl=" + rawUrl : loginUrl;
-                //filterContext.HttpContext.Response.Redirect(url);
-
-                SetRedirect(filterContext);
-            }
-            else
-            {
-                if (HttpContext.User.Identity.IsAuthenticated && _loginUser == null)
+                var rawUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower();
+                if (rawUrl.Contains("/account/login"))
                 {
-                    if (System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
-                    {
-                        _loginUser = SqlMembershipProvider.Provider.GetUser(HttpContext.User.Identity.Name, true);
-                        _loginUser.UserExtension = new UserExtensionService().GetUserUserExtension(_loginUser.UserId);
+                    return;
+                }
+                _logger.Info(string.Format("IsAuthenticated: {0} {1}", HttpContext.User.Identity.IsAuthenticated, DateTime.Now.ToString(DateFormatConst.yMd_Hms)));
+                //// 踢出
+                //if (HttpContext.User.Identity.IsAuthenticated /*&& PKBag.OnlineUserRecorder.GetUser(HttpContext.User.Identity.Name) == null*/)
+                //{
+                //    _logger.Info(string.Format("IsAuthenticated is false: {0} {1}", HttpContext.User.Identity.IsAuthenticated, DateTime.Now.ToString(DateFormatConst.yMd_Hms)));
+                //    System.Web.Security.FormsAuthentication.SignOut();
 
-                        // LoginUser session
-                        System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = _loginUser;
-                    }
-                    else
-                    {
-                        _loginUser = System.Web.HttpContext.Current.Session[SessionConst.LoginUser] as User;
-                    }
+                //    //System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
+                //    PKBag.Clear();
+                //}
 
-                    // menus
-                    if (System.Web.HttpContext.Current.Session[SessionConst.Menus] == null)
-                    {
-                        var roleIds = _loginUser.UserRoles.Select(ur => ur.RoleId).ToList();
-                        var menus = new MenuService().GetMenuByRoles(roleIds);
+                var isAdminUrl = rawUrl.Contains("/admin");     // 后台管理端
+                var isManageUrl = rawUrl.Contains("/manage");   // 押注端
 
-                        System.Web.HttpContext.Current.Session[SessionConst.Menus] = menus;
-                    }
+                // 浏览器有缓存 时, 关闭浏览器不会删除cookie, 此处判断如果session失效则强制删除cookie
+                if (HttpContext.User.Identity.IsAuthenticated && System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
+                {
+                    System.Web.Security.FormsAuthentication.SignOut();
+                    System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
+
+                    SetRedirect(filterContext);
                 }
                 else
                 {
-                    if (isAdminUrl || isManageUrl)
+                    if (HttpContext.User.Identity.IsAuthenticated && _loginUser == null)
                     {
-                        SetRedirect(filterContext);
+                        if (System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
+                        {
+                            _loginUser = SqlMembershipProvider.Provider.GetUser(HttpContext.User.Identity.Name, true);
+                            _loginUser.UserExtension = new UserExtensionService().GetUserUserExtension(_loginUser.UserId);
+
+                            // LoginUser session
+                            System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = _loginUser;
+                        }
+                        else
+                        {
+                            _loginUser = System.Web.HttpContext.Current.Session[SessionConst.LoginUser] as User;
+                        }
+
+                        // menus
+                        if (System.Web.HttpContext.Current.Session[SessionConst.Menus] == null)
+                        {
+                            var roleIds = _loginUser.UserRoles.Select(ur => ur.RoleId).ToList();
+                            var menus = new MenuService().GetMenuByRoles(roleIds);
+
+                            System.Web.HttpContext.Current.Session[SessionConst.Menus] = menus;
+                        }
                     }
+                    else
+                    {
+                        if (isAdminUrl || isManageUrl)
+                        {
+                            SetRedirect(filterContext);
+                        }
 
-                    ViewBag.ReturnUrl = filterContext.HttpContext.Request.Url.ToString();
+                        ViewBag.ReturnUrl = filterContext.HttpContext.Request.Url.ToString();
+                    }
                 }
-            }
 
-            ViewBag.CurrentUser = _loginUser;
+                ViewBag.CurrentUser = _loginUser;
+            }
+            catch (Exception ex)
+            {
+                _logger.Info(ex.Message);
+            }
         }
         protected void SetRedirect(AuthorizationContext filterContext)
         {
-            var returnUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower().TrimEnd('/');
-            var isAdminUrl = returnUrl.Contains("/admin");
-            var isManageUrl = returnUrl.Contains("/manage");
-            var loginUrl = (isAdminUrl || isManageUrl) ? "/Route" : "/Account/Login"; ///Admin/Account/Login"
-            var rdm = Guid.NewGuid().ToString("N");//防止浏览器缓存登录页面
-            var url = !string.IsNullOrEmpty(returnUrl)
-                ? loginUrl + "?returnUrl=" + HttpUtility.UrlEncode(returnUrl + "&r=" + rdm)
-                : loginUrl + "?r=" + rdm;
+            try
+            {
+                var returnUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower().TrimEnd('/');
+                var isAdminUrl = returnUrl.Contains("/admin");
+                var isManageUrl = returnUrl.Contains("/manage");
+                var loginUrl = (isAdminUrl || isManageUrl) ? "/Route" : "/Account/Login"; ///Admin/Account/Login"
+                var rdm = Guid.NewGuid().ToString("N");//防止浏览器缓存登录页面
+                var url = !string.IsNullOrEmpty(returnUrl)
+                    ? loginUrl + "?returnUrl=" + HttpUtility.UrlEncode(returnUrl + "&r=" + rdm)
+                    : loginUrl + "?r=" + rdm;
 
-            filterContext.HttpContext.Response.Redirect(url);
+                filterContext.HttpContext.Response.Redirect(url);
+            }
+            catch (Exception ex)
+            {
+                _logger.Info(ex.Message);
+            }
         }
 
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             base.OnActionExecuted(filterContext);
 
-            if (System.Web.HttpContext.Current.Session[SessionConst.LoginUser] != null)
+            try
             {
-                //在线用户统计
-                OnlineHttpModule.ProcessRequest();
+                if (System.Web.HttpContext.Current.Session[SessionConst.LoginUser] != null)
+                {
+                    //在线用户统计
+                    OnlineHttpModule.ProcessRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info(ex.Message);
             }
         }
 

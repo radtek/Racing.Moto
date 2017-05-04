@@ -67,6 +67,14 @@ namespace Racing.Moto.Services
             }
         }
 
+        public List<PK> GetNotBonusPKs()
+        {
+            using (var db = new RacingDbContext())
+            {
+                return db.PK.Where(pk => !pk.IsBonused && pk.Ranks != null).ToList();
+            }
+        }
+
         /// <summary>
         /// 未退水且比赛结束
         /// </summary>
@@ -217,17 +225,21 @@ namespace Racing.Moto.Services
         /// <summary>
         /// 更新名次
         /// </summary>
-        public void UpdateRanks(int pkId, string ranks)
+        public bool UpdateRanks(int pkId, string ranks)
         {
             using (var db = new RacingDbContext())
             {
                 var dbPK = db.PK.Where(pk => pk.PKId == pkId).FirstOrDefault();
-                if (dbPK != null)
+                if (dbPK != null && string.IsNullOrEmpty(dbPK.Ranks))
                 {
                     dbPK.Ranks = ranks;
 
                     db.SaveChanges();
+
+                    return true;
                 }
+
+                return false;
             }
         }
 

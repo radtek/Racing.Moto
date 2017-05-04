@@ -28,7 +28,9 @@ namespace Racing.Moto.Test
 
             //new PkJob().Execute(null);
 
-            new RankJob().Run();
+            //new RankJob().Run();
+
+           new BetService().CalculateRanks(2987);
         }
     }
 }

@@ -490,6 +490,9 @@
                 };
                 $http.post('/Moto/SaveBets', data).then(function (res) {
                     if (!res.data.Success) {
+                        if (res.data.Code != '' && res.data.Data != null) {
+                            $('#balance').text(res.data.Data);
+                        }
                         alert(res.data.Message);
                         return;
                     }
@@ -685,24 +688,35 @@
 
                 $scope.bet.setDisabled(true);
             } else {
-                //var beginTime = $app.convertToDate(pkModel.CloseBeginTime);
-                var beginTime = $app.convertToDate(pkModel.GameBeginTime);  // 比赛开始倒计时
-                var year = beginTime.getFullYear();
-                var month = beginTime.getMonth();
-                var day = beginTime.getDate();
-                var hour = beginTime.getHours();
-                var minute = beginTime.getMinutes();
-                var second = beginTime.getSeconds();
+                var future = $scope.countdown.getUtc($app.convertToDate(pkModel.GameBeginTime));
+                //var beginTime = $app.convertToDate(pkModel.GameBeginTime);  // 比赛开始倒计时
+                //var year = beginTime.getFullYear();
+                //var month = beginTime.getMonth();
+                //var day = beginTime.getDate();
+                //var hour = beginTime.getHours();
+                //var minute = beginTime.getMinutes();
+                //var second = beginTime.getSeconds();
 
 
-                var d = Date.UTC(year, month, day, hour, minute, second);
+                //var d = Date.UTC(year, month, day, hour, minute, second);
+                var toGamingSeconds = Math.abs(pkModel.GamingSeconds);
                 var obj = {
                     sec: eleSecond,
                     mini: eleMinute,
                     hour: eleHour
                 }
-                fnTimeCountDown(d, obj, __timeCountDownCallback);
+                fnTimeCountDown(future, toGamingSeconds, obj, __timeCountDownCallback);
             }
+        },
+        getUtc: function (time) {
+            var year = time.getFullYear();
+            var month = time.getMonth();
+            var day = time.getDate();
+            var hour = time.getHours();
+            var minute = time.getMinutes();
+            var second = time.getSeconds();
+
+            return Date.UTC(year, month, day, hour, minute, second);
         },
     };
 }]);

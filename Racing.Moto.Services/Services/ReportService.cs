@@ -235,7 +235,7 @@ namespace Racing.Moto.Services
 
                 // 奖金
                 var betIds = result.Items.Select(b => b.BetId).ToList();
-                var pkBonus = db.PKBonus.Where(b => betIds.Contains(b.BetId)).ToList();
+                var pkBonus = db.PKBonus.Where(b => b.UserId == model.UserId && b.IsSettlementDone == isSettlementDone && betIds.Contains(b.BetId)).ToList();
                 foreach (var bet in result.Items)
                 {
                     var rebateBonus = pkBonus.Where(b => b.BetId == bet.BetId && b.BonusType == BonusType.Rebate).FirstOrDefault();
