@@ -116,6 +116,20 @@
             return msgArr.join('\r\n');
         }
     },
+    checkPwd: function (pwd) {
+        var res = { "IsValid": true, "Message": "" };
+        if (pwd == null || pwd.length == 0) {
+            res.IsValid = false;
+            res.Message = "请输入密码";
+        } else {
+            var regex = new RegExp('(?=.*[0-9])(?=.*[a-zA-Z]).{6,20}');
+            if (!regex.test(pwd)) {
+                res.IsValid = false;
+                res.Message = "密码过于简单, 请输入至少6位的数字与字母组合密码";
+            }
+        }
+        return res;
+    },
 };
 Number.prototype.add = function (arg) {
     return $app.add(arg, this);

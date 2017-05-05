@@ -29,6 +29,11 @@
             if ($scope.user.Params.NewPassword != $scope.user.Params.ConfirmPassword) {
                 return '两次输入的密码不一致';
             }
+
+            var res = $app.checkPwd(pwd);
+            if (!res.IsValid) {
+                return res.Message;
+            }
             return '';
         },
         save: function () {
