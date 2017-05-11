@@ -3,6 +3,8 @@
     var $racingResult = $("#racingResult");
     var $bonusResult = $("#bonusResult");
 
+    motoAudio.init();
+
     var ticker = $.connection.pKTickerHub;
 
     function init() {
@@ -10,19 +12,26 @@
             console.log(pkInfo);
 
             // test
-            //pkInfo = {};
-            //var now = new Date();
-            //var seconds = 10;
-            //pkInfo.GameBeginTime = $app.formatDate(now.addSeconds(seconds), 'yyyy-MM-dd HH:mm:ss');
-            //pkInfo.GamingSeconds = -seconds;
-            //pkInfo.GamePassedSeconds = 0;
-            //pkInfo.GameRemainSeconds = 60;
-            //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 30 };
+            pkInfo = {};
+            var now = new Date();
+            var seconds = 10;
+            pkInfo.GameBeginTime = $app.formatDate(now.addSeconds(seconds), 'yyyy-MM-dd HH:mm:ss');
+            pkInfo.GamingSeconds = -seconds;
+            pkInfo.GamePassedSeconds = 0;
+            pkInfo.GameRemainSeconds = 30;
+            pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 30 };
 
 
             if (pkInfo == null) {
                 return;
             }
+
+            // audio.wait
+            $('body').oneTime('2s', function () {
+                //audio.run
+                motoAudio.wait.play();
+            });
+
             motoRacing.run(pkInfo);
         });
     }
@@ -37,12 +46,12 @@
         //pkInfo.GameBeginTime = '2017/04/03 18:30:00';
         //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
-        console.log(pkInfo);
-        if (pkInfo == null) {
-            return;
-        }
+        //console.log(pkInfo);
+        //if (pkInfo == null) {
+        //    return;
+        //}
 
-        motoRacing.run(pkInfo);
+        //motoRacing.run(pkInfo);
     }
 
     // Start the connection
@@ -52,8 +61,8 @@
     var motoRacing = {
         PKInfo: null,
         MaxPKCount: 1,
-        ResultShowSeconds: 5,
-        BonusShowSeconds: 5,
+        ResultShowSeconds: 10,
+        BonusShowSeconds: 60,
         Millisec: 3,
         RoadLength: 610,//910
         Colors: ['red', 'blue', 'yellow', 'green', 'gray', 'aqua', 'blueviolet', 'brown', 'Highlight', 'aquamarine', 'teal'],
@@ -91,7 +100,7 @@
                 motoRacing.PKInfo = pkInfo;
                 motoRacing.EndMotos = [];
 
-                motoRacing.clear();
+                //motoRacing.clear();
 
                 // append moto
                 motoRacing.append();
@@ -122,14 +131,6 @@
                 eleSecond.innerHTML = '00';
             } else {
                 var future = motoRacing.getUtc($app.convertToDate(pkInfo.GameBeginTime));
-                //var now = motoRacing.getUtc($app.convertToDate(pkInfo.Now));
-                //var year = time.getFullYear();
-                //var month = time.getMonth();
-                //var day = time.getDate();
-                //var hour = time.getHours();
-                //var minute = time.getMinutes();
-                //var second = time.getSeconds();
-
                 var toGamingSeconds = Math.abs(pkInfo.GamingSeconds);
                 // 倒计时结束时间
                 var obj = {
@@ -155,27 +156,13 @@
             var toGamingSeconds = Math.abs(pkInfo.GamingSeconds);
             //var seconds = countdownSeconds < toGamingSeconds ? toGamingSeconds - countdownSeconds : 0;
             if (pkInfo.GamingSeconds < 0) {
-                //if (countdownSeconds <= toGamingSeconds) {
-                //    var seconds = Math.abs(pkInfo.GamingSeconds + countdownSeconds) + 's';
-                //    $('body').oneTime(seconds, function () {
-                //        $('.time-run2').hide();
-                //        $('.time-run').show();
-
-                //        motoRacing.countdown2(countdownSeconds, 4);
-                //    });
-                //} else {
-                //    $('.time-run2').hide();
-                //    $('.time-run').show();
-
-                //    motoRacing.countdown2(toGamingSeconds, toGamingSeconds - 1);
-                //}
                 if (countdownSeconds <= toGamingSeconds) {
                     $('.time-run2').show();
                     $('.time-run').hide();
 
                     $('body').everyTime('1s', function () {
                         var clock = motoRacing.getcountdownClock();
-                        console.log(clock);
+                        //console.log(clock);
                         if (clock == '00:00:05') {
                             $('.time-run2').hide();
                             $('.time-run').show();
@@ -183,6 +170,10 @@
                             motoRacing.countdown2(countdownSeconds, countdownSeconds - 1);
 
                             motoRacing.startGame();
+                        }
+
+                        if (clock == '00:00:04') {
+                            motoAudio.countdown.play();
                         }
                     });
                 } else {
@@ -201,6 +192,7 @@
         startGame: function () {
             var pkInfo = motoRacing.PKInfo;
             pkInfo.GamingSeconds = -5;
+
             // move Road
             motoRacing.moveRoad(pkInfo);
             // run moto
@@ -250,13 +242,15 @@
                 $('.bg-top').floatingBg({ direction: 5, millisec: motoRacing.Millisec, backgroud: '/img/bg_top.jpg', });
                 $('.start-flag').floating({ direction: 'right', millisec: motoRacing.Millisec });
 
-                $('body').oneTime(5000, function () {
+                $('body').oneTime('5s', function () {
                     // road moving
                     //$('.start-flag').floating({ direction: 'right', millisec: motoRacing.Millisec });
 
                     $('.start-flag').floating('destroy');
                     $('.start-flag').hide();
                 });
+
+
             });
         },
         runMoto: function (pkInfo) {
@@ -350,7 +344,7 @@
                     var distances = motoRacing.getDistances2(i + 1, motoNum);
                     var durations = motoRacing.getDurations2(pkInfo.GameRemainSeconds, i + 1);
 
-                    console.log(distances);
+                    //console.log(distances);
                     //console.log(durations);
                     motoRacing.runMotoSingle(motoNum, distances, durations)
                 }
@@ -460,6 +454,10 @@
 
                 $moto.floating({ direction: 'left', millisec: 6, position: positon });
             }
+
+            //motoAudio.end
+            console.log('motoAudio.end');
+            motoAudio.end.play();
         },
         moveEndFlag: function (pkInfo) {
             var $endFlag = $('.end-flag');
@@ -553,7 +551,7 @@
                 });
             }
 
-            console.log(ranks);
+            //console.log(ranks);
 
             //desc order
             ranks.sort(function (a, b) {
@@ -743,3 +741,128 @@
         },
     };
 });
+
+var motoAudio = {
+    init: function () {
+        var mediaNames = ["wait", "countdown", "start", "run", "end", "applause"];
+        for (var i = 0; i < mediaNames.length; i++) {
+            motoAudio.initPlayer(mediaNames[i]);
+        }
+    },
+    initPlayer: function (mediaName) {
+        $("#jplayer_" + mediaName).jPlayer("destroy");
+        $("#jplayer_" + mediaName).jPlayer({
+            ready: function () {
+                $(this).jPlayer("setMedia", {
+                    title: mediaName,
+                    mp3: "../../Content/Audio/" + mediaName + ".mp3"
+                });
+            },
+            play: function () {
+                //var name = $(this).attr('id').split('_')[1];
+                //if (name != 'countdown') {
+                //    $(this).jPlayer("pauseOthers");// To avoid multiple jPlayers playing together.
+                //}
+            },
+            ended: function () { // The $.jPlayer.event.ended event
+                var name = $(this).attr('id').split('_')[1];
+                if (name == 'wait' || name == 'run') {
+                    $(this).jPlayer("play"); // Repeat the media
+                } else if (name == 'countdown') {
+                    motoAudio.start.play();
+                } else if (name == 'start') {
+                    motoAudio.run.play();
+                } else if (name == 'end') {
+                    motoAudio.applause.play();
+                } else if (name == 'applause') {
+                    //motoAudio.wait.play();
+                }
+            },
+            swfPath: "../jPlayer",
+            supplied: "mp3,wav",
+            wmode: "window",
+            globalVolume: true,
+            useStateClassSkin: true,
+            autoBlur: false,
+            smoothPlayBar: true,
+            keyEnabled: true
+        });
+    },
+    wait: {
+        play: function () {
+            motoAudio.countdown.pause();
+            motoAudio.start.pause();
+            motoAudio.run.pause();
+            motoAudio.end.pause();
+            motoAudio.applause.pause();
+            $("#jplayer_wait").jPlayer("play");
+        },
+        pause: function () {
+            $("#jplayer_wait").jPlayer("pause");
+        },
+    },
+    countdown: {
+        play: function () {
+            motoAudio.start.pause();
+            motoAudio.run.pause();
+            motoAudio.end.pause();
+            motoAudio.applause.pause();
+            $("#jplayer_countdown").jPlayer("play");
+        },
+        pause: function () {
+            $("#jplayer_countdown").jPlayer("pause");
+        },
+    },
+    start: {
+        play: function () {
+            motoAudio.wait.pause();
+            motoAudio.countdown.pause();
+            motoAudio.run.pause();
+            motoAudio.end.pause();
+            motoAudio.applause.pause();
+            $("#jplayer_start").jPlayer("play");
+        },
+        pause: function () {
+            $("#jplayer_start").jPlayer("pause");
+        },
+    },
+    run: {
+        play: function () {
+            $("#jplayer_run").jPlayer("play");
+            motoAudio.wait.pause();
+            motoAudio.countdown.pause();
+            motoAudio.start.pause();
+            motoAudio.end.pause();
+            motoAudio.applause.pause();
+        },
+        pause: function () {
+            $("#jplayer_run").jPlayer("pause");
+        },
+    },
+    end: {
+        play: function () {
+            motoAudio.wait.pause();
+            motoAudio.countdown.pause();
+            motoAudio.start.pause();
+            motoAudio.run.pause();
+            motoAudio.applause.pause();
+            $("#jplayer_end").jPlayer("play");
+        },
+        pause: function () {
+            $("#jplayer_end").jPlayer("pause");
+        },
+    },
+    applause: {
+        play: function () {
+            motoAudio.wait.pause();
+            motoAudio.countdown.pause();
+            motoAudio.start.pause();
+            motoAudio.run.pause();
+            motoAudio.end.pause();
+            $("#jplayer_applause").jPlayer("play");
+        },
+        pause: function () {
+            $("#jplayer_applause").jPlayer("pause");
+        },
+    },
+};
