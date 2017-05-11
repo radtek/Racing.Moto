@@ -12,14 +12,14 @@
             console.log(pkInfo);
 
             // test
-            pkInfo = {};
-            var now = new Date();
-            var seconds = 10;
-            pkInfo.GameBeginTime = $app.formatDate(now.addSeconds(seconds), 'yyyy-MM-dd HH:mm:ss');
-            pkInfo.GamingSeconds = -seconds;
-            pkInfo.GamePassedSeconds = 0;
-            pkInfo.GameRemainSeconds = 30;
-            pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 30 };
+            //pkInfo = {};
+            //var now = new Date();
+            //var seconds = 10;
+            //pkInfo.GameBeginTime = $app.formatDate(now.addSeconds(seconds), 'yyyy-MM-dd HH:mm:ss');
+            //pkInfo.GamingSeconds = -seconds;
+            //pkInfo.GamePassedSeconds = 0;
+            //pkInfo.GameRemainSeconds = 30;
+            //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 30 };
 
 
             if (pkInfo == null) {
@@ -46,12 +46,12 @@
         //pkInfo.GameBeginTime = '2017/04/03 18:30:00';
         //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
-        //console.log(pkInfo);
-        //if (pkInfo == null) {
-        //    return;
-        //}
+        console.log(pkInfo);
+        if (pkInfo == null) {
+            return;
+        }
 
-        //motoRacing.run(pkInfo);
+        motoRacing.run(pkInfo);
     }
 
     // Start the connection
