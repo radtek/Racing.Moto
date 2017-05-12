@@ -799,6 +799,7 @@
     <Content Include="Views\Account\ForgetPassword.cshtml" />
     <Content Include="Views\Route\Index.cshtml" />
     <Content Include="Views\Account\Agreement2.cshtml" />
+    <Content Include="Views\Shared\_NoHeaderLayout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

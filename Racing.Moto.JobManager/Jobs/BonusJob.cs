@@ -56,7 +56,7 @@ namespace Racing.Moto.JobManager.Jobs
                         // 生成奖金
                         bonusService.GenerateBonus(pk);
 
-                        var msg = string.Format("Generate Bonus - PKId : {0} - Time : {2}", pk.PKId, DateTime.Now.ToString(DateFormatConst.yMd_Hms));
+                        var msg = string.Format("Generate Bonus - PKId : {0} - Time : {1}", pk.PKId, DateTime.Now.ToString(DateFormatConst.yMd_Hms));
                         _logger.Info(msg);
                     }
                 }
