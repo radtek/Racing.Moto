@@ -71,6 +71,10 @@
                     msg = '用户名只能包含字母,数字,下划线.';
                     return msg;
                 }
+                var res = $app.checkPwd(pwd);
+                if (!res.IsValid) {
+                    msg = res.Message;
+                }
 
                 return msg;
             },

@@ -8,6 +8,7 @@
     <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="/signalr/hubs"></script>
     <script src="~/Scripts/timeCountDown.js"></script>
+    <script src="~/Scripts/jPlayer/jquery.jplayer.min.js"></script>
     @Scripts.Render("~/Racing")
 }
 <input type="hidden" id="hidUserId" value="@PKBag.LoginUser.UserId" />
@@ -145,4 +146,16 @@
             </li>
         </ul>
     </div>
+</div>
+
+<div>
+    <div id="jplayer_wait" class="jp-jplayer"></div>
+    <div id="jplayer_countdown" class="jp-jplayer"></div>
+    <div id="jplayer_start" class="jp-jplayer"></div>
+    <div id="jplayer_run" class="jp-jplayer"></div>
+    <div id="jplayer_end" class="jp-jplayer"></div>
+    <div id="jplayer_applause" class="jp-jplayer"></div>
+
+    @*<button onclick="motoAudio.run.play();">run</button>
+    <button onclick="motoAudio.run.pause();">pause</button>*@
 </div>

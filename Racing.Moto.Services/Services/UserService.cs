@@ -368,9 +368,13 @@ namespace Racing.Moto.Services
                             break;
                         case RoleConst.Role_Id_Member:
                             user.UserExtension.AgentUserId = user.ParentUserId;
-                            user.UserExtension.GeneralAgentUserId = db.User.Where(agent => agent.UserId == user.ParentUserId).Select(u => u.ParentUserId).First();
+                            if (user.ParentUserId.HasValue)
+                            {
+                                user.UserExtension.GeneralAgentUserId = db.User.Where(agent => agent.UserId == user.ParentUserId).Select(u => u.ParentUserId).First();
+                            }
                             break;
                     }
+                    db.SaveChanges();
                 }
             }
         }

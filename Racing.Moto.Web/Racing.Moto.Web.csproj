@@ -170,6 +170,12 @@
     <Content Include="Content\Admin\main.css" />
     <Content Include="Content\Admin\Style_k3.css" />
     <Content Include="Content\Admin\Top.css" />
+    <Content Include="Content\Audio\applause.mp3" />
+    <Content Include="Content\Audio\countdown.mp3" />
+    <Content Include="Content\Audio\end.mp3" />
+    <Content Include="Content\Audio\run.mp3" />
+    <Content Include="Content\Audio\start.mp3" />
+    <Content Include="Content\Audio\wait.mp3" />
     <Content Include="Content\bet.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\route.css" />
@@ -316,6 +322,9 @@
     <Content Include="Scripts\datetimepicker\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\datetimepicker\bootstrap-datetimepicker.min.css" />
     <Content Include="Scripts\datetimepicker\bootstrap-datetimepicker.zh-CN.js" />
+    <Content Include="Scripts\jPlayer\jquery.jplayer.js" />
+    <Content Include="Scripts\jPlayer\jquery.jplayer.min.js" />
+    <Content Include="Scripts\jPlayer\jquery.jplayer.swf" />
     <Content Include="Scripts\Jquery.inputmask\jquery.inputmask.bundle-3.2.7.js" />
     <Content Include="Scripts\jquery.quicksand.js" />
     <Content Include="Scripts\JqueryUI\jquery-ui.min.css" />
