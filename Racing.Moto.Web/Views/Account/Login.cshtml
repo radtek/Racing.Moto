@@ -1,6 +1,7 @@
 ﻿@model Racing.Moto.Data.Models.LoginModel
 @{
     ViewBag.Title = "登录";
+    Layout = "~/Views/Shared/_NoHeaderLayout.cshtml";
 }
 <div class="loginPanel">
     @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))

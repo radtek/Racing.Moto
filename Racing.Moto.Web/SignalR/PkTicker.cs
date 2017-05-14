@@ -22,7 +22,7 @@ namespace Racing.Moto.Web.SignalR
         private readonly object _updatePkInfoLock = new object();
 
 
-        private readonly TimeSpan _updateInterval = TimeSpan.FromSeconds(5);//每5秒钟推送一次
+        private readonly TimeSpan _updateInterval = TimeSpan.FromSeconds(2);//每2秒钟推送一次
         private readonly Timer _timer;
         private volatile bool _updatingPkInfo = false;
 

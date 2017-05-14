@@ -61,8 +61,8 @@
     var motoRacing = {
         PKInfo: null,
         MaxPKCount: 1,
-        ResultShowSeconds: 10,
-        BonusShowSeconds: 60,
+        ResultShowSeconds: 30,
+        BonusShowSeconds: 180,
         Millisec: 3,
         RoadLength: 610,//910
         Colors: ['red', 'blue', 'yellow', 'green', 'gray', 'aqua', 'blueviolet', 'brown', 'Highlight', 'aquamarine', 'teal'],
@@ -121,24 +121,15 @@
             return eleHour + ':' + eleMinute + ':' + eleSecond;
         },
         countdownClock: function (pkInfo) {
-            var eleHour = document.getElementById('hour');
-            var eleMinute = document.getElementById('minute');
-            var eleSecond = document.getElementById('second');
-
-            if (pkInfo.GamingSeconds >= 0) {
-                eleHour.innerHTML = '00';
-                eleMinute.innerHTML = '00';
-                eleSecond.innerHTML = '00';
-            } else {
-                var future = motoRacing.getUtc($app.convertToDate(pkInfo.GameBeginTime));
+            if (pkInfo.GamingSeconds <= 0) {
                 var toGamingSeconds = Math.abs(pkInfo.GamingSeconds);
                 // 倒计时结束时间
                 var obj = {
-                    sec: eleSecond,
-                    mini: eleMinute,
-                    hour: eleHour
+                    sec: document.getElementById('second'),
+                    mini: document.getElementById('minute'),
+                    hour: document.getElementById('hour')
                 }
-                fnTimeCountDown(future, toGamingSeconds, obj);
+                fnTimeCountDown(toGamingSeconds, obj);
             }
         },
         getUtc: function (time) {
@@ -617,6 +608,7 @@
             $racingResult.removeClass("hide");
             $('.btn-close-result').click(function () {
                 $racingResult.addClass("hide");
+                motoRacing.reload();
             });
 
             // close result dialog after 5 seconds, then open bonus dialog
@@ -624,16 +616,19 @@
                 // close
                 //$racingResult.dialog("close");
                 $racingResult.addClass("hide");
-                // open
-                motoRacing.showBonus();
-                // countdown
-                motoRacing.bonusCountdown();
+                motoRacing.reload();
+
+
+                //// open
+                //motoRacing.showBonus();
+                //// countdown
+                //motoRacing.bonusCountdown();
             });
         },
         getResultHtml: function () {
             var ranks = motoRacing.PKInfo.PK.Ranks;
 
-            var title = '<a href="#" class="close btn-close-result"><img src="/img/del.png"></a>'
+            var title = '<a href="javascript:void(0)" class="close btn-close-result"><img src="/img/del.png"></a>'
                      + '<div class="title">第' + motoRacing.PKInfo.PK.PKId + '期比赛结果</div>';
 
             var li = '';
@@ -656,6 +651,7 @@
             return title + ul;
         },
         showBonus: function () {
+            // removed
             $.ajax({
                 type: 'POST',
                 url: '/api/bonus/getBonus',
@@ -669,6 +665,7 @@
 
                         $('.close-bonus').click(function () {
                             $bonusResult.addClass("hide");
+                            motoRacing.reload();
                         });
                     }
                 }
@@ -708,8 +705,8 @@
             }
             var ranksHtml = motoRacing.getBonusRanksHtml();
             var bonusResultHtml = motoRacing.getBonusResultHtml(bonusArr);
-            var html = '<a href="#" class="close close-bonus"><img src="/img/del.png"></a>'
-                     + '<a href="#" class="queding close-bonus"><img src="/img/btn-queding.png"></a>'
+            var html = '<a href="javascript:void(0)" class="close close-bonus"><img src="/img/del.png"></a>'
+                     + '<a href="javascript:void(0)" class="queding close-bonus"><img src="/img/btn-queding.png"></a>'
                      + '<div class="bonus-countdown">' + motoRacing.BonusShowSeconds + '</div>'
                      + '<div class="huodejiangjin">获得奖金：' + totalBonus + '</div>'
                      + '<div class="jieguo">'
@@ -723,11 +720,17 @@
             return html;
         },
         bonusCountdown: function () {
+            var bonusShowSeconds = motoRacing.BonusShowSeconds;
+
             $('body').everyTime('1s', 'bonusCountdown', function () {
-                var $cuntdown = $('.bonus-countdown');
-                var num = $('.bonus-countdown').text();
-                num = num == '' ? motoRacing.BonusShowSeconds : num - 1;
-                $cuntdown.text(num);
+                //var $cuntdown = $('.bonus-countdown');
+                //var num = $('.bonus-countdown').text();
+                //num = num == '' ? motoRacing.BonusShowSeconds : num - 1;
+
+                var d = fnTimeCountDownResult.getResultStr(bonusShowSeconds);
+                $('.bonus-countdown').text(d);
+
+                bonusShowSeconds--;
             }, motoRacing.BonusShowSeconds);
 
             // reload page
@@ -735,9 +738,13 @@
                 motoRacing.MaxPKCount--;
 
                 if (motoRacing.MaxPKCount == 0) {
-                    location.href = location.href;
+                    //location.href = location.href;
+                    motoRacing.reload();
                 }
             });
+        },
+        reload: function () {
+            location.href = location.href.replace('#','');
         },
     };
 });

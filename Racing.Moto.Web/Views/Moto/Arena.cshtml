@@ -11,7 +11,7 @@
     <script src="~/Scripts/jPlayer/jquery.jplayer.min.js"></script>
     @Scripts.Render("~/Racing")
 }
-<input type="hidden" id="hidUserId" value="@PKBag.LoginUser.UserId" />
+@*<input type="hidden" id="hidUserId" value="@PKBag.LoginUser.UserId" />*@
 
 <div class="game-wrap">
     <div class="bg-top">
@@ -36,7 +36,7 @@
         <div class="time-run"><img id="countdown"/></div>
         <div class="time-run2">
             <div class="text1">距离比赛开始还有</div>
-            <div class="text2"><span id="hour"></span>:<span id="minute"></span>:<span id="second"></span></div>
+            <div class="text2"><span id="hour">00</span>:<span id="minute">00</span>:<span id="second">00</span></div>
             <div class="text3">比赛倒计时</div>
         </div>
 

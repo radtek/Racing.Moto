@@ -44,5 +44,29 @@ namespace Racing.Moto.Web.ApiControllers
 
         //    return result;
         //}
+
+        /// <summary>
+        /// 取当前期的倍率
+        /// </summary>
+        [HttpPost]
+        public ResponseResult GetPrevPK()
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                var pk = new PKService().GetPrevPKResult();
+                result.Data = pk;
+            }
+            catch (Exception ex)
+            {
+                _logger.Info(ex.Message);
+
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+            }
+
+            return result;
+        }
     }
 }

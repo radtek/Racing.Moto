@@ -18,6 +18,7 @@ namespace Racing.Moto.Web.Controllers
         private ILogger _logger = LogManager.GetCurrentClassLogger();
 
         // 竞技场
+        [AllowAnonymous]
         public ActionResult Arena()
         {
             return View();

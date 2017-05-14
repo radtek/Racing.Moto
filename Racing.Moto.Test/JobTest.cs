@@ -30,7 +30,10 @@ namespace Racing.Moto.Test
 
             //new RankJob().Run();
 
-           new BetService().CalculateRanks(2987);
+            //new BetService().CalculateRanks(2987);
+
+            RebateJob rebateJob = new RebateJob();
+            rebateJob.Execute(null);
         }
     }
 }

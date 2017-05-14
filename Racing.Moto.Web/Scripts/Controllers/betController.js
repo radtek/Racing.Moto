@@ -499,7 +499,7 @@
                     $scope.bet.updateBalance(res.data.Data);// 更新余额
                     $scope.bet.setSavedBets();// 设置保存投注
 
-                    alert('投注成功!');
+                    //alert('投注成功!');
                 });
             });
         },
@@ -681,31 +681,35 @@
             var eleMinute = document.getElementById('minute');
             var eleSecond = document.getElementById('second');
 
-            if (pkModel.OpeningRemainSeconds <= 0) {
-                eleHour.innerHTML = '00';
-                eleMinute.innerHTML = '00';
-                eleSecond.innerHTML = '00';
+            //if (pkModel.GamingSeconds < 0) {
+            //    var toGamingSeconds = Math.abs(pkModel.GamingSeconds);
+            //    var obj = {
+            //        hour: eleHour,
+            //        mini: eleMinute,
+            //        sec: eleSecond
+            //    }
+            //    fnTimeCountDown(toGamingSeconds, obj, __timeCountDownCallback);
+            //}
 
-                $scope.bet.setDisabled(true);
-            } else {
-                var future = $scope.countdown.getUtc($app.convertToDate(pkModel.GameBeginTime));
-                //var beginTime = $app.convertToDate(pkModel.GameBeginTime);  // 比赛开始倒计时
-                //var year = beginTime.getFullYear();
-                //var month = beginTime.getMonth();
-                //var day = beginTime.getDate();
-                //var hour = beginTime.getHours();
-                //var minute = beginTime.getMinutes();
-                //var second = beginTime.getSeconds();
-
-
-                //var d = Date.UTC(year, month, day, hour, minute, second);
-                var toGamingSeconds = Math.abs(pkModel.GamingSeconds);
-                var obj = {
-                    sec: eleSecond,
-                    mini: eleMinute,
-                    hour: eleHour
+            if (pkModel.OpeningRemainSeconds > 0) {
+                //距离封盘
+                var openingRemainSeconds = Math.abs(pkModel.OpeningRemainSeconds);
+                var obj1 = {
+                    hour: document.getElementById('hour1'),
+                    mini: document.getElementById('minute1'),
+                    sec: document.getElementById('second1')
                 }
-                fnTimeCountDown(future, toGamingSeconds, obj, __timeCountDownCallback);
+                fnTimeCountDown1(openingRemainSeconds, obj1, __timeCountDownCallback);
+            }
+            if (pkModel.ToLotterySeconds > 0) {
+                //距离开奖
+                var toLotterySeconds = Math.abs(pkModel.ToLotterySeconds);
+                var obj2 = {
+                    hour: document.getElementById('hour2'),
+                    mini: document.getElementById('minute2'),
+                    sec: document.getElementById('second2')
+                }
+                fnTimeCountDown2(toLotterySeconds, obj2);
             }
         },
         getUtc: function (time) {
@@ -727,13 +731,13 @@ $(function () {
     function init() {
         ticker.server.getPKInfo().done(function (pkInfo) {
             console.log(pkInfo);
-            motoRacing.refresh(pkInfo);
+            motoRacing.init(pkInfo);
         });
     }
 
     // Add a client-side hub method that the server will call
     ticker.client.updatePKInfo = function (pkInfo) {
-        console.log(pkInfo);
+        //console.log(pkInfo);
         motoRacing.refresh(pkInfo);
     }
 
@@ -745,6 +749,14 @@ $(function () {
         Scope: null,
         refresh: function (pkInfo) {
             if (pkInfo != null && (motoRacing.PKInfo == null || pkInfo.PK.PKId != motoRacing.PKInfo.PK.PKId)) {
+            
+                //motoRacing.init(pkInfo);
+
+                location.href = location.href.replace('#', '');
+            }
+        },
+        init: function (pkInfo) {
+            if (pkInfo != null) {
                 motoRacing.PKInfo = pkInfo;
 
                 if (motoRacing.Scope == null) {
@@ -753,10 +765,15 @@ $(function () {
                     motoRacing.Scope = angular.element(appElement).scope();
                 }
 
-                motoRacing.Scope.bet.refresh(pkInfo)
-                motoRacing.Scope.$apply();
+                try{
+                    
+                    motoRacing.Scope.bet.refresh(pkInfo)
+                    motoRacing.Scope.$apply();
+                } catch (e) {
+                    console.log(e);
+                }
             }
-        },
+        }
     };
 })
 

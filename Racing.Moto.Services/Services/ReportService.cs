@@ -93,32 +93,42 @@ namespace Racing.Moto.Services
                 var betReportSql = GetAgentBetReportSql(model);
                 var dbBetReports = db.Database.SqlQuery<BetReportModel>(betReportSql).ToList();
 
-                // 取奖金
+                // 取所有奖金+退水
                 var bonusReportSql = GetAgentBonusReportSql(model);
                 var dbBonusReports = db.Database.SqlQuery<BonusReportModel>(bonusReportSql).ToList();
+
+                // 取会员奖金+退水
+                //var memberBonusReportSql = GetMemberBonusReportSql(model);
+                //var dbMemberBonusReports = db.Database.SqlQuery<BonusReportModel>(memberBonusReportSql).ToList();
 
 
                 foreach (var user in users)
                 {
                     var betReport = dbBetReports.Where(b => b.UserId == user.UserId).FirstOrDefault();
                     var bonusReports = GetBonusReportModels(model.UserType, dbBonusReports, user.UserId);
-                    var betAmount = betReport != null ? betReport.Amount : 0;
-                    var bonusAmount = bonusReports.Count() > 0 ? bonusReports.Sum(b => b.Amount) : 0;
-                    var rebateAmount = bonusReports.Count() > 0
-                        ? bonusReports.Where(b => b.BonusType == BonusType.Rebate && b.UserId == b.GeneralAgentUserId).Sum(b => b.Amount)
-                        : 0;
+
+                    var betAmount = betReport != null ? betReport.Amount : 0;   //有效金额：下注金额总额
+
+                    //var memberBonusReports = dbMemberBonusReports.Where(b => b.UserId == user.UserId).ToList();
+                    //var memberBonus = memberBonusReports.Count > 0 ? memberBonusReports.Sum(b => b.Amount) : 0;// 会员奖金+退水
+
+                    var bonusAmount = GetBonusAmount(model.UserType, bonusReports, user.UserId);//所有奖金+退水
+                    var memberBonus = GetMemberBonusAmount(model.UserType, bonusReports, user.UserId);// 会员奖金+退水
+
+                    var rebateAmount = GetRebateAmount(model.UserType, bonusReports, user.UserId); //赚取水钱
 
                     reports.Items.Add(new ReportModel
                     {
                         UserId = user.UserId,
                         UserName = user.UserName,
                         BetCount = betReport != null ? betReport.BetCount : 0,
-                        BetAmount = betAmount,
-                        MemberWinOrLoseAmount = bonusAmount - betAmount,
-                        ReceiveAmount = betAmount,
-                        RebateAmount = rebateAmount,
-                        ContributeHigherLevelAmount = betAmount,
-                        PayHigherLevelAmount = betAmount
+
+                        BetAmount = betAmount,    //有效金额：下注金额总额 所有下线会员加一起的下注 金额总和
+                        MemberWinOrLoseAmount = memberBonus - betAmount,    //会员输赢：会员 输+赢总和, 正+负, 求和后可正可负
+                        RebateAmount = rebateAmount,    //赚取水钱：根据后台管理分配的退水比率分配
+                        ReceiveAmount = betAmount - bonusAmount,  //应收下线 = 有效金额 - 下级赢的金额 - 下级退水
+                        ContributeHigherLevelAmount = betAmount,    //贡献上级= 有效金额
+                        PayHigherLevelAmount = betAmount - bonusAmount - rebateAmount    //应付上级：应收下线-自己赚取水钱
                     });
                 }
 
@@ -161,13 +171,31 @@ namespace Racing.Moto.Services
 
             var userId = GetUserIdField(model.UserType);
 
-            sql.AppendLine(string.Format("SELECT [B].UserId, [UE].{0}, [B].BonusType, Sum([B].Amount) Amount", userId));
+            sql.AppendLine(string.Format("SELECT [B].UserId,[R].RoleId,[UE].{0}, [B].BonusType, Sum([B].Amount) Amount", userId));
             sql.AppendLine("FROM [dbo].[PKBonus] [B]");
             sql.AppendLine("INNER JOIN [dbo].[PK] [PK] ON [PK].PKId = [B].PKId");
             sql.AppendLine("INNER JOIN [dbo].[UserExtension] [UE] ON [UE].UserId = [B].UserId");
+            sql.AppendLine("INNER JOIN [dbo].[UserRole] [R] ON [B].UserId = [R].UserId");
             sql.AppendLine(string.Format("INNER JOIN [dbo].[User] [U] ON [U].UserId = [UE].{0}", userId));
             sql.AppendLine(GetWhereSql(model));
-            sql.AppendLine(string.Format("GROUP BY [B].UserId, [UE].{0}, [B].BonusType", userId));
+            sql.AppendLine(string.Format("GROUP BY [B].UserId, [R].RoleId, [UE].{0}, [B].BonusType", userId));
+
+            return sql.ToString();
+        }
+
+        private string GetMemberBonusReportSql(ReportSearchModel model)
+        {
+            var sql = new StringBuilder();
+
+            var userId = GetUserIdField(model.UserType);
+
+            sql.AppendLine("SELECT [B].UserId,[R].RoleId, [B].BonusType, Sum([B].Amount) Amount");
+            sql.AppendLine("FROM [dbo].[PKBonus] [B]");
+            sql.AppendLine("INNER JOIN [dbo].[PK] [PK] ON [PK].PKId = [B].PKId");
+            sql.AppendLine("INNER JOIN [dbo].[User] [U] ON [U].UserId = [B].UserId");
+            sql.AppendLine("INNER JOIN [dbo].[UserRole] [R] ON [U].UserId = [R].UserId");
+            sql.AppendLine(GetWhereSql(model) + " AND [R].RoleId = 4");
+            sql.AppendLine("GROUP BY [B].UserId,[R].RoleId,[B].BonusType");
 
             return sql.ToString();
         }
@@ -190,7 +218,6 @@ namespace Racing.Moto.Services
             return userId;
         }
 
-
         private List<BonusReportModel> GetBonusReportModels(int roleId, List<BonusReportModel> bonusReports, int userId)
         {
             var models = new List<BonusReportModel>(); ;
@@ -207,6 +234,68 @@ namespace Racing.Moto.Services
                     break;
             }
             return models;
+        }
+
+        // 会员和代理 奖金+退水
+        private decimal GetBonusAmount(int roleId, List<BonusReportModel> bonusReports, int userId)
+        {
+            decimal amount = 0;
+
+            switch (roleId)
+            {
+                case RoleConst.Role_Id_Admin:
+                    amount = bonusReports.Where(b => b.GeneralAgentUserId == userId && b.UserId != userId).Sum(b => (decimal?)b.Amount ?? 0);
+                    break;
+                case RoleConst.Role_Id_General_Agent:
+                    amount = bonusReports.Where(b => b.AgentUserId == userId && b.UserId != userId).Sum(b => (decimal?)b.Amount ?? 0);
+                    break;
+                case RoleConst.Role_Id_Agent:
+                    amount = bonusReports.Where(b => b.UserId == userId).Sum(b => (decimal?)b.Amount ?? 0);
+                    break;
+            }
+            return amount;
+        }
+
+        // 会员 奖金+退水
+        private decimal GetMemberBonusAmount(int roleId, List<BonusReportModel> bonusReports, int userId)
+        {
+            decimal amount = 0;
+
+            switch (roleId)
+            {
+                case RoleConst.Role_Id_Admin:
+                    amount = bonusReports.Where(b => b.GeneralAgentUserId == userId && b.RoleId == RoleConst.Role_Id_Member).Sum(b => (decimal?)b.Amount ?? 0);
+                    break;
+                case RoleConst.Role_Id_General_Agent:
+                    amount = bonusReports.Where(b => b.AgentUserId == userId && b.RoleId == RoleConst.Role_Id_Member).Sum(b => (decimal?)b.Amount ?? 0);
+                    break;
+                case RoleConst.Role_Id_Agent:
+                    amount = bonusReports.Where(b => b.UserId == userId && b.RoleId == RoleConst.Role_Id_Member).Sum(b => (decimal?)b.Amount ?? 0);
+                    break;
+            }
+            return amount;
+        }
+        // 赚取水钱
+        private decimal GetRebateAmount(int roleId, List<BonusReportModel> bonusReports, int userId)
+        {
+            decimal amount = 0;
+
+            //switch (roleId)
+            //{
+            //    case RoleConst.Role_Id_Admin:
+            //        amount = bonusReports.Where(b => b.GeneralAgentUserId == userId && b.BonusType == BonusType.Rebate).Sum(r => (decimal?)r.Amount ?? 0);
+            //        break;
+            //    case RoleConst.Role_Id_General_Agent:
+            //        amount = bonusReports.Where(b => b.AgentUserId == userId && b.BonusType == BonusType.Rebate).Sum(r => (decimal?)r.Amount ?? 0);
+            //        break;
+            //    case RoleConst.Role_Id_Agent:
+            //        amount = bonusReports.Where(b => b.UserId == userId && b.BonusType == BonusType.Rebate).Sum(r => (decimal?)r.Amount ?? 0);
+            //        break;
+            //}
+
+            amount = bonusReports.Where(b => b.UserId == userId && b.BonusType == BonusType.Rebate).Sum(r => (decimal?)r.Amount ?? 0);
+
+            return amount;
         }
         #endregion
 
@@ -228,6 +317,15 @@ namespace Racing.Moto.Services
 
                 //已开奖
                 query = query.Where(b => DbFunctions.DiffSeconds(b.PK.EndTime, DateTime.Now) > 0);
+                if (model.FromDate.HasValue)
+                {
+                    query = query.Where(b => DbFunctions.DiffDays(model.FromDate, b.CreateTime) >= 0);
+                }
+                if (model.ToDate.HasValue)
+                {
+                    var toDate = model.ToDate.Value.AddDays(1);
+                    query = query.Where(b => DbFunctions.DiffDays(b.CreateTime, toDate) > 0);
+                }
 
                 var result = query
                     .OrderByDescending(b => b.BetId)

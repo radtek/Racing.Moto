@@ -129,7 +129,7 @@ namespace Racing.Moto.Services.Caches
         /// </summary>
         public static decimal Rate_Rebate_B
         {
-            get { return GetAppConfig("Rate_Rebate_B") != null ? decimal.Parse(GetAppConfig("Rate_Rebate_B").Value) : 0.03M; }
+            get { return GetAppConfig("Rate_Rebate_B") != null ? decimal.Parse(GetAppConfig("Rate_Rebate_B").Value) : 0.04M; }
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Racing.Moto.Services.Caches
         /// </summary>
         public static decimal Rate_Rebate_C
         {
-            get { return GetAppConfig("Rate_Rebate_C") != null ? decimal.Parse(GetAppConfig("Rate_Rebate_C").Value) : 0.02M; }
+            get { return GetAppConfig("Rate_Rebate_C") != null ? decimal.Parse(GetAppConfig("Rate_Rebate_C").Value) : 0.04M; }
         }
 
         /// <summary>

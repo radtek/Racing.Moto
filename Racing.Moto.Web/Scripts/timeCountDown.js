@@ -2,7 +2,7 @@
 * http://www.zhangxinxu.com/wordpress/?p=987
 * 倒计时的实现
 */
-var fnTimeCountDown = function (d, remainSeconds, o, callback) {
+var fnTimeCountDown = function (remainSeconds, o, callback) {
     var f = {
         callback: null,
         zero: function (n) {
@@ -17,13 +17,6 @@ var fnTimeCountDown = function (d, remainSeconds, o, callback) {
             }
         },
         dv: function () {
-            d = d || Date.UTC(2050, 0, 1); //如果未定义时间，则我们设定倒计时日期是2050年1月1日
-            var future = new Date(d);
-            var now = new Date();
-            //var now = new Date(serverNow);
-            //现在将来秒差值
-            //var dur = Math.round((future.getTime() - now.getTime()) / 1000) + future.getTimezoneOffset() * 60;
-
             var dur = remainSeconds;
             var pms = {
                 sec: "00",
@@ -34,16 +27,7 @@ var fnTimeCountDown = function (d, remainSeconds, o, callback) {
                 year: "0",
                 isZero: false
             };
-            if (dur > 0) {
-                //pms.sec = f.zero(dur % 60);
-                //pms.mini = Math.floor((dur / 60)) > 0 ? f.zero(Math.floor((dur / 60)) % 60) : "00";
-                //pms.hour = Math.floor((dur / 3600)) > 0 ? f.zero(Math.floor((dur / 3600)) % 24) : "00";
-                //pms.day = Math.floor((dur / 86400)) > 0 ? f.zero(Math.floor((dur / 86400)) % 30) : "00";
-                ////月份，以实际平均每月秒数计算
-                //pms.month = Math.floor((dur / 2629744)) > 0 ? f.zero(Math.floor((dur / 2629744)) % 12) : "00";
-                ////年份，按按回归年365天5时48分46秒算
-                //pms.year = Math.floor((dur / 31556926)) > 0 ? Math.floor((dur / 31556926)) : "0";
-
+            if (dur >= 0) {
                 pms.sec = f.zero(dur % 60);
                 pms.mini = Math.floor((dur / 60)) > 0 ? f.zero(Math.floor((dur / 60)) % 60) : "00";
 
@@ -53,25 +37,6 @@ var fnTimeCountDown = function (d, remainSeconds, o, callback) {
             return pms;
         },
         ui: function () {
-            //if (o.sec) {
-            //    o.sec.innerHTML = f.dv().sec;
-            //}
-            //if (o.mini) {
-            //    o.mini.innerHTML = f.dv().mini;
-            //}
-            //if (o.hour) {
-            //    o.hour.innerHTML = f.dv().hour;
-            //}
-            //if (o.day) {
-            //    o.day.innerHTML = f.dv().day;
-            //}
-            //if (o.month) {
-            //    o.month.innerHTML = f.dv().month;
-            //}
-            //if (o.year) {
-            //    o.year.innerHTML = f.dv().year;
-            //}
-
             if (o.sec && o.mini) {
                 var dv = f.dv();
 
@@ -94,4 +59,155 @@ var fnTimeCountDown = function (d, remainSeconds, o, callback) {
     };
     f.callback = callback;
     f.ui();
+};
+var fnTimeCountDown1 = function (remainSeconds1, o1, callback1) {
+    var f1 = {
+        callback: null,
+        zero: function (n) {
+            var n = parseInt(n, 10);
+            if (n > 0) {
+                if (n <= 9) {
+                    n = "0" + n;
+                }
+                return String(n);
+            } else {
+                return "00";
+            }
+        },
+        dv: function () {
+            var dur = remainSeconds1;
+            var pms = {
+                sec: "00",
+                mini: "00",
+                hour: "00",
+                day: "00",
+                month: "00",
+                year: "0",
+                isZero: false
+            };
+            if (dur >= 0) {
+                pms.sec = f1.zero(dur % 60);
+                pms.mini = Math.floor((dur / 60)) > 0 ? f1.zero(Math.floor((dur / 60)) % 60) : "00";
+
+            } else {
+                pms.isZero = true;
+            }
+            return pms;
+        },
+        ui: function () {
+            if (o1.sec && o1.mini) {
+                var dv = f1.dv();
+
+                o1.sec.innerHTML = dv.sec;
+                o1.mini.innerHTML = dv.mini;
+                o1.hour.innerHTML = "00";
+
+                remainSeconds1--;
+            }
+
+            if (!f1.dv().isZero) {
+                setTimeout(f1.ui, 1000);
+            } else {
+                //callback
+                if (typeof f1.callback === "function") {
+                    f1.callback();
+                }
+            }
+        }
+    };
+    f1.callback = callback1;
+    f1.ui();
+};
+var fnTimeCountDown2 = function (remainSeconds2, o2, callback2) {
+    var f2 = {
+        callback: null,
+        zero: function (n) {
+            var n = parseInt(n, 10);
+            if (n > 0) {
+                if (n <= 9) {
+                    n = "0" + n;
+                }
+                return String(n);
+            } else {
+                return "00";
+            }
+        },
+        dv: function () {
+            var dur = remainSeconds2;
+            var pms = {
+                sec: "00",
+                mini: "00",
+                hour: "00",
+                day: "00",
+                month: "00",
+                year: "0",
+                isZero: false
+            };
+            if (dur >= 0) {
+                pms.sec = f2.zero(dur % 60);
+                pms.mini = Math.floor((dur / 60)) > 0 ? f2.zero(Math.floor((dur / 60)) % 60) : "00";
+
+            } else {
+                pms.isZero = true;
+            }
+            return pms;
+        },
+        ui: function () {
+            if (o2.sec && o2.mini) {
+                var dv = f2.dv();
+
+                o2.sec.innerHTML = dv.sec;
+                o2.mini.innerHTML = dv.mini;
+                o2.hour.innerHTML = "00";
+
+                remainSeconds2--;
+            }
+
+            if (!f2.dv().isZero) {
+                setTimeout(f2.ui, 1000);
+            } else {
+                //callback
+                if (typeof f2.callback === "function") {
+                    f2.callback();
+                }
+            }
+        }
+    };
+    f2.callback = callback2;
+    f2.ui();
+};
+
+var fnTimeCountDownResult = {
+    pms: {
+        sec: "00",
+        mini: "00",
+        hour: "00"
+    },
+    zero: function (n) {
+        var n = parseInt(n, 10);
+        if (n > 0) {
+            if (n <= 9) {
+                n = "0" + n;
+            }
+            return String(n);
+        } else {
+            return "00";
+        }
+    },
+    getResult: function (seconds) {
+        var pms = {
+            sec: "00",
+            mini: "00",
+            hour: "00"
+        };
+        if (seconds >= 0) {
+            pms.sec = fnTimeCountDownResult.zero(seconds % 60);
+            pms.mini = Math.floor((seconds / 60)) > 0 ? fnTimeCountDownResult.zero(Math.floor((seconds / 60)) % 60) : "00";
+        }
+        return pms;
+    },
+    getResultStr: function (seconds) {
+        var pms = fnTimeCountDownResult.getResult(seconds);
+        return pms.hour + ":" + pms.mini + ":" + pms.sec;
+    },
 };

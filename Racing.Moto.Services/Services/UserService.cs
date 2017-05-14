@@ -359,18 +359,18 @@ namespace Racing.Moto.Services
                     switch (roleId)
                     {
                         case RoleConst.Role_Id_General_Agent:
-                            user.UserExtension.GeneralAgentUserId = user.UserId;
-                            user.UserExtension.AgentUserId = user.UserId;
+                            userExtension.GeneralAgentUserId = user.UserId;
+                            userExtension.AgentUserId = user.UserId;
                             break;
                         case RoleConst.Role_Id_Agent:
-                            user.UserExtension.GeneralAgentUserId = user.ParentUserId;
-                            user.UserExtension.AgentUserId = user.UserId;
+                            userExtension.GeneralAgentUserId = user.ParentUserId;
+                            userExtension.AgentUserId = user.UserId;
                             break;
                         case RoleConst.Role_Id_Member:
-                            user.UserExtension.AgentUserId = user.ParentUserId;
+                            userExtension.AgentUserId = user.ParentUserId;
                             if (user.ParentUserId.HasValue)
                             {
-                                user.UserExtension.GeneralAgentUserId = db.User.Where(agent => agent.UserId == user.ParentUserId).Select(u => u.ParentUserId).First();
+                                userExtension.GeneralAgentUserId = db.User.Where(agent => agent.UserId == user.ParentUserId).Select(u => u.ParentUserId).First();
                             }
                             break;
                     }

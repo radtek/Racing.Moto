@@ -33,6 +33,11 @@ namespace Racing.Moto.Data.Models
         public int OpeningRemainSeconds { get; set; }
 
         /// <summary>
+        /// 距离开奖的秒数
+        /// </summary>
+        public int ToLotterySeconds { get; set; }
+
+        /// <summary>
         /// 封盘开始时间
         /// </summary>
         public DateTime CloseBeginTime { get; set; }

@@ -57,7 +57,7 @@ namespace Racing.Moto.Services
                             Rank = dbBet.Rank,
                             Num = dbBet.Num,
                             BonusType = Data.Enums.BonusType.Bonus,
-                            Amount = Math.Round(dbBet.Amount * pkRate.Rate, 4),
+                            Amount = Math.Round(dbBet.Amount * pkRate.Rate - dbBet.Amount, 4),//扣除本金
                             IsSettlementDone = true // 直接设置成已结算
                         });
                     }
@@ -82,21 +82,22 @@ namespace Racing.Moto.Services
             {
                 // 按下注用户生成
                 var userIds = db.Bet.Where(b => b.PKId == pk.PKId).Select(b => b.UserId).Distinct().ToList();
-                var userRebates = db.UserRebate.Include(nameof(UserRebate.User)).Where(r => userIds.Contains(r.UserId)).ToList();
                 foreach (var userId in userIds)
                 {
-                    var userRebate = userRebates.Where(e => e.UserId == userId).FirstOrDefault();
+                    var userRebates = db.UserRebate.Include(nameof(UserRebate.User)).Where(r => r.UserId == userId).ToList();
 
-                    if (userRebate != null)
+                    if (userRebates.Count > 0)
                     {
-                        var rebate = UserRebateService.GetDefaultRebate(userRebate, userRebate.User.DefaultRebateType);
-
-                        // 会员退水奖金
-                        var bonuses = new List<PKBonus>();
+                        var bonuses = new List<PKBonus>();// 会员退水奖金
+                        var agentBonuses = new List<PKBonus>();// 代理退水奖金
+                        var generalAgentBonuses = new List<PKBonus>();// 总代理退水奖金
 
                         var dbBets = db.Bet.Where(bi => bi.PKId == pk.PKId && bi.UserId == userId).ToList();
                         foreach (var dbBet in dbBets)
                         {
+                            #region 会员退水
+                            var userRebate = userRebates.Where(e => e.RebateNo == dbBet.Num).FirstOrDefault();
+                            var rebate = UserRebateService.GetDefaultRebate(userRebate, userRebate.User.DefaultRebateType);
                             bonuses.Add(new PKBonus
                             {
                                 BetId = dbBet.BetId,
@@ -108,70 +109,82 @@ namespace Racing.Moto.Services
                                 Amount = Math.Round(dbBet.Amount * rebate, 4),
                                 IsSettlementDone = true // 直接设置成已结算
                             });
-                        }
 
+                            #endregion
+
+                            if (userRebate.User.ParentUserId.HasValue)
+                            {
+                                #region 代理退水
+                                var agentUserRebate = db.UserRebate
+                                    .Include(nameof(UserRebate.User))
+                                    .Where(r => r.UserId == userRebate.User.ParentUserId && r.RebateNo == dbBet.Num).FirstOrDefault();
+                                var agentRebate = UserRebateService.GetDefaultRebate(agentUserRebate, agentUserRebate.User.DefaultRebateType);
+                                if(agentRebate - rebate > 0)
+                                {
+                                    agentBonuses.Add(new PKBonus
+                                    {
+                                        BetId = dbBet.BetId,
+                                        PKId = pk.PKId,
+                                        UserId = userRebate.User.ParentUserId.Value,
+                                        Rank = dbBet.Rank,
+                                        Num = dbBet.Num,
+                                        BonusType = Data.Enums.BonusType.Rebate,
+                                        Amount = Math.Round(dbBet.Amount * (agentRebate - rebate), 4),//代理退水 - 给会员的退水
+                                        IsSettlementDone = true // 直接设置成已结算
+                                    });
+                                }
+                                #endregion
+
+
+                                if (agentUserRebate.User.ParentUserId.HasValue)
+                                {
+                                    #region 总代理退水
+
+                                    var generalAgentUserRebate = db.UserRebate
+                                        .Include(nameof(UserRebate.User))
+                                        .Where(r => r.UserId == agentUserRebate.User.ParentUserId && r.RebateNo == dbBet.Num).FirstOrDefault();
+                                    var generalAgentRebate = UserRebateService.GetDefaultRebate(generalAgentUserRebate, generalAgentUserRebate.User.DefaultRebateType);
+                                    if(generalAgentRebate - agentRebate > 0)
+                                    {
+                                        generalAgentBonuses.Add(new PKBonus
+                                        {
+                                            BetId = dbBet.BetId,
+                                            PKId = pk.PKId,
+                                            UserId = agentUserRebate.User.ParentUserId.Value,
+                                            Rank = dbBet.Rank,
+                                            Num = dbBet.Num,
+                                            BonusType = Data.Enums.BonusType.Rebate,
+                                            Amount = Math.Round(dbBet.Amount * (generalAgentRebate - agentRebate), 4),//总代理退水 - 给代理的退水
+                                            IsSettlementDone = true // 直接设置成已结算
+                                        });
+                                    }
+
+                                    #endregion
+                                }
+                            }
+                        }
                         if (bonuses.Count > 0)
                         {
                             // 保存会员退水奖金
                             db.PKBonus.AddRange(bonuses);
                             db.SaveChanges();
-
-                            // 代理退水奖金
-                            if (userRebate.User.ParentUserId.HasValue)
-                            {
-                                var agentUserRebate = db.UserRebate.Include(nameof(UserRebate.User)).Where(r => r.UserId == userRebate.User.ParentUserId).FirstOrDefault();
-                                if (agentUserRebate != null)
-                                {
-                                    var agentUser = agentUserRebate.User;
-                                    var agentRebate = UserRebateService.GetDefaultRebate(agentUserRebate, agentUserRebate.User.DefaultRebateType);
-                                    // 代理退水奖金
-                                    var agentBonuses = bonuses.Select(b => new PKBonus
-                                    {
-                                        BetId = b.BetId,
-                                        PKId = pk.PKId,
-                                        UserId = agentUser.UserId,
-                                        Rank = b.Rank,
-                                        Num = b.Num,
-                                        BonusType = Data.Enums.BonusType.Rebate,
-                                        Amount = Math.Round(b.Amount * agentRebate, 4),
-                                        IsSettlementDone = true // 直接设置成已结算
-                                    }).ToList();
-                                    // 保存代理退水奖金
-                                    db.PKBonus.AddRange(agentBonuses);
-                                    db.SaveChanges();
-                                }
-
-                                // 总代理退水奖金
-                                if (agentUserRebate.User.ParentUserId.HasValue)
-                                {
-                                    var generalAgentUserRebate = db.UserRebate.Include(nameof(UserRebate.User)).Where(r => r.UserId == agentUserRebate.User.ParentUserId).FirstOrDefault();
-                                    if (generalAgentUserRebate != null)
-                                    {
-                                        var generalAgentUser = generalAgentUserRebate.User;
-                                        var generalAgentRebate = UserRebateService.GetDefaultRebate(generalAgentUserRebate, generalAgentUserRebate.User.DefaultRebateType);
-                                        // 总代理退水奖金
-                                        var generalAgentBonuses = bonuses.Select(b => new PKBonus
-                                        {
-                                            BetId = b.BetId,
-                                            PKId = pk.PKId,
-                                            UserId = generalAgentUser.UserId,
-                                            Rank = b.Rank,
-                                            Num = b.Num,
-                                            BonusType = Data.Enums.BonusType.Rebate,
-                                            Amount = Math.Round(b.Amount * generalAgentRebate, 4),
-                                            IsSettlementDone = true // 直接设置成已结算
-                                        }).ToList();
-                                        // 保存总代理退水奖金
-                                        db.PKBonus.AddRange(generalAgentBonuses);
-                                        db.SaveChanges();
-                                    }
-                                }
-                            }
                         }
-                    }
+                        if (agentBonuses.Count > 0)
+                        {
+                            // 保存会员退水奖金
+                            db.PKBonus.AddRange(agentBonuses);
+                            db.SaveChanges();
+                        }
+                        if (generalAgentBonuses.Count > 0)
+                        {
+                            // 保存会员退水奖金
+                            db.PKBonus.AddRange(generalAgentBonuses);
+                            db.SaveChanges();
+                        }
+                    }                    
                 }
             }
         }
-        
+
     }
 }

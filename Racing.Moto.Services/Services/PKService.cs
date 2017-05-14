@@ -41,13 +41,15 @@ namespace Racing.Moto.Services
         }
 
         /// <summary>
-        /// 上一期
+        /// 上一期(or 当前期比赛结束) 比赛结果
         /// </summary>
-        public PK GetPrevPK()
+        public PK GetPrevPKResult()
         {
             using (var db = new RacingDbContext())
             {
-                return db.PK.Where(pk => pk.EndTime < DateTime.Now).OrderByDescending(pk => pk.PKId).FirstOrDefault();
+                //var seconds = AppConfigCache.Racing_Opening_Seconds + AppConfigCache.Racing_Close_Seconds + AppConfigCache.Racing_Game_Seconds;
+                return db.PK.Where(pk => DbFunctions.DiffSeconds(pk.EndTime, DateTime.Now) >= 0).OrderByDescending(pk => pk.PKId).FirstOrDefault();
+                //return db.PK.OrderByDescending(pk => pk.PKId).FirstOrDefault();
             }
         }
 
@@ -116,6 +118,9 @@ namespace Racing.Moto.Services
             var remainSeconds = (int)(currentPK.EndTime - currentPK.BeginTime).TotalSeconds - passedSeconds;
             // 距离封盘的秒数, 负:已封盘, 正:距离封盘的秒数
             var openingRemainSeconds = (int)(currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds) - now).TotalSeconds;
+            //// 距离开奖的秒数, 负:已封盘, 正:距离封盘的秒数
+            var toLotterySeconds = (int)(currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds + currentPK.CloseSeconds + currentPK.GameSeconds) - now).TotalSeconds;
+            //var toLotterySeconds = (int)(currentPK.BeginTime.AddSeconds(AppConfigCache.Racing_Total_Seconds) - now).TotalSeconds;
 
             // 距离比赛开始的秒数, 负:未开始, 正:已开始
             var gamingSeconds = (int)(now - currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds + currentPK.CloseSeconds)).TotalSeconds;
@@ -133,6 +138,7 @@ namespace Racing.Moto.Services
                 PassedSeconds = passedSeconds,
                 RemainSeconds = remainSeconds,
                 OpeningRemainSeconds = openingRemainSeconds,
+                ToLotterySeconds = Math.Abs(toLotterySeconds) + AppConfigCache.Racing_Lottery_Seconds,  //延后10s
                 CloseBeginTime = currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds),
 
                 GameBeginTime = currentPK.BeginTime.AddSeconds(currentPK.OpeningSeconds + currentPK.CloseSeconds),

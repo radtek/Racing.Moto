@@ -12,6 +12,7 @@ namespace Racing.Moto.JobManager.Jobs
     /// <summary>
     /// 生成奖金
     /// </summary>
+    [DisallowConcurrentExecution]
     public class BonusJob : IJob
     {
         private ILogger _logger = LogManager.GetCurrentClassLogger();

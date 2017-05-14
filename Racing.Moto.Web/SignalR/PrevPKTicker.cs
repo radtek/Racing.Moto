@@ -78,7 +78,7 @@ namespace Racing.Moto.Web.SignalR
         {
             var pkService = new PKService();
 
-            var pk = pkService.GetPrevPK();
+            var pk = pkService.GetPrevPKResult();
 
             return pk;
         }

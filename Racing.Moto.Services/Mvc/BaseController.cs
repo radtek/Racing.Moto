@@ -36,7 +36,7 @@ namespace Racing.Moto.Services.Mvc
             try
             {
                 var rawUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower();
-                if (rawUrl.Contains("/account/login"))
+                if (rawUrl.Contains("/account/login")|| rawUrl.Contains("/moto/arena"))
                 {
                     return;
                 }
@@ -113,7 +113,8 @@ namespace Racing.Moto.Services.Mvc
                 var returnUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower().TrimEnd('/');
                 var isAdminUrl = returnUrl.Contains("/admin");
                 var isManageUrl = returnUrl.Contains("/manage");
-                var loginUrl = (isAdminUrl || isManageUrl) ? "/Route" : "/Account/Login"; ///Admin/Account/Login"
+                //var loginUrl = (isAdminUrl || isManageUrl) ? "/Route" : "/Account/Login"; ///Admin/Account/Login"
+                var loginUrl = isAdminUrl ? "/Route" : "/Account/Login";
                 var rdm = Guid.NewGuid().ToString("N");//防止浏览器缓存登录页面
                 var url = !string.IsNullOrEmpty(returnUrl)
                     ? loginUrl + "?returnUrl=" + HttpUtility.UrlEncode(returnUrl + "&r=" + rdm)

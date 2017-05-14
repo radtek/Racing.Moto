@@ -22,17 +22,19 @@
         }
         <!-- Page Content -->
         <div class="dating-wrap">
-            <span class="gonggao">网站广告：消费30%即可提现! 祝你游戏愉快！</span>
-            <div class="user">
-                <img src="/img/user.jpg">
+            <div style="display:none;">
+                <span class="gonggao">网站广告：消费30%即可提现! 祝你游戏愉快！</span>
+                <div class="user">
+                    <img src="/img/user.jpg">
+                </div>
+                <div class="userName">hello @userName</div>
+                <img src="/img/jinbi.png" class="jinbi">
+                <div class="count">@balance</div>
+                <img src="/img/jinbi-jia.png" class="jinbi-jia">
+                <a href="javascript:;" class="jinbi-jia"><img src="/img/jinbi-jia.png"></a>
             </div>
-            <div class="userName">hello @userName</div>
-            <img src="/img/jinbi.png" class="jinbi">
-            <div class="count">@balance</div>
-            <img src="/img/jinbi-jia.png" class="jinbi-jia">
-            <a href="javascript:;" class="jinbi-jia"><img src="/img/jinbi-jia.png"></a>
 
-            <ul class="menu">
+            <ul class="menu" style="display:none;">
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li>@userName</li>
@@ -47,7 +49,7 @@
                     <li style="float:right;padding-right:10px;"><a href="/Account/Login">登录</a></li>
                 }
             </ul>
-            <ul class="menu-sub">
+            <ul class="menu-sub" style="display:none;">
                 <li class="souye">
                     <a href="/">网站首页</a>
                 </li>
