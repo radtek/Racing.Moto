@@ -36,7 +36,7 @@ namespace Racing.Moto.Web.ApiControllers
         //    }
         //    catch (Exception ex)
         //    {
-        //        _logger.Info(ex.Message);
+        //        _logger.Info(ex);
 
         //        result.Success = false;
         //        result.Message = MessageConst.System_Error;
@@ -60,7 +60,7 @@ namespace Racing.Moto.Web.ApiControllers
             }
             catch (Exception ex)
             {
-                _logger.Info(ex.Message);
+                _logger.Info(ex);
 
                 result.Success = false;
                 result.Message = MessageConst.System_Error;

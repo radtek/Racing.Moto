@@ -100,7 +100,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", MessageConst.System_Error);
 
-                _logger.Info(ex.Message);
+                _logger.Info(ex);
             }
 
             return View(model);
@@ -162,7 +162,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
             {
                 ModelState.AddModelError("", MessageConst.System_Error);
 
-                _logger.Info(ex.Message);
+                _logger.Info(ex);
             }
 
             return View(model);
@@ -228,7 +228,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError("", MessageConst.System_Error);
 
-                    _logger.Info(ex.Message);
+                    _logger.Info(ex);
                 }
             }
 

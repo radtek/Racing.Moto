@@ -24,8 +24,8 @@ namespace Racing.Moto.Services.Mvc
                 if (!userRoles.Where(r => adminRoleNames.Contains(r.Role.RoleName)).Any())
                 {
                     var returnUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower().TrimEnd('/');
-                    var isAdminUrl = returnUrl.Contains("/admin");
-                    var loginUrl = isAdminUrl ? "/Admin/Account/Login" : "/Account/Login";
+                    var isManageUrl = returnUrl.Contains("/manage");
+                    var loginUrl = isManageUrl ? "/Admin/Account/Login" : "/Account/Login";
                     //var loginUrl = "/Account/Login";
                     var rdm = Guid.NewGuid().ToString("N");//防止浏览器缓存登录页面
                     var url = !string.IsNullOrEmpty(returnUrl)

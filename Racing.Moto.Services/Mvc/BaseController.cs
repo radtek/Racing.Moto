@@ -111,10 +111,10 @@ namespace Racing.Moto.Services.Mvc
             try
             {
                 var returnUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower().TrimEnd('/');
-                var isAdminUrl = returnUrl.Contains("/admin");
+                //var isAdminUrl = returnUrl.Contains("/admin");
                 var isManageUrl = returnUrl.Contains("/manage");
                 //var loginUrl = (isAdminUrl || isManageUrl) ? "/Route" : "/Account/Login"; ///Admin/Account/Login"
-                var loginUrl = isAdminUrl ? "/Route" : "/Account/Login";
+                var loginUrl = isManageUrl ? "/Admin/Account/Login" : "/Account/Login";
                 var rdm = Guid.NewGuid().ToString("N");//防止浏览器缓存登录页面
                 var url = !string.IsNullOrEmpty(returnUrl)
                     ? loginUrl + "?returnUrl=" + HttpUtility.UrlEncode(returnUrl + "&r=" + rdm)
