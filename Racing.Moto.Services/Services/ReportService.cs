@@ -128,7 +128,7 @@ namespace Racing.Moto.Services
                         RebateAmount = rebateAmount,    //赚取水钱：根据后台管理分配的退水比率分配
                         ReceiveAmount = betAmount - bonusAmount,  //应收下线 = 有效金额 - 下级赢的金额 - 下级退水
                         ContributeHigherLevelAmount = betAmount,    //贡献上级= 有效金额
-                        PayHigherLevelAmount = betAmount - bonusAmount - rebateAmount    //应付上级：应收下线-自己赚取水钱
+                        PayHigherLevelAmount = model.UserType == 3 ? betAmount - bonusAmount : betAmount - bonusAmount - rebateAmount    //应付上级：应收下线-自己赚取水钱
                     });
                 }
 
@@ -336,12 +336,13 @@ namespace Racing.Moto.Services
                 var pkBonus = db.PKBonus.Where(b => b.UserId == model.UserId && b.IsSettlementDone == isSettlementDone && betIds.Contains(b.BetId)).ToList();
                 foreach (var bet in result.Items)
                 {
-                    var rebateBonus = pkBonus.Where(b => b.BetId == bet.BetId && b.BonusType == BonusType.Rebate).FirstOrDefault();
-                    var bonus = pkBonus.Where(b => b.BetId == bet.BetId).ToList();
-                    var amount = bonus.Count() > 0 ? bonus.Sum(b => b.Amount) : 0;
+                    var rebateBonus = pkBonus.Where(b => b.BetId == bet.BetId && b.BonusType == BonusType.Rebate).ToList();// 退水
+                    //var bonus = pkBonus.Where(b => b.BetId == bet.BetId).ToList();
+                    var amountBonus = pkBonus.Where(b => b.BetId == bet.BetId && b.BonusType == BonusType.Bonus).ToList(); ;//扣除本钱的奖金
+                    var amount = amountBonus.Count > 0 ? amountBonus.Sum(b => b.Amount) : 0;
 
-                    bet.RebateAmount = rebateBonus != null ? rebateBonus.Amount : 0;// 退水
-                    bet.BonusAmount = amount - bet.Amount;  // 退水后奖金 = 中奖金额+退水-本金
+                    bet.RebateAmount = rebateBonus.Count > 0 ? rebateBonus.Sum(b => b.Amount) : 0;// 退水
+                    bet.BonusAmount = amount > 0 ? amount + bet.RebateAmount : bet.RebateAmount - bet.Amount;  // 會員輸贏 = 中奖金额+退水-本金
                 }
 
                 return result;
@@ -376,7 +377,7 @@ namespace Racing.Moto.Services
 
             if (model.ParentUserId.HasValue)
             {
-                sql.AppendLine(string.Format("AND [U].ParentUserId = {0}", model.ParentUserId));
+                sql.AppendLine(string.Format("AND ([U].ParentUserId = {0} OR [B].UserId = {0})", model.ParentUserId));
             }
 
             if (model.BetType.HasValue)
