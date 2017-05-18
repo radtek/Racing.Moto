@@ -31,9 +31,12 @@
         CurrentTab: 1,
         init: function () {
             $scope.bet.CurrentTab = $scope.bet.Tabs[0].ID;
+            console.log($app.formatDate(new Date(), 'yyyy/MM/dd HH:mm:ss'));
 
             $http.post('/Moto/GetCurrentPKInfo').then(function (res) {
-                console.log(res);
+
+                console.log($app.formatDate(new Date(), 'yyyy/MM/dd HH:mm:ss'));
+                //console.log(res);
                 if (res.data.Success) {
                     $scope.bet.PKModel = res.data.Data.PKModel;
                     $scope.bet.PKRates = res.data.Data.PKRates;
@@ -116,6 +119,9 @@
 
         //refresh
         refresh: function (pkModel) {
+            if ($scope.bet.PKModel == null || pkModel == null || pkModel.PKId != $scope.bet.PKModel.PKId) {
+                return;
+            }
             // 重新初始化
             $scope.bet.init();
 
@@ -749,7 +755,7 @@ $(function () {
         Scope: null,
         refresh: function (pkInfo) {
             if (pkInfo != null && (motoRacing.PKInfo == null || pkInfo.PK.PKId != motoRacing.PKInfo.PK.PKId)) {
-            
+                console.log('refresh');
                 //motoRacing.init(pkInfo);
 
                 location.href = location.href.replace('#', '');
@@ -765,8 +771,8 @@ $(function () {
                     motoRacing.Scope = angular.element(appElement).scope();
                 }
 
-                try{
-                    
+                try {
+
                     motoRacing.Scope.bet.refresh(pkInfo)
                     motoRacing.Scope.$apply();
                 } catch (e) {

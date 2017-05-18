@@ -147,7 +147,7 @@
                     complete: function (response, textStatus) {
 
                         var res = JSON.parse(response.responseText);
-                        console.log(res);
+                        //console.log(res);
                         if (res.Success) {
                             prevMotoRacing.refresh(res.Data);
                         } 
