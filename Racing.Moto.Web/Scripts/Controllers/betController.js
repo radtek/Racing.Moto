@@ -119,7 +119,7 @@
 
         //refresh
         refresh: function (pkModel) {
-            if ($scope.bet.PKModel == null || pkModel == null || pkModel.PKId != $scope.bet.PKModel.PKId) {
+            if ($scope.bet.PKModel == null || pkModel == null || pkModel.PK.PKId == $scope.bet.PKModel.PK.PKId) {
                 return;
             }
             // 重新初始化
