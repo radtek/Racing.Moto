@@ -24,8 +24,8 @@ namespace Racing.Moto.Services
                 var query = db.User
                     .Include(nameof(User.UserExtension))
                     .Include(nameof(User.ParentUser))
-                    .Include(nameof(User.UserRoles))
-                    .Include(nameof(User.UserRoles) + "." + nameof(UserRole.Role))
+                    //.Include(nameof(User.UserRoles))
+                    //.Include(nameof(User.UserRoles) + "." + nameof(UserRole.Role))
                     .Where(u => u.Enabled);
                 if (searchModel.FatherUserId.HasValue && searchModel.FatherUserId.Value > 0)
                 {
@@ -33,7 +33,7 @@ namespace Racing.Moto.Services
                 }
                 if (searchModel.GrandFatherUserId.HasValue && searchModel.GrandFatherUserId.Value > 0)
                 {
-                    query = query.Where(u => u.ParentUser.ParentUserId == searchModel.FatherUserId.Value);
+                    query = query.Where(u => u.ParentUser.ParentUserId == searchModel.GrandFatherUserId.Value);
                 }
                 if (searchModel.IsLocked.HasValue)
                 {
@@ -71,12 +71,12 @@ namespace Racing.Moto.Services
                 var enabled = false;
 
                 /*
-                    ParentUserId:
-                        1. 总代理查看代理/会员: FatherUserId == 总代理UserId
-                        2. 代理查看会员: FatherUserId == 代理UserId
+                    ParentUserId/GrandFatherUserId:
+                        1. 总代理查看代理/会员: FatherUserId == loginUserId/GrandFatherUserId == loginUserId
+                        2. 代理查看会员: FatherUserId == loginUserId
                  */
                 // 登录用户查询自己下边的节点
-                if (searchModel.FatherUserId.HasValue && loginUserId == searchModel.FatherUserId.Value)
+                if (searchModel.FatherUserId.HasValue && loginUserId == searchModel.FatherUserId.Value || searchModel.GrandFatherUserId.HasValue && loginUserId == searchModel.GrandFatherUserId.Value)
                 {
                     enabled = true;
                 }

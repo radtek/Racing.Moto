@@ -144,7 +144,7 @@ app.controller('userListController', ['$scope', '$rootScope', '$http', '$compile
             FatherUserId: 0,
             GrandFatherUserId: 0,
             UserType: $scope.data.UserTypes.Agent,
-            IsLocked: 'false',
+            //IsLocked: 'false',
             PageIndex: 1,
             PageSize: 15
         },

@@ -4,9 +4,9 @@
     SubMenus: [
         [{ Name: '冠亞軍', Link: '/Bet/Info/1', MaxRoleId: 3 }, { Name: '三四五六名', Link: '/Bet/Info/2', MaxRoleId: 3 }, { Name: '七八九十名', Link: '/Bet/Info/3', MaxRoleId: 3 }],
         [
-            { Name: '总代理', Link: '/User/GeneralAgent', MaxRoleId: 2 },
-            { Name: '代理', Link: '/User/Agent', MaxRoleId: 3 },
-            { Name: '会员', Link: '/User/Member', MaxRoleId: 4 }
+            { Name: '总代理', Link: '/User/GeneralAgent', MaxRoleId: 1 },
+            { Name: '代理', Link: '/User/Agent', MaxRoleId: 2 },
+            { Name: '会员', Link: '/User/Member', MaxRoleId: 3 }
         ],
         [{ Name: '登录日志', Link: '/Log/LoginRecord', MaxRoleId: 3 }, { Name: '变更密码', Link: '/Account/ChangePassword', MaxRoleId: 3 }],
         [

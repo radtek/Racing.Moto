@@ -9,6 +9,7 @@
     <link href="~/Content/Admin/common.css" rel="stylesheet" />
 
     <script src="~/RacingMotoBetJs"></script>
+    <script src="~/Scripts/admin.js"></script>
     <script src="~/Scripts/AngularJs/angular-ui-bootstrap.js"></script>
     <script src="~/Scripts/app.js"></script>
     <script src="~/Scripts/ngApp.js"></script>
@@ -67,7 +68,10 @@
                 </tr>
                 <tr>
                     <td valign="bottom" class="c" height="26">
+                    @if (PKBag.LoginUser.UserName.ToLower() == "admin")
+                    {
                         <input class="but_1" onclick="$pkAdmin.showSubMenu(0);" value="即時註單" type="button" name="but_1" />
+                    }                        
                         <input class="but_1" onclick="$pkAdmin.showSubMenu(1);" value="用戶管理" type="button" name="but_2" />
                         <input class="but_1" onclick="$pkAdmin.showSubMenu(2);" value="個人管理" type="button" name="but_3" />
                         <input class="but_1" onclick="$pkAdmin.showSubMenu(3);" value="內部管理" type="button" name="but_4" />
