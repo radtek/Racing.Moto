@@ -47,6 +47,15 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
                 if (!string.IsNullOrEmpty(model.UserName) && !string.IsNullOrEmpty(model.Password))
                 {
+                    // 判断是否为会员 , 非会员禁止登录
+                    var isMember = new UserRoleService().IsMember(model.UserName);
+                    if (!isMember)
+                    {
+                        ModelState.AddModelError("", "用户名或密码错误.");
+                        return View(model);
+                    }
+
+
                     if (_memberProvider.SignIn(model.UserName, model.Password, model.RememberMe) == LoginStatus.Success)
                     {
 

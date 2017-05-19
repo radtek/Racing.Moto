@@ -501,11 +501,12 @@
                         }
                         alert(res.data.Message);
                         return;
-                    }
-                    $scope.bet.updateBalance(res.data.Data);// 更新余额
-                    $scope.bet.setSavedBets();// 设置保存投注
+                    } else {
+                        $scope.bet.updateBalance(res.data.Data);// 更新余额
+                        $scope.bet.setSavedBets();// 设置保存投注
 
-                    //alert('投注成功!');
+                        alert('投注成功!');
+                    }
                 });
             });
         },
@@ -785,8 +786,12 @@ $(function () {
 
 // timeCountDownCallback
 var __timeCountDownCallback = function () {
-    var appElement = document.querySelector('[ng-controller=betController]');
-    var scope = angular.element(appElement).scope();
-    scope.bet.setDisabled(true);
-    scope.$apply();
+    try {
+        var appElement = document.querySelector('[ng-controller=betController]');
+        var scope = angular.element(appElement).scope();
+        scope.bet.setDisabled(true);
+        scope.$apply();
+    } catch (e) {
+        console.log(e);
+    }
 };

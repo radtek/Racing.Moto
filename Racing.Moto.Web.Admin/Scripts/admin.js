@@ -8,7 +8,7 @@
             { Name: '代理', Link: '/User/Agent', MaxRoleId: 2 },
             { Name: '会员', Link: '/User/Member', MaxRoleId: 3 }
         ],
-        [{ Name: '登录日志', Link: '/Log/LoginRecord', MaxRoleId: 3 }, { Name: '变更密码', Link: '/Account/ChangePassword', MaxRoleId: 3 }],
+        [/*{ Name: '登录日志', Link: '/Log/LoginRecord', MaxRoleId: 3 },*/ { Name: '变更密码', Link: '/Account/ChangePassword', MaxRoleId: 3 }],
         [
             { Name: '赔率设置', Link: '/Rate/Setting', MaxRoleId: 3 },
             /*{ Name: '盘赔率差设置', Link: '/Rate/MinusSetting', MaxRoleId: 1 },*/

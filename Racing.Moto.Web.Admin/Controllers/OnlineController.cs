@@ -1,12 +1,15 @@
 ﻿using App.Core.OnlineStat;
+using Newtonsoft.Json;
 using NLog;
 using Racing.Moto.Core.Extentions;
 using Racing.Moto.Data.Models;
 using Racing.Moto.Services;
 using Racing.Moto.Services.Constants;
 using Racing.Moto.Services.Mvc;
+using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -46,7 +49,13 @@ namespace Racing.Moto.Web.Admin.Controllers
                 var user = PKBag.OnlineUserRecorder.GetUser(id);
                 if (user != null)
                 {
+                    // 管理员/总代理/代理
                     PKBag.OnlineUserRecorder.Delete(user);
+                }
+                else
+                {
+                    // 会员
+                    KickOutBetUser(id);
                 }
             }
             catch (Exception ex)
@@ -82,7 +91,7 @@ namespace Racing.Moto.Web.Admin.Controllers
                     }
                     else
                     {
-                        onlienUsers = allUsers.Where(u => u.ParentUserId == LoginUser.UserId || u.GrandUserId == LoginUser.UserId)
+                        onlienUsers = allUsers.Where(u => u.UniqueID == LoginUser.UserId || u.ParentUserId == LoginUser.UserId || u.GrandUserId == LoginUser.UserId)
                             .OrderBy(u => u.UserName).Skip(skip).Take(searchModel.PageSize).ToList();
                     }
                 }
@@ -99,7 +108,7 @@ namespace Racing.Moto.Web.Admin.Controllers
                     {
                         onlienUsers = allUsers
                             .Where(u => u.UserDegree == searchModel.UserType
-                                && (u.ParentUserId == LoginUser.UserId || u.GrandUserId == LoginUser.UserId))
+                                && (u.UniqueID == LoginUser.UserId || u.ParentUserId == LoginUser.UserId || u.GrandUserId == LoginUser.UserId))
                             .OrderBy(u => u.UserName).Skip(skip).Take(searchModel.PageSize).ToList();
                     }
                 }
@@ -126,10 +135,11 @@ namespace Racing.Moto.Web.Admin.Controllers
             return Json(result);
         }
 
+        #region private
         private List<OnlineUser> GetOnlineUsers()
         {
-            // 盘口端登录用户 TODO 从盘口接口取数据
-            var betUsers = new List<OnlineUser>();
+            // 盘口端登录用户, 从盘口接口取数据
+            var betUsers = GetBetOnlineUsers();
 
             // 后台登录用户
             var manageUsers = PKBag.OnlineUserRecorder.GetUserList();
@@ -148,6 +158,85 @@ namespace Racing.Moto.Web.Admin.Controllers
 
             return allUsers;
         }
+
+        /// <summary>
+        /// 取盘口在线用户
+        /// </summary>
+        /// <returns></returns>
+        private List<OnlineUser> GetBetOnlineUsers()
+        {
+            var onlineUsers = new List<OnlineUser>();
+
+            try
+            {
+                var betPortUrl = ConfigurationManager.AppSettings["BetPortalUrl"];
+
+                RestClient client = new RestClient(betPortUrl);
+                var request = new RestRequest("/api/OnlineUser/GetOnlineUsers", Method.POST);
+                //request.AddJsonBody(model);
+
+                var response = client.Execute(request);
+
+                if (response != null && !string.IsNullOrEmpty(response.Content))
+                {
+                    var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
+
+                    if (result.Success)
+                    {
+                        onlineUsers = JsonConvert.DeserializeObject<List<OnlineUser>>(result.Data.ToString());
+                    }
+                    else
+                    {
+                        _logger.Info(response);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info(ex);
+            }
+
+            return onlineUsers;
+        }
+
+        /// <summary>
+        /// 踢出盘口用户
+        /// </summary>
+        /// <param name="userName"></param>
+        private void KickOutBetUser(string userName)
+        {
+            try
+            {
+                var betPortUrl = ConfigurationManager.AppSettings["BetPortalUrl"];
+
+                RestClient client = new RestClient(betPortUrl);
+                var request = new RestRequest("/api/OnlineUser/KickOutUser", Method.POST);
+
+                var onlineUser = new OnlineUser
+                {
+                    UserName = userName
+                };
+                request.AddJsonBody(onlineUser);
+
+                var response = client.Execute(request);
+
+                if (response != null && !string.IsNullOrEmpty(response.Content))
+                {
+                    var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
+
+                    if (!result.Success)
+                    {
+                        _logger.Info(result);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info(ex);
+            }
+        }
+
+        #endregion
 
         #region 在线用户统计
         /// <summary>
@@ -175,7 +264,8 @@ namespace Racing.Moto.Web.Admin.Controllers
 
         private List<RoleModel> GetOnlineStatistics()
         {
-            var statistics = PKBag.OnlineUserRecorder.GetUserList().GroupBy(u => u.UserDegree).Select(g => new RoleModel
+            var allUsers = GetOnlineUsers();
+            var statistics = allUsers.Where(u => u.UniqueID == LoginUser.UserId || u.ParentUserId == LoginUser.UserId || u.GrandUserId == LoginUser.UserId).GroupBy(u => u.UserDegree).Select(g => new RoleModel
             {
                 RoleId = g.Key,
                 RoleName = RoleConst.GetRoleName(g.Key),

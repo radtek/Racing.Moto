@@ -725,6 +725,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\BonusController.cs" />
+    <Compile Include="ApiControllers\OnlineUserController.cs" />
     <Compile Include="ApiControllers\UserController.cs" />
     <Compile Include="ApiControllers\PKController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
