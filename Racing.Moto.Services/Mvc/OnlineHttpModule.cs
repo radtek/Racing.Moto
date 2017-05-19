@@ -70,6 +70,15 @@ namespace Racing.Moto.Services.Mvc
                 //注意session的名称是和登录保存的名称一致
                 Data.Entities.User user = (Data.Entities.User)HttpContext.Current.Session[SessionConst.LoginUser];
 
+                onlineUser.UniqueID = user.UserId;
+                //父级UserName
+                onlineUser.ParentUserId = user.ParentUserId;
+                //祖父级UserName
+                if (user.ParentUserId.HasValue)
+                {
+                    onlineUser.GrandUserId = new UserService().GetParentUserId(user.ParentUserId.Value);
+                }
+
                 // 用户名称                                                        
                 onlineUser.UserName = Convert.ToString(user.UserName);
                 // 用户角色

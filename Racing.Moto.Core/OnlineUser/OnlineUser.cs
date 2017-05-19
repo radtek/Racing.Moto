@@ -19,6 +19,10 @@ namespace App.Core.OnlineStat
     {
         // 用户 ID
         private int m_uniqueID;
+        // 父级用户Id
+        private int? m_p_userId;
+        // 祖父级用户Id
+        private int? m_g_userId;
         // 名称
         private string m_userName;
         // 身份
@@ -67,6 +71,38 @@ namespace App.Core.OnlineStat
             get
             {
                 return this.m_uniqueID;
+            }
+        }
+
+        /// <summary>
+        /// 父级用户ID
+        /// </summary>
+        public int? ParentUserId
+        {
+            set
+            {
+                this.m_p_userId = value;
+            }
+
+            get
+            {
+                return this.m_p_userId;
+            }
+        }
+
+        /// <summary>
+        /// 祖父级用户名
+        /// </summary>
+        public int? GrandUserId
+        {
+            set
+            {
+                this.m_g_userId = value;
+            }
+
+            get
+            {
+                return this.m_g_userId;
             }
         }
 

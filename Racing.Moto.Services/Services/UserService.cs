@@ -463,5 +463,13 @@ namespace Racing.Moto.Services
                 db.SaveChanges();
             }
         }
+
+        public int? GetParentUserId(int userId)
+        {
+            using (var db = new RacingDbContext())
+            {
+                return db.User.Where(u => u.UserId == userId).Select(u => u.ParentUserId).FirstOrDefault();
+            }
+        }
     }
 }

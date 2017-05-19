@@ -36,23 +36,28 @@ namespace Racing.Moto.Services.Mvc
             try
             {
                 var rawUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower();
-                if (rawUrl.Contains("/account/login")|| rawUrl.Contains("/moto/arena"))
+                if (rawUrl.Contains("/account/login") || rawUrl.Contains("/moto/arena"))
                 {
                     return;
                 }
-                _logger.Info(string.Format("IsAuthenticated: {0} {1}", HttpContext.User.Identity.IsAuthenticated, DateTime.Now.ToString(DateFormatConst.yMd_Hms)));
-                //// 踢出
-                //if (HttpContext.User.Identity.IsAuthenticated /*&& PKBag.OnlineUserRecorder.GetUser(HttpContext.User.Identity.Name) == null*/)
-                //{
-                //    _logger.Info(string.Format("IsAuthenticated is false: {0} {1}", HttpContext.User.Identity.IsAuthenticated, DateTime.Now.ToString(DateFormatConst.yMd_Hms)));
-                //    System.Web.Security.FormsAuthentication.SignOut();
 
-                //    //System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
-                //    PKBag.Clear();
-                //}
+                //_logger.Info(string.Format("IsAuthenticated: {0} {1}", HttpContext.User.Identity.IsAuthenticated, DateTime.Now.ToString(DateFormatConst.yMd_Hms)));
 
-                var isAdminUrl = rawUrl.Contains("/admin");     // 后台管理端
-                var isManageUrl = rawUrl.Contains("/manage");   // 押注端
+                // 踢出
+                if (PKBag.OnlineUserRecorder != null)
+                {
+                    if (HttpContext.User.Identity.IsAuthenticated && PKBag.OnlineUserRecorder.GetUser(HttpContext.User.Identity.Name) == null)
+                    {
+                        _logger.Info(string.Format("Kick Out: {0} at {1}", HttpContext.User.Identity.Name, DateTime.Now.ToString(DateFormatConst.yMd_Hms)));
+                        System.Web.Security.FormsAuthentication.SignOut();
+                        
+                        PKBag.Clear();
+
+                        return;
+                    }
+                }
+
+                var isManageUrl = rawUrl.Contains("/manage/");   // 押注端
 
                 // 浏览器有缓存 时, 关闭浏览器不会删除cookie, 此处判断如果session失效则强制删除cookie
                 if (HttpContext.User.Identity.IsAuthenticated && System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
@@ -90,7 +95,7 @@ namespace Racing.Moto.Services.Mvc
                     }
                     else
                     {
-                        if (isAdminUrl || isManageUrl)
+                        if (isManageUrl)
                         {
                             SetRedirect(filterContext);
                         }
@@ -112,7 +117,7 @@ namespace Racing.Moto.Services.Mvc
             {
                 var returnUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower().TrimEnd('/');
                 //var isAdminUrl = returnUrl.Contains("/admin");
-                var isManageUrl = returnUrl.Contains("/manage");
+                var isManageUrl = returnUrl.Contains("/manage/");
                 //var loginUrl = (isAdminUrl || isManageUrl) ? "/Route" : "/Account/Login"; ///Admin/Account/Login"
                 var loginUrl = isManageUrl ? "/Admin/Account/Login" : "/Account/Login";
                 var rdm = Guid.NewGuid().ToString("N");//防止浏览器缓存登录页面
@@ -134,11 +139,11 @@ namespace Racing.Moto.Services.Mvc
 
             try
             {
-                if (System.Web.HttpContext.Current.Session[SessionConst.LoginUser] != null)
-                {
-                    //在线用户统计
-                    OnlineHttpModule.ProcessRequest();
-                }
+                //if (System.Web.HttpContext.Current.Session[SessionConst.LoginUser] != null)
+                //{
+                //    //在线用户统计
+                //    OnlineHttpModule.ProcessRequest();
+                //}
             }
             catch (Exception ex)
             {

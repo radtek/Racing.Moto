@@ -1,6 +1,8 @@
-﻿using NLog;
+﻿using App.Core.OnlineStat;
+using NLog;
 using Racing.Moto.Core.Extentions;
 using Racing.Moto.Data.Models;
+using Racing.Moto.Services;
 using Racing.Moto.Services.Constants;
 using Racing.Moto.Services.Mvc;
 using System;
@@ -65,14 +67,49 @@ namespace Racing.Moto.Web.Admin.Controllers
 
             try
             {
+                var allUsers = GetOnlineUsers();
+
                 var skip = (searchModel.PageIndex - 1) * searchModel.PageSize;
-                var onlienUsers = searchModel.UserType > 0
-                    ? PKBag.OnlineUserRecorder.GetUserList().Where(u => u.UserDegree == searchModel.UserType).OrderBy(u => u.UserName).Skip(skip).Take(searchModel.PageSize).ToList()
-                    : PKBag.OnlineUserRecorder.GetUserList().OrderBy(u => u.UserName).Skip(skip).Take(searchModel.PageSize).ToList();
+                var onlienUsers = new List<OnlineUser>();
+
+                var isAdmin = LoginUser.UserRoles.Any(u => u.RoleId == RoleConst.Role_Id_Admin);//管理员
+                if (searchModel.UserType == 0)
+                {
+                    //在线人数页面
+                    if (isAdmin)
+                    {
+                        onlienUsers = allUsers.OrderBy(u => u.UserName).Skip(skip).Take(searchModel.PageSize).ToList();
+                    }
+                    else
+                    {
+                        onlienUsers = allUsers.Where(u => u.ParentUserId == LoginUser.UserId || u.GrandUserId == LoginUser.UserId)
+                            .OrderBy(u => u.UserName).Skip(skip).Take(searchModel.PageSize).ToList();
+                    }
+                }
+                else
+                {
+                    //在线会员/在线代理/在线总代理
+                    if (isAdmin)
+                    {
+                        onlienUsers = allUsers
+                            .Where(u => u.UserDegree == searchModel.UserType)
+                            .OrderBy(u => u.UserName).Skip(skip).Take(searchModel.PageSize).ToList();
+                    }
+                    else
+                    {
+                        onlienUsers = allUsers
+                            .Where(u => u.UserDegree == searchModel.UserType
+                                && (u.ParentUserId == LoginUser.UserId || u.GrandUserId == LoginUser.UserId))
+                            .OrderBy(u => u.UserName).Skip(skip).Take(searchModel.PageSize).ToList();
+                    }
+                }
+                //var onlienUsers = searchModel.UserType > 0
+                //    ? allUsers.Where(u => u.UserDegree == searchModel.UserType).OrderBy(u => u.UserName).Skip(skip).Take(searchModel.PageSize).ToList()
+                //    : allUsers.OrderBy(u => u.UserName).Skip(skip).Take(searchModel.PageSize).ToList();
                 //var userNames = onlienUsers.Select(u => u.UserName).ToList();
                 //var users = new UserService().GetUsers(userNames);
 
-                var pager = new PagerResult<App.Core.OnlineStat.OnlineUser>();
+                var pager = new PagerResult<OnlineUser>();
                 pager.Items = onlienUsers;
                 pager.RowCount = PKBag.OnlineUserRecorder.GetUserList().Count;
                 pager.PageCount = pager.RowCount % searchModel.PageSize == 0 ? pager.RowCount / searchModel.PageSize : pager.RowCount / searchModel.PageSize + 1;
@@ -87,6 +124,29 @@ namespace Racing.Moto.Web.Admin.Controllers
             }
 
             return Json(result);
+        }
+
+        private List<OnlineUser> GetOnlineUsers()
+        {
+            // 盘口端登录用户 TODO 从盘口接口取数据
+            var betUsers = new List<OnlineUser>();
+
+            // 后台登录用户
+            var manageUsers = PKBag.OnlineUserRecorder.GetUserList();
+
+            // 所有用户
+            var allUsers = new List<OnlineUser>();
+            allUsers.AddRange(manageUsers);
+
+            foreach (var user in betUsers)
+            {
+                if (!allUsers.Any(u => u.UserName == user.UserName))
+                {
+                    allUsers.Add(user);
+                }
+            }
+
+            return allUsers;
         }
 
         #region 在线用户统计
