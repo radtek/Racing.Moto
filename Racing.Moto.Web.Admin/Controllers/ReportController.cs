@@ -19,6 +19,9 @@ namespace Racing.Moto.Web.Admin.Controllers
         #region Report search
         public ActionResult Index()
         {
+            ViewBag.LoginUserId = LoginUser.UserId;
+            ViewBag.UserType = LoginUser.UserRoles.First().RoleId;
+
             return View();
         }
 
@@ -87,9 +90,10 @@ namespace Racing.Moto.Web.Admin.Controllers
         /// <summary>
         /// 总代理列表
         /// </summary>
-        public ActionResult GeneralAgent()
+        public ActionResult GeneralAgent(int? id)
         {
-            var model = GetReportSearchModelFromUrl(null, null);
+            //总代理的父级一定是管理员, 既登录用户
+            var model = GetReportSearchModelFromUrl(LoginUser.UserId, null);
             model.UserType = UserType.Admin;//当前用户是管理员
 
             ViewBag.SearchParams = JsonConvert.SerializeObject(model);
@@ -150,6 +154,7 @@ namespace Racing.Moto.Web.Admin.Controllers
 
             try
             {
+
                 if (model.ReportType == 1)
                 {
                     // 交收報表

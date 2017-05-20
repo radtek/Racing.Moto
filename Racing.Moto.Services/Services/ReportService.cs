@@ -377,7 +377,8 @@ namespace Racing.Moto.Services
 
             if (model.ParentUserId.HasValue)
             {
-                sql.AppendLine(string.Format("AND ([U].ParentUserId = {0} OR [B].UserId = {0})", model.ParentUserId));
+                //sql.AppendLine(string.Format("AND ([U].ParentUserId = {0} OR [B].UserId = {0})", model.ParentUserId));
+                sql.AppendLine(string.Format("AND ([U].ParentUserId = {0})", model.ParentUserId));
             }
 
             if (model.BetType.HasValue)

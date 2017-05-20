@@ -1,8 +1,8 @@
 ﻿app.controller('rebateController', ['$scope', '$rootScope', '$http', '$compile', '$timeout', '$q', '$sce', function ($scope, $rootScope, $http, $compile, $timeout, $q, $sce) {
     $scope.data = {
         Default: {
-            Type1: { A: 0.04, B: 0.03, C: 0.02, MaxPKAmount: 100000, MaxBetAmount: 50000 },
-            Type2: { A: 0.04, B: 0.03, C: 0.02, MaxPKAmount: 100000, MaxBetAmount: 50000 },
+            Type1: { A: 0.03, B: 0.04, C: 0.05, MaxPKAmount: 100000, MaxBetAmount: 50000 },
+            Type2: { A: 0.03, B: 0.04, C: 0.05, MaxPKAmount: 100000, MaxBetAmount: 50000 },
         },
         RankNames: ['冠軍', '亞軍', '第三名', '第四名', '第五名', '第六名', '第七名', '第八名', '第九名', '第十名', '大', '小', '单', '双'],
     };
@@ -136,13 +136,13 @@
                 var parentRebate = $scope.opt.getParentRebate(item.RebateNo);
                 if (parentRebate != null) {
                     if (item.RebateTypeA > parentRebate.RebateTypeA) {
-                        msg.push(rank + ' A盘 退水不能大于 ' + parentRebate.RebateTypeA);
+                        msg.push(rank + ' A盘 退水不能大于上级退水: ' + parentRebate.RebateTypeA);
                     }
                     if (item.RebateTypeB > parentRebate.RebateTypeB) {
-                        msg.push(rank + ' B盘 退水不能大于 ' + parentRebate.RebateTypeB);
+                        msg.push(rank + ' B盘 退水不能大于上级退水: ' + parentRebate.RebateTypeB);
                     }
                     if (item.RebateTypeC > parentRebate.RebateTypeC) {
-                        msg.push(rank + ' C盘 退水不能大于 ' + parentRebate.RebateTypeC);
+                        msg.push(rank + ' C盘 退水不能大于上级退水: ' + parentRebate.RebateTypeC);
                     }
                 }
             })

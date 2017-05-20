@@ -12,19 +12,19 @@ namespace Racing.Moto.Services
 {
     public class LoginLogService : BaseServcice
     {
-        public void AddLoginLog(LoginLog loginLog)
-        {
-            using (var db = new RacingDbContext())
-            {
-                if (loginLog.LoginTime == DateTime.MinValue)
-                {
-                    loginLog.LoginTime = DateTime.Now;
-                }
+        //public void AddLoginLog(LoginLog loginLog)
+        //{
+        //    using (var db = new RacingDbContext())
+        //    {
+        //        if (loginLog.LoginTime == DateTime.MinValue)
+        //        {
+        //            loginLog.LoginTime = DateTime.Now;
+        //        }
 
-                db.LoginLog.Add(loginLog);
-                db.SaveChanges();
-            }
-        }
+        //        db.LoginLog.Add(loginLog);
+        //        db.SaveChanges();
+        //    }
+        //}
 
         public PagerResult<LoginLog> GetLoginLogRecords(SearchModel searchModel)
         {

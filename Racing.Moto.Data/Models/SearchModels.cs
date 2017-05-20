@@ -68,7 +68,7 @@ namespace Racing.Moto.Data.Models
         /// 页大小
         /// </summary>
         public int PageSize { get; set; }
-
+        
         /// <summary>
         /// 用户Id
         /// </summary>

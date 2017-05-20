@@ -69,16 +69,16 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
 
                         #region 登录日志
 
-                        MonIPUtil.Load(Server.MapPath("~/App_Data/17monipdb.dat"));
-                        var ip = IPUtil.GetHostAddress();
-                        //var ipAddress = MonIPUtil.Find(ip);
-                        var loginLog = new LoginLog
-                        {
-                            IP = ip,
-                            Address = MonIPUtil.FindAddress(ip),
-                            UserId = loginUser.UserId
-                        };
-                        new LoginLogService().AddLoginLog(loginLog);
+                        //MonIPUtil.Load(Server.MapPath("~/App_Data/17monipdb.dat"));
+                        //var ip = IPUtil.GetHostAddress();
+                        ////var ipAddress = MonIPUtil.Find(ip);
+                        //var loginLog = new LoginLog
+                        //{
+                        //    IP = ip,
+                        //    Address = MonIPUtil.FindAddress(ip),
+                        //    UserId = loginUser.UserId
+                        //};
+                        //new LoginLogService().AddLoginLog(loginLog);
 
                         #endregion
 

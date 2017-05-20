@@ -10,15 +10,17 @@
         ReportTypes: [{ ID: 1, Name: '交收報錶' }, { ID: 2, Name: '分類報錶' }],
         SettlementTypes: [{ ID: 1, Name: '已結算' }, { ID: 2, Name: '未結算' }],
     };
-    $scope.init = function (userType) {
-        $scope.report.init(userType);
+    $scope.init = function (loginUserId, userType) {
+        $scope.report.init(loginUserId, userType);
     };
 
     $scope.report = {
+        LoginUserId: null,
         UserType: null,
         HistoryPKs: [],//期数
         Params: { SearchType: '2', ReportType: '1', SettlementType: '1', FromDate: null, ToDate: null, BetType: '' },
-        init: function (userType) {
+        init: function (loginUserId, userType) {
+            $scope.report.LoginUserId = parseInt(loginUserId, 10);
             $scope.report.UserType = parseInt(userType, 10);
             $scope.report.getSearchReportData();
             $scope.report.Params.FromDate = $app.formatDate(new Date(), 'yyyy-MM-dd');
@@ -100,17 +102,16 @@
         },
         search: function () {
             var url = '/Report';
-
             if ($scope.report.Params.ReportType == 1) {
                 // 交收報錶
                 switch ($scope.report.UserType) {
-                    case $scope.Data.UserTypes.Admin: url += '/GeneralAgent/'; break;
-                    case $scope.Data.UserTypes.Agent: url += '/Agent/'; break;
-                    case $scope.Data.UserTypes.Member: url += '/Member/'; break;
+                    case $scope.Data.UserTypes.Admin: url += '/GeneralAgent/' + $scope.report.LoginUserId; break;
+                    case $scope.Data.UserTypes.GeneralAgent: url += '/Agent/' + $scope.report.LoginUserId; break;
+                    case $scope.Data.UserTypes.Agent: url += '/Member/' + $scope.report.LoginUserId; break;
                 }
             } else {
                 // 分類報錶
-                url += '/Rank/';
+                url += '/Rank/' + +$scope.report.LoginUserId;
             }
             var params = 'PageIndex=1&PageSize=20'
                 + '&PKId=' + $scope.report.Params.PKId
