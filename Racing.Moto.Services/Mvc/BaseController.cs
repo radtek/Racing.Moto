@@ -36,7 +36,7 @@ namespace Racing.Moto.Services.Mvc
             try
             {
                 var rawUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower();
-                if (rawUrl.Contains("/account/login") || rawUrl.Contains("/moto/arena"))
+                if (rawUrl.Contains("/account/login") || rawUrl.Contains("/moto/arena") || filterContext.RouteData.Values["controller"].ToString().ToLower() == "home")
                 {
                     return;
                 }
@@ -65,7 +65,7 @@ namespace Racing.Moto.Services.Mvc
                         if (System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
                         {
                             _loginUser = SqlMembershipProvider.Provider.GetUser(HttpContext.User.Identity.Name, true);
-                            _loginUser.UserExtension = new UserExtensionService().GetUserUserExtension(_loginUser.UserId);
+                            _loginUser.UserExtension = new UserExtensionService().GetUserExtension(_loginUser.UserId);
 
                             // LoginUser session
                             System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = _loginUser;

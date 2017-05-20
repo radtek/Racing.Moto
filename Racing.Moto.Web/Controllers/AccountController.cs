@@ -99,7 +99,7 @@ namespace Racing.Moto.Web.Controllers
         private User SetLoginInfo(string userName)
         {
             var loginUser = _memberProvider.GetUser(userName, true);
-            loginUser.UserExtension = new UserExtensionService().GetUserUserExtension(loginUser.UserId);
+            loginUser.UserExtension = new UserExtensionService().GetUserExtension(loginUser.UserId);
             System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = loginUser;
 
             return loginUser;

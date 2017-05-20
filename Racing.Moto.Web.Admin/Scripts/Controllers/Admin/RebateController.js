@@ -97,11 +97,13 @@
             })
         },
         saveRebates: function () {
-            var msg = $scope.opt.checkRebate();
-            if (msg.length > 0) {
-                var msgStr = msg.join('\n');
-                alert(msgStr);
-                return;
+            if ($scope.opt.ParentUserId != 1) {
+                var msg = $scope.opt.checkRebate();
+                if (msg.length > 0) {
+                    var msgStr = msg.join('\n');
+                    alert(msgStr);
+                    return;
+                }
             }
 
             var data = {

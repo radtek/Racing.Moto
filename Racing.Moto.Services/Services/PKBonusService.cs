@@ -57,7 +57,7 @@ namespace Racing.Moto.Services
                             Rank = dbBet.Rank,
                             Num = dbBet.Num,
                             BonusType = Data.Enums.BonusType.Bonus,
-                            Amount = Math.Round(dbBet.Amount * pkRate.Rate - dbBet.Amount, 4),//扣除本金
+                            Amount = Math.Round(dbBet.Amount * pkRate.Rate, 4),
                             IsSettlementDone = true // 直接设置成已结算
                         });
                     }
@@ -67,6 +67,13 @@ namespace Racing.Moto.Services
                         // 保存奖金
                         db.PKBonus.AddRange(bonuses);
                         db.SaveChanges();
+
+                        // 奖金加到余额
+                        var userExtensionService = new UserExtensionService();
+                        foreach (var bonus in bonuses)
+                        {
+                            userExtensionService.AddAmount(bonus.UserId, bonus.Amount);
+                        }
                     }
                 }
             }
@@ -78,6 +85,8 @@ namespace Racing.Moto.Services
         /// <param name="pk"></param>
         public void GenerateRebate(PK pk)
         {
+            var userExtensionService = new UserExtensionService();
+
             using (var db = new RacingDbContext())
             {
                 // 按下注用户生成
@@ -119,7 +128,7 @@ namespace Racing.Moto.Services
                                     .Include(nameof(UserRebate.User))
                                     .Where(r => r.UserId == userRebate.User.ParentUserId && r.RebateNo == dbBet.Num).FirstOrDefault();
                                 var agentRebate = UserRebateService.GetDefaultRebate(agentUserRebate, agentUserRebate.User.DefaultRebateType);
-                                if(agentRebate - rebate > 0)
+                                if (agentRebate - rebate > 0)
                                 {
                                     agentBonuses.Add(new PKBonus
                                     {
@@ -144,7 +153,7 @@ namespace Racing.Moto.Services
                                         .Include(nameof(UserRebate.User))
                                         .Where(r => r.UserId == agentUserRebate.User.ParentUserId && r.RebateNo == dbBet.Num).FirstOrDefault();
                                     var generalAgentRebate = UserRebateService.GetDefaultRebate(generalAgentUserRebate, generalAgentUserRebate.User.DefaultRebateType);
-                                    if(generalAgentRebate - agentRebate > 0)
+                                    if (generalAgentRebate - agentRebate > 0)
                                     {
                                         generalAgentBonuses.Add(new PKBonus
                                         {
@@ -168,20 +177,38 @@ namespace Racing.Moto.Services
                             // 保存会员退水奖金
                             db.PKBonus.AddRange(bonuses);
                             db.SaveChanges();
+
+                            // 奖金加到余额
+                            foreach (var bonus in bonuses)
+                            {
+                                userExtensionService.AddAmount(bonus.UserId, bonus.Amount);
+                            }
                         }
                         if (agentBonuses.Count > 0)
                         {
                             // 保存会员退水奖金
                             db.PKBonus.AddRange(agentBonuses);
                             db.SaveChanges();
+
+                            // 奖金加到余额
+                            foreach (var bonus in agentBonuses)
+                            {
+                                userExtensionService.AddAmount(bonus.UserId, bonus.Amount);
+                            }
                         }
                         if (generalAgentBonuses.Count > 0)
                         {
                             // 保存会员退水奖金
                             db.PKBonus.AddRange(generalAgentBonuses);
                             db.SaveChanges();
+
+                            // 奖金加到余额
+                            foreach (var bonus in generalAgentBonuses)
+                            {
+                                userExtensionService.AddAmount(bonus.UserId, bonus.Amount);
+                            }
                         }
-                    }                    
+                    }
                 }
             }
         }

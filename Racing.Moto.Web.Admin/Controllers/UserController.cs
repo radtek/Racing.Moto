@@ -215,7 +215,47 @@ namespace Racing.Moto.Web.Admin.Controllers
 
             try
             {
+                rechargeAmount = rechargeAmount ?? 0;
+
+                if (rechargeAmount > 0)
+                {
+                    //充值为正: 验证上级余额是否够给下家充值
+                    var amount = new UserExtensionService().GetUserAmount(user.ParentUserId.Value);
+
+                    if (amount < rechargeAmount)
+                    {
+                        result.Success = false;
+                        result.Message = string.Format("上级余额不足, 余额: {0}", amount);
+
+                        return Json(result);
+                    }
+                }
+                else if (rechargeAmount < 0)
+                {
+                    //充值为负: 验证当前用户余额是否够扣除
+                    var amount = new UserExtensionService().GetUserAmount(user.UserId);
+
+                    if (amount < Math.Abs(rechargeAmount.Value))
+                    {
+                        result.Success = false;
+                        result.Message = string.Format("余额不足, 余额: {0}", amount);
+
+                        return Json(result);
+                    }
+                }
+
                 result = new UserService().SaveUser(type, user, rebateType, rechargeAmount);
+
+                if (rechargeAmount > 0)
+                {
+                    //给下家充值成功: 扣除上级相应余额
+                    new UserExtensionService().MinusAmount(user.ParentUserId.Value, rechargeAmount.Value);
+                }
+                else if (rechargeAmount < 0)
+                {
+                    //给下家扣除成功: 增加上级相应余额
+                    new UserExtensionService().AddAmount(user.ParentUserId.Value, Math.Abs(rechargeAmount.Value));
+                }
             }
             catch (Exception ex)
             {

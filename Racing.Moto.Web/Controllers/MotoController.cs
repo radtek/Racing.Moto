@@ -80,7 +80,7 @@ namespace Racing.Moto.Web.Controllers
                     var userExtendService = new UserExtensionService();
 
                     // 查验余额
-                    var userExtend = userExtendService.GetUserUserExtension(LoginUser.UserId);
+                    var userExtend = userExtendService.GetUserExtension(LoginUser.UserId);
                     var betAmount = bets.Sum(b => b.Amount);
                     if (betAmount > userExtend.Amount)
                     {

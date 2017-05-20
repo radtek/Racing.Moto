@@ -128,7 +128,7 @@ namespace Racing.Moto.Services
                         RebateAmount = rebateAmount,    //赚取水钱：根据后台管理分配的退水比率分配
                         ReceiveAmount = betAmount - bonusAmount,  //应收下线 = 有效金额 - 下级赢的金额 - 下级退水
                         ContributeHigherLevelAmount = betAmount,    //贡献上级= 有效金额
-                        PayHigherLevelAmount = model.UserType == 3 ? betAmount - bonusAmount : betAmount - bonusAmount - rebateAmount    //应付上级：应收下线-自己赚取水钱
+                        PayHigherLevelAmount = model.UserType == 4 ? betAmount - bonusAmount : betAmount - bonusAmount - rebateAmount    //应付上级：应收下线-自己赚取水钱
                     });
                 }
 

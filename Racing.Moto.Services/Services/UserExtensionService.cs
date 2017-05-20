@@ -10,7 +10,7 @@ namespace Racing.Moto.Services
 {
     public class UserExtensionService : BaseServcice
     {
-        public UserExtension GetUserUserExtension(int userId)
+        public UserExtension GetUserExtension(int userId)
         {
             using (var db = new RacingDbContext())
             {
@@ -28,6 +28,18 @@ namespace Racing.Moto.Services
                 }
                 return userExtend;
             }
+        }
+
+        public decimal GetUserAmount(int userId)
+        {
+            decimal amount = 0M;
+
+            using (var db = new RacingDbContext())
+            {
+                amount = db.UserExtension.Where(u => u.UserId == userId).Select(u => u.Amount).FirstOrDefault();
+            }
+
+            return amount;
         }
 
         /// <summary>
