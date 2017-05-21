@@ -1,4 +1,5 @@
 ﻿using NLog;
+using Racing.Moto.Core.Captcha;
 using Racing.Moto.Core.Utils;
 using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Enums;
@@ -24,16 +25,16 @@ namespace Racing.Moto.Web.Controllers
         #region login
 
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult MemberLogin(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return Redirect("/Admin/Account/Login");
+            return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
         //[ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        public ActionResult MemberLogin(LoginModel model, string returnUrl)
         {
             try
             {
@@ -62,6 +63,95 @@ namespace Racing.Moto.Web.Controllers
             return View(model);
         }
 
+        #endregion
+
+        #region Login
+
+        [AllowAnonymous]
+        public ActionResult Login(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Login(LoginModel model, string returnUrl)
+        {
+            try
+            {
+                // 验证码
+                if (!CheckCaptcha(model.Captcha))
+                {
+                    ModelState.AddModelError("", "验证码错误");
+                    return View(model);
+                }
+
+                if (!string.IsNullOrEmpty(model.UserName) && !string.IsNullOrEmpty(model.Password))
+                {
+                    // 判断是否为会员 , 非会员禁止登录
+                    var isMember = new UserRoleService().IsMember(model.UserName);
+                    if (!isMember)
+                    {
+                        ModelState.AddModelError("", "用户名或密码错误.");
+                        return View(model);
+                    }
+
+
+                    if (_memberProvider.SignIn(model.UserName, model.Password, model.RememberMe) == LoginStatus.Success)
+                    {
+
+                        #region LoginUser session
+
+                        var loginUser = _memberProvider.GetUser(model.UserName, true);
+                        loginUser.UserExtension = new UserExtensionService().GetUserExtension(loginUser.UserId);
+                        System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = loginUser;
+
+                        #endregion
+
+                        #region 登录日志
+
+                        //MonIPUtil.Load(Server.MapPath("~/App_Data/17monipdb.dat"));
+                        //var ip = IPUtil.GetHostAddress();
+                        ////var ipAddress = MonIPUtil.Find(ip);
+                        //var loginLog = new LoginLog
+                        //{
+                        //    IP = ip,
+                        //    Address = MonIPUtil.FindAddress(ip),
+                        //    UserId = loginUser.UserId
+                        //};
+                        //new LoginLogService().AddLoginLog(loginLog);
+
+                        #endregion
+
+                        //在线用户统计
+                        OnlineHttpModule.ProcessRequest();
+
+                        return Redirect("/Account/Agreement2");
+                    }
+
+                    ModelState.AddModelError("", "用户名或密码错误.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "请输入用户名,密码.");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", MessageConst.System_Error);
+
+                _logger.Info(ex);
+            }
+
+            return View(model);
+        }
+
+        private bool CheckCaptcha(string captcha)
+        {
+            return Session[CaptchaConst.REG_CAPTCHA_SESSION] != null && Session[CaptchaConst.REG_CAPTCHA_SESSION].ToString().ToLower() == captcha.ToLower();
+        }
         #endregion
 
         #region Agreement

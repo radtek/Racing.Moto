@@ -810,6 +810,7 @@
     <Content Include="Views\Route\Index.cshtml" />
     <Content Include="Views\Account\Agreement2.cshtml" />
     <Content Include="Views\Shared\_NoHeaderLayout.cshtml" />
+    <Content Include="Views\Account\MemberLogin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

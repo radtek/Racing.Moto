@@ -46,7 +46,7 @@
         //pkInfo.GameBeginTime = '2017/04/03 18:30:00';
         //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
-        console.log(pkInfo);
+        //console.log(pkInfo);
         if (pkInfo == null) {
             return;
         }
@@ -63,7 +63,7 @@
         MaxPKCount: 1,
         ResultShowSeconds: 30,
         BonusShowSeconds: 180,
-        Millisec: 3,
+        Millisec: 2,
         RoadLength: 610,//910
         Colors: ['red', 'blue', 'yellow', 'green', 'gray', 'aqua', 'blueviolet', 'brown', 'Highlight', 'aquamarine', 'teal'],
         //Easings: ['easeInQuad', 'easeInQuart', 'easeInOutSine', 'easeOutSine', 'easeOutQuad', 'linear', 'easeInCirc', 'easeInOutQuad', 'easeOutCubic', 'easeInOutCubic'],

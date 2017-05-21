@@ -766,19 +766,19 @@ $(function () {
             if (pkInfo != null) {
                 motoRacing.PKInfo = pkInfo;
 
-                if (motoRacing.Scope == null) {
+                //if (motoRacing.Scope == null) {
 
-                    var appElement = document.querySelector('[ng-controller=betController]');
-                    motoRacing.Scope = angular.element(appElement).scope();
-                }
+                //    var appElement = document.querySelector('[ng-controller=betController]');
+                //    motoRacing.Scope = angular.element(appElement).scope();
+                //}
 
-                try {
+                //try {
 
-                    motoRacing.Scope.bet.refresh(pkInfo)
-                    motoRacing.Scope.$apply();
-                } catch (e) {
-                    console.log(e);
-                }
+                //    motoRacing.Scope.bet.refresh(pkInfo)
+                //    motoRacing.Scope.$apply();
+                //} catch (e) {
+                //    console.log(e);
+                //}
             }
         }
     };

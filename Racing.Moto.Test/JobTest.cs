@@ -40,7 +40,7 @@ namespace Racing.Moto.Test
         public void CalculateRanksTest()
         {
 
-            new BetService().CalculateRanks(4900);
+            new BetService().CalculateRanks(601);
         }
     }
 }

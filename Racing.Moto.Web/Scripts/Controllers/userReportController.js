@@ -48,6 +48,7 @@
                 }
             });
 
+            $rootScope.Loading = false;
             $http.post('/Manage/GetUserBonusReportStatistics', $scope.pager.Params).then(function (res) {
                 console.log(res);
                 if (res.data.Success) {
