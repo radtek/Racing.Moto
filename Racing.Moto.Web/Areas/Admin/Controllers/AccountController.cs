@@ -131,7 +131,7 @@ namespace Racing.Moto.Web.Areas.Admin.Controllers
             _memberProvider.SignOut();
             //System.Web.HttpContext.Current.Session.Remove(nameof(LoginUser));
             PKBag.Clear();
-
+            
             return Redirect("/Admin/Account/Login");
         }
         #endregion

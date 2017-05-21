@@ -434,8 +434,8 @@ namespace Racing.Moto.Services
                     }
                 }
 
-                // 如果存在超过2个以上的连续数字, 如: 10,1,2,3,4,5,6,7,8,9 中的1,2,3,4,5,6,7,8,9 , 则将1,2,3,4,5,6,7,8,9打乱
-                ranks = ReOrderRanks(ranks);
+                //// 如果存在超过2个以上的连续数字, 如: 10,1,2,3,4,5,6,7,8,9 中的1,2,3,4,5,6,7,8,9 , 则将1,2,3,4,5,6,7,8,9打乱
+                //ranks = ReOrderRanks(ranks);
 
                 // 调高中奖几率
                 ranks = ImproveWinningRate(betRates, ranks);

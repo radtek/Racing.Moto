@@ -47,6 +47,16 @@ namespace Racing.Moto.Web.Admin.Controllers
 
                 if (!string.IsNullOrEmpty(model.UserName) && !string.IsNullOrEmpty(model.Password))
                 {
+                    // 按角色过滤: 非管理员/总代理/代理 禁止登录
+                    var userRoles = new UserRoleService().GetUserRoles(model.UserName);
+
+                    var adminRoleIds = new int[] { RoleConst.Role_Id_Admin, RoleConst.Role_Id_General_Agent, RoleConst.Role_Id_Agent };
+                    if (!userRoles.Where(r => adminRoleIds.Contains(r.RoleId)).Any())
+                    {
+                        ModelState.AddModelError("", "用户名或密码错误.");
+                        return View(model);
+                    }
+
                     if (_memberProvider.SignIn(model.UserName, model.Password, model.RememberMe) == LoginStatus.Success)
                     {
 
@@ -120,7 +130,7 @@ namespace Racing.Moto.Web.Admin.Controllers
             _memberProvider.SignOut();
             //System.Web.HttpContext.Current.Session.Remove(nameof(LoginUser));
             PKBag.Clear();
-
+            
             return Redirect("/Account/Login");
         }
         #endregion

@@ -187,6 +187,12 @@ namespace Racing.Moto.Services.Mvc
 
         public static void Clear()
         {
+            if(LoginUser != null)
+            {
+                var betUser = PKBag.OnlineUserRecorder.GetUser(LoginUser.UserName);
+                PKBag.OnlineUserRecorder.Delete(betUser);
+            }
+            
             System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
             System.Web.HttpContext.Current.Session.Remove(SessionConst.Menus);
         }

@@ -68,7 +68,7 @@
                 </tr>
                 <tr>
                     <td valign="bottom" class="c" height="26">
-                    @if (PKBag.LoginUser.UserName.ToLower() == "admin")
+                    @if (PKBag.LoginUser != null && PKBag.LoginUser.UserName.ToLower() == "admin")
                     {
                         <input class="but_1" onclick="$pkAdmin.showSubMenu(0);" value="即時註單" type="button" name="but_1" />
                     }                        

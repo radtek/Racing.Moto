@@ -27,7 +27,7 @@ namespace Racing.Moto.Web.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return Redirect("/Admin/Account/Login");
         }
 
         [HttpPost]
@@ -87,7 +87,7 @@ namespace Racing.Moto.Web.Controllers
             _memberProvider.SignOut();
             //System.Web.HttpContext.Current.Session.Remove(nameof(LoginUser));
             PKBag.Clear();
-
+            
             return RedirectToAction("Index", "Home");
         }
         #endregion
