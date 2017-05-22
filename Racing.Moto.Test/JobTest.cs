@@ -42,5 +42,18 @@ namespace Racing.Moto.Test
 
             new BetService().CalculateRanks(601);
         }
+
+        [TestMethod]
+        public void BonusJobTest()
+        {
+
+            new BonusJob().Run();
+        }
+        [TestMethod]
+        public void RebateJobTest()
+        {
+
+            new RebateJob().Execute(null);
+        }
     }
 }

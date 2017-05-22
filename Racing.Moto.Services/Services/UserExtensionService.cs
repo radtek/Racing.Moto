@@ -84,6 +84,19 @@ namespace Racing.Moto.Services
         }
 
         /// <summary>
+        /// 取账户余额
+        /// </summary>
+        /// <param name="userId"></param>
+        public decimal GetBalance(int userId)
+        {
+            using (var db = new RacingDbContext())
+            {
+                var balance = db.UserExtension.Where(u => u.UserId == userId).Select(u => (decimal?)u.Amount ?? 0).FirstOrDefault();
+                return Math.Round(balance, 2);
+            }
+        }
+
+        /// <summary>
         /// 保存 找回密码时系统生成的验证码
         /// </summary>
         /// <param name="userName"></param>
