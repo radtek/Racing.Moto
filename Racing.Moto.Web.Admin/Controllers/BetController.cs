@@ -19,6 +19,12 @@ namespace Racing.Moto.Web.Admin.Controllers
         // 即時注單信息
         public ActionResult Info(int id)
         {
+            var isAdmin = new UserRoleService().IsAdmin(LoginUser.UserRoles.ToList());
+            if (!isAdmin)
+            {
+                return Redirect("/News/Index");
+            }
+
             ViewBag.Type = id;  // 1: 冠亚军, 2: 3-6名, 3: 7-10名
 
             return View();

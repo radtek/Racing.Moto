@@ -28,11 +28,14 @@ namespace Racing.Moto.Web.Admin.Controllers
         /// <returns></returns>
         public ActionResult Management(int? id)
         {
-            ViewBag.UserType = id ?? 0;
 
-            var statistics = GetOnlineStatistics();
+            return Redirect("/News/Index");
 
-            return View(statistics);
+            //ViewBag.UserType = id ?? 0;
+
+            //var statistics = GetOnlineStatistics();
+
+            //return View(statistics);
         }
 
         /// <summary>
