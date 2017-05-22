@@ -3,8 +3,6 @@
     var $racingResult = $("#racingResult");
     var $bonusResult = $("#bonusResult");
 
-    motoAudio.init();
-
     var ticker = $.connection.pKTickerHub;
 
     function init() {
@@ -26,11 +24,11 @@
                 return;
             }
 
-            // audio.wait
-            $('body').oneTime('2s', function () {
-                //audio.run
-                motoAudio.wait.play();
-            });
+            //// audio.wait
+            //$('body').oneTime('2s', function () {
+            //    //audio.run
+            //    motoAudio.wait.play();
+            //});
 
             motoRacing.run(pkInfo);
         });
@@ -153,6 +151,10 @@
 
                     $('body').everyTime('1s', function () {
                         var clock = motoRacing.getcountdownClock();
+                        if (clock == '00:00:10') {
+                            motoAudio.wait.play();
+                        }                        
+
                         //console.log(clock);
                         if (clock == '00:00:05') {
                             $('.time-run2').hide();
@@ -747,6 +749,11 @@
             location.href = location.href.replace('#','');
         },
     };
+
+
+    // motoAudio.init
+    motoAudio.init();
+
 });
 
 var motoAudio = {
