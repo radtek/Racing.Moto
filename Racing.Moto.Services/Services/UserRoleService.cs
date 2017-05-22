@@ -33,5 +33,16 @@ namespace Racing.Moto.Services
                 return db.UserRole.Where(r => r.User.UserName == userName && r.RoleId == RoleConst.Role_Id_Member).Any();
             }
         }
+        public bool IsAdmin(string userName)
+        {
+            using (var db = new RacingDbContext())
+            {
+                return db.UserRole.Where(r => r.User.UserName == userName && r.RoleId == RoleConst.Role_Id_Admin).Any();
+            }
+        }
+        public bool IsAdmin(List<UserRole> userRoles)
+        {
+            return userRoles.Where(r => r.RoleId == RoleConst.Role_Id_Admin).Any();
+        }
     }
 }

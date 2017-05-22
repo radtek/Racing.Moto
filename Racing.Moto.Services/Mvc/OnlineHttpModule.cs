@@ -86,7 +86,7 @@ namespace Racing.Moto.Services.Mvc
                 // SessionID
                 onlineUser.SessionID = HttpContext.Current.Session.SessionID;
                 // IP 地址
-                onlineUser.ClientIP = IPUtil.GetHostAddress();
+                //onlineUser.ClientIP = IPUtil.GetHostAddress();
                 // 登录时间
                 if (!onlineUser.LoginTime.HasValue)
                 {
