@@ -38,5 +38,28 @@ namespace Racing.Moto.Web.ApiControllers
 
             return result;
         }
+
+        /// <summary>
+        /// 取账户余额
+        /// </summary>
+        [HttpPost]
+        public ResponseResult GetBalance(int id)
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                result.Data = new UserExtensionService().GetBalance(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.Info(ex);
+
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+            }
+
+            return result;
+        }
     }
 }

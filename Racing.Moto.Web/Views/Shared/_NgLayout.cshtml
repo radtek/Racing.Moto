@@ -23,11 +23,13 @@
 <body ng-app="RacingMotoNgApp">
     @{
         var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
+        var userId = PKBag.LoginUser != null ? PKBag.LoginUser.UserId : 0;
         var balance = PKBag.LoginUser != null ? PKBag.LoginUser.UserExtension.Amount.ToString("0") : "0";
 
         var menus = PKBag.Menus != null ? PKBag.Menus : new List<Racing.Moto.Data.Entities.Menu>();
         var rootMenus = menus.Where(m => m.ParentMenuId == null).ToList();
     }
+    <input type="hidden" id="loginUserId" value="@userId" />
     <div class="user-top">
         <div class="box">
             <img src="/img/houtai/user.png" class="user">
@@ -169,12 +171,15 @@
                     // 名次
                     var rank1Html = '<td width="80" class="rank-title">车号1</td>'
                         , rank2Html = '<td width="80" class="rank-title">车号2</td>';
-                    var ranks = pk.Ranks.split(',');
-                    for (var i = 0; i < ranks.length; i++) {
-                        if (i < 5) {
-                            rank1Html += '<td width="35"><div class="mingci bg-' + ranks[i] + '">' + ranks[i] + '</div></td>';
-                        } else {
-                            rank2Html += '<td width="35"><div class="mingci bg-' + ranks[i] + '">' + ranks[i] + '</div></td>';
+
+                    if (pk.Ranks != null) {
+                        var ranks = pk.Ranks.split(',');
+                        for (var i = 0; i < ranks.length; i++) {
+                            if (i < 5) {
+                                rank1Html += '<td width="35"><div class="mingci bg-' + ranks[i] + '">' + ranks[i] + '</div></td>';
+                            } else {
+                                rank2Html += '<td width="35"><div class="mingci bg-' + ranks[i] + '">' + ranks[i] + '</div></td>';
+                            }
                         }
                     }
                     $('#rank1').html(rank1Html);
@@ -188,6 +193,24 @@
 
                 return eleHour + ':' + eleMinute + ':' + eleSecond;
             },
+            getBalance: function () {
+                var id = $('#loginUserId').val();
+                if (id != 0) {
+                    $.ajax({
+                        type: "post",
+                        url: "/api/user/GetBalance/" + id,
+                        data: {},
+                        complete: function (response, textStatus) {
+
+                            var res = JSON.parse(response.responseText);
+                            console.log(res);
+                            if (res.Success) {
+                                $('#balance').text(res.Data);
+                            }
+                        }
+                    });
+                }
+            },
         };
         prevMotoRacing.getPrevPK();
 
@@ -199,6 +222,7 @@
 
             $('body').everyTime('10s', function () {
                 prevMotoRacing.getPrevPK();
+                prevMotoRacing.getBalance();
             });
         })
 
