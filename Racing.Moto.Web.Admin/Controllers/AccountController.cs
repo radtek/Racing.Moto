@@ -57,6 +57,10 @@ namespace Racing.Moto.Web.Admin.Controllers
                         return View(model);
                     }
 
+                    // 踢出已登录的用户, 防止多处登录
+                    var onlineUser = PKBag.OnlineUserRecorder.GetUser(model.UserName);
+                    PKBag.OnlineUserRecorder.Delete(onlineUser);
+
                     if (_memberProvider.SignIn(model.UserName, model.Password, model.RememberMe) == LoginStatus.Success)
                     {
 

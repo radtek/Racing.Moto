@@ -1,13 +1,15 @@
 ﻿@{
     ViewBag.Title = "投注";
     Layout = "~/Views/Shared/_NgLayout.cshtml";
+
+    var loginUserId = PKBag.LoginUser != null ? PKBag.LoginUser.UserId : 0;
 }
 @section headScripts {
     @*<script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="/signalr/hubs"></script>*@
     <script src="~/Scripts/Controllers/betController.js"></script>
 }
-<div ng-controller="betController" ng-init="init('@PKBag.LoginUser.UserId')">
+<div ng-controller="betController" ng-init="init('@loginUserId')">
     <div class="top">
         <span class="pk">速度与激情</span>
         <div class="rightB">

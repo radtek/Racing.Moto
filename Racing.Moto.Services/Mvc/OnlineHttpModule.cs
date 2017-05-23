@@ -36,7 +36,7 @@ namespace Racing.Moto.Services.Mvc
                     var authConfig = (AuthenticationSection)ConfigurationManager.GetSection("system.web/authentication");
                     factory.UserTimeOutMinute = (int)authConfig.Forms.Timeout.TotalMinutes;
                     // 统计时间间隔
-                    factory.StatisticEventInterval = 30;
+                    factory.StatisticEventInterval = 1; // 禁止修改
 
                     // 创建记录器
                     recorder = factory.Create();
@@ -69,6 +69,9 @@ namespace Racing.Moto.Services.Mvc
 
                 //注意session的名称是和登录保存的名称一致
                 Data.Entities.User user = (Data.Entities.User)HttpContext.Current.Session[SessionConst.LoginUser];
+
+                //用于限制用户只能在一处登录
+                onlineUser.AuthenticationId = AuthenticationUtil.GetLoginUserGuid();
 
                 onlineUser.UniqueID = user.UserId;
                 //父级UserName

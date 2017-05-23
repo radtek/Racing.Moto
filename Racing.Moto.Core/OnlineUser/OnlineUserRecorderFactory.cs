@@ -17,7 +17,7 @@ namespace App.Core.OnlineStat
     public sealed class OnlineUserRecorderFactory
     {
         // 用户超时分钟数
-        private int m_userTimeOutMinute = 20;
+        private int m_userTimeOutMinute = 30;
         // 统计时间间隔
         private int m_statisticEventInterval = 60;
 

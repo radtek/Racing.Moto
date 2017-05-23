@@ -59,6 +59,13 @@ namespace App.Core.OnlineStat
         #endregion
 
         /// <summary>
+        /// guid
+        /// 如: 7724621e-3556-4427-b933-c8c93aa81182
+        /// 用于限制用户只能在一处登录
+        /// </summary>
+        public string AuthenticationId { get; set; }
+
+        /// <summary>
         /// 设置或获取用户 ID
         /// </summary>
         public int UniqueID

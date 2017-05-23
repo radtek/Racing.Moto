@@ -516,7 +516,8 @@ namespace Racing.Moto.Data.Membership
             DateTime expiration;
             if (timeout.HasValue) expiration = issueDate.AddMinutes(timeout.Value);
             else expiration = issueDate.Add(authConfig.Forms.Timeout);
-            var ticket = new FormsAuthenticationTicket(2, username.ToLower(), issueDate, expiration, isPersistent, userId.ToString());
+            
+            var ticket = new FormsAuthenticationTicket(2, username.ToLower(), issueDate, expiration, isPersistent, Guid.NewGuid().ToString("N"));
 
             var cookie = new HttpCookie(authConfig.Forms.Name, FormsAuthentication.Encrypt(ticket));
             cookie.Domain = authConfig.Forms.Domain;

@@ -30,9 +30,9 @@ namespace App.Core.OnlineStat
         // 上次统计时间
         private DateTime m_lastStatisticTime = new DateTime(0);
         // 用户超时分钟数
-        private int m_userTimeOutMinute = 20;
+        private int m_userTimeOutMinute = 30;
         // 统计时间间隔
-        private int m_statisticEventInterval = 60;
+        private int m_statisticEventInterval = 1;
 
         #region 类构造器
         /// <summary>
@@ -127,6 +127,10 @@ namespace App.Core.OnlineStat
         public OnlineUser GetUser(string userName)
         {
             return m_db.GetOnlineUsers().Where(u => u.UserName.ToLower() == userName.ToLower()).FirstOrDefault();
+        }
+        public OnlineUser GetUserByAuthenticationId(string authenticationId)
+        {
+            return m_db.GetOnlineUsers().Where(u => u.AuthenticationId == authenticationId).FirstOrDefault();
         }
 
         /// <summary>

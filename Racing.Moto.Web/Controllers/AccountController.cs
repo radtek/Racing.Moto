@@ -98,6 +98,10 @@ namespace Racing.Moto.Web.Controllers
                         return View(model);
                     }
 
+                    // 踢出已登录的用户, 防止多处登录
+                    var onlineUser = PKBag.OnlineUserRecorder.GetUser(model.UserName);
+                    PKBag.OnlineUserRecorder.Delete(onlineUser);
+
 
                     if (_memberProvider.SignIn(model.UserName, model.Password, model.RememberMe) == LoginStatus.Success)
                     {
@@ -177,8 +181,8 @@ namespace Racing.Moto.Web.Controllers
             _memberProvider.SignOut();
             //System.Web.HttpContext.Current.Session.Remove(nameof(LoginUser));
             PKBag.Clear();
-            
-            return RedirectToAction("Index", "Home");
+
+            return Redirect("/Account/Login");
         }
         #endregion
 

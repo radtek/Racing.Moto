@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NLog;
+using Racing.Moto.Core.Utils;
 using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Membership;
 using Racing.Moto.Services.Constants;
@@ -46,18 +47,21 @@ namespace Racing.Moto.Services.Mvc
                 // 踢出
                 if (PKBag.OnlineUserRecorder != null)
                 {
-                    if (HttpContext.User.Identity.IsAuthenticated && PKBag.OnlineUserRecorder.GetUser(HttpContext.User.Identity.Name) == null)
+                    var guid = AuthenticationUtil.GetLoginUserGuid();
+                    if (HttpContext.User.Identity.IsAuthenticated && PKBag.OnlineUserRecorder.GetUserByAuthenticationId(guid) == null)
                     {
                         //_logger.Info(string.Format("Kick Out: {0} at {1}", HttpContext.User.Identity.Name, DateTime.Now.ToString(DateFormatConst.yMd_Hms)));
-                        System.Web.Security.FormsAuthentication.SignOut();
 
+                        System.Web.Security.FormsAuthentication.SignOut();
                         PKBag.Clear();
                         SetRedirect(filterContext);
 
-                        return;
+
+                        //filterContext.HttpContext.Response.Redirect("/Account/Logout");
+                        return ;
                     }
                 }
-                
+
                 if (HttpContext.User.Identity.IsAuthenticated)
                 {
                     if (_loginUser == null)
@@ -99,6 +103,8 @@ namespace Racing.Moto.Services.Mvc
                 _logger.Info(ex.Message);
             }
         }
+
+
         protected void SetRedirect(AuthorizationContext filterContext)
         {
             try
@@ -189,12 +195,13 @@ namespace Racing.Moto.Services.Mvc
 
         public static void Clear()
         {
-            if(LoginUser != null)
+            if (LoginUser != null)
             {
-                var betUser = PKBag.OnlineUserRecorder.GetUser(LoginUser.UserName);
-                PKBag.OnlineUserRecorder.Delete(betUser);
+                var guid = AuthenticationUtil.GetLoginUserGuid();
+                var user = PKBag.OnlineUserRecorder.GetUserByAuthenticationId(guid);
+                PKBag.OnlineUserRecorder.Delete(user);
             }
-            
+
             System.Web.HttpContext.Current.Session.Remove(SessionConst.LoginUser);
             System.Web.HttpContext.Current.Session.Remove(SessionConst.Menus);
         }

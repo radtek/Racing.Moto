@@ -51,8 +51,8 @@ namespace Racing.Moto.Web.ApiControllers
 
             try
             {
-                var betUser = PKBag.OnlineUserRecorder.GetUser(user.UserName);
-                PKBag.OnlineUserRecorder.Delete(betUser);
+                var onlineUser = PKBag.OnlineUserRecorder.GetUser(user.UserName);
+                PKBag.OnlineUserRecorder.Delete(onlineUser);
             }
             catch (Exception ex)
             {
