@@ -56,10 +56,19 @@ namespace Racing.Moto.Services.Mvc
                         PKBag.Clear();
                         SetRedirect(filterContext);
 
-
-                        //filterContext.HttpContext.Response.Redirect("/Account/Logout");
-                        return ;
+                        return;
                     }
+
+                    //if (HttpContext.User.Identity.IsAuthenticated && PKBag.OnlineUserRecorder.GetUser(HttpContext.User.Identity.Name) == null)
+                    //{
+                    //    //_logger.Info(string.Format("Kick Out: {0} at {1}", HttpContext.User.Identity.Name, DateTime.Now.ToString(DateFormatConst.yMd_Hms)));
+                    //    System.Web.Security.FormsAuthentication.SignOut();
+
+                    //    PKBag.Clear();
+                    //    SetRedirect(filterContext);
+
+                    //    return;
+                    //}
                 }
 
                 if (HttpContext.User.Identity.IsAuthenticated)

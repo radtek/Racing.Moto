@@ -36,7 +36,7 @@ namespace Racing.Moto.Services.Mvc
                     var authConfig = (AuthenticationSection)ConfigurationManager.GetSection("system.web/authentication");
                     factory.UserTimeOutMinute = (int)authConfig.Forms.Timeout.TotalMinutes;
                     // 统计时间间隔
-                    factory.StatisticEventInterval = 1; // 禁止修改
+                    factory.StatisticEventInterval = 0; // 禁止修改
 
                     // 创建记录器
                     recorder = factory.Create();
