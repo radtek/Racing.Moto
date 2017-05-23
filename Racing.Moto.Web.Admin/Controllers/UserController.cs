@@ -151,7 +151,7 @@ namespace Racing.Moto.Web.Admin.Controllers
                 ViewBag.FatherUserId = id;
                 ViewBag.GrandfatherUserId = cid != 0 ? cid : LoginUser.UserId;
             }
-            else if (LoginUser.UserRoles.First().RoleId == RoleConst.Role_Id_General_Agent)//代理查看会员
+            else if (LoginUser.UserRoles.First().RoleId == RoleConst.Role_Id_Agent)//代理查看会员
             {
 
                 ViewBag.FatherUserId = id != 0 ? id : LoginUser.UserId;
