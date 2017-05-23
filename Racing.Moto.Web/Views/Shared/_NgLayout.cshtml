@@ -212,7 +212,6 @@
                 }
             },
         };
-        prevMotoRacing.getPrevPK();
 
         $(function () {
             $('body').everyTime('1s', function () {
@@ -220,10 +219,14 @@
                 $('.shijian').text(date);
             });
 
-            $('body').everyTime('10s', function () {
+            if (location.href.toLowerCase().indexOf('/moto/bet') == -1) {
                 prevMotoRacing.getPrevPK();
-                prevMotoRacing.getBalance();
-            });
+
+                $('body').everyTime('10s', function () {
+                    prevMotoRacing.getPrevPK();
+                    prevMotoRacing.getBalance();
+                });
+            }
         })
 
         //上期记录

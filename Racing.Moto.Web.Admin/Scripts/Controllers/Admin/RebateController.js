@@ -51,6 +51,17 @@
                 }
             });
         },
+        getRebateBak: function (rebateNo) {
+            var rebate = null;
+
+            angular.forEach($scope.opt.RebatesBak, function (item, index, arr) {
+                if (item.RebateNo == rebateNo) {
+                    rebate = item;
+                }
+            })
+
+            return rebate;
+        },
         getParentRebates: function (parentId) {
             $scope.opt.ParentRebates = [];
 
@@ -136,14 +147,15 @@
             angular.forEach($scope.opt.Rebates, function (item, index, arr) {
                 var rank = $scope.data.RankNames[index];
                 var parentRebate = $scope.opt.getParentRebate(item.RebateNo);
+                var bakRebate = $scope.opt.getRebateBak(item.RebateNo);
                 if (parentRebate != null) {
-                    if (item.RebateTypeA > parentRebate.RebateTypeA) {
+                    if (item.RebateTypeA != bakRebate.RebateTypeA && item.RebateTypeA > parentRebate.RebateTypeA) {
                         msg.push(rank + ' A盘 退水不能大于上级退水: ' + parentRebate.RebateTypeA);
                     }
-                    if (item.RebateTypeB > parentRebate.RebateTypeB) {
+                    if (item.RebateTypeB != bakRebate.RebateTypeB && item.RebateTypeB > parentRebate.RebateTypeB) {
                         msg.push(rank + ' B盘 退水不能大于上级退水: ' + parentRebate.RebateTypeB);
                     }
-                    if (item.RebateTypeC > parentRebate.RebateTypeC) {
+                    if (item.RebateTypeC != bakRebate.RebateTypeC && item.RebateTypeC > parentRebate.RebateTypeC) {
                         msg.push(rank + ' C盘 退水不能大于上级退水: ' + parentRebate.RebateTypeC);
                     }
                 }

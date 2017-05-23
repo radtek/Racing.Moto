@@ -29,6 +29,19 @@ namespace Racing.Moto.Web.Controllers
 
         public ActionResult Bet()
         {
+            try
+            {
+                // 刷新余额
+                if(LoginUser != null && LoginUser.UserExtension != null)
+                {
+                    LoginUser.UserExtension.Amount = new UserExtensionService().GetBalance(LoginUser.UserId);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Info(ex);
+            }
+
             return View();
         }
 

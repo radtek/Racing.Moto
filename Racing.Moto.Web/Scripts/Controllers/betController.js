@@ -4,6 +4,7 @@
     $scope.init = function (userId) {
         $scope.UserId = userId
         $scope.bet.init();
+        $scope.prevPK.getPrevPK();
     };
 
     $scope.bet = {
@@ -728,6 +729,19 @@
             var second = time.getSeconds();
 
             return Date.UTC(year, month, day, hour, minute, second);
+        },
+    };
+
+    $scope.prevPK = {
+        getPrevPK: function () {
+            $rootScope.Loading = false;
+
+            $http.post('/api/pk/GetPrevPK', {}).then(function (res) {
+                if (res.data.Success) {
+                    prevMotoRacing.refresh(res.data.Data);
+                }
+
+            });
         },
     };
 }]);
