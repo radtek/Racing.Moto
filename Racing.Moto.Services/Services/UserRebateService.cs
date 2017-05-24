@@ -38,6 +38,34 @@ namespace Racing.Moto.Services
             }
         }
 
+        public List<UserRebate> GetNewUserRebates(int parentUserId)
+        {
+            using (var db = new RacingDbContext())
+            {
+                var parentRebates = db.UserRebate.Where(r => r.UserId == parentUserId).ToList();
+
+                if (parentRebates.Count > 0)
+                {
+
+                    var rebates = parentRebates.Select(r => new UserRebate
+                    {
+                        RebateNo = r.RebateNo,
+                        MaxPKAmount = r.MaxPKAmount,
+                        MaxBetAmount = r.MaxBetAmount,
+                        RebateTypeA = r.RebateTypeA,
+                        RebateTypeB = r.RebateTypeB,
+                        RebateTypeC = r.RebateTypeC
+                    }).ToList();
+
+                    return rebates;
+                }
+                else
+                {
+                    return GetDefaultRebates();
+                }
+            }
+        }
+
         #region static
 
         /// <summary>

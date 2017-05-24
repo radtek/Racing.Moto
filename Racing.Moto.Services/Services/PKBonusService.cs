@@ -93,7 +93,8 @@ namespace Racing.Moto.Services
                 var userIds = db.Bet.Where(b => b.PKId == pk.PKId).Select(b => b.UserId).Distinct().ToList();
                 foreach (var userId in userIds)
                 {
-                    var userRebates = db.UserRebate.Include(nameof(UserRebate.User)).Where(r => r.UserId == userId).ToList();
+                    var user = db.User.Where(u => u.UserId == userId).First();
+                    var userRebates = db.UserRebate.Where(r => r.UserId == userId).ToList();
 
                     if (userRebates.Count > 0)
                     {
@@ -106,7 +107,7 @@ namespace Racing.Moto.Services
                         {
                             #region 会员退水
                             var userRebate = userRebates.Where(e => e.RebateNo == dbBet.Num).FirstOrDefault();
-                            var rebate = UserRebateService.GetDefaultRebate(userRebate, userRebate.User.DefaultRebateType);
+                            var rebate = UserRebateService.GetDefaultRebate(userRebate, user.DefaultRebateType);
                             bonuses.Add(new PKBonus
                             {
                                 BetId = dbBet.BetId,
@@ -121,13 +122,13 @@ namespace Racing.Moto.Services
 
                             #endregion
 
-                            if (userRebate.User.ParentUserId.HasValue)
+                            if (user.ParentUserId.HasValue)
                             {
                                 #region 代理退水
+                                var agentUser = db.User.Where(u => u.UserId == user.ParentUserId).First();
                                 var agentUserRebate = db.UserRebate
-                                    .Include(nameof(UserRebate.User))
-                                    .Where(r => r.UserId == userRebate.User.ParentUserId && r.RebateNo == dbBet.Num).FirstOrDefault();
-                                var agentRebate = UserRebateService.GetDefaultRebate(agentUserRebate, agentUserRebate.User.DefaultRebateType);
+                                    .Where(r => r.UserId == user.ParentUserId && r.RebateNo == dbBet.Num).FirstOrDefault();
+                                var agentRebate = UserRebateService.GetDefaultRebate(agentUserRebate, user.DefaultRebateType);  // 使用下注用户的默认盘
                                 if (agentRebate - rebate > 0)
                                 {
                                     agentBonuses.Add(new PKBonus
@@ -145,21 +146,20 @@ namespace Racing.Moto.Services
                                 #endregion
 
 
-                                if (agentUserRebate.User.ParentUserId.HasValue)
+                                if (agentUser.ParentUserId.HasValue)
                                 {
                                     #region 总代理退水
 
                                     var generalAgentUserRebate = db.UserRebate
-                                        .Include(nameof(UserRebate.User))
-                                        .Where(r => r.UserId == agentUserRebate.User.ParentUserId && r.RebateNo == dbBet.Num).FirstOrDefault();
-                                    var generalAgentRebate = UserRebateService.GetDefaultRebate(generalAgentUserRebate, generalAgentUserRebate.User.DefaultRebateType);
+                                        .Where(r => r.UserId == agentUser.ParentUserId && r.RebateNo == dbBet.Num).FirstOrDefault();
+                                    var generalAgentRebate = UserRebateService.GetDefaultRebate(generalAgentUserRebate, user.DefaultRebateType); // 使用下注用户的默认盘
                                     if (generalAgentRebate - agentRebate > 0)
                                     {
                                         generalAgentBonuses.Add(new PKBonus
                                         {
                                             BetId = dbBet.BetId,
                                             PKId = pk.PKId,
-                                            UserId = agentUserRebate.User.ParentUserId.Value,
+                                            UserId = agentUser.ParentUserId.Value,
                                             Rank = dbBet.Rank,
                                             Num = dbBet.Num,
                                             BonusType = Data.Enums.BonusType.Rebate,

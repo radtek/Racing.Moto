@@ -352,3 +352,6 @@ table.top tr td table tr td.f {
         background: transparent;
         border-color: #ddd;
     }
+
+
+    select[disabled]{background-color:#afb1b5;opacity:1}

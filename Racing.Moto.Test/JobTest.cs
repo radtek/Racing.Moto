@@ -53,7 +53,10 @@ namespace Racing.Moto.Test
         public void RebateJobTest()
         {
 
-            new RebateJob().Execute(null);
+            //new RebateJob().Execute(null);
+
+            var pk = new PKService().GetPK(35723);
+            new PKBonusService().GenerateRebate(pk);
         }
     }
 }

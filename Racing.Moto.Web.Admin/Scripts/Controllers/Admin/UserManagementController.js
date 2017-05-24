@@ -3,12 +3,14 @@
         UserTypes: { Admin: 1, GeneralAgent: 2, Agent: 3, Member: 4 },
         //RebateTypes: [{ ID: 1, Name: 'A' }, { ID: 2, Name: 'B' }, { ID: 3, Name: 'C' }],
         LoginUserId: null,
+        IsAdmin: false,
         ParentUsers: []
     };
 
-    $scope.init = function (userType, userId, loginUserId) {
+    $scope.init = function (userType, userId, loginUserId, isAdmin) {
         loginUserId = parseInt(loginUserId, 10);
         $scope.data.LoginUserId = loginUserId;
+        $scope.data.IsAdmin = isAdmin.toLowerCase() == 'true' ? true : false;
         $scope.user.init(userType, userId);
         $scope.webApi.getParentUsers(userType, loginUserId);
     };
@@ -34,6 +36,8 @@
                     $scope.user.CurrentUser.IsLocked = $scope.user.CurrentUser.IsLocked ? 'true' : 'false';
                     $scope.user.CurrentUser.DefaultRebateType = $scope.user.CurrentUser.DefaultRebateType.toString();
                     $scope.user.CurrentUser.Password = '';
+
+                    console.log($scope.user.CurrentUser);
                 } else {
                     alert(res.data.Message)
                 }
@@ -98,8 +102,12 @@
                     console.log(res);
                     if (res.data.Success) {
                         $scope.data.ParentUsers = res.data.Data;
-                        if ($scope.data.ParentUsers.length > 0) {
-                            $scope.user.CurrentUser.ParentUserId = $scope.data.ParentUsers[0].UserId;
+                        if ($scope.user.CurrentUser.ParentUserId == null && $scope.data.ParentUsers.length > 0) {
+                            if ($scope.data.IsAdmin) {
+                                $scope.user.CurrentUser.ParentUserId = $scope.data.ParentUsers[0].UserId;
+                            } else {
+                                $scope.user.CurrentUser.ParentUserId = loginUserId;
+                            }
                         }
                     }
                 });

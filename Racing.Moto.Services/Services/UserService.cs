@@ -214,7 +214,7 @@ namespace Racing.Moto.Services
                 var response = new ResponseResult();
 
                 UserOperation userOperation = user.UserId == 0 ? UserOperation.Add : UserOperation.Edit;
-
+                
                 if (userOperation == UserOperation.Add)
                 {
                     var existUserName = db.User.Where(u => u.UserName.ToLower() == user.UserName.ToLower()).Any();
@@ -232,7 +232,8 @@ namespace Racing.Moto.Services
                     user.Password = CryptoUtils.Encrypt(user.Password);
                     user.FailedPasswordAttemptWindowStart = DateTime.Parse("1900-01-01");
                     user.UserRoles = new List<UserRole> { new UserRole { RoleId = roleId } };
-                    user.UserRebates = UserRebateService.GetDefaultRebates();   // 退水
+                    user.UserRebates = new UserRebateService().GetNewUserRebates(user.ParentUserId.Value);
+
                     user.DefaultRebateType = defaultRebateType;// 默认退水
 
                     // UserExtension
@@ -260,8 +261,9 @@ namespace Racing.Moto.Services
 
                         if (dbUser.UserRebates == null || dbUser.UserRebates.Count() == 0)
                         {
-                            var userRebates = UserRebateService.GetDefaultRebates();// 退水
+                            var userRebates = new UserRebateService().GetNewUserRebates(user.ParentUserId.Value);
                             userRebates.ForEach(r => r.UserId = dbUser.UserId);
+                            // 退水 = 上级退水
                             db.UserRebate.AddRange(userRebates);
                         }
                     }
