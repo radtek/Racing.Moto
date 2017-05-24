@@ -5,7 +5,7 @@
 @section headScripts {
     <script src="~/Scripts/Controllers/admin/LotteryController.js"></script>
 }
-<link href="~/Content/admin/ball_3.css" rel="stylesheet" />
+<link href="~/Content/admin/ball_3.css?a=1" rel="stylesheet" />
 <table width="100%" height="100%" border="0" cellspacing="0" class="a" ng-controller="lotteryController" ng-init="init()">
     <tbody>
         <tr>
@@ -41,17 +41,19 @@
                             <td class="t"></td>
                             <td class="c">
                                 <!-- strat -->
-                                <table border="0" cellspacing="0" class="t_odds_1" width="550">
+                                <table border="0" cellspacing="0" class="t_odds_1" width="540">
                                     <tbody>
                                         <tr class="tr_top">
                                             <td width="60">期數</td>
                                             <td width="200">開獎時間</td>
-                                            <td colspan="10" width="290">開出號碼</td>
+                                            <td colspan="10" width="280">開出號碼</td>
                                         </tr>
                                         <tr class="td_text history-row" ng-repeat="item in pager.Results">
                                             <td width="56" style="font-family:微软雅黑, Tahoma, Arial; font-size:13px">{{item.PKNo}}</td>
                                             <td width="138" style="font-family:微软雅黑, Tahoma, Arial; font-size:13px">{{item.EndTime | date : 'yyyy-MM-dd'}}&nbsp;&nbsp;星期{{item.Week}}&nbsp;&nbsp;{{item.EndTime | date : 'HH:mm:ss'}}</td>
-                                            <td width="290" class="No_{{rank}}" height="27px" style="padding-right:0px" ng-repeat="rank in item.RankArr track by $index"></td>
+                                            <td style="margin:1px 1px; padding:0;" ng-repeat="rank in item.RankArr track by $index">
+                                                <div class="mingci bg-{{rank}}" ng-bind="rank"></div>
+                                            </td>
                                             @*<td width="29" class="No_4" style="padding-right:0px"></td>
                                             <td width="29" class="No_5" style="padding-right:0px"></td>
                                             <td width="29" class="No_3" style="padding-right:0px"></td>

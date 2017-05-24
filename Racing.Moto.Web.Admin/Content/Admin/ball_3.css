@@ -1,71 +1,158 @@
 .No_1 {
-	BACKGROUND-IMAGE: url(/images/admin/ball_3.gif); BACKGROUND-REPEAT: no-repeat; BACKGROUND-POSITION: center center
+    BACKGROUND-IMAGE: url(/images/admin/ball_3.gif);
+    BACKGROUND-REPEAT: no-repeat;
+    BACKGROUND-POSITION: center center;
 }
+
 .No_2 {
-	BACKGROUND-IMAGE: url(/images/admin/ball_3.gif); BACKGROUND-REPEAT: no-repeat; BACKGROUND-POSITION: center center
+    BACKGROUND-IMAGE: url(/images/admin/ball_3.gif);
+    BACKGROUND-REPEAT: no-repeat;
+    BACKGROUND-POSITION: center center;
 }
+
 .No_3 {
-	BACKGROUND-IMAGE: url(/images/admin/ball_3.gif); BACKGROUND-REPEAT: no-repeat; BACKGROUND-POSITION: center center
+    BACKGROUND-IMAGE: url(/images/admin/ball_3.gif);
+    BACKGROUND-REPEAT: no-repeat;
+    BACKGROUND-POSITION: center center;
 }
+
 .No_4 {
-	BACKGROUND-IMAGE: url(/images/admin/ball_3.gif); BACKGROUND-REPEAT: no-repeat; BACKGROUND-POSITION: center center
+    BACKGROUND-IMAGE: url(/images/admin/ball_3.gif);
+    BACKGROUND-REPEAT: no-repeat;
+    BACKGROUND-POSITION: center center;
 }
+
 .No_5 {
-	BACKGROUND-IMAGE: url(/images/admin/ball_3.gif); BACKGROUND-REPEAT: no-repeat; BACKGROUND-POSITION: center center
+    BACKGROUND-IMAGE: url(/images/admin/ball_3.gif);
+    BACKGROUND-REPEAT: no-repeat;
+    BACKGROUND-POSITION: center center;
 }
+
 .No_6 {
-	BACKGROUND-IMAGE: url(/images/admin/ball_3.gif); BACKGROUND-REPEAT: no-repeat; BACKGROUND-POSITION: center center
+    BACKGROUND-IMAGE: url(/images/admin/ball_3.gif);
+    BACKGROUND-REPEAT: no-repeat;
+    BACKGROUND-POSITION: center center;
 }
+
 .No_7 {
-	BACKGROUND-IMAGE: url(/images/admin/ball_3.gif); BACKGROUND-REPEAT: no-repeat; BACKGROUND-POSITION: center center
+    BACKGROUND-IMAGE: url(/images/admin/ball_3.gif);
+    BACKGROUND-REPEAT: no-repeat;
+    BACKGROUND-POSITION: center center;
 }
+
 .No_8 {
-	BACKGROUND-IMAGE: url(/images/admin/ball_3.gif); BACKGROUND-REPEAT: no-repeat; BACKGROUND-POSITION: center center
+    BACKGROUND-IMAGE: url(/images/admin/ball_3.gif);
+    BACKGROUND-REPEAT: no-repeat;
+    BACKGROUND-POSITION: center center;
 }
+
 .No_9 {
-	BACKGROUND-IMAGE: url(/images/admin/ball_3.gif); BACKGROUND-REPEAT: no-repeat; BACKGROUND-POSITION: center center
+    BACKGROUND-IMAGE: url(/images/admin/ball_3.gif);
+    BACKGROUND-REPEAT: no-repeat;
+    BACKGROUND-POSITION: center center;
 }
+
 .No_10 {
-	BACKGROUND-IMAGE: url(/images/admin/ball_3.gif); BACKGROUND-REPEAT: no-repeat; BACKGROUND-POSITION: center center
+    BACKGROUND-IMAGE: url(/images/admin/ball_3.gif);
+    BACKGROUND-REPEAT: no-repeat;
+    BACKGROUND-POSITION: center center;
 }
+
 .No_1 {
-	BACKGROUND-POSITION: 0px 0px;
-	width:26px;
+    BACKGROUND-POSITION: 0px 0px;
+    width: 26px;
 }
+
 .No_2 {
-	BACKGROUND-POSITION: 0px -26px;
-	width:26px;
+    BACKGROUND-POSITION: 0px -26px;
+    width: 26px;
 }
+
 .No_3 {
-	BACKGROUND-POSITION: 0px -54px;
-	width:26px;
+    BACKGROUND-POSITION: 0px -54px;
+    width: 26px;
 }
+
 .No_4 {
-	BACKGROUND-POSITION: 0px -81px;
-	width:26px;
+    BACKGROUND-POSITION: 0px -81px;
+    width: 26px;
 }
+
 .No_5 {
-	BACKGROUND-POSITION: 0px -108px;
-	width:26px;
+    BACKGROUND-POSITION: 0px -108px;
+    width: 26px;
 }
+
 .No_6 {
-	BACKGROUND-POSITION: 0px -135px;
-	width:26px;
+    BACKGROUND-POSITION: 0px -135px;
+    width: 26px;
 }
+
 .No_7 {
-	BACKGROUND-POSITION: 0px -162px;
-	width:26px;
+    BACKGROUND-POSITION: 0px -162px;
+    width: 26px;
 }
+
 .No_8 {
-	BACKGROUND-POSITION: 0px -189px;
-	width:26px;
+    BACKGROUND-POSITION: 0px -189px;
+    width: 26px;
 }
+
 .No_9 {
-	BACKGROUND-POSITION: 0px -216px;
-	width:26px;
+    BACKGROUND-POSITION: 0px -216px;
+    width: 26px;
 }
+
 .No_10 {
-	BACKGROUND-POSITION: 0px -243px;
-	width:26px;
+    BACKGROUND-POSITION: 0px -243px;
+    width: 26px;
 }
- 
+
+.mingci {
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    color: #fff !important;
+    border-radius: 3px;
+    padding: 0px !important;
+}
+.bg-1 {
+    background: #fcd54a;
+}
+
+.bg-2 {
+    background: #0187fc;
+}
+
+.bg-3 {
+    background: #fd6e00;
+}
+
+.bg-4 {
+    background: #23c400;
+}
+
+.bg-5 {
+    background: #5b34a1;
+}
+
+.bg-6 {
+    background: #a94ac9;
+}
+
+.bg-7 {
+    background: #dc3b29;
+}
+
+.bg-8 {
+    background: #53c5e7;
+}
+
+.bg-9 {
+    background: #636363;
+}
+
+.bg-10 {
+    background: #720201;
+}
