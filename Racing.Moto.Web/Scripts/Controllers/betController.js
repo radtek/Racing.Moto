@@ -653,8 +653,10 @@
             angular.forEach(bets, function (bet, index, arr) {
                 var rebate = $scope.rebate.getRebate(bet.Num);
                 var sumAmount = $scope.rebate.getSumAmount(sumAmounts, bet.Rank, bet.Num);
-                if (bet.Amount + sumAmount > rebate.MaxPKAmount) {
-                    msg.push('第' + bet.Rank + '名, 第' + bet.Num + '号, 不能大于单期限额: ' + rebate.MaxPKAmount + ' .');
+                if (sumAmount != null) {
+                    if (bet.Amount + sumAmount.Amount > rebate.MaxPKAmount) {
+                        msg.push('第' + bet.Rank + '名, 第' + bet.Num + '号, 不能大于单期限额: ' + rebate.MaxPKAmount + ' .');
+                    }
                 }
             });
             return msg;
