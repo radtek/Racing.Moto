@@ -142,7 +142,7 @@
             location.href = '/user/' + action;
         },
         checkRebate: function () {
-            //下级退水<自己退水
+            //下级退水<=自己退水 && 下级限额<=自己限额
             var msg = [];
             angular.forEach($scope.opt.Rebates, function (item, index, arr) {
                 var rank = $scope.data.RankNames[index];
@@ -157,6 +157,13 @@
                     }
                     if (item.RebateTypeC != bakRebate.RebateTypeC && item.RebateTypeC > parentRebate.RebateTypeC) {
                         msg.push(rank + ' C盘 退水不能大于上级退水: ' + parentRebate.RebateTypeC);
+                    }
+
+                    if (item.MaxPKAmount != bakRebate.MaxPKAmount && item.MaxPKAmount > parentRebate.MaxPKAmount) {
+                        msg.push(rank + ' 单期限额不能大于上级单期限额: ' + parentRebate.MaxPKAmount);
+                    }
+                    if (item.MaxBetAmount != bakRebate.MaxBetAmount && item.MaxBetAmount > parentRebate.MaxBetAmount) {
+                        msg.push(rank + ' 单注限额不能大于上级单注限额: ' + parentRebate.MaxBetAmount);
                     }
                 }
             })
