@@ -1,0 +1,82 @@
+﻿@model Racing.Moto.Data.Models.RegisterModel
+@{
+    ViewBag.Title = "注册";
+}
+<div class="registerPanel">
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { style = "display:none;" })
+
+        <div class="registerbox">
+            <a href="/" class="del"></a>
+            @Html.TextBoxFor(m => m.UserName, new { @class = "username", maxlength = "18", placeholder = "由5-18位字母,数字或下划线组成" })
+            @Html.PasswordFor(m => m.Password, new { @class = "psw", maxlength = "32", placeholder = "由6-32位字符组成(区分大小写)" })
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "psw2", maxlength = "32", placeholder = "再次输入登录密码" })
+            <a href="javascript:;" class="btn" id="btnSubmit"></a>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+        $(function () {
+            $('#btnSubmit').click(function (event) {
+                var msg = opt.check();
+                if(msg != ''){
+                    alert(msg);
+                    event.preventDefault();
+                    return;
+                }
+                $("form").submit();
+            });
+
+            //init
+            opt.init();
+        });
+        var opt = {
+            init: function () {
+                //focus
+                $('#UserName').focus()
+                //enterKey
+                $app.submitOnEnterKey('ConfirmPassword', 'btnSubmit');
+                //msg
+                var messages = $app.getValidationMessages();
+                if (messages.length > 0) {
+                    alert(messages[0]);
+                }
+            },
+            check: function () {
+                var msg = '';
+
+                var un = $.trim($('#UserName').val());
+                var pwd = $.trim($('#Password').val());
+                var pwd2 = $.trim($('#ConfirmPassword').val());
+                if (un == '' || pwd == '' || pwd2 == '') {
+                    msg = '请输入用户名,密码,重复密码.';
+                    return msg;
+                }
+                if (un.length < 5) {
+                    msg = '用户名长度不能少于5位.';
+                    return msg;
+                }
+                if (pwd != pwd2) {
+                    msg = '两次输入的密码不一致.';
+                    return msg;
+                }
+                if (pwd.length < 6) {
+                    msg = '密码长度不能少于6位.';
+                    return msg;
+                }
+                var unPattern = /^[a-zA-Z0-9_]{1,}$/;
+                if (!un.match(unPattern)) {
+                    msg = '用户名只能包含字母,数字,下划线.';
+                    return msg;
+                }
+                var res = $app.checkPwd(pwd);
+                if (!res.IsValid) {
+                    msg = res.Message;
+                }
+
+                return msg;
+            },
+        };
+</script>

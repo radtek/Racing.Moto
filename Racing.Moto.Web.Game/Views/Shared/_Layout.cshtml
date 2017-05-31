@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>@ViewBag.Title - 速度与激情</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="@ViewBag.Description">
+    @*<link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />*@
+    @*<link href="~/RacingMotoCss" rel="stylesheet" />*@
+    <script src="~/RacingMotoJs"></script>
+
+    <link href="~/Content/site.css" rel="stylesheet" />
+    <script src="~/Scripts/app.js"></script>
+
+    @RenderSection("headScripts", required: false)
+</head>
+<body>
+    @{
+        var userName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
+        var balance = PKBag.LoginUser != null ? Math.Round(PKBag.LoginUser.UserExtension.Amount) : 0;
+    }
+    <!-- Page Content -->
+    <div class="dating-wrap">
+        <div style="display:none;">
+            <span class="gonggao">网站广告：消费30%即可提现! 祝你游戏愉快！</span>
+            <div class="user">
+                <img src="/img/user.jpg">
+            </div>
+            <div class="userName">hello @userName</div>
+            <img src="/img/jinbi.png" class="jinbi">
+            <div class="count">@balance</div>
+            <img src="/img/jinbi-jia.png" class="jinbi-jia">
+            <a href="javascript:;" class="jinbi-jia"><img src="/img/jinbi-jia.png"></a>
+        </div>
+
+        <ul class="menu">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li>@userName</li>
+                    <li><a href="/Manage/Rule">我的账号</a></li>
+                    <li>余额：@balance</li>
+                    @*<li><a href="#">充值</a></li>
+                    <li><a href="#">提现</a></li>*@
+                    <li><a href="/Account/LogOut">退出</a></li>
+            }
+            else
+            {
+                <li style="float:right;padding-right:10px;"><a href="/Account/Login">登录</a></li>
+            }
+        </ul>
+        <ul class="menu-sub" style="display:none;">
+            <li class="souye">
+                <a href="/">网站首页</a>
+            </li>
+            <li class="caipiao">
+                @*<a href="/moto/bet" target="_blank">投注</a>*@
+                <a href="#" style="color: gray;">彩票游戏</a>
+            </li>
+            <li class="huiyuan">
+                @*<a href="/manage/credit">会员中心</a>*@
+                <a href="#" style="color: gray;">会员中心</a>
+            </li>
+            <li class="daili">
+                <a href="#" style="color: gray;">代理中心</a>
+            </li>
+            <li class="youhui">
+                <a href="#" style="color: gray;">优惠活动</a>
+            </li>
+            <li class="xitong">
+                <a href="#" style="color: gray;">系统公告</a>
+            </li>
+            <li class="shouji">
+                <a href="#" style="color: gray;">手机端下载</a>
+            </li>
+            <li class="kefu">
+                <a href="#" style="color: gray;">在线客服</a>
+            </li>
+        </ul>
+
+        <div style="padding-top:90px;">
+            @RenderBody()
+        </div>
+
+        <!-- Footer -->
+        @*<footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>Copyright &copy; 速度与激情 2015 - @DateTime.Now.Year</p>
+                    </div>
+                </div>
+            </footer>*@
+    </div>
+
+    @RenderSection("footerScripts", required: false)
+</body>
+</html>

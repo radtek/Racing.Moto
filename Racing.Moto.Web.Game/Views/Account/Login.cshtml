@@ -1,0 +1,51 @@
+﻿@model Racing.Moto.Data.Models.LoginModel
+@{
+    ViewBag.Title = "登录";
+    Layout = "~/Views/Shared/_NoHeaderLayout.cshtml";
+}
+<div class="loginPanel">
+    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    {
+        @*@Html.AntiForgeryToken()*@
+        @Html.ValidationSummary(true, "", new { style = "display:none;" })
+
+        <div class="loginbox">
+            <a href="/" class="del"></a>
+            @Html.TextBoxFor(m => m.UserName, new { @class = "username" })
+            @Html.PasswordFor(m => m.Password, new { @class = "psw" })
+            <a href="/Account/ForgetPassword" class="link1">忘记密码</a>
+            <a href="/Account/Register" class="link2">注册</a>
+            <a href="javascript:;" class="btn" id="btnSubmit"></a>
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#btnSubmit').click(function (event) {
+            var un = $.trim($('#UserName').val());
+            var pwd = $.trim($('#Password').val());
+            if (un == '' || pwd == '') {
+                alert('请输入用户名,密码.');
+                event.preventDefault();
+                return;
+            }
+            $("form").submit();
+        });
+
+        //init
+        opt.init();
+    });
+    var opt = {
+        init: function () {
+            //focus
+            $('#UserName').focus()
+            //enterKey
+            $app.submitOnEnterKey('Password', 'btnSubmit');
+            //msg
+            var messages = $app.getValidationMessages();
+            if (messages.length > 0) {
+                alert(messages[0]);
+            }
+        },
+    };
+</script>
