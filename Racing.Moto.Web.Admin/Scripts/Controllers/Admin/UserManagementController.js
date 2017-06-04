@@ -70,6 +70,9 @@
                         $scope.user.CurrentUser.UserExtension.Amount = parseFloat($scope.user.CurrentUser.UserExtension.Amount, 10) + parseFloat($scope.user.RechargeAmount, 10);
                     }
 
+                    //更新登录用户余额
+                    $('#balance').val(res.data.Data);
+
                     alert('操作成功!');
 
                     $scope.user.gotoList();

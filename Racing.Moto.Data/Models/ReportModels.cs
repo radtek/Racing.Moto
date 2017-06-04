@@ -73,6 +73,7 @@ namespace Racing.Moto.Data.Models
     public class BonusReportModel
     {
         public int UserId { get; set; }
+        public int? ChildUserId { get; set; }
         public int? AgentUserId { get; set; }
         public int? GeneralAgentUserId { get; set; }
         public int RoleId { get; set; }

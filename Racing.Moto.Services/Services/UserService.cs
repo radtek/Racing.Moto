@@ -214,7 +214,7 @@ namespace Racing.Moto.Services
                 var response = new ResponseResult();
 
                 UserOperation userOperation = user.UserId == 0 ? UserOperation.Add : UserOperation.Edit;
-                
+
                 if (userOperation == UserOperation.Add)
                 {
                     var existUserName = db.User.Where(u => u.UserName.ToLower() == user.UserName.ToLower()).Any();
@@ -471,6 +471,14 @@ namespace Racing.Moto.Services
             using (var db = new RacingDbContext())
             {
                 return db.User.Where(u => u.UserId == userId).Select(u => u.ParentUserId).FirstOrDefault();
+            }
+        }
+
+        public List<int> GetParentUserIds(List<int> userIds)
+        {
+            using (var db = new RacingDbContext())
+            {
+                return db.User.Where(u => u.ParentUserId.HasValue && userIds.Contains(u.UserId)).Select(u => u.ParentUserId.Value).ToList();
             }
         }
     }

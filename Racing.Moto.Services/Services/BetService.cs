@@ -566,16 +566,18 @@ namespace Racing.Moto.Services
         /// <summary>
         /// 设置第rank名为第num号车
         /// </summary>
-        /// <param name="ranks"></param>
+        /// <param name="newRanks"></param>
         /// <param name="rank"></param>
         /// <param name="num"></param>
         /// <returns></returns>
         private List<int> ResetRanks(List<int> ranks, int rank, int num)
         {
+            var newRanks = new List<int>(ranks);//复制ranks, 防止改变原值
+
             var index = 0;    // 当前车(num)所在位置
-            for (var i = 0; i < ranks.Count; i++)
+            for (var i = 0; i < newRanks.Count; i++)
             {
-                if (ranks[i] == num)
+                if (newRanks[i] == num)
                 {
                     index = i;
                     break;
@@ -583,11 +585,11 @@ namespace Racing.Moto.Services
             }
 
             // 两辆车互换位置
-            var motoNum = ranks[rank - 1];
-            ranks[rank - 1] = num;
-            ranks[index] = motoNum;
+            var motoNum = newRanks[rank - 1];
+            newRanks[rank - 1] = num;
+            newRanks[index] = motoNum;
 
-            return ranks;
+            return newRanks;
         }
 
         private bool IsValidRanks(List<int> ranks, List<BetRateModel> betRates)

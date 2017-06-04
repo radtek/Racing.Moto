@@ -45,6 +45,11 @@ namespace Racing.Moto.Data.Entities
         public bool IsSettlementDone { get; set; }
 
         /// <summary>
+        /// 下级给上级退水时记录下级的UserId
+        /// </summary>
+        public int? ChildUserId { get; set; }
+
+        /// <summary>
         /// 下注
         /// </summary>
         [ForeignKey(nameof(Bet))]

@@ -256,6 +256,11 @@ namespace Racing.Moto.Web.Admin.Controllers
                     //给下家扣除成功: 增加上级相应余额
                     new UserExtensionService().AddAmount(user.ParentUserId.Value, Math.Abs(rechargeAmount.Value));
                 }
+
+                //更新登录用户余额
+                var balance = new UserExtensionService().GetBalance(PKBag.LoginUser.UserId);
+                PKBag.LoginUser.UserExtension.Amount = balance;
+                result.Data = balance;
             }
             catch (Exception ex)
             {

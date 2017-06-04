@@ -132,6 +132,19 @@ namespace Racing.Moto.Services
                     });
                 }
 
+                //代理应收下线: 代理查看会员报表时, 增加代理应收列, 使用ReceiveAmount存储
+                if (model.UserType == RoleConst.Role_Id_Agent)
+                {
+                    var agentBonusSql = GetAgentReceiveSql(model, users);
+                    var dbAgentBonusReports = db.Database.SqlQuery<BonusReportModel>(agentBonusSql).ToList();
+                    foreach (var report in reports.Items)
+                    {
+                        var user = users.Where(u => u.UserId == report.UserId).First();
+                        var agentBonusAmount = dbAgentBonusReports.Where(r => r.ChildUserId == user.UserId).Sum(r => (decimal?)r.Amount ?? 0);
+                        report.ReceiveAmount = agentBonusAmount;
+                    }
+                }
+
                 return reports;
             }
         }
@@ -196,6 +209,39 @@ namespace Racing.Moto.Services
             sql.AppendLine("INNER JOIN [dbo].[UserRole] [R] ON [U].UserId = [R].UserId");
             sql.AppendLine(GetWhereSql(model) + " AND [R].RoleId = 4");
             sql.AppendLine("GROUP BY [B].UserId,[R].RoleId,[B].BonusType");
+
+            return sql.ToString();
+        }
+
+        // 代理应收
+        private string GetAgentReceiveSql(ReportSearchModel model, List<User> members)
+        {
+            var sql = new StringBuilder();
+
+            var memberUserIds = members.Select(m => m.UserId).Distinct().ToList();
+            //var agentUserIds = new UserService().GetParentUserIds(memberUserIds);
+
+
+            //sql.AppendLine("SELECT[UM].UserId ChildUserId, T.* FROM(");
+
+            //sql.AppendLine("SELECT [B].UserId,[R].RoleId, [B].BonusType, Amount");
+            //sql.AppendLine("FROM [dbo].[PKBonus] [B]");
+            //sql.AppendLine("INNER JOIN [dbo].[PK] [PK] ON [PK].PKId = [B].PKId");
+            //sql.AppendLine("INNER JOIN [dbo].[User] [U] ON [U].UserId = [B].UserId");
+            //sql.AppendLine("INNER JOIN [dbo].[UserRole] [R] ON [U].UserId = [R].UserId");
+            //sql.AppendLine(GetWhereSql(model) + string.Format(" AND [B].UserId in ({0})", string.Join(",", agentUserIds)));
+            //sql.AppendLine(") T");
+            //sql.AppendLine(" INNER JOIN ");
+            //sql.AppendLine(string.Format("( SELECT UserId, ParentUserId FROM [dbo].[User] WHERE UserId IN({0}) ) [UM] ", string.Join(",", memberUserIds)));
+            //sql.AppendLine(" ON[UM].ParentUserId = [T].UserId");
+
+
+            sql.AppendLine("SELECT [B].UserId, [B].ChildUserId, [R].RoleId, [B].BonusType, Amount");
+            sql.AppendLine("FROM [dbo].[PKBonus] [B]");
+            sql.AppendLine("INNER JOIN [dbo].[PK] [PK] ON [PK].PKId = [B].PKId");
+            sql.AppendLine("INNER JOIN [dbo].[User] [U] ON [U].UserId = [B].UserId");
+            sql.AppendLine("INNER JOIN [dbo].[UserRole] [R] ON [U].UserId = [R].UserId");
+            sql.AppendLine(GetWhereSql(model));
 
             return sql.ToString();
         }
@@ -297,6 +343,7 @@ namespace Racing.Moto.Services
 
             return amount;
         }
+
         #endregion
 
         #region 下注明细
