@@ -1,11 +1,11 @@
-﻿using Racing.Moto.Services.Mvc;
+﻿using Racing.Moto.Game.Web.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Racing.Moto.Web.Game.Controllers
+namespace Racing.Moto.Game.Web.Controllers
 {
     public class HomeController : BaseController
     {

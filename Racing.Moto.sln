@@ -17,7 +17,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Racing.Moto.JobManager", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Racing.Moto.Web.Admin", "Racing.Moto.Web.Admin\Racing.Moto.Web.Admin.csproj", "{10CC3968-70B6-4B28-A833-258A56254B2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Racing.Moto.Web.Game", "Racing.Moto.Web.Game\Racing.Moto.Web.Game.csproj", "{3ECCB95C-FC41-487A-A8A8-47E7BCDB705F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Racing.Moto.Game.Web", "Racing.Moto.Web.Game\Racing.Moto.Game.Web.csproj", "{3ECCB95C-FC41-487A-A8A8-47E7BCDB705F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Racing.Moto.Game.Data", "Racing.Moto.Game.Data\Racing.Moto.Game.Data.csproj", "{66F3A862-513A-411F-BA25-99854CD0337E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{3ECCB95C-FC41-487A-A8A8-47E7BCDB705F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3ECCB95C-FC41-487A-A8A8-47E7BCDB705F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3ECCB95C-FC41-487A-A8A8-47E7BCDB705F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66F3A862-513A-411F-BA25-99854CD0337E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66F3A862-513A-411F-BA25-99854CD0337E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66F3A862-513A-411F-BA25-99854CD0337E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66F3A862-513A-411F-BA25-99854CD0337E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(Racing.Moto.Web.Game.Startup))]
-namespace Racing.Moto.Web.Game
+[assembly: OwinStartupAttribute(typeof(Racing.Moto.Game.Web.Startup))]
+namespace Racing.Moto.Game.Web
 {
     public partial class Startup
     {

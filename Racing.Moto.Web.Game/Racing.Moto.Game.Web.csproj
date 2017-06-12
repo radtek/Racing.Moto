@@ -196,16 +196,14 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Mvc\BaseController.cs" />
+    <Compile Include="Mvc\OnlineHttpModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -402,13 +400,9 @@
       <Project>{5920a931-7cd3-45b7-a71b-e3754b3babf0}</Project>
       <Name>Racing.Moto.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Racing.Moto.Data\Racing.Moto.Data.csproj">
-      <Project>{87286c96-6a07-49d0-b162-225195dad6f5}</Project>
-      <Name>Racing.Moto.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Racing.Moto.Services\Racing.Moto.Services.csproj">
-      <Project>{5f9f188a-ec4c-4e77-bb5b-adfe3a32587c}</Project>
-      <Name>Racing.Moto.Services</Name>
+    <ProjectReference Include="..\Racing.Moto.Game.Data\Racing.Moto.Game.Data.csproj">
+      <Project>{66f3a862-513a-411f-ba25-99854cd0337e}</Project>
+      <Name>Racing.Moto.Game.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

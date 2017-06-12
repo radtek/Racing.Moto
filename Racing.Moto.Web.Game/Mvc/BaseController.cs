@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NLog;
 using Racing.Moto.Core.Utils;
-using Racing.Moto.Data.Entities;
-using Racing.Moto.Data.Membership;
-using Racing.Moto.Services.Constants;
+using Racing.Moto.Game.Data.Constants;
+using Racing.Moto.Game.Data.Entities;
+using Racing.Moto.Game.Data.Membership;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Racing.Moto.Services.Mvc
+namespace Racing.Moto.Game.Web.Mvc
 {
     public class BaseController : Controller
     {
@@ -78,7 +78,7 @@ namespace Racing.Moto.Services.Mvc
                         if (System.Web.HttpContext.Current.Session[SessionConst.LoginUser] == null)
                         {
                             _loginUser = SqlMembershipProvider.Provider.GetUser(HttpContext.User.Identity.Name, true);
-                            _loginUser.UserExtension = new UserExtensionService().GetUserExtension(_loginUser.UserId);
+                            //_loginUser.UserExtension = new UserExtensionService().GetUserExtension(_loginUser.UserId);
 
                             // LoginUser session
                             System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = _loginUser;
@@ -86,15 +86,6 @@ namespace Racing.Moto.Services.Mvc
                         else
                         {
                             _loginUser = System.Web.HttpContext.Current.Session[SessionConst.LoginUser] as User;
-                        }
-
-                        // menus
-                        if (System.Web.HttpContext.Current.Session[SessionConst.Menus] == null)
-                        {
-                            var roleIds = _loginUser.UserRoles.Select(ur => ur.RoleId).ToList();
-                            var menus = new MenuService().GetMenuByRoles(roleIds);
-
-                            System.Web.HttpContext.Current.Session[SessionConst.Menus] = menus;
                         }
                     }
                 }
@@ -199,14 +190,6 @@ namespace Racing.Moto.Services.Mvc
             get
             {
                 return System.Web.HttpContext.Current.Session[SessionConst.LoginUser] as User;
-            }
-        }
-
-        public static List<Menu> Menus
-        {
-            get
-            {
-                return System.Web.HttpContext.Current.Session[SessionConst.Menus] as List<Menu>;
             }
         }
 

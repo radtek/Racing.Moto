@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace Racing.Moto.Web.Game
+namespace Racing.Moto.Game.Web
 {
     public class FilterConfig
     {
