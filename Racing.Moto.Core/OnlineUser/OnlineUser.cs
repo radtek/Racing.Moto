@@ -38,6 +38,9 @@ namespace App.Core.OnlineStat
         // IP 地址
         private string m_clientIP;
 
+        //房价ID
+        private int m_roomID;
+
         #region 类构造器
         /// <summary>
         /// 类默认构造器
@@ -222,6 +225,22 @@ namespace App.Core.OnlineStat
             get
             {
                 return this.m_clientIP;
+            }
+        }
+
+        /// <summary>
+        /// 设置或获取 房价ID
+        /// </summary>
+        public int RoomID
+        {
+            set
+            {
+                this.m_roomID = value;
+            }
+
+            get
+            {
+                return this.m_roomID;
             }
         }
     }

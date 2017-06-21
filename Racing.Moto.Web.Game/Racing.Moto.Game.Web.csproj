@@ -199,6 +199,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MotoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -336,6 +337,7 @@
     <Content Include="Img\moto-9.run.gif" />
     <Content Include="Img\register.jpg" />
     <Content Include="Img\road-num.png" />
+    <Content Include="Img\room\room.jpg" />
     <Content Include="Img\saidao10-wrap.png" />
     <Content Include="Img\saiqi.png" />
     <Content Include="Img\shenlan-se.png" />
@@ -384,6 +386,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ForgetPassword.cshtml" />
     <Content Include="Views\Shared\_NoHeaderLayout.cshtml" />
+    <Content Include="Views\Moto\Room.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
