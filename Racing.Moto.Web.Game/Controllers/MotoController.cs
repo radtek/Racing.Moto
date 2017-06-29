@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace Racing.Moto.Web.Game.Controllers
 {
-    public class MotoController : Controller
+    public class MotoController : BaseController
     {
         private ILogger _logger = LogManager.GetCurrentClassLogger();
 
@@ -23,16 +23,28 @@ namespace Racing.Moto.Web.Game.Controllers
         /// <summary>
         /// 进入房间
         /// </summary>
-        /// <param name="id">roomId</param>
+        /// <param name="model">room model</param>
         /// <returns></returns>
-        public JsonResult Join(int id)
+        public JsonResult Join(RoomModel model)
         {
             var result = new ResponseResult();
 
             try
             {
-                var user = PKBag.OnlineUserRecorder.GetUser(PKBag.LoginUser.UserName);
-                user.RoomID = id;
+                var maxMembers = 10;    //最多人数
+
+                var memberCount = PKBag.OnlineUserRecorder.GetUserList().Where(u => u.RoomID == model.RoomId && u.RoomLevel == model.RoomLevel).Count();
+                if (memberCount == maxMembers)
+                {
+                    result.Success = false;
+                    result.Message = "房间已满";
+                }
+                else
+                {
+                    var user = PKBag.OnlineUserRecorder.GetUser(PKBag.LoginUser.UserName);
+                    user.RoomID = model.RoomId;
+                    user.RoomLevel = model.RoomLevel;
+                }
             }
             catch (Exception ex)
             {

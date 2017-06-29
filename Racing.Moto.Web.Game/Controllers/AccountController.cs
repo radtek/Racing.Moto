@@ -132,10 +132,7 @@ namespace Racing.Moto.Game.Web.Controllers
                 {
                     // 注册
                     var user = InitUser(model);
-                    //_memberProvider.CreateUser(user);
-
-                    // 默认B盘
-                    //var result = new UserService().SaveUser(RoleConst.Role_Id_Member, user, RebateType.B, 0);
+                    _memberProvider.CreateUser(user);
 
                     // 登录
                     var loginModel = new LoginModel
@@ -148,7 +145,7 @@ namespace Racing.Moto.Game.Web.Controllers
 
                     if (loginSuccess)
                     {
-                        return RedirectToAction("Agreement", "Account");
+                        return Redirect("/");
                     }
                     else
                     {
