@@ -74,8 +74,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Jobs\JobScheduler.cs" />
+    <Compile Include="Jobs\PkGameJob.cs" />
     <Compile Include="Jobs\PkJob.cs" />
     <Compile Include="Jobs\BonusJob.cs" />
+    <Compile Include="Jobs\PkGameRankJob.cs" />
     <Compile Include="Jobs\RankJob.cs" />
     <Compile Include="Jobs\RebateJob.cs" />
     <Compile Include="Program.cs" />
@@ -108,6 +110,10 @@
     <ProjectReference Include="..\Racing.Moto.Data\Racing.Moto.Data.csproj">
       <Project>{87286c96-6a07-49d0-b162-225195dad6f5}</Project>
       <Name>Racing.Moto.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Racing.Moto.Game.Data\Racing.Moto.Game.Data.csproj">
+      <Project>{66f3a862-513a-411f-ba25-99854cd0337e}</Project>
+      <Name>Racing.Moto.Game.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Racing.Moto.Services\Racing.Moto.Services.csproj">
       <Project>{5f9f188a-ec4c-4e77-bb5b-adfe3a32587c}</Project>

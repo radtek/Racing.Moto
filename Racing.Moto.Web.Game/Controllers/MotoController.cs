@@ -25,7 +25,7 @@ namespace Racing.Moto.Web.Game.Controllers
         /// </summary>
         /// <param name="model">room model</param>
         /// <returns></returns>
-        public JsonResult Join(RoomModel model)
+        public JsonResult Join(RoomUserModel model)
         {
             var result = new ResponseResult();
 
@@ -33,7 +33,7 @@ namespace Racing.Moto.Web.Game.Controllers
             {
                 var maxMembers = 10;    //最多人数
 
-                var memberCount = PKBag.OnlineUserRecorder.GetUserList().Where(u => u.RoomID == model.RoomId && u.RoomLevel == model.RoomLevel).Count();
+                var memberCount = PKBag.OnlineUserRecorder.GetUserList().Where(u => u.RoomLevel == model.RoomLevel && u.DeskID == model.DeskId).Count();
                 if (memberCount == maxMembers)
                 {
                     result.Success = false;
@@ -42,8 +42,8 @@ namespace Racing.Moto.Web.Game.Controllers
                 else
                 {
                     var user = PKBag.OnlineUserRecorder.GetUser(PKBag.LoginUser.UserName);
-                    user.RoomID = model.RoomId;
                     user.RoomLevel = model.RoomLevel;
+                    user.DeskID = model.DeskId;
                 }
             }
             catch (Exception ex)

@@ -40,9 +40,11 @@ namespace Racing.Moto.Game.Data
         #endregion
 
         #region Entities
-        //public virtual DbSet<AppConfig> AppConfig { get; set; }
+        public virtual DbSet<AppConfig> AppConfig { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<PK> PK { get; set; }
+        public virtual DbSet<PKRoom> PKRoom { get; set; }
+        public virtual DbSet<PKRoomDesk> PKRoomDesk { get; set; }
         #endregion
     }
 }

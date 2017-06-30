@@ -34,6 +34,16 @@ namespace Racing.Moto.Game.Data.Models
     public class RoomUserModel
     {
         /// <summary>
+        /// 级别: 1-初级, 2-中级, 3-高级
+        /// </summary>
+        public int RoomLevel { get; set; }
+
+        /// <summary>
+        /// 桌子
+        /// </summary>
+        public int DeskId { get; set; }
+
+        /// <summary>
         /// UserId
         /// </summary>
         public int UserId { get; set; }

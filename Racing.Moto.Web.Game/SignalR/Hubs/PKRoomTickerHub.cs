@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Racing.Moto.Web.Game.SignalR.Hubs
+namespace Racing.Moto.Game.Web.SignalR.Hubs
 {
     public class PKRoomTickerHub : Hub
     {

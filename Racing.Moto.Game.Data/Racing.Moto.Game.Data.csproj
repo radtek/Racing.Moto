@@ -51,27 +51,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caches\AppConfigCache.cs" />
+    <Compile Include="Constants\DateFormatConst.cs" />
     <Compile Include="Constants\DBConst.cs" />
     <Compile Include="Constants\MessageConst.cs" />
     <Compile Include="Constants\SessionConst.cs" />
+    <Compile Include="Entities\AppConfig.cs" />
     <Compile Include="Entities\PK.cs" />
+    <Compile Include="Entities\PKRoomDesk.cs" />
+    <Compile Include="Entities\PKRoom.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Membership\MembershipProvider.cs" />
     <Compile Include="Membership\SqlMembershipProvider.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\PKModels.cs" />
     <Compile Include="Models\ResponseResult.cs" />
+    <Compile Include="Models\RoomModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RacingGameDbContext.cs" />
+    <Compile Include="Services\AppConfigService.cs" />
+    <Compile Include="Services\PKService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Racing.Moto.Core\Racing.Moto.Core.csproj">
       <Project>{5920a931-7cd3-45b7-a71b-e3754b3babf0}</Project>

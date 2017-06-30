@@ -58,10 +58,21 @@ namespace Racing.Moto.Game.Data.Entities
         public int LotterySeconds { get; set; }
 
         /// <summary>
-        /// 名次
+        /// 是否已生成名次
+        /// </summary>
+        public bool IsRanked { get; set; }
+
+        /// <summary>
+        /// 名次: 临时存数据
         /// 05,08,01,07,10,09,03,02,05,04
         /// </summary>
+        [NotMapped]
         [StringLength(100)]
         public string Ranks { get; set; }
+
+        /// <summary>
+        /// 初中高级场
+        /// </summary>
+        public virtual ICollection<PKRoom> PKRooms { get; set; }
     }
 }

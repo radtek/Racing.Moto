@@ -52,6 +52,30 @@ namespace Racing.Moto.JobManager.Jobs
                     .WithSimpleSchedule(t => t.WithIntervalInSeconds(rebateInterval).RepeatForever())
                     .Build();
                 scheduler.ScheduleJob(rebateJob, rebateTrigger);
+
+
+                #region Game
+
+                // 生成PK: 每1秒执行一次
+                var gameInterval = 1;
+                IJobDetail gameJob = JobBuilder.Create<PkGameJob>().Build();
+                ITrigger gameTrigger = TriggerBuilder.Create()
+                    .WithIdentity("PkGameJobTrigger", "PkGameJobGroup")
+                    .WithSimpleSchedule(t => t.WithIntervalInSeconds(gameInterval).RepeatForever())
+                    .Build();
+                scheduler.ScheduleJob(gameJob, gameTrigger);
+
+                // 计算名次: 每5秒执行一次
+                var gameRankInterval = 5;
+                IJobDetail gameRankJob = JobBuilder.Create<PkGameRankJob>().Build();
+                ITrigger gameRankTrigger = TriggerBuilder.Create()
+                    .WithIdentity("PkGameRankJobTrigger", "PkGameRankJobGroup")
+                    .WithSimpleSchedule(t => t.WithIntervalInSeconds(gameRankInterval).RepeatForever())
+                    .Build();
+                scheduler.ScheduleJob(gameRankJob, gameRankTrigger);
+
+                #endregion
+
             }
             catch (Exception ex)
             {
