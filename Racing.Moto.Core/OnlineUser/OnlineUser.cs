@@ -38,11 +38,14 @@ namespace App.Core.OnlineStat
         // IP 地址
         private string m_clientIP;
 
-        //房间ID 级别 初中高级
+        //房间级别 初中高级
         private int m_roomLevel;
 
-        //房间桌子ID
-        private int m_deskID;
+        //房间桌子号
+        private int m_deskNo;
+
+        // 车号
+        private int m_num;
 
         #region 类构造器
         /// <summary>
@@ -248,18 +251,34 @@ namespace App.Core.OnlineStat
         }
 
         /// <summary>
-        /// 设置或获取 房间桌子ID
+        /// 设置或获取 房间桌子号
         /// </summary>
-        public int DeskID
+        public int DeskNo
         {
             set
             {
-                this.m_deskID = value;
+                this.m_deskNo = value;
             }
 
             get
             {
-                return this.m_deskID;
+                return this.m_deskNo;
+            }
+        }
+
+        /// <summary>
+        /// 车号
+        /// </summary>
+        public int Num
+        {
+            set
+            {
+                this.m_num = value;
+            }
+
+            get
+            {
+                return this.m_num;
             }
         }
     }

@@ -89,7 +89,7 @@ namespace Racing.Moto.Game.Web.SignalR
                     var desk = new RoomDeskModel
                     {
                         RoomDeskId = j,
-                        Users = users.Where(u => u.RoomLevel == i && u.DeskID == j).Select(u => new RoomUserModel
+                        Users = users.Where(u => u.RoomLevel == i && u.DeskNo == j).Select(u => new RoomUserModel
                         {
                             UserId = u.UniqueID,
                             UserName = u.UserName

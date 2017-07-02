@@ -39,9 +39,9 @@ namespace Racing.Moto.Game.Data.Models
         public int RoomLevel { get; set; }
 
         /// <summary>
-        /// 桌子
+        /// 桌号
         /// </summary>
-        public int DeskId { get; set; }
+        public int DeskNo { get; set; }
 
         /// <summary>
         /// UserId

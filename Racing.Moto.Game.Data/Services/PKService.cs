@@ -4,6 +4,7 @@ using Racing.Moto.Game.Data.Entities;
 using Racing.Moto.Game.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -133,7 +134,7 @@ namespace Racing.Moto.Game.Data.Services
                 var deskIds = desks.Select(d => d.PKRoomDeskId).ToList();
                 var dbDesks = db.PKRoomDesk.Where(d => deskIds.Contains(d.PKRoomDeskId)).ToList();
 
-                foreach(var dbDesk in dbDesks)
+                foreach (var dbDesk in dbDesks)
                 {
                     var desk = desks.Where(d => d.PKRoomDeskId == dbDesk.PKRoomDeskId).First();
 
@@ -141,6 +142,41 @@ namespace Racing.Moto.Game.Data.Services
                 }
 
                 db.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// 取最后一个未生产奖金的PK
+        /// </summary>
+        /// <returns></returns>
+        public PK GetNotBonusPKs()
+        {
+            using (var db = new RacingGameDbContext())
+            {
+                var now = DateTime.Now;
+                //var dbPK = db.PK.Where(pk => !pk.IsBonused && DbFunctions.DiffSeconds(now, pk.EndTime) > 0).FirstOrDefault();
+                var dbPK = db.PK.Where(pk => !pk.IsBonused).OrderByDescending(pk => pk.PKId).FirstOrDefault();
+                var dbPKRooms = db.PKRoom.Where(r => r.PKId == dbPK.PKId).ToList();
+                var roomIds = dbPKRooms.Select(r => r.PKRoomId).ToList();
+                db.PKRoomDesk.Where(d => roomIds.Contains(d.PKRoomId)).ToList();
+
+                return dbPK;
+            }
+        }
+
+        /// <summary>
+        /// 更新 奖金生成标志, 防止多次计算
+        /// </summary>
+        public void UpdateIsBonused(int pkId, bool isBonused)
+        {
+            using (var db = new RacingGameDbContext())
+            {
+                var pk = db.PK.Where(p => p.PKId == pkId).FirstOrDefault();
+                if (pk != null)
+                {
+                    pk.IsBonused = isBonused;
+                    db.SaveChanges();
+                }
             }
         }
     }

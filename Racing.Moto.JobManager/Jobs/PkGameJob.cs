@@ -26,7 +26,7 @@ namespace Racing.Moto.JobManager.Jobs
         {
             try
             {
-                var startInfo = "PkJob Start at : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                var startInfo = "PkGameJob Start at : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 Console.WriteLine(startInfo);
                 _logger.Info(startInfo);
 
@@ -42,12 +42,12 @@ namespace Racing.Moto.JobManager.Jobs
 
                     if (pk != null)
                     {
-                        var msg = string.Format("Add new PK - PKId : {0} - Time : {1}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
+                        var msg = string.Format("[PkGameJob] Add new PK - PKId : {0} - Time : {1}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
                         _logger.Info(msg);
                     }
                     else
                     {
-                        var msg = string.Format("Add new PK - PKId : {0} - Time : {1}", "重复数据, 未进行插入", now.ToString(DateFormatConst.yMd_Hms));
+                        var msg = string.Format("[PkGameJob] Add new PK - PKId : {0} - Time : {1}", "重复数据, 未进行插入", now.ToString(DateFormatConst.yMd_Hms));
                     }
                 }
 #else
@@ -64,12 +64,12 @@ namespace Racing.Moto.JobManager.Jobs
 
                         if (pk != null)
                         {
-                            var msg = string.Format("Add new PK - PKId : {0} - Time : {1}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
+                            var msg = string.Format("[PkGameJob] Add new PK - PKId : {0} - Time : {1}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
                             _logger.Info(msg);
                         }
                         else
                         {
-                            var msg = string.Format("Add new PK - PKId : {0} - Time : {1}", "重复数据, 未进行插入", now.ToString(DateFormatConst.yMd_Hms));
+                            var msg = string.Format("[PkGameJob] Add new PK - PKId : {0} - Time : {1}", "重复数据, 未进行插入", now.ToString(DateFormatConst.yMd_Hms));
                         }
                     }
                 }

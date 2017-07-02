@@ -22,6 +22,7 @@ namespace Racing.Moto.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            //在线用户
             Services.Mvc.OnlineHttpModule.Register();
 
             MvcHandler.DisableMvcResponseHeader = true;

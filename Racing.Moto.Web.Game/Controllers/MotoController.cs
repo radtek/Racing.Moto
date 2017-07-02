@@ -33,7 +33,7 @@ namespace Racing.Moto.Web.Game.Controllers
             {
                 var maxMembers = 10;    //最多人数
 
-                var memberCount = PKBag.OnlineUserRecorder.GetUserList().Where(u => u.RoomLevel == model.RoomLevel && u.DeskID == model.DeskId).Count();
+                var memberCount = PKBag.OnlineUserRecorder.GetUserList().Where(u => u.RoomLevel == model.RoomLevel && u.DeskNo == model.DeskNo).Count();
                 if (memberCount == maxMembers)
                 {
                     result.Success = false;
@@ -43,7 +43,7 @@ namespace Racing.Moto.Web.Game.Controllers
                 {
                     var user = PKBag.OnlineUserRecorder.GetUser(PKBag.LoginUser.UserName);
                     user.RoomLevel = model.RoomLevel;
-                    user.DeskID = model.DeskId;
+                    user.DeskNo = model.DeskNo;
                 }
             }
             catch (Exception ex)

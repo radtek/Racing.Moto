@@ -8,6 +8,7 @@ namespace Racing.Moto.Game.Web
     {
         public void Configuration(IAppBuilder app)
         {
+            app.MapSignalR();
         }
     }
 }

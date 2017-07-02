@@ -74,6 +74,15 @@ namespace Racing.Moto.JobManager.Jobs
                     .Build();
                 scheduler.ScheduleJob(gameRankJob, gameRankTrigger);
 
+                // 生成奖金: 每10秒执行一次
+                var gameBonusInterval = 10;
+                IJobDetail gameBonusJob = JobBuilder.Create<PkGameBonusJob>().Build();
+                ITrigger gameBonusTrigger = TriggerBuilder.Create()
+                    .WithIdentity("PkGameBonusJobTrigger", "PkGameBonusJobGroup")
+                    .WithSimpleSchedule(t => t.WithIntervalInSeconds(gameBonusInterval).RepeatForever())
+                    .Build();
+                scheduler.ScheduleJob(gameBonusJob, gameBonusTrigger);
+
                 #endregion
 
             }

@@ -45,6 +45,7 @@ namespace Racing.Moto.Game.Data
         public virtual DbSet<PK> PK { get; set; }
         public virtual DbSet<PKRoom> PKRoom { get; set; }
         public virtual DbSet<PKRoomDesk> PKRoomDesk { get; set; }
+        public virtual DbSet<PKBonus> PKBonus { get; set; }
         #endregion
     }
 }

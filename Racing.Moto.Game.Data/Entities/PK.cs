@@ -63,6 +63,11 @@ namespace Racing.Moto.Game.Data.Entities
         public bool IsRanked { get; set; }
 
         /// <summary>
+        /// 奖金已生成标志
+        /// </summary>
+        public bool IsBonused { get; set; }
+
+        /// <summary>
         /// 名次: 临时存数据
         /// 05,08,01,07,10,09,03,02,05,04
         /// </summary>

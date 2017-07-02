@@ -29,7 +29,7 @@ namespace Racing.Moto.JobManager.Jobs
         {
             try
             {
-                var startInfo = "RankJob Start at : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                var startInfo = "[PkGameRankJob] Start at : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 Console.WriteLine(startInfo);
                 _logger.Info(startInfo);
 
@@ -74,14 +74,14 @@ namespace Racing.Moto.JobManager.Jobs
                             pkService.UpdateRanks(desks);
 
 
-                            var msg = string.Format("Calculate Ranks - PKId : {0} - Time : {2}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
+                            var msg = string.Format("[PkGameRankJob] Calculate Ranks - PKId : {0} - Time : {1}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
                             _logger.Info(msg);
                         }
 
                     }
                     catch (Exception ex)
                     {
-                        var msg = string.Format("Calculate Ranks Failed, 已经生成过Ranks - PKId : {0} - Time : {2}", pk.PKId, DateTime.Now.ToString(DateFormatConst.yMd_Hms));
+                        var msg = string.Format("[PkGameRankJob] Calculate Ranks Failed - PKId : {0} - Time : {1}", pk.PKId, DateTime.Now.ToString(DateFormatConst.yMd_Hms));
                         _logger.Info(msg);
                         _logger.Info(ex);
                     }

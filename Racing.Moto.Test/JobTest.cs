@@ -58,5 +58,21 @@ namespace Racing.Moto.Test
             var pk = new PKService().GetPK(35723);
             new PKBonusService().GenerateRebate(pk);
         }
+
+        #region Game
+        [TestMethod]
+        public void PkGameRankJobTest()
+        {
+
+            new PkGameRankJob().Run();
+        }
+
+        [TestMethod]
+        public void PkGameBonusJobTest()
+        {
+
+            new PkGameBonusJob().Run();
+        }
+        #endregion
     }
 }
