@@ -325,7 +325,12 @@
     <Content Include="Img\moto-9.run.gif" />
     <Content Include="Img\register.jpg" />
     <Content Include="Img\road-num.png" />
+    <Content Include="Img\room\desk_blue.jpg" />
+    <Content Include="Img\room\desk_red.jpg" />
     <Content Include="Img\room\room.jpg" />
+    <Content Include="Img\room\room1.jpg" />
+    <Content Include="Img\room\room2.jpg" />
+    <Content Include="Img\room\room3.jpg" />
     <Content Include="Img\saidao10-wrap.png" />
     <Content Include="Img\saiqi.png" />
     <Content Include="Img\shenlan-se.png" />
