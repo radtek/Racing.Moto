@@ -17,6 +17,7 @@ namespace Racing.Moto.Web.Game.Controllers
         // 房间
         public ActionResult Room(int id)
         {
+            ViewBag.RoomId = id;
             return View();
         }
 
