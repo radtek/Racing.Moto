@@ -1,8 +1,67 @@
 ﻿@{
     ViewBag.Title = "首页";
 
-    var roomBg = "room" + ViewBag.RoomId + ".jpg";
+    var roomBg = "/img/room/room" + ViewBag.RoomId + ".png";
 }
-<div class="room">
-    <img src="~/img/room/@roomBg" />
+<link href="~/Content/room.css" rel="stylesheet" />
+@section headScripts {
+    <script src="~/Scripts/JqueryUI/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <script src="/signalr/hubs"></script>
+}
+<input type="hidden" id="hidRoomLevel" value="@ViewBag.RoomId" />
+<div class="room" style="background: url('@roomBg') no-repeat;">
+    <div class="deskes">
+        <div class="row" id="divDesks">
+            <div class="col-md-3">
+                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+                <div class="desk-no desk-no-1">NO.1</div>
+                <img src="~/img/avatars/user1.jpg" class="desk-user desk-user-1" alt="avatar">
+                <img src="~/img/avatars/user2.jpg" class="desk-user desk-user-2" alt="avatar">
+                <img src="~/img/avatars/user3.jpg" class="desk-user desk-user-3" alt="avatar">
+                <img src="~/img/avatars/user4.jpg" class="desk-user desk-user-4" alt="avatar">
+                <img src="~/img/avatars/user5.jpg" class="desk-user desk-user-5" alt="avatar">
+                <img src="~/img/avatars/user6.jpg" class="desk-user desk-user-6" alt="avatar">
+                <img src="~/img/avatars/user7.jpg" class="desk-user desk-user-7" alt="avatar">
+                <img src="~/img/avatars/user8.jpg" class="desk-user desk-user-8" alt="avatar">
+                <img src="~/img/avatars/user9.jpg" class="desk-user desk-user-9" alt="avatar">
+                <img src="~/img/avatars/user10.jpg" class="desk-user desk-user-10" alt="avatar">
+            </div>
+            <div class="col-md-3">
+                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+            </div>
+        </div>
+        @*<div class="row">
+            <div class="col-md-3">
+                <a href="/Moto/Room/1" class="desk1"><img src="~/img/room/desk_blue.png"></a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Moto/Room/1" class="desk1"><img src="~/img/room/desk_blue.png"></a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Moto/Room/1" class="desk1"><img src="~/img/room/desk_blue.png"></a>
+            </div>
+            <div class="col-md-3">
+                <a href="/Moto/Room/1" class="desk1"><img src="~/img/room/desk_blue.png"></a>
+            </div>
+        </div>*@
+    </div>
 </div>

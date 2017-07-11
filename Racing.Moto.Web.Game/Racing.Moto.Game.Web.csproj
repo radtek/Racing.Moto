@@ -197,6 +197,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\room.css" />
     <Content Include="Content\site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -211,6 +212,23 @@
     <Content Include="Img\7.png" />
     <Content Include="Img\8.png" />
     <Content Include="Img\9.png" />
+    <Content Include="Img\avatars\user1.jpg" />
+    <Content Include="Img\avatars\user10.jpg" />
+    <Content Include="Img\avatars\user11.jpg" />
+    <Content Include="Img\avatars\user12.jpg" />
+    <Content Include="Img\avatars\user13.jpg" />
+    <Content Include="Img\avatars\user14.jpg" />
+    <Content Include="Img\avatars\user15.jpg" />
+    <Content Include="Img\avatars\user16.jpg" />
+    <Content Include="Img\avatars\user17.jpg" />
+    <Content Include="Img\avatars\user2.jpg" />
+    <Content Include="Img\avatars\user3.jpg" />
+    <Content Include="Img\avatars\user4.jpg" />
+    <Content Include="Img\avatars\user5.jpg" />
+    <Content Include="Img\avatars\user6.jpg" />
+    <Content Include="Img\avatars\user7.jpg" />
+    <Content Include="Img\avatars\user8.jpg" />
+    <Content Include="Img\avatars\user9.jpg" />
     <Content Include="Img\bg_dating.jpg" />
     <Content Include="Img\bg_dating_b.jpg" />
     <Content Include="Img\bg_saidao.jpg" />
@@ -325,12 +343,12 @@
     <Content Include="Img\moto-9.run.gif" />
     <Content Include="Img\register.jpg" />
     <Content Include="Img\road-num.png" />
-    <Content Include="Img\room\desk_blue.jpg" />
-    <Content Include="Img\room\desk_red.jpg" />
+    <Content Include="Img\room\desk_blue.png" />
+    <Content Include="Img\room\desk_red.png" />
     <Content Include="Img\room\room.jpg" />
-    <Content Include="Img\room\room1.jpg" />
-    <Content Include="Img\room\room2.jpg" />
-    <Content Include="Img\room\room3.jpg" />
+    <Content Include="Img\room\room1.png" />
+    <Content Include="Img\room\room2.png" />
+    <Content Include="Img\room\room3.png" />
     <Content Include="Img\saidao10-wrap.png" />
     <Content Include="Img\saiqi.png" />
     <Content Include="Img\shenlan-se.png" />
@@ -364,6 +382,7 @@
     <Content Include="Scripts\Jquery\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\Jquery\jquery-3.1.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\PK\Room.js" />
     <Content Include="Scripts\PK\Racing.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

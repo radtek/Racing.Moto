@@ -134,6 +134,9 @@ namespace Racing.Moto.Game.Web.Controllers
                     var user = InitUser(model);
                     _memberProvider.CreateUser(user);
 
+                    // 生成头像
+
+
                     // 登录
                     var loginModel = new LoginModel
                     {

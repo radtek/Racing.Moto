@@ -23,7 +23,7 @@ namespace Racing.Moto.Game.Web.SignalR
 
         private readonly TimeSpan _updateInterval = TimeSpan.FromSeconds(2);//每2秒钟推送一次
         private readonly Timer _timer;
-        private volatile bool _updatingPkInfo = false;
+        private volatile bool _updatingPkRoomInfo = false;
 
         #region property
         public static PKRoomTicker Instance
@@ -46,7 +46,7 @@ namespace Racing.Moto.Game.Web.SignalR
 
             _pkInfo = GetPKRoomInfo();
 
-            _timer = new Timer(UpdatePKInfo, null, _updateInterval, _updateInterval);
+            _timer = new Timer(UpdatePKRoomInfo, null, _updateInterval, _updateInterval);
         }
 
         public List<RoomModel> GetPKInfo()
@@ -54,20 +54,20 @@ namespace Racing.Moto.Game.Web.SignalR
             return _pkInfo;
         }
 
-        public void UpdatePKInfo(object state)
+        public void UpdatePKRoomInfo(object state)
         {
             lock (_updatePkInfoLock)
             {
-                if (!_updatingPkInfo)
+                if (!_updatingPkRoomInfo)
                 {
-                    _updatingPkInfo = true;
+                    _updatingPkRoomInfo = true;
 
                     // 获取最新数据
                     _pkInfo = GetPKRoomInfo();
 
                     BroadcastPkInfo(_pkInfo);
 
-                    _updatingPkInfo = false;
+                    _updatingPkRoomInfo = false;
                 }
             }
         }

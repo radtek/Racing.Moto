@@ -1,0 +1,72 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+    .row:after {
+        clear: both;
+        display: table;
+        content: " ";
+    }
+
+    .row:before {
+        display: table;
+        content: " ";
+    }
+
+:after, :before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.col-md-3 {
+    width: 25%;
+    position: relative;
+    float: left;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+
+img {
+    border: 0;
+    vertical-align: middle;
+}
+   
+
+.room {
+    position: relative;
+}
+
+.deskes {
+    width: 100%;
+    min-height: 607px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    padding: 150px 10px 10px 10px;
+}
+
+
+.desk-no {position: absolute; color:#ffffff;}
+.desk-no-1{top:15px; left: 154px;}
+
+.desk-user { position: absolute; border-radius: 50%; width: 50px; height: auto;}
+.desk-user-1 {top: 10px;right: 100px;}
+.desk-user-2 {top: 25px;right: 50px;}
+.desk-user-3 {top: 70px;right: 25px;}
+.desk-user-4 {top: 90px;right: 70px;}
+.desk-user-5 {top: 90px;right: 120px;}
+.desk-user-6 {top: 90px;left: 120px;}
+.desk-user-7 {top: 90px;left: 70px;}
+.desk-user-8 {top: 70px;left: 25px;}
+.desk-user-9 {top: 25px;left: 50px;}
+.desk-user-10 {top: 10px;left: 100px;}

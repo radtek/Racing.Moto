@@ -37,6 +37,12 @@ namespace Racing.Moto.Game.Data.Entities
         public decimal Amount { get; set; }
 
         /// <summary>
+        /// 头像
+        /// </summary>
+        [StringLength(300)]
+        public string Avatar { get; set; }
+
+        /// <summary>
         /// 是否在线, 不映射到数据库, 只用作前台显示
         /// </summary>
         [NotMapped]
