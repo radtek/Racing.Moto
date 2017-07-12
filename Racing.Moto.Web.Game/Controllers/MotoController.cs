@@ -34,7 +34,8 @@ namespace Racing.Moto.Web.Game.Controllers
             {
                 var maxMembers = 10;    //最多人数
 
-                var memberCount = PKBag.OnlineUserRecorder.GetUserList().Where(u => u.RoomLevel == model.RoomLevel && u.DeskNo == model.DeskNo).Count();
+                var deskUsers = PKBag.OnlineUserRecorder.GetUserList().Where(u => u.RoomLevel == model.RoomLevel && u.DeskNo == model.DeskNo);
+                var memberCount = deskUsers.Count();
                 if (memberCount == maxMembers)
                 {
                     result.Success = false;
@@ -45,6 +46,10 @@ namespace Racing.Moto.Web.Game.Controllers
                     var user = PKBag.OnlineUserRecorder.GetUser(PKBag.LoginUser.UserName);
                     user.RoomLevel = model.RoomLevel;
                     user.DeskNo = model.DeskNo;
+
+                    // 取最小的 还未在房间中 使用的车号
+                    var motoNums = GetMinMotoNum(model.RoomLevel, model.DeskNo);
+                    user.Num = motoNums;
                 }
             }
             catch (Exception ex)
@@ -56,6 +61,24 @@ namespace Racing.Moto.Web.Game.Controllers
             }
 
             return Json(result);
+        }
+
+        // 取最小的 还未在房间中 使用的车号
+        private int GetMinMotoNum(int roomLevel, int deskNo)
+        {
+            var minNums = 1;
+
+            var deskUsers = PKBag.OnlineUserRecorder.GetUserList().Where(u => u.RoomLevel == roomLevel && u.DeskNo == deskNo);
+            for (int num = 1; num <= 10; num++)
+            {
+                if (!deskUsers.Where(u => u.Num == num).Any())
+                {
+                    minNums = num;
+                    break;
+                }
+            }
+
+            return minNums;
         }
     }
 }

@@ -24,12 +24,13 @@
                 return;
             }
 
-            motoRacing.run(pkRooms);
+            motoRoom.refresh(pkRooms);
         });
     }
 
     // Add a client-side hub method that the server will call
     ticker.client.updatePKRoomInfo = function (pkRooms) {
+        console.log(pkRooms);
         // test
         //pkRooms = {};
         //pkRooms.GamingSeconds = 10;
@@ -43,7 +44,7 @@
             return;
         }
 
-        motoRoom.run(pkRooms);
+        motoRoom.refresh(pkRooms);
     }
 
     // Start the connection
@@ -66,11 +67,12 @@
             }
             return room;
         },
-        getDeskHtml: function (number) {
+        getDeskHtml: function (deskNum) {
+            //deskNum: 桌号
             var html =
             '<div class="col-md-3">' +
-            '    <a href="/Moto/Room/1/' + number + '"><img src="~/img/room/desk_blue.png"></a>' +
-            '    <div class="desk-no desk-no-' + number + '">NO.' + number + '</div>' +
+            '    <a href="/Moto/Room/1/' + deskNum + '"><img src="~/img/room/desk_blue.png"></a>' +
+            '    <div class="desk-no desk-no-' + deskNum + '">NO.' + deskNum + '</div>' +
             '    <img src="~/img/avatars/user1.jpg" class="desk-user desk-user-1" alt="avatar">' +
             '    <img src="~/img/avatars/user2.jpg" class="desk-user desk-user-2" alt="avatar">' +
             '    <img src="~/img/avatars/user3.jpg" class="desk-user desk-user-3" alt="avatar">' +
@@ -83,30 +85,44 @@
             '    <img src="~/img/avatars/user10.jpg" class="desk-user desk-user-10" alt="avatar">' +
             '</div>';
         },
-        getAvatarHtml: function () {
+        getAvatarHtml: function (users) {
             var html = '';
 
-            var avatarArrs = motoRoom.getRadomAvatarArrs();
-            for (var i = 0; i < avatarArrs.length; i++) {
-                html += '<img src="~/img/avatars/user' + avatarArrs[i] + '.jpg" class="desk-user desk-user-' + (i + 1) + '" alt="avatar">'
+            for (var i = 0; i < 10; i++) {
+                var num = i + 1;
+                var user = motoRoom.getUserByNum(users, num);
+                if (user != null) {
+                    html += '<img src="' + user.Avatar + '" class="desk-user desk-user-' + num + '" alt="avatar">'
+                }
             }
 
             return html;
         },
-        getRadomAvatarArrs: function () {
-            var avatarArrs = motoRoom.getAvatarArrs();
-            var randomAvatarArrs = $app.shuffle(avatarArrs);// 随机化原数组
-            return randomAvatarArrs.slice(0, 10);   //返回前十个
-        },
-        getAvatarArrs: function () {
-            var maxLen = 17;//目前有17个头像
-
-            var avatarArrs = [];
-            for (var i = 1; i <= maxLen; i++) {
-                avatarArrs.push(i);
+        getUserByNum: function (users, userNum) {
+            //userNum: 桌子上第n位
+            var user = null;
+            for (var i = 0; i < users.length; i++) {
+                if (users[i].Num == userNum) {
+                    user = users[i];
+                    break;
+                }
             }
-            return avatarArrs;
+            return user;
         },
+        //getRadomAvatarArrs: function () {
+        //    var avatarArrs = motoRoom.getAvatarArrs();
+        //    var randomAvatarArrs = $app.shuffle(avatarArrs);// 随机化原数组
+        //    return randomAvatarArrs.slice(0, 10);   //返回前十个
+        //},
+        //getAvatarArrs: function () {
+        //    var maxLen = 17;//目前有17个头像
+
+        //    var avatarArrs = [];
+        //    for (var i = 1; i <= maxLen; i++) {
+        //        avatarArrs.push(i);
+        //    }
+        //    return avatarArrs;
+        //},
     };
 
 });

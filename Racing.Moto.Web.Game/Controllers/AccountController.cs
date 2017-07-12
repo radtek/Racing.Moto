@@ -5,6 +5,7 @@ using Racing.Moto.Game.Data.Entities;
 using Racing.Moto.Game.Data.Enums;
 using Racing.Moto.Game.Data.Membership;
 using Racing.Moto.Game.Data.Models;
+using Racing.Moto.Game.Data.Services;
 using Racing.Moto.Game.Web.Mvc;
 using System;
 using System.Collections.Generic;
@@ -135,7 +136,7 @@ namespace Racing.Moto.Game.Web.Controllers
                     _memberProvider.CreateUser(user);
 
                     // 生成头像
-
+                    new UserService().SaveAvatar(user.UserName);
 
                     // 登录
                     var loginModel = new LoginModel
@@ -174,7 +175,7 @@ namespace Racing.Moto.Game.Web.Controllers
             //user.Email = model.Email;
             user.Password = model.Password;
             user.IsLocked = false;
-            user.Enabled = true;           
+            user.Enabled = true;
 
             return user;
         }

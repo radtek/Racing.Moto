@@ -46,6 +46,8 @@ namespace App.Core.OnlineStat
 
         // 车号
         private int m_num;
+        // 头像
+        public string m_avatar;
 
         #region 类构造器
         /// <summary>
@@ -279,6 +281,22 @@ namespace App.Core.OnlineStat
             get
             {
                 return this.m_num;
+            }
+        }
+
+        /// <summary>
+        /// 头像
+        /// </summary>
+        public string Avatar
+        {
+            set
+            {
+                this.m_avatar = value;
+            }
+
+            get
+            {
+                return this.m_avatar;
             }
         }
     }

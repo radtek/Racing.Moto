@@ -108,7 +108,7 @@ namespace Racing.Moto.Game.Web.Mvc
         {
             var isAllowAnonymousUrl = false;
 
-            var allowAnonymousUrls = new List<string> { "/account/login", "/account/register", "/moto/arena" };
+            var allowAnonymousUrls = new List<string> { "/account/login", "/account/register" };
             foreach (var allowAnonymousUrl in allowAnonymousUrls)
             {
                 if (url.Contains(allowAnonymousUrl))
@@ -198,7 +198,10 @@ namespace Racing.Moto.Game.Web.Mvc
         /// </summary>
         public static OnlineUserRecorder OnlineUserRecorder
         {
-            get { return HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder; }
+            get
+            {
+                return HttpContext.Current != null ? HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder : null;
+            }
         }
 
 

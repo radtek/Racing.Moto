@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNet.SignalR;
+﻿using App.Core.OnlineStat;
+using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using Racing.Moto.Game.Data.Constants;
 using Racing.Moto.Game.Data.Models;
 using Racing.Moto.Game.Web.Mvc;
 using Racing.Moto.Game.Web.SignalR.Hubs;
@@ -16,14 +18,15 @@ namespace Racing.Moto.Game.Web.SignalR
         // Singleton instance
         private readonly static Lazy<PKRoomTicker> _instance = new Lazy<PKRoomTicker>(() => new PKRoomTicker(GlobalHost.ConnectionManager.GetHubContext<PKRoomTickerHub>().Clients));
         //private readonly ConcurrentDictionary<string, Stock> _pkInfo = new ConcurrentDictionary<string, Stock>();
-        private List<RoomModel> _pkInfo = new List<RoomModel>();
+        private HttpContext _contextCurrent;
+        private List<RoomModel> _pkRoomInfo = new List<RoomModel>();
 
-        private readonly object _updatePkInfoLock = new object();
+        private readonly object _updatePKRoomInfoLock = new object();
 
 
         private readonly TimeSpan _updateInterval = TimeSpan.FromSeconds(2);//每2秒钟推送一次
         private readonly Timer _timer;
-        private volatile bool _updatingPkRoomInfo = false;
+        private volatile bool _updatingPKRoomInfo = false;
 
         #region property
         public static PKRoomTicker Instance
@@ -44,39 +47,44 @@ namespace Racing.Moto.Game.Web.SignalR
         {
             Clients = clients;
 
-            _pkInfo = GetPKRoomInfo();
+            _pkRoomInfo = GetPKRoomInfoFromSession();
 
             _timer = new Timer(UpdatePKRoomInfo, null, _updateInterval, _updateInterval);
         }
 
-        public List<RoomModel> GetPKInfo()
+        public List<RoomModel> GetPKRoomInfo(HttpContext context)
         {
-            return _pkInfo;
+            _contextCurrent = context;
+
+            return _pkRoomInfo;
         }
 
         public void UpdatePKRoomInfo(object state)
         {
-            lock (_updatePkInfoLock)
+            lock (_updatePKRoomInfoLock)
             {
-                if (!_updatingPkRoomInfo)
+                if (!_updatingPKRoomInfo)
                 {
-                    _updatingPkRoomInfo = true;
+                    _updatingPKRoomInfo = true;
 
                     // 获取最新数据
-                    _pkInfo = GetPKRoomInfo();
+                    _pkRoomInfo = GetPKRoomInfoFromSession();
 
-                    BroadcastPkInfo(_pkInfo);
+                    BroadcastPKRoomInfo(_pkRoomInfo);
 
-                    _updatingPkRoomInfo = false;
+                    _updatingPKRoomInfo = false;
                 }
             }
         }
 
-        private List<RoomModel> GetPKRoomInfo()
+        private List<RoomModel> GetPKRoomInfoFromSession()
         {
             var rooms = new List<RoomModel>();
 
-            var users = PKBag.OnlineUserRecorder.GetUserList();
+            var onlineUserRecorder = PKBag.OnlineUserRecorder != null
+                ? PKBag.OnlineUserRecorder
+                : _contextCurrent.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
+            var users = onlineUserRecorder.GetUserList();
 
             var roomCount = 3;//初中高三个级别
             var deskCount = 8;  //每个级别(房间) 有 8 个桌子
@@ -88,23 +96,27 @@ namespace Racing.Moto.Game.Web.SignalR
                 {
                     var desk = new RoomDeskModel
                     {
+                        RoomLevel = i,
                         RoomDeskId = j,
                         Users = users.Where(u => u.RoomLevel == i && u.DeskNo == j).Select(u => new RoomUserModel
                         {
                             UserId = u.UniqueID,
-                            UserName = u.UserName
+                            UserName = u.UserName,
+                            Avatar = u.Avatar
                         }).ToList()
                     };
                     room.RoomDesks.Add(desk);
                 }
+
+                rooms.Add(room);
             }
 
             return rooms;
         }
 
-        private void BroadcastPkInfo(List<RoomModel> roomModels)
+        private void BroadcastPKRoomInfo(List<RoomModel> roomModels)
         {
-            Clients.All.updatePkInfo(roomModels);
+            Clients.All.updatePKRoomInfo(roomModels);
         }
     }
 }

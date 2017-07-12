@@ -1,14 +1,25 @@
 ﻿@{
-    ViewBag.Title = "首页";
+    int roomId = Convert.ToInt32(ViewBag.RoomId);
+    var title = "";
+    switch (roomId)
+    {
+        case 1: title = "初级场"; break;
+        case 2: title = "中级场"; break;
+        case 3: title = "高级场"; break;
+    }
+
+    ViewBag.Title = title;
 
     var roomBg = "/img/room/room" + ViewBag.RoomId + ".png";
 }
-<link href="~/Content/room.css" rel="stylesheet" />
 @section headScripts {
+    <link href="~/Content/room.css" rel="stylesheet" />
     <script src="~/Scripts/JqueryUI/jquery-ui.min.js"></script>
     <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
-    <script src="/signalr/hubs"></script>
+    <script src="@Url.Content("~/signalr/hubs")"></script>
 }
+<script src="~/Scripts/PK/Room.js"></script>
+
 <input type="hidden" id="hidRoomLevel" value="@ViewBag.RoomId" />
 <div class="room" style="background: url('@roomBg') no-repeat;">
     <div class="deskes">

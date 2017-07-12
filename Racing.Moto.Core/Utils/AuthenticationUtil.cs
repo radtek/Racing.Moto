@@ -14,9 +14,13 @@ namespace Racing.Moto.Core.Utils
             var guid = "";
 
             HttpCookie authCookie = HttpContext.Current.Request.Cookies[System.Web.Security.FormsAuthentication.FormsCookieName];
-            System.Web.Security.FormsAuthenticationTicket authTicket = System.Web.Security.FormsAuthentication.Decrypt(authCookie.Value);
 
-            guid = authTicket.UserData;
+            if(authCookie != null)
+            {
+                System.Web.Security.FormsAuthenticationTicket authTicket = System.Web.Security.FormsAuthentication.Decrypt(authCookie.Value);
+
+                guid = authTicket.UserData;
+            }
 
             return guid;
         }

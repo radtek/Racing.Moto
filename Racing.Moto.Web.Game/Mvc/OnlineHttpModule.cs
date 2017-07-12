@@ -84,6 +84,8 @@ namespace Racing.Moto.Game.Web.Mvc
 
                 // 用户名称                                                        
                 onlineUser.UserName = user.UserName;
+                // 用户头像名称  
+                onlineUser.Avatar = user.Avatar;
                 // 用户角色
                 //onlineUser.UserDegree = user.UserRoles.First().RoleId;
                 // SessionID
