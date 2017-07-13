@@ -201,6 +201,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiControllers\BonusController.cs" />
     <Compile Include="ApiControllers\OnlineUserController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -222,6 +223,12 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Audio\applause.mp3" />
+    <Content Include="Content\Audio\countdown.mp3" />
+    <Content Include="Content\Audio\end.mp3" />
+    <Content Include="Content\Audio\run.mp3" />
+    <Content Include="Content\Audio\start.mp3" />
+    <Content Include="Content\Audio\wait.mp3" />
     <Content Include="Content\room.css" />
     <Content Include="Content\site.css" />
     <Content Include="favicon.ico" />
@@ -400,12 +407,19 @@
     <Content Include="Scripts\app.js" />
     <Content Include="packages.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jPlayer\jquery.jplayer.js" />
+    <Content Include="Scripts\jPlayer\jquery.jplayer.min.js" />
+    <Content Include="Scripts\jPlayer\jquery.jplayer.swf" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\Jquery\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery.easing.1.3.js" />
+    <Content Include="Scripts\jquery.floating.js" />
+    <Content Include="Scripts\jquery.floatingBg.js" />
+    <Content Include="Scripts\jquery.quicksand.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
+    <Content Include="Scripts\jquery.timer.js" />
     <Content Include="Scripts\JqueryUI\jquery-ui.min.css" />
     <Content Include="Scripts\JqueryUI\jquery-ui.min.js" />
     <Content Include="Scripts\JqueryUI\jquery-ui.structure.min.css" />
@@ -417,6 +431,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\PK\Room.js" />
     <Content Include="Scripts\PK\Racing.js" />
+    <Content Include="Scripts\timeCountDown.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -434,6 +449,7 @@
     <Content Include="Views\Account\ForgetPassword.cshtml" />
     <Content Include="Views\Shared\_NoHeaderLayout.cshtml" />
     <Content Include="Views\Moto\Room.cshtml" />
+    <Content Include="Views\Moto\Arena.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

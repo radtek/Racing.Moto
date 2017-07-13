@@ -39,6 +39,23 @@ namespace Racing.Moto.Game.Web.Mvc
                 var rawUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower();
                 if (IsAllowAnonymousUrl(rawUrl) || filterContext.RouteData.Values["controller"].ToString().ToLower() == "home")
                 {
+                    if (HttpContext.User.Identity.IsAuthenticated)
+                    {
+                        if (PKBag.OnlineUserRecorder == null)
+                        {
+                            System.Web.Security.FormsAuthentication.SignOut();
+                            PKBag.Clear();
+                        }
+                        else
+                        {
+                            var guid = AuthenticationUtil.GetLoginUserGuid();
+                            if (PKBag.OnlineUserRecorder.GetUserByAuthenticationId(guid) == null)
+                            {
+                                System.Web.Security.FormsAuthentication.SignOut();
+                                PKBag.Clear();
+                            }
+                        }
+                    }
                     return;
                 }
 

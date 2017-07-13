@@ -402,6 +402,11 @@ body {
         background: url(../img/he-se.png) no-repeat;
     }
 
+.my-moto {
+    text-align:center;
+}
+.my-moto .moto-txt{color:#fff;}
+
 /*--中奖情况--*/
 .dialog-wrap {
     width: 708px;

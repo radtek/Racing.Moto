@@ -73,6 +73,13 @@ namespace Racing.Moto.Test
 
             new PkGameBonusJob().Run();
         }
+
+        [TestMethod]
+        public void PkGameDummyUserJobTest()
+        {
+
+            new PkGameDummyUserJob().Run();
+        }
         #endregion
     }
 }

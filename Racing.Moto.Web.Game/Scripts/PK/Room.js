@@ -1,7 +1,10 @@
-﻿$(function () {
+﻿var $deskes = $("#divDesks");
+var _roomLevel = $("#hidRoomLevel").val();
+
+$(function () {
     //var $elememts = $('.game-wrap').html();
-    var $deskes = $("#divDesks");
-    var _roomLevel = $("#hidRoomLevel").val();
+    $deskes = $("#divDesks");
+    _roomLevel = $("#hidRoomLevel").val();
 
     var ticker = $.connection.pKRoomTickerHub;
 
@@ -10,14 +13,16 @@
             console.log(pkRooms);
 
             // test
-            //pkRooms = {};
-            //var now = new Date();
-            //var seconds = 10;
-            //pkRooms.GameBeginTime = $app.formatDate(now.addSeconds(seconds), 'yyyy-MM-dd HH:mm:ss');
-            //pkRooms.GamingSeconds = -seconds;
-            //pkRooms.GamePassedSeconds = 0;
-            //pkRooms.GameRemainSeconds = 30;
-            //pkRooms.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 30 };
+            //pkRooms[0].RoomDesks[0] = { RoomLevel: 1, RoomDeskId: 1 };
+            //pkRooms[0].RoomDesks[0].Users = [
+            //    { UserId: 1, UserName: 'user01', Avatar: '/img/avatars/user1.jpg', Num: 1 },
+            //    { UserId: 2, UserName: 'user02', Avatar: '/img/avatars/user11.jpg', Num: 8 }
+            //];
+            //pkRooms[0].RoomDesks[3] = { RoomLevel: 1, RoomDeskId: 4 };
+            //pkRooms[0].RoomDesks[3].Users = [
+            //    { UserId: 3, UserName: 'user03', Avatar: '/img/avatars/user5.jpg', Num: 2 },
+            //    { UserId: 4, UserName: 'user04', Avatar: '/img/avatars/user13.jpg', Num: 5 }
+            //];
 
 
             if (pkRooms == null) {
@@ -29,15 +34,20 @@
     }
 
     // Add a client-side hub method that the server will call
-    ticker.client.updatePKRoomInfo = function (pkRooms) {
+    ticker.client.updatePkRoomInfo = function (pkRooms) {
         console.log(pkRooms);
-        // test
-        //pkRooms = {};
-        //pkRooms.GamingSeconds = 10;
-        //pkRooms.GamePassedSeconds = 0;
-        //pkRooms.GameRemainSeconds = 20;
-        //pkRooms.GameBeginTime = '2017/04/03 18:30:00';
-        //pkRooms.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
+
+        //return;
+
+        //// test
+        //pkRooms[0].RoomDesks[0].Users = [
+        //    { UserId: 1, UserName: 'user01', Avatar: '/img/avatars/user1.jpg', Num: 1 },
+        //    { UserId: 2, UserName: 'user02', Avatar: '/img/avatars/user11.jpg', Num: 8 }
+        //];
+        //pkRooms[0].RoomDesks[3].Users = [
+        //    { UserId: 3, UserName: 'user03', Avatar: '/img/avatars/user5.jpg', Num: 2 },
+        //    { UserId: 4, UserName: 'user04', Avatar: '/img/avatars/user13.jpg', Num: 5 }
+        //];
 
         //console.log(pkRooms);
         if (pkRooms == null) {
@@ -50,79 +60,84 @@
     // Start the connection
     $.connection.hub.start().done(init);
 
-    // room
-    var motoRoom = {
-        Room: null,
-        refresh: function (pkRooms) {
-            motoRoom.Room = motoRoom.getCurrentRoom(pkRooms);
-
-        },
-        getCurrentRoom: function (pkRooms) {
-            var room = null;
-            for (var i = 0; i < pkRooms.length; i++) {
-                if (pkRooms[i].RoomLevel == _roomLevel) {
-                    room = pkRooms[i];
-                    break;
-                }
-            }
-            return room;
-        },
-        getDeskHtml: function (deskNum) {
-            //deskNum: 桌号
-            var html =
-            '<div class="col-md-3">' +
-            '    <a href="/Moto/Room/1/' + deskNum + '"><img src="~/img/room/desk_blue.png"></a>' +
-            '    <div class="desk-no desk-no-' + deskNum + '">NO.' + deskNum + '</div>' +
-            '    <img src="~/img/avatars/user1.jpg" class="desk-user desk-user-1" alt="avatar">' +
-            '    <img src="~/img/avatars/user2.jpg" class="desk-user desk-user-2" alt="avatar">' +
-            '    <img src="~/img/avatars/user3.jpg" class="desk-user desk-user-3" alt="avatar">' +
-            '    <img src="~/img/avatars/user4.jpg" class="desk-user desk-user-4" alt="avatar">' +
-            '    <img src="~/img/avatars/user5.jpg" class="desk-user desk-user-5" alt="avatar">' +
-            '    <img src="~/img/avatars/user6.jpg" class="desk-user desk-user-6" alt="avatar">' +
-            '    <img src="~/img/avatars/user7.jpg" class="desk-user desk-user-7" alt="avatar">' +
-            '    <img src="~/img/avatars/user8.jpg" class="desk-user desk-user-8" alt="avatar">' +
-            '    <img src="~/img/avatars/user9.jpg" class="desk-user desk-user-9" alt="avatar">' +
-            '    <img src="~/img/avatars/user10.jpg" class="desk-user desk-user-10" alt="avatar">' +
-            '</div>';
-        },
-        getAvatarHtml: function (users) {
-            var html = '';
-
-            for (var i = 0; i < 10; i++) {
-                var num = i + 1;
-                var user = motoRoom.getUserByNum(users, num);
-                if (user != null) {
-                    html += '<img src="' + user.Avatar + '" class="desk-user desk-user-' + num + '" alt="avatar">'
-                }
-            }
-
-            return html;
-        },
-        getUserByNum: function (users, userNum) {
-            //userNum: 桌子上第n位
-            var user = null;
-            for (var i = 0; i < users.length; i++) {
-                if (users[i].Num == userNum) {
-                    user = users[i];
-                    break;
-                }
-            }
-            return user;
-        },
-        //getRadomAvatarArrs: function () {
-        //    var avatarArrs = motoRoom.getAvatarArrs();
-        //    var randomAvatarArrs = $app.shuffle(avatarArrs);// 随机化原数组
-        //    return randomAvatarArrs.slice(0, 10);   //返回前十个
-        //},
-        //getAvatarArrs: function () {
-        //    var maxLen = 17;//目前有17个头像
-
-        //    var avatarArrs = [];
-        //    for (var i = 1; i <= maxLen; i++) {
-        //        avatarArrs.push(i);
-        //    }
-        //    return avatarArrs;
-        //},
-    };
-
 });
+
+// room
+var motoRoom = {
+    CurrentRoom: null,
+    refresh: function (pkRooms) {
+        motoRoom.CurrentRoom = motoRoom.getCurrentRoom(pkRooms);
+
+        var roomHtml = '';
+        for (var i = 0; i < motoRoom.CurrentRoom.RoomDesks.length; i++) {
+            roomHtml += motoRoom.getDeskHtml(motoRoom.CurrentRoom.RoomDesks[i]);
+        }
+
+        $deskes.html(roomHtml);
+    },
+    getCurrentRoom: function (pkRooms) {
+        var room = null;
+        for (var i = 0; i < pkRooms.length; i++) {
+            if (pkRooms[i].RoomLevel == _roomLevel) {
+                room = pkRooms[i];
+                break;
+            }
+        }
+        return room;
+    },
+    getDeskHtml: function (desk) {
+        var roomLevel = desk.RoomLevel;//roomLevel: 房间号
+        var deskNum = desk.RoomDeskId;//deskNum: 桌号
+        var avatarHtml = motoRoom.getAvatarHtml(desk.Users);
+        var deskImgHtml = desk.Users.length == 10 ? '<img src="/img/room/desk_red.png" />' : '<img src="/img/room/desk_blue.png" />';
+
+        var deskHtml =
+        '<div class="col-md-3">' +
+        '    <a href="javascript:;" onclick="motoRoom.join(' + roomLevel + ',' + deskNum + ')">' + deskImgHtml + '</a>' +
+        '    <div class="desk-no">NO.' + deskNum + '</div>' +
+             avatarHtml +
+        '</div>';
+
+        return deskHtml;
+    },
+    getAvatarHtml: function (users) {
+        var html = '';
+
+        for (var i = 0; i < 10; i++) {
+            var num = i + 1;
+            var user = motoRoom.getUserByNum(users, num);
+            if (user != null) {
+                html += '<img src="' + user.Avatar + '" class="desk-user desk-user-' + num + '" alt="avatar">'
+            }
+        }
+
+        return html;
+    },
+    getUserByNum: function (users, userNum) {
+        //userNum: 桌子上第n位
+        var user = null;
+        for (var i = 0; i < users.length; i++) {
+            if (users[i].Num == userNum) {
+                user = users[i];
+                break;
+            }
+        }
+        return user;
+    },
+    join: function (roomLevel, deskNo) {
+        console.log(roomLevel);
+        console.log(deskNo);
+        $.ajax({
+            type: 'POST',
+            url: '/Moto/Join',
+            data: { RoomLevel: roomLevel, DeskNo: deskNo },
+            success: function (res) {
+                if (res.Success) {
+                    location.href = "/Moto/Arena";
+                } else {
+                    alert(res.Message);
+                }
+            }
+        });
+    },
+};

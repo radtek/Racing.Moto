@@ -14,7 +14,7 @@ namespace Racing.Moto.Web.Game.Controllers
     {
         private ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        // 房间
+        #region 房间
         public ActionResult Room(int id)
         {
             ViewBag.RoomId = id;
@@ -48,7 +48,7 @@ namespace Racing.Moto.Web.Game.Controllers
                     user.DeskNo = model.DeskNo;
 
                     // 取最小的 还未在房间中 使用的车号
-                    var motoNums = GetMinMotoNum(model.RoomLevel, model.DeskNo);
+                    var motoNums = OnlineHttpModule.GetMinMotoNum(model.RoomLevel, model.DeskNo);
                     user.Num = motoNums;
                 }
             }
@@ -63,22 +63,40 @@ namespace Racing.Moto.Web.Game.Controllers
             return Json(result);
         }
 
-        // 取最小的 还未在房间中 使用的车号
-        private int GetMinMotoNum(int roomLevel, int deskNo)
-        {
-            var minNums = 1;
+        //// 取最小的 还未在房间中 使用的车号
+        //private int GetMinMotoNum(int roomLevel, int deskNo)
+        //{
+        //    var minNums = 1;
 
-            var deskUsers = PKBag.OnlineUserRecorder.GetUserList().Where(u => u.RoomLevel == roomLevel && u.DeskNo == deskNo);
-            for (int num = 1; num <= 10; num++)
+        //    var deskUsers = PKBag.OnlineUserRecorder.GetUserList().Where(u => u.RoomLevel == roomLevel && u.DeskNo == deskNo);
+        //    for (int num = 1; num <= 10; num++)
+        //    {
+        //        if (!deskUsers.Where(u => u.Num == num).Any())
+        //        {
+        //            minNums = num;
+        //            break;
+        //        }
+        //    }
+
+        //    return minNums;
+        //}
+
+        #endregion
+
+        // 竞技场
+        [AllowAnonymous]
+        public ActionResult Arena()
+        {
+            if (PKBag.LoginUser != null)
             {
-                if (!deskUsers.Where(u => u.Num == num).Any())
+                var user = PKBag.OnlineUserRecorder.GetUser(PKBag.LoginUser.UserName);
+                if (user.Num > 0)
                 {
-                    minNums = num;
-                    break;
+                    ViewBag.MyMotoNum = user.Num;
                 }
             }
 
-            return minNums;
+            return View();
         }
     }
 }

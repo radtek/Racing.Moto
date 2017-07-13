@@ -83,6 +83,15 @@ namespace Racing.Moto.JobManager.Jobs
                     .Build();
                 scheduler.ScheduleJob(gameBonusJob, gameBonusTrigger);
 
+                // 虚拟用户: 每10秒执行一次
+                var gameDummyUserInterval = 10;
+                IJobDetail gameDummyUserJob = JobBuilder.Create<PkGameDummyUserJob>().Build();
+                ITrigger gameDummyUserTrigger = TriggerBuilder.Create()
+                    .WithIdentity("PkGameDummyUserJobTrigger", "PkGameDummyUserJobGroup")
+                    .WithSimpleSchedule(t => t.WithIntervalInSeconds(gameDummyUserInterval).RepeatForever())
+                    .Build();
+                scheduler.ScheduleJob(gameDummyUserJob, gameDummyUserTrigger);
+
                 #endregion
 
             }

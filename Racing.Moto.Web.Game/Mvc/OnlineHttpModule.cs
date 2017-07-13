@@ -84,8 +84,51 @@ namespace Racing.Moto.Game.Web.Mvc
 
                 // 用户名称                                                        
                 onlineUser.UserName = user.UserName;
-                // 用户头像名称  
+                // 用户头像 
                 onlineUser.Avatar = user.Avatar;
+                // 用户角色
+                //onlineUser.UserDegree = user.UserRoles.First().RoleId;
+                // SessionID
+                onlineUser.SessionID = HttpContext.Current.Session.SessionID;
+                // IP 地址
+                //onlineUser.ClientIP = IPUtil.GetHostAddress();
+                // 登录时间
+                if (!onlineUser.LoginTime.HasValue)
+                {
+                    onlineUser.LoginTime = DateTime.Now;
+                }
+                // 最后活动时间
+                onlineUser.ActiveTime = DateTime.Now;
+                // 最后请求地址
+                onlineUser.RequestURL = HttpContext.Current.Request.RawUrl;
+
+                // 保存用户信息
+                recorder.Persist(onlineUser);
+            }
+            catch (Exception ex)
+            {
+                _logger.Info(ex);
+            }
+        }
+        #endregion
+
+        public static void AddOnlineUser(OnlineUser onlineUser)
+        {
+            try
+            {
+                // 获取在线用户记录器
+                OnlineUserRecorder recorder = HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
+
+                if (recorder == null)
+                {
+                    Register();
+                    recorder = HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
+                }
+
+
+                //用于限制用户只能在一处登录
+                onlineUser.AuthenticationId = AuthenticationUtil.GetLoginUserGuid();
+
                 // 用户角色
                 //onlineUser.UserDegree = user.UserRoles.First().RoleId;
                 // SessionID
@@ -111,6 +154,44 @@ namespace Racing.Moto.Game.Web.Mvc
                 _logger.Info(ex);
             }
         }
-        #endregion
+
+        public static int GetMaxUniqueID()
+        {
+            // 获取在线用户记录器
+            OnlineUserRecorder recorder = HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
+
+            if (recorder == null)
+            {
+                Register();
+                recorder = HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
+            }
+
+
+            int maxUniqueID = recorder.GetUserList().Max(u => (int?)u.UniqueID ?? 0);
+
+            return maxUniqueID + 1;
+        }
+
+
+        // 取最小的 还未在房间中 使用的车号
+        public static int GetMinMotoNum(int roomLevel, int deskNo)
+        {
+            var minNums = 1;
+
+            OnlineUserRecorder recorder = HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
+
+            var deskUsers = recorder.GetUserList().Where(u => u.RoomLevel == roomLevel && u.DeskNo == deskNo);
+            for (int num = 1; num <= 10; num++)
+            {
+                if (!deskUsers.Where(u => u.Num == num).Any())
+                {
+                    minNums = num;
+                    break;
+                }
+            }
+
+            return minNums;
+        }
+
     }
 }

@@ -37,12 +37,12 @@
     // Add a client-side hub method that the server will call
     ticker.client.updatePKInfo = function (pkInfo) {
         // test
-        //pkInfo = {};
-        //pkInfo.GamingSeconds = 10;
-        //pkInfo.GamePassedSeconds = 0;
-        //pkInfo.GameRemainSeconds = 20;
-        //pkInfo.GameBeginTime = '2017/04/03 18:30:00';
-        //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
+        //pkinfo = {};
+        //pkinfo.gamingseconds = 10;
+        //pkinfo.gamepassedseconds = 0;
+        //pkinfo.gameremainseconds = 20;
+        //pkinfo.gamebegintime = '2017/04/03 18:30:00';
+        //pkinfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
         //console.log(pkInfo);
         if (pkInfo == null) {
@@ -153,7 +153,7 @@
                         var clock = motoRacing.getcountdownClock();
                         if (clock == '00:00:10') {
                             motoAudio.wait.play();
-                        }                        
+                        }
 
                         //console.log(clock);
                         if (clock == '00:00:05') {
@@ -746,7 +746,7 @@
             });
         },
         reload: function () {
-            location.href = location.href.replace('#','');
+            location.href = location.href.replace('#', '');
         },
     };
 

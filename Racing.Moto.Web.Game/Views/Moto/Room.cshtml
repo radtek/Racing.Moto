@@ -25,9 +25,9 @@
     <div class="deskes">
         <div class="row" id="divDesks">
             <div class="col-md-3">
-                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
-                <div class="desk-no desk-no-1">NO.1</div>
-                <img src="~/img/avatars/user1.jpg" class="desk-user desk-user-1" alt="avatar">
+                <a href="javascript:;"><img src="~/img/room/desk_blue.png"></a>
+                <div class="desk-no">NO.1</div>
+                @*<img src="~/img/avatars/user1.jpg" class="desk-user desk-user-1" alt="avatar">
                 <img src="~/img/avatars/user2.jpg" class="desk-user desk-user-2" alt="avatar">
                 <img src="~/img/avatars/user3.jpg" class="desk-user desk-user-3" alt="avatar">
                 <img src="~/img/avatars/user4.jpg" class="desk-user desk-user-4" alt="avatar">
@@ -36,43 +36,43 @@
                 <img src="~/img/avatars/user7.jpg" class="desk-user desk-user-7" alt="avatar">
                 <img src="~/img/avatars/user8.jpg" class="desk-user desk-user-8" alt="avatar">
                 <img src="~/img/avatars/user9.jpg" class="desk-user desk-user-9" alt="avatar">
-                <img src="~/img/avatars/user10.jpg" class="desk-user desk-user-10" alt="avatar">
+                <img src="~/img/avatars/user10.jpg" class="desk-user desk-user-10" alt="avatar">*@
             </div>
             <div class="col-md-3">
-                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+                <a href="javascript:;"><img src="~/img/room/desk_blue.png"></a>
+                <div class="desk-no">NO.2</div>
             </div>
             <div class="col-md-3">
-                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+                <a href="javascript:;"><img src="~/img/room/desk_blue.png"></a>
+                <div class="desk-no">NO.3</div>
             </div>
             <div class="col-md-3">
-                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+                <a href="javascript:;"><img src="~/img/room/desk_blue.png"></a>
+                <div class="desk-no">NO.4</div>
             </div>
             <div class="col-md-3">
-                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+                <a href="javascript:;"><img src="~/img/room/desk_blue.png"></a>
+                <div class="desk-no">NO.5</div>
             </div>
             <div class="col-md-3">
-                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+                <a href="javascript:;"><img src="~/img/room/desk_blue.png"></a>
+                <div class="desk-no">NO.6</div>
             </div>
             <div class="col-md-3">
-                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+                <a href="javascript:;"><img src="~/img/room/desk_blue.png"></a>
+                <div class="desk-no">NO.7</div>
             </div>
             <div class="col-md-3">
-                <a href="/Moto/Room/1"><img src="~/img/room/desk_blue.png"></a>
+                <a href="javascript:;"><img src="~/img/room/desk_blue.png"></a>
+                <div class="desk-no">NO.8</div>
             </div>
         </div>
-        @*<div class="row">
-            <div class="col-md-3">
-                <a href="/Moto/Room/1" class="desk1"><img src="~/img/room/desk_blue.png"></a>
-            </div>
-            <div class="col-md-3">
-                <a href="/Moto/Room/1" class="desk1"><img src="~/img/room/desk_blue.png"></a>
-            </div>
-            <div class="col-md-3">
-                <a href="/Moto/Room/1" class="desk1"><img src="~/img/room/desk_blue.png"></a>
-            </div>
-            <div class="col-md-3">
-                <a href="/Moto/Room/1" class="desk1"><img src="~/img/room/desk_blue.png"></a>
-            </div>
-        </div>*@
     </div>
+</div>
+<div style="display:none;">
+    @for (var i = 1; i <= 17; i++)
+    {
+        var avatar = "/img/avatars/user" + i + ".jpg";
+        <img src="@avatar" />
+    }
 </div>

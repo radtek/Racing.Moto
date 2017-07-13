@@ -51,5 +51,10 @@ namespace Racing.Moto.Game.Data.Models
         public string UserName { get; set; }
 
         public string Avatar { get; set; }
+
+        /// <summary>
+        /// 用户的车号
+        /// </summary>
+        public int Num { get; set; }
     }
 }

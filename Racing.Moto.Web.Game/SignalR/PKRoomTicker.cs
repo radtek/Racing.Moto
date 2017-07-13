@@ -83,7 +83,13 @@ namespace Racing.Moto.Game.Web.SignalR
 
             var onlineUserRecorder = PKBag.OnlineUserRecorder != null
                 ? PKBag.OnlineUserRecorder
-                : _contextCurrent.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
+                : _contextCurrent != null ? _contextCurrent.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder : null;
+
+            if (onlineUserRecorder == null)
+            {
+                return rooms;
+            }
+
             var users = onlineUserRecorder.GetUserList();
 
             var roomCount = 3;//初中高三个级别
@@ -102,7 +108,8 @@ namespace Racing.Moto.Game.Web.SignalR
                         {
                             UserId = u.UniqueID,
                             UserName = u.UserName,
-                            Avatar = u.Avatar
+                            Avatar = u.Avatar,
+                            Num = u.Num
                         }).ToList()
                     };
                     room.RoomDesks.Add(desk);
@@ -116,7 +123,7 @@ namespace Racing.Moto.Game.Web.SignalR
 
         private void BroadcastPKRoomInfo(List<RoomModel> roomModels)
         {
-            Clients.All.updatePKRoomInfo(roomModels);
+            Clients.All.updatePkRoomInfo(roomModels);
         }
     }
 }

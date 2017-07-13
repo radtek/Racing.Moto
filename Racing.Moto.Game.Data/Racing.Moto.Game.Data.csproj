@@ -67,6 +67,7 @@
     <Compile Include="Membership\SqlMembershipProvider.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\BonusModels.cs" />
     <Compile Include="Models\PKModels.cs" />
     <Compile Include="Models\ResponseResult.cs" />
     <Compile Include="Models\RoomModels.cs" />

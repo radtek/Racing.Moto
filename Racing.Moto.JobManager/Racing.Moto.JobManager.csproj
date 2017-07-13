@@ -81,6 +81,7 @@
     <Compile Include="Jobs\PkGameBonusJob.cs" />
     <Compile Include="Jobs\JobScheduler.cs" />
     <Compile Include="Jobs\PkGameJob.cs" />
+    <Compile Include="Jobs\PkGameDummyUserJob.cs" />
     <Compile Include="Jobs\PkJob.cs" />
     <Compile Include="Jobs\BonusJob.cs" />
     <Compile Include="Jobs\PkGameRankJob.cs" />

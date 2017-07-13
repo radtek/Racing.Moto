@@ -158,9 +158,10 @@ namespace Racing.Moto.Game.Data.Services
                 var dbPK = db.PK.Where(pk => !pk.IsBonused).OrderByDescending(pk => pk.PKId).FirstOrDefault();
                 var dbPKRooms = db.PKRoom.Where(r => r.PKId == dbPK.PKId).ToList();
                 var roomIds = dbPKRooms.Select(r => r.PKRoomId).ToList();
-                db.PKRoomDesk.Where(d => roomIds.Contains(d.PKRoomId)).ToList();
+                var pkRoomDesks = db.PKRoomDesk.Where(d => roomIds.Contains(d.PKRoomId) && d.Ranks != null).ToList();
 
-                return dbPK;
+                //pkRoomDesks.Count == 0 还没生成名次
+                return pkRoomDesks.Count > 0 ? dbPK : null;
             }
         }
 
@@ -175,6 +176,22 @@ namespace Racing.Moto.Game.Data.Services
                 if (pk != null)
                 {
                     pk.IsBonused = isBonused;
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新 名次生成标志, 防止多次计算
+        /// </summary>
+        public void UpdateIsRanked(int pkId, bool isRanked)
+        {
+            using (var db = new RacingGameDbContext())
+            {
+                var pk = db.PK.Where(p => p.PKId == pkId).FirstOrDefault();
+                if (pk != null)
+                {
+                    pk.IsRanked = isRanked;
                     db.SaveChanges();
                 }
             }

@@ -5,7 +5,7 @@
 @section headScripts {
     <link href="~/Scripts/JqueryUI/jquery-ui.min.css" rel="stylesheet" />
     <script src="~/Scripts/JqueryUI/jquery-ui.min.js"></script>
-    <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
     <script src="/signalr/hubs"></script>
     <script src="~/Scripts/timeCountDown.js"></script>
     <script src="~/Scripts/jPlayer/jquery.jplayer.min.js"></script>
@@ -90,6 +90,16 @@
             <img src="/img/saiqi.png">
         </div>
     </div>
+
+    @if (ViewBag.MyMotoNum != null)
+    {
+        <div class="my-moto">
+            <div class="moto-txt">
+                我的车号:
+                <span style="font-size:14px;">@ViewBag.MyMotoNum</span>
+            </div>
+        </div>
+    }
 </div>
 
 <div id="racingResult" class="dialog-wrap racing-jieguo hide">

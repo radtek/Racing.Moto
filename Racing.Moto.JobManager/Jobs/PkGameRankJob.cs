@@ -44,7 +44,7 @@ namespace Racing.Moto.JobManager.Jobs
         public void Run()
         {
             var pkService = new PKService();
-            
+
             var pks = pkService.GetNotCalculatePKs();
 
             foreach (var pk in pks)
@@ -72,7 +72,8 @@ namespace Racing.Moto.JobManager.Jobs
 
                             // 保存名次
                             pkService.UpdateRanks(desks);
-
+                            // 更新 名次生成标志
+                            pkService.UpdateIsRanked(pk.PKId, true);
 
                             var msg = string.Format("[PkGameRankJob] Calculate Ranks - PKId : {0} - Time : {1}", pk.PKId, now.ToString(DateFormatConst.yMd_Hms));
                             _logger.Info(msg);
