@@ -132,7 +132,7 @@ namespace Racing.Moto.Game.Web.Mvc
                 // 用户角色
                 //onlineUser.UserDegree = user.UserRoles.First().RoleId;
                 // SessionID
-                onlineUser.SessionID = HttpContext.Current.Session.SessionID;
+                onlineUser.SessionID = HttpContext.Current.Session != null ? HttpContext.Current.Session.SessionID : onlineUser.UserName;
                 // IP 地址
                 //onlineUser.ClientIP = IPUtil.GetHostAddress();
                 // 登录时间
@@ -146,7 +146,7 @@ namespace Racing.Moto.Game.Web.Mvc
                 onlineUser.RequestURL = HttpContext.Current.Request.RawUrl;
 
                 // 保存用户信息
-                recorder.Persist(onlineUser);
+                recorder.AddUser(onlineUser);
 
             }
             catch (Exception ex)
@@ -155,7 +155,7 @@ namespace Racing.Moto.Game.Web.Mvc
             }
         }
 
-        public static int GetMaxUniqueID()
+        public static int GetDummyUniqueID(int minId)
         {
             // 获取在线用户记录器
             OnlineUserRecorder recorder = HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
@@ -166,10 +166,27 @@ namespace Racing.Moto.Game.Web.Mvc
                 recorder = HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
             }
 
+            int minDummyUniqueID = minId;
 
-            int maxUniqueID = recorder.GetUserList().Max(u => (int?)u.UniqueID ?? 0);
+            var dummyUsers = recorder.GetUserList().Where(u => u.UniqueID >= minId).OrderBy(u => u.UniqueID).ToList();
+            for (var i = 0; i < dummyUsers.Count; i++)
+            {
+                if (i < dummyUsers.Count - 1)
+                {
+                    // 两个用户之间的UniqueID差 > 1
+                    if (dummyUsers[i + 1].UniqueID - dummyUsers[i].UniqueID > 1)
+                    {
+                        minDummyUniqueID = dummyUsers[i].UniqueID;
+                        break;
+                    }
+                }
+                else
+                {
+                    minDummyUniqueID = dummyUsers[i].UniqueID;
+                }
+            }
 
-            return maxUniqueID + 1;
+            return minDummyUniqueID + 1;
         }
 
 

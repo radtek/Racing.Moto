@@ -1,12 +1,21 @@
 ﻿@{
     ViewBag.Title = "首页";
+
+    var isLogined = User.Identity.IsAuthenticated && PKBag.LoginUser != null;
+    var isLoginedStr = isLogined.ToString().ToLower();
+    //var roomUrl1 = isLogined ? "/Moto/Room/1" : "/Account/Login";
+    //var roomUrl2 = isLogined ? "/Moto/Room/2" : "/Account/Login";
+    //var roomUrl3 = isLogined ? "/Moto/Room/3" : "/Account/Login";
+
+    //var racingMotoUrl = System.Configuration.ConfigurationManager.AppSettings["RacingMotoUrl"];
+    var racingMotoUrl = "#";
 }
 
-<a href="/Moto/Room/1" class="chuji"><img src="/img/chuji.png"></a>
-<a href="/Moto/Room/2" class="zhongji"><img src="/img/zhongji.png"></a>
-<a href="/Moto/Room/3" class="gaoji"><img src="/img/gaoji.png"></a>
-<a href="#" class="dianji"><img src="/img/dianji.png"></a>
-<a href="#" class="gaoji-bg">&nbsp;</a>
+<a href="javascript:;" onclick="gotoArena('@isLoginedStr', 1)" class="chuji"><img src="/img/chuji.png"></a>
+<a href="javascript:;" onclick="gotoArena('@isLoginedStr', 2)" class="zhongji"><img src="/img/zhongji.png"></a>
+<a href="javascript:;" onclick="gotoArena('@isLoginedStr', 3)" class="gaoji"><img src="/img/gaoji.png"></a>
+<a href="@racingMotoUrl" class="dianji"><img src="/img/dianji.png"></a>
+<a href="@racingMotoUrl" class="gaoji-bg">&nbsp;</a>
 
 <div class="car-model">
     <img src="/img/car-model.png" />
@@ -14,3 +23,49 @@
 <div class="girl-model">
     <img src="/img/girl-model.png" height="570">
 </div>
+<script type="text/javascript">
+    function gotoArena(isLogined, roomId) {
+        if (isLogined.toLowerCase() == 'false') {
+            location.href = "/Account/Login";
+            return;
+        }
+        $.ajax({
+            type: 'POST',
+            url: '/Moto/GetBalance',
+            data: {},
+            success: function (res) {
+                if (res.Success) {
+                    var chkRes = checkBalance(roomId, res.Data);
+                    if (chkRes.Success) {
+                        location.href = "/Moto/Room/" + roomId;
+                    } else {
+                        alert(chkRes.Message);
+                    }
+                } else {
+                    alert(res.Message);
+                }
+            }
+        });
+    }
+    function checkBalance(roomId, balance) {
+        var res = { Success: false, Message: '' };
+        
+        var room = null;
+        roomId = parseInt(roomId, 10);
+        switch (roomId) {
+            case 1: room = $app.MinBalance.Room1; break;
+            case 2: room = $app.MinBalance.Room2; break;
+            case 3: room = $app.MinBalance.Room3; break;
+        }
+        if (room != null) {
+            if (balance < room.Min) {
+                res.Success = false;
+                res.Message = "您的积分不足" + room.Min + ", 无法进入" + room.Name;
+            } else {
+                res.Success = true;
+            }
+        }
+
+        return res;
+    }
+</script>

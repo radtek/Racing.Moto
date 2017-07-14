@@ -1,4 +1,14 @@
-﻿$(function () {
+﻿//在关闭页面时弹出确认提示窗口
+$(window).bind('beforeunload', function () {
+    $.ajax({
+        type: 'POST',
+        url: '/Moto/Exit',
+        data: {},
+        success: function (res) {
+        }
+    });
+});
+$(function () {
     var $elememts = $('.game-wrap').html();
     var $racingResult = $("#racingResult");
     var $bonusResult = $("#bonusResult");

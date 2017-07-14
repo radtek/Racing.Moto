@@ -143,6 +143,16 @@ namespace App.Core.OnlineStat
         }
 
         /// <summary>
+        /// 新增用户
+        /// </summary>
+        /// <param name="user"></param>
+        public void AddUser(OnlineUser user)
+        {
+            this.m_db.Insert(user);
+        }
+
+
+        /// <summary>
         /// 异步方式处理命令队列
         /// </summary>
         private void BeginProcessCmdQueue()

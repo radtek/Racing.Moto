@@ -35,7 +35,7 @@
         </div>
 
         <ul class="menu">
-            @if (User.Identity.IsAuthenticated)
+            @if (User.Identity.IsAuthenticated && PKBag.LoginUser != null)
             {
                 <li>@userName</li>
                     <li><a href="/Manage/Rule">我的账号</a></li>

@@ -40,5 +40,25 @@ namespace Racing.Moto.Game.Data.Services
 
             return string.Format("/Img/avatars/user{0}.jpg", rmd);
         }
+
+        /// <summary>
+        /// 取余额
+        /// </summary>
+        /// <param name="userName"></param>
+        public decimal GetBalance(string userName)
+        {
+            using (var db = new RacingGameDbContext())
+            {
+                decimal balance = 0;
+
+                var user = db.User.Where(u => u.UserName == userName).FirstOrDefault();
+                if (user != null)
+                {
+                    balance = user.Amount;
+                }
+
+                return balance;
+            }
+        }
     }
 }

@@ -22,17 +22,19 @@ namespace Racing.Moto.Game.Data.Services
             using (var db = new RacingGameDbContext())
             {
                 var current = Convert.ToDateTime(DateTime.Now.ToString(DateFormatConst.yMd_Hms));// remove millisecond
-                return db.PK.Where(pk => pk.BeginTime <= current && current <= pk.EndTime).FirstOrDefault();
+                return db.PK.Include(nameof(PK.PKRooms))
+                    .Include("PKRooms.PKRoomDesks")
+                    .Where(pk => pk.BeginTime <= current && current <= pk.EndTime).FirstOrDefault();
             }
         }
 
-        public PK GetPK(int pkId)
-        {
-            using (var db = new RacingGameDbContext())
-            {
-                return db.PK.Where(pk => pk.PKId == pkId).FirstOrDefault();
-            }
-        }
+        //public PK GetPK(int pkId)
+        //{
+        //    using (var db = new RacingGameDbContext())
+        //    {
+        //        return db.PK.Where(pk => pk.PKId == pkId).FirstOrDefault();
+        //    }
+        //}
         /// <summary>
         /// 取当前PK
         /// </summary>

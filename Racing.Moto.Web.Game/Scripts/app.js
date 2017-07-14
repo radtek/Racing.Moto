@@ -1,4 +1,9 @@
 ﻿var $app = {
+    MinBalance: {
+        Room1: { Min: 0, Name: '初级场' },
+        Room2: { Min: 5000, Name: '中级场' },
+        Room3: { Min: 10000, Name: '高级场' }
+    },
     getValidationMessages: function () {
         var messages = [];
         $('.validation-summary-errors > ul > li').each(function (index, ele) {

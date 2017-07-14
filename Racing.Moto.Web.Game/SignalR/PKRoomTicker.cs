@@ -90,7 +90,7 @@ namespace Racing.Moto.Game.Web.SignalR
                 return rooms;
             }
 
-            var users = onlineUserRecorder.GetUserList();
+            //var users = onlineUserRecorder.GetUserList();
 
             var roomCount = 3;//初中高三个级别
             var deskCount = 8;  //每个级别(房间) 有 8 个桌子
@@ -104,7 +104,7 @@ namespace Racing.Moto.Game.Web.SignalR
                     {
                         RoomLevel = i,
                         RoomDeskId = j,
-                        Users = users.Where(u => u.RoomLevel == i && u.DeskNo == j).Select(u => new RoomUserModel
+                        Users = onlineUserRecorder.GetUserList().Where(u => u.RoomLevel == i && u.DeskNo == j).Select(u => new RoomUserModel
                         {
                             UserId = u.UniqueID,
                             UserName = u.UserName,

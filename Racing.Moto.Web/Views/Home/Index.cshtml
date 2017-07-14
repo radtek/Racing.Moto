@@ -1,10 +1,12 @@
 ﻿@{
     ViewBag.Title = "首页";
+
+    var racingMotoGameUrl = System.Configuration.ConfigurationManager.AppSettings["RacingMotoGameUrl"];
 }
 
-<a href="javascript:;" class="chuji"><img src="/img/chuji.png"></a>
-<a href="javascript:;" class="zhongji"><img src="/img/zhongji.png"></a>
-<a href="javascript:;" class="gaoji"><img src="/img/gaoji.png"></a>
+<a href="@racingMotoGameUrl/Moto/Room/1" class="chuji"><img src="/img/chuji.png"></a>
+<a href="@racingMotoGameUrl/Moto/Room/2" class="zhongji"><img src="/img/zhongji.png"></a>
+<a href="@racingMotoGameUrl/Moto/Room/3" class="gaoji"><img src="/img/gaoji.png"></a>
 <a href="/moto/arena" class="dianji"><img src="/img/dianji.png"></a>
 <a href="/moto/arena" class="gaoji-bg">&nbsp;</a>
 

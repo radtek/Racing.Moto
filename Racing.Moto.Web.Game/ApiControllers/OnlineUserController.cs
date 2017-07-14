@@ -15,6 +15,7 @@ namespace Racing.Moto.Game.Web.ApiControllers
     public class OnlineUserController : ApiController
     {
         private ILogger _logger = LogManager.GetCurrentClassLogger();
+        private int _minDummyUserId = 10000000;
 
         /// <summary>
         /// 取盘口登录用户
@@ -74,27 +75,41 @@ namespace Racing.Moto.Game.Web.ApiControllers
 
             try
             {
-                var onlineUsers = PKBag.OnlineUserRecorder.GetUserList();
+                //var onlineUsers = PKBag.OnlineUserRecorder.GetUserList();
 
                 for (var roomLevel = 1; roomLevel <= 3; roomLevel++)
                 {
-                    var roomUsers = onlineUsers.Where(u => u.RoomLevel == roomLevel).ToList();//初中高级场
+                    //var roomUsers = PKBag.OnlineUserRecorder.GetUserList().Where(u => u.RoomLevel == roomLevel).ToList();//初中高级场
 
                     for (var deskNo = 1; deskNo <= 8; deskNo++)
                     {
-                        var deskUsers = roomUsers.Where(r => r.DeskNo == deskNo).ToList();    //桌
+                        var deskUsers = PKBag.OnlineUserRecorder.GetUserList().Where(r => r.RoomLevel == roomLevel && r.DeskNo == deskNo).ToList();    //桌
 
                         var num = GetRandom(1, 10);// 随机人数
                         if (num > deskUsers.Count)
                         {
+                            // 添加虚拟用户
                             var count = num - deskUsers.Count;
+                            if (count > 2)
+                            {
+                                count = 2;//每次最多2人
+                            }
                             for (var c = 0; c < count; c++)
                             {
                                 AddDummyOnlineUser(roomLevel, deskNo);
                             }
                         }
+                        else
+                        {
+                            // 随机踢出一个虚拟用户
+                            KickoutDummyUser(roomLevel, deskNo);
+                        }
                     }
                 }
+            }
+            catch (InvalidOperationException)
+            {
+
             }
             catch (Exception ex)
             {
@@ -111,16 +126,39 @@ namespace Racing.Moto.Game.Web.ApiControllers
         {
             OnlineUser onlineUser = new OnlineUser();
 
-            onlineUser.UniqueID = OnlineHttpModule.GetMaxUniqueID();
+            onlineUser.UniqueID = OnlineHttpModule.GetDummyUniqueID(_minDummyUserId);
             // 用户名称                                                        
             onlineUser.UserName = Guid.NewGuid().ToString("N");
             // 用户头像  
             onlineUser.Avatar = GetRandomAvatar();
-            
+
+            onlineUser.RoomLevel = roomLevel;
+            onlineUser.DeskNo = deskNo;
             onlineUser.Num = OnlineHttpModule.GetMinMotoNum(roomLevel, deskNo);
 
             // 保存用户信息
             OnlineHttpModule.AddOnlineUser(onlineUser);
+        }
+
+        private void KickoutDummyUser(int roomLevel, int deskNo)
+        {
+            try
+            {
+                var dummyUsers = PKBag.OnlineUserRecorder.GetUserList().Where(u => u.RoomLevel == roomLevel && u.DeskNo == deskNo && u.UniqueID >= _minDummyUserId).ToList();
+                if (dummyUsers.Count > 0)
+                {
+                    var random = GetRandom(0, dummyUsers.Count - 1);
+                    PKBag.OnlineUserRecorder.Delete(dummyUsers[random]);
+                }
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Info(ex);
+            }
         }
 
         private string GetRandomAvatar()

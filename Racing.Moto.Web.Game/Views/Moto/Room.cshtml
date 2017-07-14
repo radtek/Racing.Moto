@@ -1,5 +1,5 @@
 ﻿@{
-    int roomId = Convert.ToInt32(ViewBag.RoomId);
+    int roomId = ViewBag.RoomId != null ? Convert.ToInt32(ViewBag.RoomId) : 0;
     var title = "";
     switch (roomId)
     {
@@ -76,3 +76,49 @@
         <img src="@avatar" />
     }
 </div>
+
+<script type="text/javascript">
+    function checkUserBalance(roomId) {
+        $.ajax({
+            type: 'POST',
+            url: '/Moto/GetBalance',
+            data: {},
+            success: function (res) {
+                if (res.Success) {
+                    var chkRes = checkBalance(roomId, res.Data);
+                    if (!chkRes.Success) {
+                        alert(chkRes.Message);
+                        location.href = "/";
+                    } else {
+                    }
+                } else {
+                    location.href = "/";
+                }
+            }
+        });
+    }
+    function checkBalance(roomId, balance) {
+        var res = {Success: false, Message:''};
+        
+        var room = null;
+        roomId = parseInt(roomId, 10);
+        switch (roomId) {
+            case 1: room = $app.MinBalance.Room1; break;
+            case 2: room = $app.MinBalance.Room2; break;
+            case 3: room = $app.MinBalance.Room3; break;
+        }
+        if (room != null) {
+            if (balance < room.Min) {
+                res.Success = false;
+                res.Message = "您的积分不足" + room.Min + ", 无法进入" + room.Name;
+            } else {
+                res.Success = true;
+            }
+        }
+
+        return res;
+    }
+
+    var roomId = $("#hidRoomLevel").val();
+    checkUserBalance(roomId);
+</script>

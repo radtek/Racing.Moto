@@ -1,6 +1,7 @@
 ﻿using NLog;
 using Racing.Moto.Game.Data.Constants;
 using Racing.Moto.Game.Data.Models;
+using Racing.Moto.Game.Data.Services;
 using Racing.Moto.Game.Web.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,31 @@ namespace Racing.Moto.Web.Game.Controllers
         {
             ViewBag.RoomId = id;
             return View();
+        }
+
+        /// <summary>
+        /// 取用户余额
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetBalance()
+        {
+            var result = new ResponseResult();
+
+            try
+            {
+                var balance = new UserService().GetBalance(PKBag.LoginUser.UserName);
+
+                result.Data = balance;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+
+                _logger.Info(ex);
+            }
+
+            return Json(result);
         }
 
         /// <summary>
@@ -63,23 +89,32 @@ namespace Racing.Moto.Web.Game.Controllers
             return Json(result);
         }
 
-        //// 取最小的 还未在房间中 使用的车号
-        //private int GetMinMotoNum(int roomLevel, int deskNo)
-        //{
-        //    var minNums = 1;
 
-        //    var deskUsers = PKBag.OnlineUserRecorder.GetUserList().Where(u => u.RoomLevel == roomLevel && u.DeskNo == deskNo);
-        //    for (int num = 1; num <= 10; num++)
-        //    {
-        //        if (!deskUsers.Where(u => u.Num == num).Any())
-        //        {
-        //            minNums = num;
-        //            break;
-        //        }
-        //    }
+        /// <summary>
+        /// 退出房间
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult Exit()
+        {
+            var result = new ResponseResult();
 
-        //    return minNums;
-        //}
+            try
+            {
+                var user = PKBag.OnlineUserRecorder.GetUser(PKBag.LoginUser.UserName);
+                user.RoomLevel = 0;
+                user.DeskNo = 0;
+                user.Num = 0;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = MessageConst.System_Error;
+
+                _logger.Info(ex);
+            }
+
+            return Json(result);
+        }
 
         #endregion
 

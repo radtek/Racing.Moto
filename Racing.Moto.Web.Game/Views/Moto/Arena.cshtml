@@ -1,6 +1,8 @@
 ﻿@{
     ViewBag.Title = "竞技场";
     Layout = "~/Views/Shared/_NoHeaderLayout.cshtml";
+
+    var userId = PKBag.LoginUser != null ? PKBag.LoginUser.UserId : 0;
 }
 @section headScripts {
     <link href="~/Scripts/JqueryUI/jquery-ui.min.css" rel="stylesheet" />
@@ -11,7 +13,7 @@
     <script src="~/Scripts/jPlayer/jquery.jplayer.min.js"></script>
     @Scripts.Render("~/Racing")
 }
-<input type="hidden" id="hidUserId" value="@PKBag.LoginUser.UserId" />
+<input type="hidden" id="hidUserId" value="@userId" />
 
 <div class="game-wrap">
     <div class="bg-top">

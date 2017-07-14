@@ -68,5 +68,8 @@ namespace Racing.Moto.Game.Data.Models
         /// 距离比赛开始的秒数, 负:未开始, 正:已开始
         /// </summary>
         public int GamingSeconds { get; set; }
+
+
+        public List<PKRoom> PKRooms { get; set; }
     }
 }
