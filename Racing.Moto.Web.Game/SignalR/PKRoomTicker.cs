@@ -104,7 +104,7 @@ namespace Racing.Moto.Game.Web.SignalR
                     {
                         RoomLevel = i,
                         RoomDeskId = j,
-                        Users = onlineUserRecorder.GetUserList().Where(u => u.RoomLevel == i && u.DeskNo == j).Select(u => new RoomUserModel
+                        Users = onlineUserRecorder.GetUsers(i, j).Select(u => new RoomUserModel
                         {
                             UserId = u.UniqueID,
                             UserName = u.UserName,

@@ -58,24 +58,31 @@ namespace Racing.Moto.Web.Game.Controllers
 
             try
             {
-                var maxMembers = 10;    //最多人数
+                var user = PKBag.OnlineUserRecorder.GetUser(PKBag.LoginUser.UserName);
 
-                var deskUsers = PKBag.OnlineUserRecorder.GetUserList().Where(u => u.RoomLevel == model.RoomLevel && u.DeskNo == model.DeskNo);
-                var memberCount = deskUsers.Count();
-                if (memberCount == maxMembers)
+                if (user.RoomLevel == model.RoomLevel && user.DeskNo == model.DeskNo)
                 {
-                    result.Success = false;
-                    result.Message = "房间已满";
+                    //已经进入的房间
                 }
                 else
                 {
-                    var user = PKBag.OnlineUserRecorder.GetUser(PKBag.LoginUser.UserName);
-                    user.RoomLevel = model.RoomLevel;
-                    user.DeskNo = model.DeskNo;
+                    var maxMembers = 10;    //最多人数
+                    var deskUsers = PKBag.OnlineUserRecorder.GetUsers(model.RoomLevel, model.DeskNo);
+                    var memberCount = deskUsers.Count();
+                    if (memberCount == maxMembers)
+                    {
+                        result.Success = false;
+                        result.Message = "房间已满";
+                    }
+                    else
+                    {
+                        user.RoomLevel = model.RoomLevel;
+                        user.DeskNo = model.DeskNo;
 
-                    // 取最小的 还未在房间中 使用的车号
-                    var motoNums = OnlineHttpModule.GetMinMotoNum(model.RoomLevel, model.DeskNo);
-                    user.Num = motoNums;
+                        // 取最小的 还未在房间中 使用的车号
+                        var motoNums = OnlineHttpModule.GetMinMotoNum(model.RoomLevel, model.DeskNo);
+                        user.Num = motoNums;
+                    }
                 }
             }
             catch (Exception ex)
@@ -118,10 +125,18 @@ namespace Racing.Moto.Web.Game.Controllers
 
         #endregion
 
-        // 竞技场
+        /// <summary>
+        /// 竞技场
+        /// </summary>
+        /// <param name="id">room id: 初中高级场</param>
+        /// <param name="cid">desk no: 桌号</param>
+        /// <returns></returns>
         [AllowAnonymous]
-        public ActionResult Arena()
+        public ActionResult Arena(int id, int cid)
         {
+            ViewBag.RoomId = id;
+            ViewBag.DeskNo = cid;
+
             if (PKBag.LoginUser != null)
             {
                 var user = PKBag.OnlineUserRecorder.GetUser(PKBag.LoginUser.UserName);

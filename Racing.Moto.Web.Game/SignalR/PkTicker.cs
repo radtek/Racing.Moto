@@ -17,7 +17,7 @@ namespace Racing.Moto.Game.Web.SignalR
         // Singleton instance
         private readonly static Lazy<PKTicker> _instance = new Lazy<PKTicker>(() => new PKTicker(GlobalHost.ConnectionManager.GetHubContext<PKTickerHub>().Clients));
         //private readonly ConcurrentDictionary<string, Stock> _pkInfo = new ConcurrentDictionary<string, Stock>();
-        private PKModel _pkInfo = new PKModel();
+        private PKInfoModel _pkInfo = new PKInfoModel();
 
         private readonly object _updatePkInfoLock = new object();
 
@@ -50,7 +50,7 @@ namespace Racing.Moto.Game.Web.SignalR
             _timer = new Timer(UpdatePKInfo, null, _updateInterval, _updateInterval);
         }
 
-        public PKModel GetPKInfo()
+        public PKInfoModel GetPKInfo()
         {
             return _pkInfo;
         }
@@ -73,7 +73,7 @@ namespace Racing.Moto.Game.Web.SignalR
             }
         }
 
-        private PKModel GetCurrentPKInfo()
+        private PKInfoModel GetCurrentPKInfo()
         {
             var pkService = new PKService();
 
@@ -82,7 +82,7 @@ namespace Racing.Moto.Game.Web.SignalR
             return info;
         }
 
-        private void BroadcastPkInfo(PKModel pkModel)
+        private void BroadcastPkInfo(PKInfoModel pkModel)
         {
             Clients.All.updatePkInfo(pkModel);
         }

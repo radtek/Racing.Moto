@@ -42,7 +42,14 @@
                     <li>余额：@balance</li>
                     @*<li><a href="#">充值</a></li>
                     <li><a href="#">提现</a></li>*@
+                if (Request.Url.ToString().ToLower().IndexOf("/moto/arena") > -1)
+                {
+                    <li><a href="/Moto/Room/@ViewBag.RoomId">退出</a></li>
+                }
+                else
+                {
                     <li><a href="/Account/LogOut">退出</a></li>
+                }
             }
             else
             {

@@ -124,13 +124,62 @@ namespace App.Core.OnlineStat
             return this.m_db.GetOnlineUsers();
         }
 
+        public List<OnlineUser> GetUsers(int roomLevel, int deskNo)
+        {
+            //return m_db.GetOnlineUsers().Where(u => u.UserName.ToLower() == userName.ToLower()).FirstOrDefault();
+
+            List<OnlineUser> users = new List<OnlineUser>();
+
+            var dbUsers = m_db.GetOnlineUsers();
+
+            for (var i = dbUsers.Count - 1; i >= 0; i--)
+            {
+                if (dbUsers[i].RoomLevel == roomLevel && dbUsers[i].DeskNo == deskNo)
+                {
+                    users.Add(dbUsers[i]);
+                }
+            }
+
+            return users;
+        }
+
         public OnlineUser GetUser(string userName)
         {
-            return m_db.GetOnlineUsers().Where(u => u.UserName.ToLower() == userName.ToLower()).FirstOrDefault();
+            //return m_db.GetOnlineUsers().Where(u => u.UserName.ToLower() == userName.ToLower()).FirstOrDefault();
+
+            OnlineUser user = null;
+
+            var users = m_db.GetOnlineUsers();
+
+            for(var i= users.Count - 1; i >= 0; i--)
+            {
+                if(users[i].UserName.ToLower() == userName.ToLower())
+                {
+                    user = users[i];
+                    break;
+                }
+            }
+
+            return user;
         }
         public OnlineUser GetUserByAuthenticationId(string authenticationId)
         {
-            return m_db.GetOnlineUsers().Where(u => u.AuthenticationId == authenticationId).FirstOrDefault();
+            //return m_db.GetOnlineUsers().Where(u => u.AuthenticationId == authenticationId).FirstOrDefault();
+
+            OnlineUser user = null;
+
+            var users = m_db.GetOnlineUsers();
+
+            for (var i = users.Count - 1; i >= 0; i--)
+            {
+                if (users[i].AuthenticationId == authenticationId)
+                {
+                    user = users[i];
+                    break;
+                }
+            }
+
+            return user;
         }
 
         /// <summary>

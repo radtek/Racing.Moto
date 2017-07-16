@@ -406,6 +406,7 @@
     </None>
     <Content Include="Scripts\app.js" />
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\Racing.Moto.Game.Web.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jPlayer\jquery.jplayer.js" />
     <Content Include="Scripts\jPlayer\jquery.jplayer.min.js" />

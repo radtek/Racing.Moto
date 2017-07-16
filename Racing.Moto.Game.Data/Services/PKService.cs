@@ -39,7 +39,7 @@ namespace Racing.Moto.Game.Data.Services
         /// 取当前PK
         /// </summary>
         /// <returns></returns>
-        public PKModel GetCurrentPKModel()
+        public PKInfoModel GetCurrentPKModel()
         {
             using (var db = new RacingGameDbContext())
             {
@@ -55,7 +55,7 @@ namespace Racing.Moto.Game.Data.Services
                 return ConvertToPKModel(currentPK);
             }
         }
-        public PKModel ConvertToPKModel(PK currentPK)
+        public PKInfoModel ConvertToPKModel(PK currentPK)
         {
             var now = DateTime.Now;
 
@@ -76,9 +76,13 @@ namespace Racing.Moto.Game.Data.Services
             var gameRemainSeconds = currentPK.GameSeconds - gamePassedSeconds;
             gameRemainSeconds = gameRemainSeconds > 0 ? gameRemainSeconds : 0;
 
-            return new PKModel
+            return new PKInfoModel
             {
-                PK = currentPK,
+                PK = new PKModel
+                {
+                    PKId = currentPK.PKId,
+                    Ranks = null
+                },
                 Now = now,
                 PassedSeconds = passedSeconds,
                 RemainSeconds = remainSeconds,
@@ -90,7 +94,21 @@ namespace Racing.Moto.Game.Data.Services
                 GamingSeconds = gamingSeconds,
 
                 GamePassedSeconds = gamePassedSeconds,
-                GameRemainSeconds = gameRemainSeconds
+                GameRemainSeconds = gameRemainSeconds,
+
+                PKRooms = currentPK.PKRooms.Select(r => new PKRoomModel
+                {
+                    PKRoomId = r.PKRoomId,
+                    PKRoomLevel = r.PKRoomLevel,
+                    PKId = r.PKId,
+                    PKRoomDesks = r.PKRoomDesks.Select(d => new PKRoomDeskModel
+                    {
+                        PKRoomDeskId = d.PKRoomDeskId,
+                        DeskNo = d.DeskNo,
+                        Ranks = d.Ranks,
+                        PKRoomId = d.PKRoomId
+                    }).ToList()
+                }).ToList()
             };
         }
 

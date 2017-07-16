@@ -133,7 +133,7 @@ var motoRoom = {
             data: { RoomLevel: roomLevel, DeskNo: deskNo },
             success: function (res) {
                 if (res.Success) {
-                    location.href = "/Moto/Arena";
+                    location.href = "/Moto/Arena/" + roomLevel + "/" + deskNo;
                 } else {
                     alert(res.Message);
                 }

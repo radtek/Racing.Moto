@@ -1,14 +1,4 @@
-﻿//在关闭页面时弹出确认提示窗口
-$(window).bind('beforeunload', function () {
-    $.ajax({
-        type: 'POST',
-        url: '/Moto/Exit',
-        data: {},
-        success: function (res) {
-        }
-    });
-});
-$(function () {
+﻿$(function () {
     var $elememts = $('.game-wrap').html();
     var $racingResult = $("#racingResult");
     var $bonusResult = $("#bonusResult");
@@ -33,13 +23,7 @@ $(function () {
             if (pkInfo == null) {
                 return;
             }
-
-            //// audio.wait
-            //$('body').oneTime('2s', function () {
-            //    //audio.run
-            //    motoAudio.wait.play();
-            //});
-
+            
             motoRacing.run(pkInfo);
         });
     }
@@ -70,7 +54,7 @@ $(function () {
         PKInfo: null,
         MaxPKCount: 1,
         ResultShowSeconds: 30,
-        BonusShowSeconds: 180,
+        BonusShowSeconds: 60,
         Millisec: 2,
         RoadLength: 610,//910
         Colors: ['red', 'blue', 'yellow', 'green', 'gray', 'aqua', 'blueviolet', 'brown', 'Highlight', 'aquamarine', 'teal'],
@@ -89,6 +73,23 @@ $(function () {
             $moto[0].src = '/img/moto-' + num + ".png";
             $moto.addClass('car-' + num).removeClass('car-run-' + num);
         },
+        getRanks: function (pkInfo) {
+            var roomLevel = parseInt($('#hidRoomLevel').val(), 10);
+            var deskNo = parseInt($('#hidDeskNo').val(), 10);
+
+            var ranks = null;
+            for (var i = 0; i < pkInfo.PKRooms.length; i++) {
+                if (pkInfo.PKRooms[i].PKRoomLevel == roomLevel) {
+                    for (var j = 0; j < pkInfo.PKRooms[i].PKRoomDesks.length; j++) {
+                        if (pkInfo.PKRooms[i].PKRoomDesks[j].DeskNo == deskNo) {
+                            ranks = pkInfo.PKRooms[i].PKRoomDesks[j].Ranks;
+                            break;
+                        }
+                    }
+                }
+            }
+            return ranks;
+        },
         run: function (pkInfo) {
             if (pkInfo != null) {
                 // countdown
@@ -97,6 +98,10 @@ $(function () {
                     motoRacing.countdownClock(pkInfo);
                 }
                 //motoRacing.countdownClock(pkInfo);
+                pkInfo.PK.Ranks = motoRacing.getRanks(pkInfo);
+                if (pkInfo.PK.Ranks != null) {
+                    console.log(pkInfo.PK.Ranks);
+                }
             }
 
             if (pkInfo == null || pkInfo.PK.Ranks == null) {
@@ -628,13 +633,12 @@ $(function () {
                 // close
                 //$racingResult.dialog("close");
                 $racingResult.addClass("hide");
-                motoRacing.reload();
+                //motoRacing.reload();
 
-
-                //// open
-                //motoRacing.showBonus();
-                //// countdown
-                //motoRacing.bonusCountdown();
+                // open
+                motoRacing.showBonus();
+                // countdown
+                motoRacing.bonusCountdown();
             });
         },
         getResultHtml: function () {
@@ -779,7 +783,7 @@ var motoAudio = {
             ready: function () {
                 $(this).jPlayer("setMedia", {
                     title: mediaName,
-                    mp3: "../../Content/Audio/" + mediaName + ".mp3"
+                    mp3: "/Content/Audio/" + mediaName + ".mp3"
                 });
             },
             play: function () {

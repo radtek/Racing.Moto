@@ -14,7 +14,14 @@ namespace Racing.Moto.Game.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Default",
+                name: "Default1",
+                url: "{controller}/{action}/{id}/{cid}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional, cid = UrlParameter.Optional },
+                namespaces: new string[] { "Racing.Moto.Web.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "Default2",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );

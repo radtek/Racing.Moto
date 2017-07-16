@@ -197,7 +197,7 @@ namespace Racing.Moto.Game.Web.Mvc
 
             OnlineUserRecorder recorder = HttpContext.Current.Cache[SessionConst.OnlineUserRecorderCacheKey] as OnlineUserRecorder;
 
-            var deskUsers = recorder.GetUserList().Where(u => u.RoomLevel == roomLevel && u.DeskNo == deskNo);
+            var deskUsers = recorder.GetUsers(roomLevel, deskNo);
             for (int num = 1; num <= 10; num++)
             {
                 if (!deskUsers.Where(u => u.Num == num).Any())

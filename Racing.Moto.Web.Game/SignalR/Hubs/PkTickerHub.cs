@@ -25,7 +25,7 @@ namespace Racing.Moto.Game.Web.SignalR.Hubs
             _pkicker = pkTicker;
         }
 
-        public PKModel GetPKInfo()
+        public PKInfoModel GetPKInfo()
         {
             return _pkicker.GetPKInfo();
         }

@@ -149,7 +149,42 @@
             array[i] = t;
         }
         return array;
+    },
+    exitArena: function getCookie() {
+        $.ajax({
+            type: 'POST',
+            url: '/Moto/Exit',
+            data: {},
+            success: function (res) {
+            }
+        });
     }
+};
+$cookie = {
+    add: function (name, value, expiresHours) {
+        var cookieString = name + "=" + escape(value);
+
+        if (expiresHours > 0) {    //判断是否设置过期时间 
+            var date = new Date();
+            date.setTime(date.getTime + expiresHours * 3600 * 1000);
+            cookieString = cookieString + "; expires=" + date.toGMTString();
+        }
+
+        document.cookie = cookieString;
+    },
+    get: function (name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg)) {
+            return unescape(arr[2]);
+        } else {
+            return null;
+        }
+    },
+    remove: function (name) {
+        var date = new Date();
+        date.setTime(date.getTime() - 10000);
+        document.cookie = name + "=v; expires=" + date.toGMTString();
+    },
 };
 Number.prototype.add = function (arg) {
     return $app.add(arg, this);
