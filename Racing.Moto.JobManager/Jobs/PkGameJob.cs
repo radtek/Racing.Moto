@@ -26,7 +26,7 @@ namespace Racing.Moto.JobManager.Jobs
         {
             try
             {
-                var startInfo = "PkGameJob Start at : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                var startInfo = "[PkGameJob] Start at : " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 Console.WriteLine(startInfo);
                 _logger.Info(startInfo);
 

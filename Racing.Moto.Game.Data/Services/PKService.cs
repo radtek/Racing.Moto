@@ -176,12 +176,18 @@ namespace Racing.Moto.Game.Data.Services
                 var now = DateTime.Now;
                 //var dbPK = db.PK.Where(pk => !pk.IsBonused && DbFunctions.DiffSeconds(now, pk.EndTime) > 0).FirstOrDefault();
                 var dbPK = db.PK.Where(pk => !pk.IsBonused).OrderByDescending(pk => pk.PKId).FirstOrDefault();
-                var dbPKRooms = db.PKRoom.Where(r => r.PKId == dbPK.PKId).ToList();
-                var roomIds = dbPKRooms.Select(r => r.PKRoomId).ToList();
-                var pkRoomDesks = db.PKRoomDesk.Where(d => roomIds.Contains(d.PKRoomId) && d.Ranks != null).ToList();
-
-                //pkRoomDesks.Count == 0 还没生成名次
-                return pkRoomDesks.Count > 0 ? dbPK : null;
+                if (dbPK != null)
+                {
+                    var dbPKRooms = db.PKRoom.Where(r => r.PKId == dbPK.PKId).ToList();
+                    var roomIds = dbPKRooms.Select(r => r.PKRoomId).ToList();
+                    var pkRoomDesks = db.PKRoomDesk.Where(d => roomIds.Contains(d.PKRoomId) && d.Ranks != null).ToList();
+                    //pkRoomDesks.Count == 0 还没生成名次
+                    return pkRoomDesks.Count > 0 ? dbPK : null;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
