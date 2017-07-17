@@ -10,9 +10,11 @@ namespace Racing.Moto.Services.Constants
     {
         public const string System_Error = "系统错误,请稍后重试!";
         public const string PK_IS_NOT_OPEN = "当前期开盘时间已过,请稍后下期开盘!";
+        public const string USER_NOT_EXIST = "用户不存在";
         public const string USER_EXIST_USERNAME = "当前用户名已存在";
         public const string USER_EMAIL_USERNAME_NOT_MATTCHING = "用户名与邮箱不匹配";
         public const string USER_INVALID_CODE = "验证码错误";
+        public const string USER_INVALID_USERNAME_OR_PASSWORD = "用户名或密码错误";
 
 
         public const string USER_BALANCE_IS_NOT_ENOUGH = "余额不足!";

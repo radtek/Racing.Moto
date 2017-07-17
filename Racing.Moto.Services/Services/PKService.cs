@@ -345,5 +345,31 @@ namespace Racing.Moto.Services
                     .ToList();
             }
         }
+
+
+
+        public List<PK> GetRanksNotSyncedPKs()
+        {
+            using (var db = new RacingDbContext())
+            {
+                return db.PK.Where(pk => !pk.IsRanksSynced && pk.Ranks != null).ToList();
+            }
+        }
+
+        /// <summary>
+        /// 更新 名次同步标志, 防止多次计算
+        /// </summary>
+        public void UpdateIsRanksSynced(int pkId, bool isRanksSynced)
+        {
+            using (var db = new RacingDbContext())
+            {
+                var pk = db.PK.Where(p => p.PKId == pkId).FirstOrDefault();
+                if (pk != null)
+                {
+                    pk.IsRanksSynced = isRanksSynced;
+                    db.SaveChanges();
+                }
+            }
+        }
     }
 }

@@ -30,6 +30,22 @@ namespace Racing.Moto.Services
             }
         }
 
+        public UserExtension GetUserExtension(string userName)
+        {
+            using (var db = new RacingDbContext())
+            {
+                var userId = db.User.Where(u => u.UserName == userName).Select(u => u.UserId).FirstOrDefault();
+                if (userId > 0)
+                {
+                    return GetUserExtension(userId);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         public decimal GetUserAmount(int userId)
         {
             decimal amount = 0M;

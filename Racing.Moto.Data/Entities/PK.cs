@@ -74,6 +74,13 @@ namespace Racing.Moto.Data.Entities
         /// </summary>
         public bool IsRebated { get; set; }
 
+        #region Wechat
+        /// <summary>
+        /// 名次是否已同步给微信端
+        /// </summary>
+        public bool IsRanksSynced { get; set; }
+        #endregion
+
         /// <summary>
         /// 当前期倍率
         public virtual ICollection<PKRate> PKRates { get; set; }

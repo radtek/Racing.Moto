@@ -155,4 +155,47 @@ namespace Racing.Moto.Data.Models
 
         public List<BetAmountModel> BetAmounts { get; set; }
     }
+
+
+    #region Wechat
+
+    public class BetModel
+    {
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string Password { get; set; }
+
+        /// <summary>
+        /// 订单号
+        /// </summary>
+        public string OrderNo { get; set; }
+
+        /// <summary>
+        /// 期数
+        /// </summary>
+        public int PKId { get; set; }
+
+        /// <summary>
+        /// 名次: 行(1-10名)
+        /// </summary>
+        public int Rank { get; set; }
+
+        /// <summary>
+        /// 押注的车号/大小/单双: 列(1-14, 1-10为第几号, 11-12为大小,13-14为单双)
+        /// </summary>
+        public int Num { get; set; }
+
+        /// <summary>
+        /// 金额
+        /// </summary>
+        public decimal Amount { get; set; }
+    }
+
+    #endregion 
 }
