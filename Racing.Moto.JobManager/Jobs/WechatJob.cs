@@ -78,7 +78,7 @@ namespace Racing.Moto.JobManager.Jobs
                     if (pk.EndTime.AddSeconds(pk.LotterySeconds) <= DateTime.Now)
                     {
                         RestClient client = new RestClient(wechatWebUrl);
-                        var request = new RestRequest("/api/Wechat/SyncRanks", Method.POST);
+                        var request = new RestRequest("/api/Wechat/issuereturn", Method.POST);
                         request.AddJsonBody(new
                         {
                             ID = pk.PKId,
@@ -89,9 +89,15 @@ namespace Racing.Moto.JobManager.Jobs
 
                         if (response != null && !string.IsNullOrEmpty(response.Content))
                         {
-                            var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
+                            //var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
+                            dynamic res = JsonConvert.DeserializeObject(response.Content);
 
-                            if (!result.Success)
+                            /*
+                                result: 
+                                    0：成功
+                                    1：失败
+                             */
+                            if (res.result.ToString() == "1")
                             {
                                 _logger.Info(response.Content);
                             }
@@ -123,7 +129,7 @@ namespace Racing.Moto.JobManager.Jobs
 
                 var dbBetItems = betItemService.GetNotSyncedBetItems();
 
-                var orderNos = dbBetItems.GroupBy(b => b.OrderNo).Select(g => g.Key).ToList();
+                var orderNos = dbBetItems.Where(b => b.OrderNo.HasValue).GroupBy(b => b.OrderNo).Select(g => g.Key.Value).ToList();
 
 
                 foreach (var orderNo in orderNos)
@@ -133,7 +139,7 @@ namespace Racing.Moto.JobManager.Jobs
                     var amount = pkBonusService.GetAmountByBetIds(betIds);
 
                     RestClient client = new RestClient(wechatWebUrl);
-                    var request = new RestRequest("/api/Wechat/SyncBonus", Method.POST);
+                    var request = new RestRequest("/Wechat/orderreturn", Method.POST);
                     request.AddJsonBody(new
                     {
                         OrderNo = orderNo,
@@ -144,9 +150,25 @@ namespace Racing.Moto.JobManager.Jobs
 
                     if (response != null && !string.IsNullOrEmpty(response.Content))
                     {
-                        var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
+                        //var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
 
-                        if (!result.Success)
+                        //if (!result.Success)
+                        //{
+                        //    _logger.Info(response.Content);
+                        //}
+                        //else
+                        //{
+                        //    betItemService.UpdateIsSynced(orderNo, true);
+                        //}
+
+                        dynamic res = JsonConvert.DeserializeObject(response.Content);
+
+                        /*
+                            result: 
+                                0：成功
+                                1：失败
+                         */
+                        if (res.result.ToString() == "1")
                         {
                             _logger.Info(response.Content);
                         }

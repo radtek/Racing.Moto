@@ -19,7 +19,8 @@ namespace Racing.Moto.Services
                     .Where(b => b.Bet.PK.IsBonused && b.Bet.PK.IsRebated && b.IsSynced.HasValue && b.IsSynced.Value == false).ToList();
             }
         }
-        public void UpdateIsSynced(string orderNo, bool isSynced)
+
+        public void UpdateIsSynced(long orderNo, bool isSynced)
         {
             using (var db = new RacingDbContext())
             {

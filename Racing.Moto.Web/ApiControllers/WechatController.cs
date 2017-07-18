@@ -30,7 +30,7 @@ namespace Racing.Moto.Web.ApiControllers
 
             try
             {
-                var user = new UserService().GetUserByUserName(model.UserName);
+                var user = new UserService().GetUserByUserName(model.userName);
 
                 if (user == null)
                 {
@@ -41,7 +41,7 @@ namespace Racing.Moto.Web.ApiControllers
                 }
                 else
                 {
-                    if (CryptoUtils.Decrypt(user.Password) != model.Password)
+                    if (CryptoUtils.Decrypt(user.Password) != model.passWd)
                     {
                         result.Success = false;
                         result.Message = MessageConst.USER_INVALID_USERNAME_OR_PASSWORD;
@@ -51,7 +51,7 @@ namespace Racing.Moto.Web.ApiControllers
                 }
 
                 // 验证下注时间是否合法, 超过当前PK的开盘时期则非法, 提示已封盘
-                var isOpening = new PKService().IsOpening(model.PKId);
+                var isOpening = new PKService().IsOpening(model.issue);
                 if (!isOpening)
                 {
                     result.Success = false;
@@ -66,7 +66,7 @@ namespace Racing.Moto.Web.ApiControllers
                     // 查验余额
                     var userExtend = userExtendService.GetUserExtension(user.UserId);
 
-                    var betAmount = model.Amount;
+                    var betAmount = model.score;
                     if (betAmount > userExtend.Amount)
                     {
                         result.Success = false;
@@ -84,16 +84,16 @@ namespace Racing.Moto.Web.ApiControllers
                     {
                         var bets = new List<Bet> {
                             new Bet {
-                                OrderNo = model.OrderNo,
-                                PKId = model.PKId,
+                                OrderNo = model.orderId,
+                                PKId = model.issue,
                                 UserId = userExtend.UserId,
-                                Rank = model.Rank,
-                                Num = model.Num,
-                                Amount = model.Amount
+                                Rank = model.rank,
+                                Num = model.value,
+                                Amount = model.score
                             }
                         };
                         // 下注
-                        new BetService().SaveBets(model.PKId, userExtend.UserId, bets, false);
+                        new BetService().SaveBets(model.issue, userExtend.UserId, bets, false);
 
                         // 更新余额
                         userExtendService.MinusAmount(userExtend.UserId, betAmount);
@@ -102,9 +102,6 @@ namespace Racing.Moto.Web.ApiControllers
                             PKBag.LoginUser.UserExtension.Amount = userExtend.Amount - betAmount;
                         }
                         catch { }
-
-                        // 回传给前台, 更新余额
-                        //result.Data = PKBag.LoginUser.UserExtension.Amount;
                     }
                 }
             }
@@ -124,36 +121,23 @@ namespace Racing.Moto.Web.ApiControllers
         /// 取当前期
         /// </summary>
         [HttpPost]
-        public ResponseResult GetCurrentPK()
+        public IssueModel GetCurrentIssue()
         {
-            var result = new ResponseResult();
+            var result = new IssueModel();
 
             try
             {
                 var pk = new PKService().GetCurrentPK();
                 if (pk != null)
                 {
-                    result.Data = new
-                    {
-                        ID = pk.PKId,
-                        CloseTime = pk.BeginTime.AddSeconds(pk.OpeningSeconds),
-                        LotteryTIme = pk.EndTime.AddSeconds(-pk.LotterySeconds)
-                    };
-                }
-                else
-                {
-                    result.Data = new
-                    {
-                        ID = 0
-                    };
+                    result.issue = pk.PKId;
+                    result.blockingTime = pk.BeginTime.AddSeconds(pk.OpeningSeconds);
+                    result.lotteryTime = pk.EndTime.AddSeconds(-pk.LotterySeconds);
                 }
             }
             catch (Exception ex)
             {
                 _logger.Info(ex);
-
-                result.Success = false;
-                result.Message = MessageConst.System_Error;
             }
 
             return result;

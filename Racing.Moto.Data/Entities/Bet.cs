@@ -81,7 +81,7 @@ namespace Racing.Moto.Data.Entities
         /// 微信端订单号, 存在子表[BetItem]中
         /// </summary>
         [NotMapped]
-        public string OrderNo { get; set; }
+        public long OrderNo { get; set; }
         #endregion
 
         /// <summary>

@@ -47,8 +47,7 @@ namespace Racing.Moto.Data.Entities
         /// <summary>
         /// 微信端订单号
         /// </summary>
-        [StringLength(50)]
-        public string OrderNo { get; set; }
+        public long? OrderNo { get; set; }
 
         /// <summary>
         /// 是否已同步给微信端

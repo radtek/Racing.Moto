@@ -158,43 +158,60 @@ namespace Racing.Moto.Data.Models
 
 
     #region Wechat
+    public class IssueModel
+    {
+        /// <summary>
+        /// 当前开奖期数:PKID
+        /// </summary>
+        public int issue { get; set; }
+
+        /// <summary>
+        /// 封盘时间
+        /// </summary>
+        public DateTime blockingTime { get; set; }
+
+        /// <summary>
+        /// 开奖时间
+        /// </summary>
+        public DateTime lotteryTime { get; set; }
+    }
 
     public class BetModel
     {
         /// <summary>
         /// 用户名
         /// </summary>
-        public string UserName { get; set; }
+        public string userName { get; set; }
 
         /// <summary>
         /// 密码
         /// </summary>
-        public string Password { get; set; }
+        public string passWd { get; set; }
 
         /// <summary>
         /// 订单号
         /// </summary>
-        public string OrderNo { get; set; }
+        public long orderId { get; set; }
 
         /// <summary>
         /// 期数
         /// </summary>
-        public int PKId { get; set; }
+        public int issue { get; set; }
 
         /// <summary>
         /// 名次: 行(1-10名)
         /// </summary>
-        public int Rank { get; set; }
+        public int rank { get; set; }
 
         /// <summary>
         /// 押注的车号/大小/单双: 列(1-14, 1-10为第几号, 11-12为大小,13-14为单双)
         /// </summary>
-        public int Num { get; set; }
+        public int value { get; set; }
 
         /// <summary>
         /// 金额
         /// </summary>
-        public decimal Amount { get; set; }
+        public long score { get; set; }
     }
 
     #endregion 
