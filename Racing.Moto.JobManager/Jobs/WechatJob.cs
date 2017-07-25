@@ -69,6 +69,7 @@ namespace Racing.Moto.JobManager.Jobs
                 var pkService = new PKService();
 
                 var wechatWebUrl = System.Configuration.ConfigurationManager.AppSettings["WechatWebUrl"];
+                var wechatWebPath = System.Configuration.ConfigurationManager.AppSettings["WechatWebPath"];
 
                 var pks = pkService.GetRanksNotSyncedPKs();
 
@@ -78,12 +79,14 @@ namespace Racing.Moto.JobManager.Jobs
                     if (pk.EndTime.AddSeconds(pk.LotterySeconds) <= DateTime.Now)
                     {
                         RestClient client = new RestClient(wechatWebUrl);
-                        var request = new RestRequest("/api/Wechat/issuereturn", Method.POST);
-                        request.AddJsonBody(new
-                        {
-                            ID = pk.PKId,
-                            Ranks = pk.Ranks
-                        });
+                        
+                        var resource = string.Format("/{0}/issuereturn?issue={1}&result={2}", wechatWebPath, pk.PKId, pk.Ranks);
+                        var request = new RestRequest(resource, Method.POST);
+                        //request.AddJsonBody(new
+                        //{
+                        //    ID = pk.PKId,
+                        //    Ranks = pk.Ranks
+                        //});
 
                         var response = client.Execute(request);
 
@@ -126,6 +129,7 @@ namespace Racing.Moto.JobManager.Jobs
                 var pkBonusService = new PKBonusService();
 
                 var wechatWebUrl = System.Configuration.ConfigurationManager.AppSettings["WechatWebUrl"];
+                var wechatWebPath = System.Configuration.ConfigurationManager.AppSettings["WechatWebPath"];
 
                 var dbBetItems = betItemService.GetNotSyncedBetItems();
 
@@ -134,33 +138,23 @@ namespace Racing.Moto.JobManager.Jobs
 
                 foreach (var orderNo in orderNos)
                 {
-                    // 当前世界超过开奖时间
+                    // 当前时间超过开奖时间
                     var betIds = dbBetItems.Where(b => b.OrderNo == orderNo).Select(b => b.BetId).ToList();
                     var amount = pkBonusService.GetAmountByBetIds(betIds);
 
                     RestClient client = new RestClient(wechatWebUrl);
-                    var request = new RestRequest("/Wechat/orderreturn", Method.POST);
-                    request.AddJsonBody(new
-                    {
-                        OrderNo = orderNo,
-                        Amount = amount
-                    });
+                    var resource = string.Format("/{0}/orderreturn?orderId={1}&score={2}", wechatWebPath, orderNo, amount);
+                    var request = new RestRequest(resource, Method.POST);
+                    //request.AddJsonBody(new
+                    //{
+                    //    OrderNo = orderNo,
+                    //    Amount = amount
+                    //});
 
                     var response = client.Execute(request);
 
                     if (response != null && !string.IsNullOrEmpty(response.Content))
                     {
-                        //var result = JsonConvert.DeserializeObject<ResponseResult>(response.Content);
-
-                        //if (!result.Success)
-                        //{
-                        //    _logger.Info(response.Content);
-                        //}
-                        //else
-                        //{
-                        //    betItemService.UpdateIsSynced(orderNo, true);
-                        //}
-
                         dynamic res = JsonConvert.DeserializeObject(response.Content);
 
                         /*
