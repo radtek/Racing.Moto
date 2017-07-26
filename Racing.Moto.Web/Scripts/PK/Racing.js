@@ -677,6 +677,11 @@
                 $bonusResult.addClass("hide");
                 // resetElements
                 motoRacing.resetElements();
+
+                var redirect = $('#hidRedirect').val();
+                if (redirect != '') {
+                    location.href = redirect;
+                }
             });
         },
         getBonusRanksHtml: function () {

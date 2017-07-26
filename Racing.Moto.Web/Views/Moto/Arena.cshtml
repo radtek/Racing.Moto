@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "竞技场";
     Layout = "~/Views/Shared/_NoHeaderLayout.cshtml";
+    var redirect = !string.IsNullOrEmpty(Request.QueryString["redirect"]) ? Request.QueryString["redirect"] : "";
 }
 @section headScripts {
     <link href="~/Scripts/JqueryUI/jquery-ui.min.css" rel="stylesheet" />
@@ -12,7 +13,7 @@
     @Scripts.Render("~/Racing")
 }
 @*<input type="hidden" id="hidUserId" value="@PKBag.LoginUser.UserId" />*@
-
+<input type="hidden" id="hidRedirect" value="@redirect" />
 <div class="game-wrap">
     <div class="bg-top">
         <div class="shishi" id="ranks">
