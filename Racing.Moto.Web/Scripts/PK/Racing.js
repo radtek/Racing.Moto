@@ -144,7 +144,7 @@
                     $('.time-run').hide();
 
                     $('body').everyTime('1s', function () {
-                        var clock = motoRacing.getcountdownClock();                       
+                        var clock = motoRacing.getcountdownClock();
 
                         //console.log(clock);
                         if (clock == '00:00:05') {
@@ -607,12 +607,23 @@
             $racingResult.html(html);
             $racingResult.removeClass("hide");
             $('.btn-close-result').click(function () {
+                var isRedirect = motoRacing.redirect();
+                if (isRedirect) {
+                    return;
+                }
+
                 $racingResult.addClass("hide");
                 motoRacing.reload();
             });
 
             // close result dialog after 5 seconds, then open bonus dialog
             $('body').oneTime(motoRacing.ResultShowSeconds + 's', function () {
+
+                var isRedirect = motoRacing.redirect();
+                if (isRedirect) {
+                    return;
+                }
+
                 // close
                 //$racingResult.dialog("close");
                 $racingResult.addClass("hide");
@@ -650,6 +661,16 @@
 
             return title + ul;
         },
+        redirect: function () {
+            var redirect = $('#hidRedirect').val().toLowerCase();
+            if (redirect != '') {
+                if (redirect.indexOf('http') == -1) {
+                    redirect = "http://" + redirect;
+                }
+                location.href = redirect;
+            }
+            return redirect != '';
+        },
         showBonus: function () {
             // removed
             $.ajax({
@@ -677,11 +698,6 @@
                 $bonusResult.addClass("hide");
                 // resetElements
                 motoRacing.resetElements();
-
-                var redirect = $('#hidRedirect').val();
-                if (redirect != '') {
-                    location.href = redirect;
-                }
             });
         },
         getBonusRanksHtml: function () {
@@ -749,7 +765,7 @@
             });
         },
         reload: function () {
-            location.href = location.href.replace('#','');
+            location.href = location.href.replace('#', '');
         },
     };
 
