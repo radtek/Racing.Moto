@@ -54,13 +54,13 @@ namespace Racing.Moto.JobManager.Jobs
                 scheduler.ScheduleJob(rebateJob, rebateTrigger);
 
                 // 微信端数据同步: 每5秒执行一次
-                //var wechatInterval = 5;
-                //IJobDetail wechatJob = JobBuilder.Create<WechatJob>().Build();
-                //ITrigger wechatTrigger = TriggerBuilder.Create()
-                //    .WithIdentity("WechatJobTrigger", "WechatJobGroup")
-                //    .WithSimpleSchedule(t => t.WithIntervalInSeconds(wechatInterval).RepeatForever())
-                //    .Build();
-                //scheduler.ScheduleJob(wechatJob, wechatTrigger);
+                var wechatInterval = 5;
+                IJobDetail wechatJob = JobBuilder.Create<WechatJob>().Build();
+                ITrigger wechatTrigger = TriggerBuilder.Create()
+                    .WithIdentity("WechatJobTrigger", "WechatJobGroup")
+                    .WithSimpleSchedule(t => t.WithIntervalInSeconds(wechatInterval).RepeatForever())
+                    .Build();
+                scheduler.ScheduleJob(wechatJob, wechatTrigger);
 
 
                 #region Game

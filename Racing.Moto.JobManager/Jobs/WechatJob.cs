@@ -102,10 +102,12 @@ namespace Racing.Moto.JobManager.Jobs
                              */
                             if (res.result.ToString() == "1")
                             {
-                                _logger.Info(response.Content);
+                                _logger.Info("[SyncRanks Failed] [" + resource + "] " + response.Content);
                             }
                             else
                             {
+                                _logger.Info("[SyncRanks Success] [" + resource + "] " + response.Content);
+
                                 pkService.UpdateIsRanksSynced(pk.PKId, true);
                             }
                         }
@@ -164,10 +166,12 @@ namespace Racing.Moto.JobManager.Jobs
                          */
                         if (res.result.ToString() == "1")
                         {
-                            _logger.Info(response.Content);
+                            _logger.Info("[SyncBonus Failed] [" + resource + "] " + response.Content);
                         }
                         else
                         {
+                            _logger.Info("[SyncBonus Success] [" + resource + "] " + response.Content);
+
                             betItemService.UpdateIsSynced(orderNo, true);
                         }
                     }

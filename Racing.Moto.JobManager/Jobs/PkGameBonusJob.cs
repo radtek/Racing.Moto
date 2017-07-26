@@ -21,6 +21,7 @@ namespace Racing.Moto.JobManager.Jobs
     public class PkGameBonusJob : IJob
     {
         private ILogger _logger = LogManager.GetCurrentClassLogger();
+        private int _minDummyUserId = 10000000;
 
         /// <summary>
         /// 生成奖金
@@ -104,7 +105,7 @@ namespace Racing.Moto.JobManager.Jobs
                     //桌子
                     for (var deskNo = 1; deskNo <= 8; deskNo++)
                     {
-                        var users = onlieUsers.Where(u => u.RoomLevel == roomLevel && u.DeskNo == deskNo).ToList();
+                        var users = onlieUsers.Where(u => u.UniqueID < _minDummyUserId && u.RoomLevel == roomLevel && u.DeskNo == deskNo).ToList();
                         if (users.Count > 0)
                         {
                             var desk = room.PKRoomDesks.Where(d => d.DeskNo == deskNo).First();

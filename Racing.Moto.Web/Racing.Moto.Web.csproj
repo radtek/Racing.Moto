@@ -181,7 +181,9 @@
     <Content Include="Content\Audio\applause.mp3" />
     <Content Include="Content\Audio\countdown.mp3" />
     <Content Include="Content\Audio\end.mp3" />
+    <Content Include="Content\Audio\racing.mp3" />
     <Content Include="Content\Audio\run.mp3" />
+    <Content Include="Content\Audio\site.mp3" />
     <Content Include="Content\Audio\start.mp3" />
     <Content Include="Content\Audio\wait.mp3" />
     <Content Include="Content\bet.css" />
