@@ -662,9 +662,9 @@
             return title + ul;
         },
         redirect: function () {
-            var redirect = $('#hidRedirect').val().toLowerCase();
+            var redirect = $('#hidRedirect').val();
             if (redirect != '') {
-                if (redirect.indexOf('http') == -1) {
+                if (redirect.toLowerCase().indexOf('http') == -1) {
                     redirect = "http://" + redirect;
                 }
                 location.href = redirect;
