@@ -34,7 +34,7 @@
         //pkInfo = {};
         //pkInfo.GamingSeconds = 10;
         //pkInfo.GamePassedSeconds = 0;
-        //pkInfo.GameRemainSeconds = 20;
+        //pkInfo.GameRemainSeconds = 30;
         //pkInfo.GameBeginTime = '2017/04/03 18:30:00';
         //pkInfo.PK = { PKId: 1, Ranks: '3,2,5,6,8,7,10,1,9,4', GameSeconds: 20 };
 
@@ -784,38 +784,38 @@ var motoAudioNew = {
         }
     },
     initPlayer: function (mediaName) {
-        $("#jplayer_" + mediaName).jPlayer("destroy");
-        $("#jplayer_" + mediaName).jPlayer({
-            ready: function () {
-                $(this).jPlayer("setMedia", {
-                    title: mediaName,
-                    mp3: "../../Content/Audio/" + mediaName + ".mp3"
-                });
-            },
-            play: function () {
-                //var name = $(this).attr('id').split('_')[1];
-                //if (name != 'countdown') {
-                //    $(this).jPlayer("pauseOthers");// To avoid multiple jPlayers playing together.
-                //}
-            },
-            ended: function () { // The $.jPlayer.event.ended event
-            },
-            swfPath: "../jPlayer",
-            supplied: "mp3,wav",
-            wmode: "window",
-            globalVolume: true,
-            useStateClassSkin: true,
-            autoBlur: false,
-            smoothPlayBar: true,
-            keyEnabled: true
-        });
+        //$("#jplayer_" + mediaName).jPlayer("destroy");
+        //$("#jplayer_" + mediaName).jPlayer({
+        //    ready: function () {
+        //        $(this).jPlayer("setMedia", {
+        //            title: mediaName,
+        //            mp3: "../../Content/Audio/" + mediaName + ".mp3"
+        //        });
+        //    },
+        //    play: function () {
+        //    },
+        //    ended: function () { // The $.jPlayer.event.ended event
+        //    },
+        //    swfPath: "../jPlayer",
+        //    supplied: "mp3,wav",
+        //    wmode: "window",
+        //    globalVolume: true,
+        //    useStateClassSkin: true,
+        //    autoBlur: false,
+        //    smoothPlayBar: true,
+        //    keyEnabled: true
+        //});
+        //createjs.Sound.on("fileload", handleLoadComplete);
+        createjs.Sound.alternateExtensions = ["mp3"];
+        createjs.Sound.registerSound({ src: "/Content/Audio/" + mediaName + ".mp3", id: mediaName });
     },
     racing: {
         play: function () {
-            $("#jplayer_racing").jPlayer("play");
+            //$("#jplayer_racing").jPlayer("play");
+            createjs.Sound.play("racing");
         },
         pause: function () {
-            $("#jplayer_racing").jPlayer("pause");
+            //$("#jplayer_racing").jPlayer("pause");
         },
     },
 };

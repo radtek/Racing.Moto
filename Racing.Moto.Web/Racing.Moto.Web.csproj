@@ -329,6 +329,7 @@
     <Content Include="Scripts\Controllers\betController.js" />
     <Content Include="Scripts\Controllers\userReportController.js" />
     <Content Include="Scripts\Controllers\userController.js" />
+    <Content Include="Scripts\CreateJs\soundjs-0.6.2.min.js" />
     <Content Include="Scripts\datetimepicker\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\datetimepicker\bootstrap-datetimepicker.min.css" />
     <Content Include="Scripts\datetimepicker\bootstrap-datetimepicker.zh-CN.js" />
