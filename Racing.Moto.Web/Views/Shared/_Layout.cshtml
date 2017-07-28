@@ -101,7 +101,7 @@
             createjs.Sound.alternateExtensions = ["mp3"];
             createjs.Sound.registerSound({ src: "Content/Audio/site.mp3", id: "bgSound" });
             function handleLoadComplete(event) {
-                createjs.Sound.play("bgSound");
+                createjs.Sound.play("bgSound", { loop: -1 });
             }
         </script>
 
