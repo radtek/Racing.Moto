@@ -1,6 +1,7 @@
 ﻿@{
     ViewBag.Title = "竞技场";
     Layout = "~/Views/Shared/_NoHeaderLayout.cshtml";
+    var redirect = !string.IsNullOrEmpty(Request.QueryString["redirect"]) ? Request.QueryString["redirect"] : "";
 }
 @section headScripts {
     <link href="~/Scripts/JqueryUI/jquery-ui.min.css" rel="stylesheet" />
@@ -8,11 +9,12 @@
     <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="/signalr/hubs"></script>
     <script src="~/Scripts/timeCountDown.js"></script>
-    <script src="~/Scripts/jPlayer/jquery.jplayer.min.js"></script>
+    @*<script src="~/Scripts/jPlayer/jquery.jplayer.min.js"></script>*@
+    <script src="~/Scripts/CreateJs/soundjs-0.6.2.min.js"></script>
     @Scripts.Render("~/Racing")
 }
 @*<input type="hidden" id="hidUserId" value="@PKBag.LoginUser.UserId" />*@
-
+<input type="hidden" id="hidRedirect" value="@redirect" />
 <div class="game-wrap">
     <div class="bg-top">
         <div class="shishi" id="ranks">
@@ -149,13 +151,20 @@
 </div>
 
 <div>
-    <div id="jplayer_wait" class="jp-jplayer"></div>
+    @*<div id="jplayer_wait" class="jp-jplayer"></div>
     <div id="jplayer_countdown" class="jp-jplayer"></div>
     <div id="jplayer_start" class="jp-jplayer"></div>
     <div id="jplayer_run" class="jp-jplayer"></div>
     <div id="jplayer_end" class="jp-jplayer"></div>
-    <div id="jplayer_applause" class="jp-jplayer"></div>
+    <div id="jplayer_applause" class="jp-jplayer"></div>*@
 
     @*<button onclick="motoAudio.run.play();">run</button>
     <button onclick="motoAudio.run.pause();">pause</button>*@
+
+
+    @*<div id="jplayer_racing" class="jp-jplayer"></div>*@
+</div>
+<div style="display:none;">
+    @*<audio src="~/Content/Audio/site.mp3" autoplay="autoplay"></audio>*@
+    <audio src="~/Content/Audio/racing.mp3"></audio>
 </div>

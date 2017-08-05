@@ -53,7 +53,7 @@ namespace Racing.Moto.Data.Entities
         /// </summary>
         [NotMapped]
         public decimal BonusAmount { get; set; }
-        
+
         /// <summary>
         /// 是否已结算, 前台查询使用
         /// </summary>
@@ -75,6 +75,14 @@ namespace Racing.Moto.Data.Entities
         /// 总代理 UserId 报表使用
         /// </summary>
         public int? GeneralAgentUserId { get; set; }
+
+        #region Wechat
+        /// <summary>
+        /// 微信端订单号, 存在子表[BetItem]中
+        /// </summary>
+        [NotMapped]
+        public long OrderNo { get; set; }
+        #endregion
 
         /// <summary>
         /// PK

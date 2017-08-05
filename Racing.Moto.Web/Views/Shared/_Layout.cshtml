@@ -12,6 +12,7 @@
 
         <link href="~/Content/site.css" rel="stylesheet" />
         <script src="~/Scripts/app.js"></script>
+        <script src="~/Scripts/CreateJs/soundjs-0.6.2.min.js"></script>
 
         @RenderSection("headScripts", required: false)
     </head>
@@ -82,6 +83,10 @@
                 @RenderBody()
             </div>
 
+            <div style="display:none;">
+                @*<audio src="~/Content/Audio/site.mp3" autoplay="autoplay"></audio>*@
+                <audio src="~/Content/Audio/site.mp3"></audio>
+            </div>
             <!-- Footer -->
             @*<footer>
                 <div class="row">
@@ -91,6 +96,14 @@
                 </div>
             </footer>*@
         </div>
+        <script>
+            createjs.Sound.on("fileload", handleLoadComplete);
+            createjs.Sound.alternateExtensions = ["mp3"];
+            createjs.Sound.registerSound({ src: "Content/Audio/site.mp3", id: "bgSound" });
+            function handleLoadComplete(event) {
+                createjs.Sound.play("bgSound", { loop: -1 });
+            }
+        </script>
 
         @RenderSection("footerScripts", required: false)
     </body>

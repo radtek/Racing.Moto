@@ -215,5 +215,18 @@ namespace Racing.Moto.Services
             }
         }
 
+        public decimal GetAmountByBetIds(List<int> betIds)
+        {
+            decimal amount = 0;
+
+            using (var db = new RacingDbContext())
+            {
+                var query = db.PKBonus.Where(b => betIds.Contains(b.BetId));
+                amount = query.Count() > 0 ? query.Sum(b => b.Amount) : 0;
+            }
+
+            return amount;
+        }
+
     }
 }

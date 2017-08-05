@@ -32,7 +32,7 @@ namespace Racing.Moto.Web.Controllers
             try
             {
                 // 刷新余额
-                if(LoginUser != null && LoginUser.UserExtension != null)
+                if (LoginUser != null && LoginUser.UserExtension != null)
                 {
                     LoginUser.UserExtension.Amount = new UserExtensionService().GetBalance(LoginUser.UserId);
                 }
@@ -107,7 +107,7 @@ namespace Racing.Moto.Web.Controllers
                     else
                     {
                         // 下注
-                        new BetService().SaveBets(pkId, LoginUser.UserId, bets);
+                        new BetService().SaveBets(pkId, LoginUser.UserId, bets, null);
 
                         // 更新余额
                         userExtendService.MinusAmount(LoginUser.UserId, betAmount);

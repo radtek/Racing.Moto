@@ -20,7 +20,7 @@ namespace Racing.Moto.Services
         /// <summary>
         /// 同一个PK,可以多次下注
         /// </summary>
-        public void SaveBets(int pkId, int userId, List<Bet> bets)
+        public void SaveBets(int pkId, int userId, List<Bet> bets, bool? isSynced)
         {
             using (var db = new RacingDbContext())
             {
@@ -60,15 +60,17 @@ namespace Racing.Moto.Services
                     b.GeneralAgentUserId = generalAgentUserId;
 
                     b.BetItems = new List<BetItem>
-                {
-                    new BetItem
                     {
-                        Rank = b.Rank,
-                        Num = b.Num,
-                        Amount = b.Amount,
-                        CreateTime = DateTime.Now
-                    }
-                };
+                        new BetItem
+                        {
+                            Rank = b.Rank,
+                            Num = b.Num,
+                            Amount = b.Amount,
+                            CreateTime = DateTime.Now,
+                            OrderNo = b.OrderNo,
+                            IsSynced = isSynced
+                        }
+                    };
                 });
 
                 var dbBets = db.Bet.Where(b => b.PKId == pkId && b.UserId == userId).ToList();
@@ -95,7 +97,9 @@ namespace Racing.Moto.Services
                                 Rank = newBet.Rank,
                                 Num = newBet.Num,
                                 Amount = newBet.Amount,
-                                CreateTime = DateTime.Now
+                                CreateTime = DateTime.Now,
+                                OrderNo = newBet.OrderNo,
+                                IsSynced = isSynced
                             };
                             db.BetItem.Add(betItem);
                         }
@@ -408,7 +412,7 @@ namespace Racing.Moto.Services
             // 自然数升序的情况, 通常是因为无论什么顺序, 奖金都相同, 如只有一个用户下注1号车的10个名次都是大,且金额相同
             // 此时生成个随机数返回
             var rankStr = string.Join(",", ranks);
-            
+
             // 用户下注1-9号车, 10没下注, 结果为 10,1,2,3,4,5,6,7,8,9, 后9位如果奖金相同, 后9位生成随机顺序
             var motoRates = betRates.GroupBy(r => r.Num).Select(g => new { Num = g.Key, Val = g.Sum(r => r.Rate) }).ToList();
             // 按奖金分组, 如果每组长度有超过2的, 这组如果在计算结果中是按升序存在的, 则打乱顺序

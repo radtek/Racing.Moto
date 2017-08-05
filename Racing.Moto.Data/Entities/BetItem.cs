@@ -43,6 +43,19 @@ namespace Racing.Moto.Data.Entities
         /// </summary>
         public DateTime CreateTime { get; set; }
 
+        #region Wechat
+        /// <summary>
+        /// 微信端订单号
+        /// </summary>
+        public long? OrderNo { get; set; }
+
+        /// <summary>
+        /// 是否已同步给微信端
+        /// </summary>
+        public bool? IsSynced { get; set; }
+        #endregion
+
+
         /// <summary>
         /// Bet
         /// </summary>
