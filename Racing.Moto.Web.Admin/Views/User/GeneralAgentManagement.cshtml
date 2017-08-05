@@ -4,13 +4,14 @@
 
     var loginUserId = PKBag.LoginUser != null ? PKBag.LoginUser.UserId : 0;
     var loginUserName = PKBag.LoginUser != null ? PKBag.LoginUser.UserName : "";
-    var isAdmin = loginUserName == "super" || loginUserName == "admin";
+    var isAdmin = loginUserName.ToLower() == "super" || loginUserName.ToLower() == "admin";
+    var isAdminStr = isAdmin.ToString().ToLower();
 }
 
 @section headScripts {
     <script src="~/Scripts/Controllers/admin/UserManagementController.js?a=1"></script>
 }
-<table width="100%" height="100%" border="0" cellspacing="0" class="a" ng-controller="userManagementController" ng-init="init('@ViewBag.UserType', '@ViewBag.UserId', '@loginUserId', '@isAdmin')">
+<table width="100%" height="100%" border="0" cellspacing="0" class="a" ng-controller="userManagementController" ng-init="init('@ViewBag.UserType', '@ViewBag.UserId', '@loginUserId', '@isAdminStr')">
     <tbody>
         <tr>
             <td width="6" height="99%" bgcolor="#4E4E4E"></td>
