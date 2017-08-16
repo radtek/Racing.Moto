@@ -807,7 +807,7 @@ var motoAudioNew = {
         //});
         //createjs.Sound.on("fileload", handleLoadComplete);
         createjs.Sound.alternateExtensions = ["mp3"];
-        createjs.Sound.registerSound({ src: "/Content/Audio/" + mediaName + ".mp3", id: mediaName });
+        createjs.Sound.registerSound({ src: "../../Content/Audio/" + mediaName + ".mp3", id: mediaName });
     },
     racing: {
         play: function () {
