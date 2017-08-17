@@ -124,6 +124,15 @@ namespace Racing.Moto.Services
             }
         }
 
+        public List<User> GetUsers(List<int> userIds)
+        {
+            using (var db = new RacingDbContext())
+            {
+                return db.User
+                    .Where(u => userIds.Contains(u.UserId)).ToList();
+            }
+        }
+
         public User GetUserOnly(int userId)
         {
             using (var db = new RacingDbContext())

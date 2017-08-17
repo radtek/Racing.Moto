@@ -19,6 +19,13 @@ namespace Racing.Moto.Services
                 return db.UserRebate.Where(u => u.UserId == userId).OrderBy(u => u.RebateNo).ToList();
             }
         }
+        public List<UserRebate> GetUserRebates(List<int> userIds)
+        {
+            using (var db = new RacingDbContext())
+            {
+                return db.UserRebate.Where(u => userIds.Contains(u.UserId)).OrderBy(u => u.RebateNo).ToList();
+            }
+        }
 
         public void UpdateUserRebates(int userId, List<UserRebate> userRebates)
         {

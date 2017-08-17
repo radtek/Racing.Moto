@@ -18,6 +18,13 @@ namespace Racing.Moto.Services
                 return db.PKRate.Where(r => r.PKId == pkId).ToList();
             }
         }
+        public List<PKRate> GetPKRates(List<int> pkIds)
+        {
+            using (var db = new RacingDbContext())
+            {
+                return db.PKRate.Where(r => pkIds.Contains(r.PKId)).ToList();
+            }
+        }
 
 
         public List<PKRateModel> GetPKRateModels(int pkId)

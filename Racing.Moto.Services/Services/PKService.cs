@@ -347,6 +347,13 @@ namespace Racing.Moto.Services
         }
 
 
+        public List<PK> GetPKs(List<int> pkIds)
+        {
+            using (var db = new RacingDbContext())
+            {
+                return db.PK.Where(pk => pkIds.Contains(pk.PKId)).ToList();
+            }
+        }
 
         public List<PK> GetRanksNotSyncedPKs()
         {

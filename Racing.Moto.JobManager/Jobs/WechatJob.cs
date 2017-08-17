@@ -79,7 +79,7 @@ namespace Racing.Moto.JobManager.Jobs
                     if (pk.EndTime.AddSeconds(pk.LotterySeconds) <= DateTime.Now)
                     {
                         RestClient client = new RestClient(wechatWebUrl);
-                        
+
                         var resource = string.Format("/{0}/issuereturn?issue={1}&result={2}", wechatWebPath, pk.PKId, pk.Ranks);
                         var request = new RestRequest(resource, Method.POST);
                         //request.AddJsonBody(new
@@ -120,6 +120,7 @@ namespace Racing.Moto.JobManager.Jobs
             }
         }
 
+        #region 中奖结果
         /// <summary>
         /// 2. 中奖结果: 回调微信端接口, 返回下单中奖结果
         /// </summary>
@@ -133,16 +134,13 @@ namespace Racing.Moto.JobManager.Jobs
                 var wechatWebUrl = System.Configuration.ConfigurationManager.AppSettings["WechatWebUrl"];
                 var wechatWebPath = System.Configuration.ConfigurationManager.AppSettings["WechatWebPath"];
 
-                var dbBetItems = betItemService.GetNotSyncedBetItems();
-
-                var orderNos = dbBetItems.Where(b => b.OrderNo.HasValue).GroupBy(b => b.OrderNo).Select(g => g.Key.Value).ToList();
-
-
+                //wechat订单
+                var orderNos = betItemService.GetNotSyncedOrderNos();
+                
                 foreach (var orderNo in orderNos)
                 {
-                    // 当前时间超过开奖时间
-                    var betIds = dbBetItems.Where(b => b.OrderNo == orderNo).Select(b => b.BetId).ToList();
-                    var amount = pkBonusService.GetAmountByBetIds(betIds);
+                    // 按wechat订单生成奖金+退水
+                    var amount = GetBonusAndRebateAmount(orderNo);
 
                     RestClient client = new RestClient(wechatWebUrl);
                     var resource = string.Format("/{0}/orderreturn?orderId={1}&score={2}", wechatWebPath, orderNo, amount);
@@ -182,6 +180,62 @@ namespace Racing.Moto.JobManager.Jobs
                 _logger.Info(ex);
             }
         }
+
+        /// <summary>
+        /// 按wechat单号生成奖金+退水
+        /// </summary>
+        /// <param name="orderNo"></param>
+        /// <returns></returns>
+        public decimal GetBonusAndRebateAmount(long orderNo)
+        {
+            var rebateAmount = 0M;  //退水
+            var bonusAmount = 0M;   //奖金
+
+            var dbBetItems = new BetItemService().GetBetItemsByOrderNo(orderNo);
+
+            // 计算退水
+            var userIds = dbBetItems.Select(bi => bi.Bet.UserId).Distinct().ToList();
+            var users = new UserService().GetUsers(userIds);
+            var userRebates = new UserRebateService().GetUserRebates(userIds);
+            foreach (var userId in userIds)
+            {
+                var user = users.Where(u => u.UserId == userId).First();
+
+                var userBetItems = dbBetItems.Where(bi => bi.Bet.UserId == userId).ToList();
+                foreach (var userBetItem in userBetItems)
+                {
+                    var userRebate = userRebates.Where(e => e.UserId == userId && e.RebateNo == userBetItem.Num).FirstOrDefault();
+                    if (userRebate != null)
+                    {
+                        var rebate = UserRebateService.GetDefaultRebate(userRebate, user.DefaultRebateType);
+
+                        rebateAmount += Math.Round(userBetItem.Amount * rebate, 4);
+                    }
+                }
+            }
+
+            // 计算奖金
+            var betService = new BetService();
+            var pkIds = dbBetItems.Select(bi => bi.Bet.PKId).Distinct().ToList();
+            var pks = new PKService().GetPKs(pkIds);
+            var dbPKRates = new PKRateService().GetPKRates(pkIds);
+            foreach (var pk in pks)
+            {
+                var bets = betService.ConvertRanksToBets(pk.Ranks);
+                foreach (var bet in bets)
+                {
+                    var pkRate = dbPKRates.Where(r => r.PKId == pk.PKId && r.Rank == bet.Rank && r.Num == bet.Num).First();
+
+                    var betAmount = dbBetItems.Where(bi => bi.Bet.PKId == pk.PKId && bi.Rank == bet.Rank && bi.Num == bet.Num).Sum(bi => (decimal?)bi.Amount ?? 0);
+
+                    bonusAmount += Math.Round(betAmount * pkRate.Rate, 4);
+                }
+            }
+
+            return rebateAmount + bonusAmount;
+        }
+
+        #endregion
 
     }
 }

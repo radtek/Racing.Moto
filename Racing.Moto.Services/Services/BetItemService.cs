@@ -19,13 +19,32 @@ namespace Racing.Moto.Services
                     .Where(b => b.Bet.PK.IsBonused && b.Bet.PK.IsRebated && b.IsSynced.HasValue && b.IsSynced.Value == false).ToList();
             }
         }
+        public List<long> GetNotSyncedOrderNos()
+        {
+            using (var db = new RacingDbContext())
+            {
+                return db.BetItem
+                    .Where(b => b.Bet.PK.IsBonused && b.Bet.PK.IsRebated && b.IsSynced.HasValue && b.IsSynced.Value == false && b.OrderNo.HasValue)
+                    .Select(b => b.OrderNo.Value).ToList();
+            }
+        }
+
+        public List<BetItem> GetBetItemsByOrderNo(long orderNo)
+        {
+            using (var db = new RacingDbContext())
+            {
+                return db.BetItem
+                    .Include(nameof(BetItem.Bet))
+                    .Where(b => b.OrderNo == orderNo).ToList();
+            }
+        }
 
         public void UpdateIsSynced(long orderNo, bool isSynced)
         {
             using (var db = new RacingDbContext())
             {
                 var betItems = db.BetItem.Where(b => b.OrderNo == orderNo).ToList();
-                foreach(var item in betItems)
+                foreach (var item in betItems)
                 {
                     item.IsSynced = isSynced;
                 }

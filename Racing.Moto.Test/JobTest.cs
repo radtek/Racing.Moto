@@ -56,7 +56,7 @@ namespace Racing.Moto.Test
 
             //new RebateJob().Execute(null);
 
-            var pk = new PKService().GetPK(35723);
+            var pk = new PKService().GetPK(31448);
             new PKBonusService().GenerateRebate(pk);
         }
 
@@ -64,7 +64,9 @@ namespace Racing.Moto.Test
         public void WechatJobTest()
         {
 
-            new WechatJob().Run();
+            //new WechatJob().Run();
+
+            new WechatJob().GetBonusAndRebateAmount(100000056);
         }
 
         #region Game
