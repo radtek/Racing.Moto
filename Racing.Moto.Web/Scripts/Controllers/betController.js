@@ -763,6 +763,8 @@ $(function () {
         //console.log(pkInfo);
         if (motoRacing.PKInfo != null) {
             motoRacing.refresh(pkInfo);
+        } else {
+            motoRacing.PKInfo = pkInfo;
         }
     }
 
