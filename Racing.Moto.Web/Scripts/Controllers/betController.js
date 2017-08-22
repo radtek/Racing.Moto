@@ -761,7 +761,9 @@ $(function () {
     // Add a client-side hub method that the server will call
     ticker.client.updatePKInfo = function (pkInfo) {
         //console.log(pkInfo);
-        motoRacing.refresh(pkInfo);
+        if (motoRacing.PKInfo != null) {
+            motoRacing.refresh(pkInfo);
+        }
     }
 
     // Start the connection
