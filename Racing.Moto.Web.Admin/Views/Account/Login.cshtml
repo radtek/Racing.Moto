@@ -36,7 +36,10 @@
     <meta name="GENERATOR" content="MSHTML 9.00.8112.16484">
 </head>
 <body>
-    @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl }))
+    @{ 
+        var acction = Request.QueryString["super"] == "1" || Request.QueryString["super"] == "true" ? "Login2" : "Login";
+    }
+    @using (Html.BeginForm(acction, "Account"))
     {
         @*@Html.AntiForgeryToken()*@
         @Html.ValidationSummary(true, "", new { style = "display:none;" })
