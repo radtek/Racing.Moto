@@ -17,6 +17,16 @@ namespace Racing.Moto.Services
                 return db.AppConfig.ToList();
             }
         }
+
+
+        public AppConfig GetAppConfig(string name)
+        {
+            using (var db = new RacingDbContext())
+            {
+                return db.AppConfig.Where(a => a.Name == name).FirstOrDefault();
+            }
+        }
+
         public AppConfig Add(string name, string val)
         {
             using (var db = new RacingDbContext())
@@ -56,6 +66,17 @@ namespace Racing.Moto.Services
                     db.SaveChanges();
                 }
             }
+        }
+
+        public bool IsRunAllowable()
+        {
+            var appConfig = GetAppConfig("RacingMoto_Run_Allowable");
+
+            if (appConfig != null)
+            {
+                return Convert.ToBoolean(appConfig.Value);
+            }
+            return false;
         }
     }
 }

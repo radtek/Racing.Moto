@@ -37,7 +37,7 @@ namespace Racing.Moto.Services.Mvc
             try
             {
                 var rawUrl = filterContext.RequestContext.HttpContext.Request.RawUrl.ToLower();
-                if (IsAllowAnonymousUrl(rawUrl) || filterContext.RouteData.Values["controller"].ToString().ToLower() == "home")
+                if (IsAllowAnonymousUrl(rawUrl) /*|| filterContext.RouteData.Values["controller"].ToString().ToLower() == "home"*/)
                 {
                     return;
                 }

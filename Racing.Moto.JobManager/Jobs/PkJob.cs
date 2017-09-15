@@ -30,9 +30,16 @@ namespace Racing.Moto.JobManager.Jobs
                 Console.WriteLine(startInfo);
                 _logger.Info(startInfo);
 
+                var isRunAllowable = new AppConfigService().IsRunAllowable();
+                if (!isRunAllowable)
+                {
+                    _logger.Info("PK Job is not allowed to run!");
+                    return;
+                }
+
                 var pkService = new PKService();
 
-                // 每隔5秒查看一下, 生成PK
+                // 每隔1秒查看一下, 生成PK
                 var now = DateTime.Now;
 
 #if DEBUG

@@ -44,6 +44,13 @@ namespace Racing.Moto.Test
         }
 
         [TestMethod]
+        public void PKJobTest()
+        {
+
+            new PkJob().Execute(null);
+        }
+
+        [TestMethod]
         public void BonusJobTest()
         {
 
